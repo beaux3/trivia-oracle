@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 import re
 import sys
 import threading
@@ -41,6 +42,57 @@ DIFFICULTIES = {
 
 selected_difficulties = {"HS Easy (2)", "HS Regular (3)"}  # default difficulty
 
+SCORES_FILE = "/app/scores.md"
+POINTS_PER_CORRECT = 10
+
+scores = {}       # {user_id: {"name": str, "score": int}}
+scores_lock = threading.Lock()
+
+
+def load_scores():
+    if not os.path.exists(SCORES_FILE):
+        return
+    with open(SCORES_FILE, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line.startswith("|") or line.startswith("| Rank") or line.startswith("|---"):
+                continue
+            parts = [p.strip() for p in line.split("|")[1:-1]]
+            if len(parts) == 4:
+                try:
+                    _, name, score, user_id = parts
+                    scores[int(user_id)] = {"name": name, "score": int(score)}
+                except ValueError:
+                    continue
+
+
+def save_scores():
+    lines = [
+        "# TriviaOracleBot Scoreboard\n",
+        "| Rank | Name | Score | Telegram ID |\n",
+        "|------|------|-------|-------------|\n",
+    ]
+    for rank, (uid, player) in enumerate(
+        sorted(scores.items(), key=lambda x: x[1]["score"], reverse=True), start=1
+    ):
+        lines.append(f"| {rank} | {player['name']} | {player['score']} | {uid} |\n")
+    with open(SCORES_FILE, "w") as f:
+        f.writelines(lines)
+
+
+def format_scoreboard():
+    if not scores:
+        return "📊 Scoreboard\n\nNo scores yet!"
+    lines = ["📊 Scoreboard\n"]
+    medals = {1: "🥇", 2: "🥈", 3: "🥉"}
+    for rank, (_, player) in enumerate(
+        sorted(scores.items(), key=lambda x: x[1]["score"], reverse=True), start=1
+    ):
+        medal = medals.get(rank, f"{rank}.")
+        lines.append(f"{medal} {player['name']} — {player['score']} pts")
+    return "\n".join(lines)
+
+
 current_round = {
     "active": False,
     "answer_sanitized": None,
@@ -69,7 +121,16 @@ def handle_round_answer(update, _context):
         return
 
     given = update.message.text.strip()
-    username = update.effective_user.first_name
+    user = update.effective_user
+    username = user.first_name
+    user_id = user.id
+
+    with scores_lock:
+        if user_id not in scores:
+            scores[user_id] = {"name": username, "score": 0}
+        else:
+            scores[user_id]["name"] = username  # keep name up to date
+
     try:
         judgement = asyncio.run(check_round_answer_async(current_round["answerline"], given))
     except Exception as e:
@@ -77,6 +138,9 @@ def handle_round_answer(update, _context):
         return
 
     if judgement.directive == "accept":
+        with scores_lock:
+            scores[user_id]["score"] += POINTS_PER_CORRECT
+            save_scores()
         current_round["winner"] = username
         current_round["event"].set()
 
@@ -110,7 +174,12 @@ def run_round(bot, chat_id):
             text=f"❌❌❌ [ROUND END] ❌❌❌\n Sad to say, nobody answered correctly.\n\n The answer is actually: {current_round['answer_sanitized']}"
         )
 
+    bot.send_message(chat_id=chat_id, text=format_scoreboard())
     round_lock.release()
+
+
+def show_scores(update, _context):
+    update.message.reply_text(format_scoreboard())
 
 
 def start_round(update, context):
@@ -317,6 +386,7 @@ def main():
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("next", start_round))
+    dispatcher.add_handler(CommandHandler("scores", show_scores))
     dispatcher.add_handler(ConversationHandler(
         entry_points=[CommandHandler("configure", configure)],
         states={
@@ -331,6 +401,7 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_round_answer))
     dispatcher.add_error_handler(error_handler)
 
+    load_scores()
     updater.start_polling(allowed_updates=["message", "callback_query"])
     logging.info("TriviaOracleBot is running...")
     updater.idle()
