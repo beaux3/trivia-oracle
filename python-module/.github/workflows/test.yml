@@ -1,0 +1,78 @@
+name: Test, lint, and build library
+
+on: [push, pull_request]
+
+jobs:
+  test-library:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.11, 3.12, 3.13]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: Install Poetry
+        run: pipx install poetry --python $(which python)
+
+      - name: Install project
+        run: poetry install
+
+      - name: Test with tox
+        run: poetry run tox
+
+  test-docs:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4.2.2
+
+        - name: Setup Python 3.13
+          uses: actions/setup-python@v5.3.0
+          with:
+              python-version: "3.13" # use latest Python version
+
+        - name: Install Poetry
+          run: pipx install poetry --python $(which python)
+
+        - name: Install project
+          run: poetry install
+
+        - name: Generate docs
+          run: poetry run tox -e docs
+
+        - name: Check if repo docs are up to date
+          run: |
+              git diff --exit-code HEAD
+
+  test-deps:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.11, 3.12, 3.13]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: Install Poetry
+        run: pipx install poetry --python $(which python)
+
+      - name: Check pyproject.toml and lockfile
+        run: |
+            poetry check
+            poetry check --lock

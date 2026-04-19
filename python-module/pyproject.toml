@@ -1,0 +1,73 @@
+[project]
+name = "qbreader"
+version = "1.0.1"
+requires-python = ">=3.11"
+description = "Quizbowl library and Python wrapper for the qbreader API"
+authors = [
+    { name = "Sky \"skysomorphic\" Hong", email = "skysomorphic@pm.me" },
+    { name = "Rohan Arni" },
+    { name = "Geoffrey Wu", email = "geoffreywu1000@gmail.com" },
+]
+maintainers = [
+    { name = "Sky \"skysomorphic\" Hong", email = "skysomorphic@pm.me" },
+    { name = "Geoffrey Wu", email = "geoffreywu1000@gmail.com" },
+]
+license = { text = "MIT" }
+readme = "README.md"
+keywords = ["quizbowl", "quiz bowl", "qbreader"]
+dynamic = ["classifiers"]
+dependencies = ["requests (>=2.31.0,<3.0.0)", "aiohttp (>=3.8.4,<4.0.0)"]
+
+[project.urls]
+homepage = "https://github.com/qbreader/python-module"
+repository = "https://github.com/qbreader/python-module"
+documentation = "https://python-qbreader.readthedocs.io/"
+
+[tool.poetry]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+include = [{ path = "tests", format = "sdist" }]
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+pydocstyle = "^6.3.0"
+mypy = "^1.4.1"
+types-requests = "^2.31.0.1"
+tox = "^4.6.4"
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-asyncio = "^0.21.1"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.2.6"
+numpydoc = "^1.5.0"
+furo = "^2023.9.10"
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pydocstyle]
+convention = "numpy"
+
+[tool.pytest.ini_options]
+addopts = "-v --cov=qbreader --cov-report=term-missing --cov-report=xml --cov-report=html"
+testpaths = "tests"
+asyncio_mode = "strict"
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
