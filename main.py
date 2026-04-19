@@ -15,7 +15,15 @@ TOKEN = "8690521877:***REMOVED***"
 SENTENCE_INTERVAL = 2   # seconds between each sentence
 ANSWER_WAIT = 10        # seconds to wait for answers after the last sentence
 
-SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE = range(3)
+SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE, SELECT_CATEGORIES = range(4)
+
+CATEGORIES = [
+    "Literature", "History", "Science", "Fine Arts",
+    "Religion", "Mythology", "Philosophy", "Social Science",
+    "Current Events", "Geography", "Other Academic", "Pop Culture",
+]
+
+selected_categories = set(CATEGORIES)  # all enabled by default
 
 current_round = {
     "active": False,
@@ -28,8 +36,9 @@ round_lock = threading.Lock()
 
 
 async def fetch_round_question():
+    categories = list(selected_categories) if selected_categories != set(CATEGORIES) else None
     async with await Async.create() as qb:
-        tossups = await qb.random_tossup(number=1)
+        tossups = await qb.random_tossup(number=1, categories=categories)
         return tossups[0]
 
 
@@ -111,10 +120,24 @@ def start_round(update, context):
     thread.start()
 
 
+def _build_category_keyboard():
+    rows = []
+    for i in range(0, len(CATEGORIES), 2):
+        row = []
+        for cat in CATEGORIES[i:i + 2]:
+            mark = "✅" if cat in selected_categories else "☐"
+            row.append(InlineKeyboardButton(f"{mark} {cat}", callback_data=f"cat:{cat}"))
+        rows.append(row)
+    all_on = selected_categories == set(CATEGORIES)
+    rows.append([InlineKeyboardButton("☐ Deselect All" if all_on else "✅ Select All", callback_data="cat_toggle_all")])
+    rows.append([InlineKeyboardButton("💾 Save", callback_data="cat_save")])
+    return InlineKeyboardMarkup(rows)
+
+
 def configure(update, context):
     keyboard = [
         [InlineKeyboardButton("⏱ Time", callback_data="time")],
-        [InlineKeyboardButton("📚 Category", callback_data="category")],
+        [InlineKeyboardButton("📚 Categories", callback_data="category")],
     ]
     update.message.reply_text("What would you like to configure?", reply_markup=InlineKeyboardMarkup(keyboard))
     return SELECT_OPTION
@@ -132,8 +155,9 @@ def configure_select_option(update, context):
         query.edit_message_text("Which time setting?", reply_markup=InlineKeyboardMarkup(keyboard))
         return SELECT_TIME_FIELD
     else:
-        query.edit_message_text("Category configuration coming soon!")
-        return ConversationHandler.END
+        active_label = "All categories" if selected_categories == set(CATEGORIES) else f"{len(selected_categories)} selected"
+        query.edit_message_text(f"Toggle categories on/off ({active_label}):", reply_markup=_build_category_keyboard())
+        return SELECT_CATEGORIES
 
 
 def configure_select_time_field(update, context):
@@ -171,6 +195,36 @@ def configure_input_value(update, context):
     return ConversationHandler.END
 
 
+def configure_toggle_category(update, context):
+    global selected_categories
+    query = update.callback_query
+    query.answer()
+
+    if query.data == "cat_save":
+        if not selected_categories:
+            query.answer("⚠️ Select at least one category!", show_alert=True)
+            return SELECT_CATEGORIES
+        active_label = "All categories" if selected_categories == set(CATEGORIES) else ", ".join(sorted(selected_categories))
+        query.edit_message_text(f"✅ Categories saved:\n{active_label}")
+        return ConversationHandler.END
+
+    if query.data == "cat_toggle_all":
+        if selected_categories == set(CATEGORIES):
+            selected_categories.clear()
+        else:
+            selected_categories = set(CATEGORIES)
+    else:
+        cat = query.data[len("cat:"):]
+        if cat in selected_categories:
+            selected_categories.discard(cat)
+        else:
+            selected_categories.add(cat)
+
+    active_label = "All categories" if selected_categories == set(CATEGORIES) else f"{len(selected_categories)} selected"
+    query.edit_message_reply_markup(reply_markup=_build_category_keyboard())
+    return SELECT_CATEGORIES
+
+
 def error_handler(update, context):
     if isinstance(context.error, Conflict):
         logging.error("Another bot instance is already running. Shutting down.")
@@ -189,6 +243,7 @@ def main():
             SELECT_OPTION: [CallbackQueryHandler(configure_select_option)],
             SELECT_TIME_FIELD: [CallbackQueryHandler(configure_select_time_field)],
             INPUT_VALUE: [MessageHandler(Filters.text & ~Filters.command, configure_input_value)],
+            SELECT_CATEGORIES: [CallbackQueryHandler(configure_toggle_category)],
         },
         fallbacks=[],
     ))
