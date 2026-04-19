@@ -171,6 +171,7 @@ def configure(update, context):
         [InlineKeyboardButton("⏱ Time", callback_data="time")],
         [InlineKeyboardButton("📚 Categories", callback_data="category")],
         [InlineKeyboardButton("🎯 Difficulty", callback_data="difficulty")],
+        [InlineKeyboardButton("👁 View Current Settings", callback_data="view_settings")],
     ]
     update.message.reply_text("What would you like to configure?", reply_markup=InlineKeyboardMarkup(keyboard))
     return SELECT_OPTION
@@ -179,6 +180,19 @@ def configure(update, context):
 def configure_select_option(update, context):
     query = update.callback_query
     query.answer()
+
+    if query.data == "view_settings":
+        cats = "All" if selected_categories == set(CATEGORIES) else ", ".join(sorted(selected_categories))
+        diffs = "All" if selected_difficulties == set(DIFFICULTIES) else ", ".join(selected_difficulties)
+        text = (
+            f"⚙️ Current Settings\n\n"
+            f"⏱ Sentence Interval: {SENTENCE_INTERVAL}s\n"
+            f"⏱ Answer Wait: {ANSWER_WAIT}s\n\n"
+            f"📚 Categories:\n{cats}\n\n"
+            f"🎯 Difficulties:\n{diffs}"
+        )
+        query.edit_message_text(text)
+        return ConversationHandler.END
 
     if query.data == "time":
         keyboard = [
