@@ -1,11 +1,11 @@
 import asyncio
+import logging
 import sys
-import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "python-module"))
-
+from telegram.error import Conflict
 from telegram.ext import Updater, CommandHandler
 from qbreader.asynchronous import Async
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 TOKEN = "8690521877:***REMOVED***"
 
@@ -32,14 +32,22 @@ def next_question(update, context):
     update.message.reply_text(text)
 
 
+def error_handler(update, context):
+    if isinstance(context.error, Conflict):
+        logging.error("Another bot instance is already running. Shutting down.")
+        sys.exit(1)
+    logging.error("Update %s caused error: %s", update, context.error)
+
+
 def main():
     updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("next", next_question))
+    dispatcher.add_error_handler(error_handler)
 
     updater.start_polling()
-    print("TriviaOracleBot is running...")
+    logging.info("TriviaOracleBot is running...")
     updater.idle()
 
 
