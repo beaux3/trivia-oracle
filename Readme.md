@@ -2,12 +2,15 @@
 
 
 Build:
-docker build -t triviabot .
+docker build -t chewterence/trivia-oracle:latest .
 
 Run:
-docker run --rm triviabot
+docker run --rm chewterence/trivia-oracle:latest
 
 
+docker build -t chewterence/trivia-oracle:latest . && docker run chewterence/trivia-oracle:latest
 
-docker build -t triviabot . && docker run --rm triviabot
+Push to docker hub:
+docker push chewterence/trivia-oracle:latest
+
 
