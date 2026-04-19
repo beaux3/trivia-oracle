@@ -1,6 +1,8 @@
 import asyncio
 import logging
+import re
 import sys
+import time
 from telegram.error import Conflict
 from telegram.ext import Updater, CommandHandler
 from qbreader.asynchronous import Async
@@ -8,6 +10,8 @@ from qbreader.asynchronous import Async
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 TOKEN = "8690521877:***REMOVED***"
+
+SENTENCE_INTERVAL = 2  # seconds between each sentence
 
 
 async def fetch_tossup():
@@ -23,13 +27,10 @@ def next_question(update, context):
         update.message.reply_text(f"Failed to fetch question: {e}")
         return
 
-    text = (
-        f"Category: {tossup.category} | {tossup.subcategory} | Difficulty: {tossup.difficulty}\n"
-        f"Set: {tossup.set.name}\n\n"
-        f"{tossup.question_sanitized}\n\n"
-        f"ANSWER: {tossup.answer_sanitized}"
-    )
-    update.message.reply_text(text)
+    sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
+    for sentence in sentences:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=sentence)
+        time.sleep(SENTENCE_INTERVAL)
 
 
 def error_handler(update, context):
