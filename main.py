@@ -19,10 +19,47 @@ ANSWER_WAIT = 10        # seconds to wait for answers after the last sentence
 SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE, SELECT_CATEGORIES, SELECT_DIFFICULTIES = range(5)
 
 CATEGORIES = [
-    "Literature", "History", "Science", "Fine Arts",
-    "Religion", "Mythology", "Philosophy", "Social Science",
-    "Current Events", "Geography", "Other Academic", "Pop Culture",
+    # Literature
+    "American Literature", "British Literature", "Classical Literature",
+    "European Literature", "World Literature", "Other Literature",
+    "Drama", "Long Fiction", "Poetry", "Short Fiction", "Misc Literature",
+    # History
+    "American History", "Ancient History", "European History",
+    "World History", "Other History",
+    # Science
+    "Biology", "Chemistry", "Physics", "Other Science",
+    "Math", "Astronomy", "Computer Science", "Earth Science", "Engineering", "Misc Science",
+    # Fine Arts
+    "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts",
+    "Architecture", "Dance", "Film", "Jazz", "Musicals", "Opera", "Photography", "Misc Arts",
+    # Religion
+    "Religion", "Beliefs", "Practices",
+    # Standalone
+    "Mythology", "Philosophy", "Current Events", "Geography", "Other Academic",
+    # Social Science
+    "Social Science", "Anthropology", "Economics", "Linguistics", "Psychology", "Sociology", "Other Social Science",
+    # Pop Culture
+    "Movies", "Music", "Sports", "Television", "Video Games", "Other Pop Culture",
 ]
+
+# qbreader AlternateSubcategory values — passed via alternate_subcategories= parameter
+ALL_ALT_SUBCATEGORIES = {
+    "Drama", "Long Fiction", "Poetry", "Short Fiction", "Misc Literature",
+    "Math", "Astronomy", "Computer Science", "Earth Science", "Engineering", "Misc Science",
+    "Architecture", "Dance", "Film", "Jazz", "Musicals", "Opera", "Photography", "Misc Arts",
+    "Beliefs", "Practices",
+    "Anthropology", "Economics", "Linguistics", "Psychology", "Sociology", "Other Social Science",
+}
+
+ALL_SCIENCE = {
+    "Biology", "Chemistry", "Physics", "Other Science",
+    "Math", "Astronomy", "Computer Science", "Earth Science", "Engineering", "Misc Science",
+}
+
+ALL_ARTS = {
+    "Visual Fine Arts", "Auditory Fine Arts", "Other Fine Arts",
+    "Architecture", "Dance", "Film", "Jazz", "Musicals", "Opera", "Photography", "Misc Arts",
+}
 
 selected_categories = set(CATEGORIES)  # all enabled by default
 
@@ -104,10 +141,22 @@ round_lock = threading.Lock()
 
 
 async def fetch_round_question():
-    categories = list(selected_categories) if selected_categories != set(CATEGORIES) else None
     difficulties = [DIFFICULTIES[d] for d in selected_difficulties] if selected_difficulties != set(DIFFICULTIES) else None
+
+    if selected_categories == set(CATEGORIES):
+        subcategories = None
+        alt_subcategories = None
+    else:
+        subcategories = [c for c in selected_categories if c not in ALL_ALT_SUBCATEGORIES] or None
+        alt_subcategories = [c for c in selected_categories if c in ALL_ALT_SUBCATEGORIES] or None
+
     async with await Async.create() as qb:
-        tossups = await qb.random_tossup(number=1, categories=categories, difficulties=difficulties)
+        tossups = await qb.random_tossup(
+            number=1,
+            subcategories=subcategories,
+            alternate_subcategories=alt_subcategories,
+            difficulties=difficulties,
+        )
         return tossups[0]
 
 
@@ -229,6 +278,10 @@ def _build_category_keyboard():
             mark = "✅" if cat in selected_categories else "☐"
             row.append(InlineKeyboardButton(f"{mark} {cat}", callback_data=f"cat:{cat}"))
         rows.append(row)
+    arts_on = ALL_ARTS.issubset(selected_categories)
+    rows.append([InlineKeyboardButton("☐ Deselect All Arts" if arts_on else "✅ Select All Arts", callback_data="cat_toggle_arts")])
+    science_on = ALL_SCIENCE.issubset(selected_categories)
+    rows.append([InlineKeyboardButton("☐ Deselect All Science" if science_on else "✅ Select All Science", callback_data="cat_toggle_science")])
     all_on = selected_categories == set(CATEGORIES)
     rows.append([InlineKeyboardButton("☐ Deselect All" if all_on else "✅ Select All", callback_data="cat_toggle_all")])
     rows.append([InlineKeyboardButton("💾 Save", callback_data="cat_save")])
@@ -328,7 +381,17 @@ def configure_toggle_category(update, context):
         query.edit_message_text(f"✅ Categories saved:\n{active_label}")
         return ConversationHandler.END
 
-    if query.data == "cat_toggle_all":
+    if query.data == "cat_toggle_arts":
+        if ALL_ARTS.issubset(selected_categories):
+            selected_categories -= ALL_ARTS
+        else:
+            selected_categories |= ALL_ARTS
+    elif query.data == "cat_toggle_science":
+        if ALL_SCIENCE.issubset(selected_categories):
+            selected_categories -= ALL_SCIENCE
+        else:
+            selected_categories |= ALL_SCIENCE
+    elif query.data == "cat_toggle_all":
         if selected_categories == set(CATEGORIES):
             selected_categories.clear()
         else:
