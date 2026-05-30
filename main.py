@@ -16,7 +16,7 @@ TOKEN = "8690521877:***REMOVED***"
 SENTENCE_INTERVAL = 5   # seconds between each sentence
 ANSWER_WAIT = 10        # seconds to wait for answers after the last sentence
 
-SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE, SELECT_CATEGORIES, SELECT_DIFFICULTIES = range(5)
+SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE, SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_ADMIN = range(6)
 
 CATEGORIES = [
     # Literature
@@ -297,19 +297,68 @@ def _build_category_keyboard():
     return InlineKeyboardMarkup(rows)
 
 
+def _build_admin_keyboard():
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("🗑 Reset All Scores", callback_data="admin_reset")],
+    ])
+
+
+def configure_admin(update, _context):
+    query = update.callback_query
+    if update.effective_user.username != ADMIN_USERNAME:
+        query.answer("⛔ Access denied.", show_alert=True)
+        return ConversationHandler.END
+
+    query.answer()
+
+    if query.data == "admin_reset":
+        query.edit_message_text(
+            "⚠️ Are you sure you want to reset ALL scores? This cannot be undone.",
+            reply_markup=InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton("✅ Yes, reset", callback_data="admin_reset_confirm"),
+                    InlineKeyboardButton("❌ No, cancel", callback_data="admin_reset_cancel"),
+                ]
+            ]),
+        )
+    elif query.data == "admin_reset_confirm":
+        with scores_lock:
+            scores.clear()
+            save_scores()
+        query.edit_message_text("✅ All scores have been reset.")
+        return ConversationHandler.END
+    elif query.data == "admin_reset_cancel":
+        query.edit_message_text("🔒 Admin Settings", reply_markup=_build_admin_keyboard())
+
+    return SELECT_ADMIN
+
+
 def configure(update, context):
     keyboard = [
         [InlineKeyboardButton("⏱ Time", callback_data="time")],
         [InlineKeyboardButton("📚 Categories", callback_data="category")],
         [InlineKeyboardButton("🎯 Difficulty", callback_data="difficulty")],
         [InlineKeyboardButton("👁 View Current Settings", callback_data="view_settings")],
+        [InlineKeyboardButton("🔒 Admin Settings", callback_data="admin")],
     ]
     update.message.reply_text("What would you like to configure?", reply_markup=InlineKeyboardMarkup(keyboard))
     return SELECT_OPTION
 
 
+ADMIN_USERNAME = "terenegade"
+
+
 def configure_select_option(update, context):
     query = update.callback_query
+
+    if query.data == "admin":
+        if update.effective_user.username != ADMIN_USERNAME:
+            query.answer("⛔ Access denied.", show_alert=True)
+            return SELECT_OPTION
+        query.answer()
+        query.edit_message_text("🔒 Admin Settings", reply_markup=_build_admin_keyboard())
+        return SELECT_ADMIN
+
     query.answer()
 
     if query.data == "view_settings":
@@ -467,6 +516,7 @@ def main():
             INPUT_VALUE: [MessageHandler(Filters.text & ~Filters.command, configure_input_value)],
             SELECT_CATEGORIES: [CallbackQueryHandler(configure_toggle_category)],
             SELECT_DIFFICULTIES: [CallbackQueryHandler(configure_toggle_difficulty)],
+            SELECT_ADMIN: [CallbackQueryHandler(configure_admin)],
         },
         fallbacks=[],
     ))
