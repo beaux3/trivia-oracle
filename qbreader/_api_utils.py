@@ -128,6 +128,7 @@ def category_correspondence(
         AlternateSubcategory.DANCE,
         AlternateSubcategory.FILM,
         AlternateSubcategory.JAZZ,
+        AlternateSubcategory.MUSICALS,
         AlternateSubcategory.OPERA,
         AlternateSubcategory.PHOTOGRAPHY,
         AlternateSubcategory.MISC_ARTS,
