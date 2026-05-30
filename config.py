@@ -11,6 +11,7 @@ TOKEN: str = _secrets["TELEGRAM_TOKEN"]
 
 SCORES_FILE = "/app/scores.md"
 POINTS_PER_CORRECT = 10
+POINTS_PER_WRONG = 1
 ADMIN_USERNAME = "terenegade"
 
 # ── qbreader category/subcategory lists ───────────────────────────────────────

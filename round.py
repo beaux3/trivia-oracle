@@ -5,7 +5,7 @@ import threading
 
 from qbreader.asynchronous import Async
 
-from config import ALL_ALT_SUBCATEGORIES, CATEGORIES, DIFFICULTIES, POINTS_PER_CORRECT
+from config import ALL_ALT_SUBCATEGORIES, CATEGORIES, DIFFICULTIES, POINTS_PER_CORRECT, POINTS_PER_WRONG
 from scores import format_scoreboard, save_scores, scores, scores_lock
 from settings import settings
 
@@ -16,6 +16,7 @@ current_round: dict = {
     "answer_sanitized": None,
     "answerline": None,
     "winners": [],       # list of first-name strings for everyone who answered correctly
+    "penalties": {},     # {first_name: total_points_deducted} for wrong answers this round
     "sentences": [],
     "event": threading.Event(),
 }
@@ -89,6 +90,7 @@ def _run_round(bot, chat_id: int) -> None:
 def _send_round_end(bot, chat_id: int) -> None:
     next_prompt = "\n\nNext question: /next@TriviaOracleBot"
     winners = current_round["winners"]
+    penalties = current_round["penalties"]
 
     if winners:
         if len(winners) == 1:
@@ -96,15 +98,16 @@ def _send_round_end(bot, chat_id: int) -> None:
         else:
             names = ", ".join(winners[:-1]) + f" & {winners[-1]}"
             congrats = f"Congrats {names} all answered correctly!"
-        bot.send_message(
-            chat_id=chat_id,
-            text=f"✅✅✅ [ROUND END] ✅✅✅\n {congrats}\n\n Answer: {current_round['answer_sanitized']}{next_prompt}",
-        )
+        result = f"✅✅✅ [ROUND END] ✅✅✅\n {congrats}\n\n Answer: {current_round['answer_sanitized']}"
     else:
-        bot.send_message(
-            chat_id=chat_id,
-            text=f"❌❌❌ [ROUND END] ❌❌❌\n Sad to say, nobody answered correctly.\n\n The answer is actually: {current_round['answer_sanitized']}{next_prompt}",
-        )
+        result = f"❌❌❌ [ROUND END] ❌❌❌\n Sad to say, nobody answered correctly.\n\n The answer is actually: {current_round['answer_sanitized']}"
+
+    if penalties:
+        penalty_lines = "\n".join(f"  -{pts} pts — {name}" for name, pts in sorted(penalties.items()))
+        result += f"\n\n❌ Wrong answer deductions:\n{penalty_lines}"
+
+    result += next_prompt
+    bot.send_message(chat_id=chat_id, text=result)
 
 
 # ── Public Telegram handler functions ─────────────────────────────────────────
@@ -135,6 +138,13 @@ def handle_round_answer(update, _context) -> None:
             current_round["winners"].append(user.first_name)
         current_round["event"].set()
 
+    elif judgement.directive == "reject":
+        with scores_lock:
+            scores[user.id]["score"] -= POINTS_PER_WRONG
+            save_scores()
+            name = user.first_name
+            current_round["penalties"][name] = current_round["penalties"].get(name, 0) + POINTS_PER_WRONG
+
 
 def start_round(update, context) -> None:
     if not round_lock.acquire(blocking=False):
@@ -152,6 +162,7 @@ def start_round(update, context) -> None:
         "answer_sanitized": tossup.answer_sanitized,
         "answerline": tossup.answer,
         "winners": [],
+        "penalties": {},
         "sentences": [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()],
     })
     current_round["event"].clear()
