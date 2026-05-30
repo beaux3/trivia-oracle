@@ -10,6 +10,6 @@ RUN pip install --no-cache-dir \
     typing_extensions
 
 COPY qbreader/ ./qbreader/
-COPY config.py settings.py scores.py round.py keyboards.py handlers.py main.py ./
+COPY config.py settings.py scores.py round.py keyboards.py handlers.py main.py secrets.json ./
 
 CMD ["python", "main.py"]

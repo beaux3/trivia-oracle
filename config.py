@@ -1,4 +1,14 @@
-TOKEN = "8690521877:***REMOVED***"
+import json
+import os
+
+def _load_secrets() -> dict:
+    path = os.path.join(os.path.dirname(__file__), "secrets.json")
+    with open(path) as f:
+        return json.load(f)
+
+_secrets = _load_secrets()
+TOKEN: str = _secrets["TELEGRAM_TOKEN"]
+
 SCORES_FILE = "/app/scores.md"
 POINTS_PER_CORRECT = 10
 ADMIN_USERNAME = "terenegade"

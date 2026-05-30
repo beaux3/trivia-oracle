@@ -198,6 +198,25 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ---
 
+## Secrets
+
+API keys live in `secrets.json` (gitignored). The file must exist locally and be
+included in the Docker build. Format:
+
+```json
+{
+    "TELEGRAM_TOKEN": "your-bot-token-here"
+}
+```
+
+`config.py` loads this file at import time via `_load_secrets()`. If the file is
+missing the bot will fail immediately with a `FileNotFoundError`.
+
+To add a new secret: add it to `secrets.json`, then read it in `config.py` with
+`_secrets["YOUR_KEY"]` and expose it as a module-level constant.
+
+---
+
 ## Docker
 
 Build and run:

@@ -1,0 +1,13 @@
+# Secrets — never commit these
+secrets.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Scores file (runtime data, not source)
+scores.md
