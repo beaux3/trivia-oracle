@@ -134,7 +134,7 @@ current_round = {
     "active": False,
     "answer_sanitized": None,
     "answerline": None,
-    "winner": None,
+    "winners": [],
     "event": threading.Event(),
 }
 round_lock = threading.Lock()
@@ -190,7 +190,7 @@ def handle_round_answer(update, _context):
         with scores_lock:
             scores[user_id]["score"] += POINTS_PER_CORRECT
             save_scores()
-        current_round["winner"] = username
+            current_round["winners"].append(username)
         current_round["event"].set()
 
 
@@ -212,15 +212,23 @@ def run_round(bot, chat_id):
 
     current_round["active"] = False
 
-    if current_round["winner"]:
+    next_prompt = "\n\nNext question: /next@TriviaOracleBot"
+    winners = current_round["winners"]
+    if winners:
+        if len(winners) == 1:
+            names = winners[0]
+            congrats = f"Congrats {names} answered correctly!"
+        else:
+            names = ", ".join(winners[:-1]) + f" & {winners[-1]}"
+            congrats = f"Congrats {names} all answered correctly!"
         bot.send_message(
             chat_id=chat_id,
-            text=f"✅✅✅ [ROUND END] ✅✅✅\n Congrats {current_round['winner']} answered correctly!\n\n Answer: {current_round['answer_sanitized']}"
+            text=f"✅✅✅ [ROUND END] ✅✅✅\n {congrats}\n\n Answer: {current_round['answer_sanitized']}{next_prompt}"
         )
     else:
         bot.send_message(
             chat_id=chat_id,
-            text=f"❌❌❌ [ROUND END] ❌❌❌\n Sad to say, nobody answered correctly.\n\n The answer is actually: {current_round['answer_sanitized']}"
+            text=f"❌❌❌ [ROUND END] ❌❌❌\n Sad to say, nobody answered correctly.\n\n The answer is actually: {current_round['answer_sanitized']}{next_prompt}"
         )
 
     bot.send_message(chat_id=chat_id, text=format_scoreboard())
@@ -245,7 +253,7 @@ def start_round(update, context):
     current_round["active"] = True
     current_round["answer_sanitized"] = tossup.answer_sanitized
     current_round["answerline"] = tossup.answer
-    current_round["winner"] = None
+    current_round["winners"] = []
     current_round["event"].clear()
     current_round["sentences"] = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
 
