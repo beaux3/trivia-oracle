@@ -276,12 +276,13 @@ def _build_category_keyboard():
         row = []
         for cat in CATEGORIES[i:i + 2]:
             mark = "✅" if cat in selected_categories else "☐"
-            row.append(InlineKeyboardButton(f"{mark} {cat}", callback_data=f"cat:{cat}"))
+            suffix = " 🔬" if cat in ALL_SCIENCE else " 🎭" if cat in ALL_ARTS else ""
+            row.append(InlineKeyboardButton(f"{mark} {cat}{suffix}", callback_data=f"cat:{cat}"))
         rows.append(row)
     arts_on = ALL_ARTS.issubset(selected_categories)
-    rows.append([InlineKeyboardButton("☐ Deselect All Arts" if arts_on else "✅ Select All Arts", callback_data="cat_toggle_arts")])
+    rows.append([InlineKeyboardButton("🎭 ☐ Deselect All Arts 🎭" if arts_on else "🎭 ✅ Select All Arts 🎭", callback_data="cat_toggle_arts")])
     science_on = ALL_SCIENCE.issubset(selected_categories)
-    rows.append([InlineKeyboardButton("☐ Deselect All Science" if science_on else "✅ Select All Science", callback_data="cat_toggle_science")])
+    rows.append([InlineKeyboardButton("🔬 ☐ Deselect All Science 🔬" if science_on else "🔬 ✅ Select All Science 🔬", callback_data="cat_toggle_science")])
     all_on = selected_categories == set(CATEGORIES)
     rows.append([InlineKeyboardButton("☐ Deselect All" if all_on else "✅ Select All", callback_data="cat_toggle_all")])
     rows.append([InlineKeyboardButton("💾 Save", callback_data="cat_save")])
