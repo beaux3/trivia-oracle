@@ -1,6 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from .config import ALL_ARTS, ALL_SCIENCE, CATEGORIES, DIFFICULTIES
+from .config import ALL_ARTS, ALL_SCIENCE, CATEGORIES, DIFFICULTIES, SCORING_MODES
 from .settings import settings
 
 
@@ -51,6 +51,18 @@ def build_difficulty_keyboard() -> InlineKeyboardMarkup:
         callback_data="diff_toggle_all",
     )])
     rows.append([InlineKeyboardButton("💾 Save", callback_data="diff_save")])
+    return InlineKeyboardMarkup(rows)
+
+
+def build_scoring_keyboard() -> InlineKeyboardMarkup:
+    rows = [
+        [InlineKeyboardButton(
+            f"{'✅' if key in settings.scoring_modes else '☐'} {label}",
+            callback_data=f"score:{key}",
+        )]
+        for key, label in SCORING_MODES.items()
+    ]
+    rows.append([InlineKeyboardButton("💾 Save", callback_data="score_save")])
     return InlineKeyboardMarkup(rows)
 
 

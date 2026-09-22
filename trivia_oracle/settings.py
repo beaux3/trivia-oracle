@@ -16,6 +16,7 @@ class _Settings:
         self.answer_wait: float = 10.0
         self.selected_categories: set = set(CATEGORIES)
         self.selected_difficulties: set = {"HS Easy (2)", "HS Regular (3)"}
+        self.scoring_modes: set = set()  # enabled keys of config.SCORING_MODES; empty = default
 
 
 settings = _Settings()

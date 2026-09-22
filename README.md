@@ -10,8 +10,8 @@ A Telegram group trivia bot built just for fun by **Terence Chew**. Questions ar
 
 - Quizbowl tossups across dozens of categories (Literature, History, Science, Arts, Pop Culture, and more)
 - Clues revealed one sentence at a time, answers judged by qbreader's answer checker
-- Configurable categories, difficulty levels, and timing via `/configure`
-- Simultaneous correct answers all get credited; wrong answers cost a point
+- Configurable categories, difficulty levels, timing, and scoring mode via `/configure`
+- Combinable scoring modes (see [Scoring](#scoring))
 - Persistent scoreboard across restarts
 - Admin-only score reset
 
@@ -23,9 +23,26 @@ A Telegram group trivia bot built just for fun by **Terence Chew**. Questions ar
 |---------|-------------|
 | `/next` | Start a new round |
 | `/scores` | Show the current scoreboard |
-| `/configure` | Configure categories, difficulty, and timing |
+| `/configure` | Configure timing, categories, difficulty, and scoring mode |
 
 During a round, just type your answer in the chat.
+
+---
+
+## Scoring
+
+By default every correct answer is worth **+10** and wrong answers cost nothing.
+Under `/configure` → **🏆 Scoring Mode**, tick any combination of these modes, then press **💾 Save**:
+
+| Mode | Effect |
+|------|--------|
+| **Wrong answers -1pt** | Every wrong answer costs 1 point |
+| **Hourglass bonus** | A correct answer scores 10 × the ⏳ still showing (answer on ⏳⏳⏳⏳⏳ for 50) |
+| **Medals get penalty** | Whoever holds 🥇🥈🥉 when the round starts loses 3 points per wrong answer |
+
+Penalties stack: with both penalty modes on, a medal holder loses 4 points per wrong answer.
+Changes take effect from the next round. Everyone who answers correctly gets credited,
+even if several people answer at the same time.
 
 ---
 
@@ -78,6 +95,14 @@ python -m trivia_oracle
 
 Only run one instance per bot token — a second instance will shut itself down.
 
+### Running tests
+
+```bash
+python -m unittest discover tests
+```
+
+The tests fake Telegram and qbreader, so they need no token or network access.
+
 ---
 
 ## Project layout
@@ -85,6 +110,7 @@ Only run one instance per bot token — a second instance will shut itself down.
 ```
 trivia_oracle/        The bot (run with `python -m trivia_oracle`)
 qbreader/             Vendored copy of the qbreader Python API wrapper (MIT)
+tests/                Unit tests (python -m unittest discover tests)
 assets/               Project images
 Dockerfile            Container build
 requirements.txt      Python dependencies

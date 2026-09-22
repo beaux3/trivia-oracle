@@ -6,11 +6,15 @@ from telegram.error import Conflict
 from telegram.ext import ConversationHandler
 
 from .config import (
-    ADMIN_USERNAME, ALL_ARTS, ALL_SCIENCE, CATEGORIES, DIFFICULTIES,
-    INPUT_VALUE, SELECT_ADMIN, SELECT_CATEGORIES, SELECT_DIFFICULTIES,
-    SELECT_OPTION, SELECT_TIME_FIELD,
+    ADMIN_USERNAME, ALL_ARTS, ALL_SCIENCE, CATEGORIES, DEFAULT_SCORING_LABEL, DIFFICULTIES,
+    INPUT_VALUE, SCORING_MODE_DESCRIPTIONS, SCORING_MODES, SELECT_ADMIN,
+    SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_OPTION, SELECT_SCORING,
+    SELECT_TIME_FIELD,
 )
-from .keyboards import build_admin_keyboard, build_category_keyboard, build_difficulty_keyboard
+from .keyboards import (
+    build_admin_keyboard, build_category_keyboard, build_difficulty_keyboard,
+    build_scoring_keyboard,
+)
 from .scores import format_scoreboard, save_scores, scores, scores_lock
 from .settings import settings
 
@@ -30,6 +34,7 @@ def configure(update, _context) -> int:
             [InlineKeyboardButton("⏱ Time", callback_data="time")],
             [InlineKeyboardButton("📚 Categories", callback_data="category")],
             [InlineKeyboardButton("🎯 Difficulty", callback_data="difficulty")],
+            [InlineKeyboardButton("🏆 Scoring Mode", callback_data="scoring")],
             [InlineKeyboardButton("👁 View Current Settings", callback_data="view_settings")],
             [InlineKeyboardButton("🔒 Admin Settings", callback_data="admin")],
         ]),
@@ -60,7 +65,8 @@ def configure_select_option(update, context) -> int:
             f"⏱ Sentence Interval: {settings.sentence_interval}s\n"
             f"⏱ Answer Wait: {settings.answer_wait}s\n\n"
             f"📚 Categories:\n{cats}\n\n"
-            f"🎯 Difficulties:\n{diffs}"
+            f"🎯 Difficulties:\n{diffs}\n\n"
+            f"🏆 Scoring Mode:\n{_scoring_summary()}"
         )
         return ConversationHandler.END
 
@@ -78,6 +84,10 @@ def configure_select_option(update, context) -> int:
         label = "All categories" if settings.selected_categories == set(CATEGORIES) else f"{len(settings.selected_categories)} selected"
         query.edit_message_text(f"Toggle categories on/off ({label}):", reply_markup=build_category_keyboard())
         return SELECT_CATEGORIES
+
+    if query.data == "scoring":
+        query.edit_message_text(_scoring_menu_text(), reply_markup=build_scoring_keyboard())
+        return SELECT_SCORING
 
     # query.data == "difficulty"
     label = "All difficulties" if settings.selected_difficulties == set(DIFFICULTIES) else f"{len(settings.selected_difficulties)} selected"
@@ -187,6 +197,39 @@ def configure_toggle_difficulty(update, _context) -> int:
 
     query.edit_message_reply_markup(reply_markup=build_difficulty_keyboard())
     return SELECT_DIFFICULTIES
+
+
+# ── SELECT_SCORING state ──────────────────────────────────────────────────────
+
+def _scoring_summary() -> str:
+    enabled = [label for key, label in SCORING_MODES.items() if key in settings.scoring_modes]
+    return " + ".join(enabled) if enabled else DEFAULT_SCORING_LABEL
+
+
+def _scoring_menu_text() -> str:
+    lines = [
+        "Toggle scoring modes on/off, then Save. They can be combined; "
+        "none on = +10 per correct, no penalties. Applies from the next round.\n"
+    ]
+    for key, label in SCORING_MODES.items():
+        lines.append(f"• {label} — {SCORING_MODE_DESCRIPTIONS[key]}")
+    return "\n".join(lines)
+
+
+def configure_select_scoring(update, _context) -> int:
+    query = update.callback_query
+    query.answer()
+
+    if query.data == "score_save":
+        query.edit_message_text(f"✅ Scoring mode saved:\n{_scoring_summary()}")
+        return ConversationHandler.END
+
+    mode = query.data[len("score:"):]
+    if mode not in SCORING_MODES:
+        return SELECT_SCORING
+    settings.scoring_modes ^= {mode}
+    query.edit_message_reply_markup(reply_markup=build_scoring_keyboard())
+    return SELECT_SCORING
 
 
 # ── SELECT_ADMIN state ────────────────────────────────────────────────────────

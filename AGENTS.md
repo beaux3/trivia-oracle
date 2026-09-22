@@ -46,11 +46,13 @@ __main__.py    Entry point. Registers all handlers with the Telegram dispatcher
 config.py      Runtime configuration and immutable constants:
                • TOKEN, ADMIN_USERNAME, SCORES_FILE — read from env vars,
                  falling back to secrets.json (see "Configuration & secrets")
-               • POINTS_PER_CORRECT, POINTS_PER_WRONG
+               • POINTS_PER_CORRECT, POINTS_PER_WRONG, POINTS_PER_MEDAL_WRONG
+               • SCORING_MODES (key → checkbox label), SCORING_MODE_DESCRIPTIONS,
+                 DEFAULT_SCORING_LABEL (shown when no mode is on)
                • CATEGORIES list (every selectable category/subcategory label)
                • ALL_ALT_SUBCATEGORIES, ALL_SCIENCE, ALL_ARTS helper sets
                • DIFFICULTIES dict (display label → qbreader numeric string)
-               • ConversationHandler state IDs (SELECT_OPTION … SELECT_ADMIN)
+               • ConversationHandler state IDs (SELECT_OPTION … SELECT_SCORING)
 
 settings.py    Single `settings` object holding mutable runtime state that
                /configure can change:
@@ -58,11 +60,13 @@ settings.py    Single `settings` object holding mutable runtime state that
                • answer_wait (float, seconds to wait after last sentence)
                • selected_categories (set of strings from CATEGORIES)
                • selected_difficulties (set of display-label strings)
+               • scoring_modes (set of SCORING_MODES keys; empty = default scoring)
 
 scores.py      In-memory score store (dict + threading.Lock) and helpers:
                • load_scores()     — populate from SCORES_FILE on startup
                • save_scores()     — write current scores to SCORES_FILE
                • format_scoreboard() — return a human-readable scoreboard string
+               • medalist_ids()    — user IDs shown with 🥇🥈🥉 (top 3 on the board)
 
 round.py       All game logic. Owns `current_round` state dict and `round_lock`.
                • start_round()         — /next handler; fetches question, spawns thread
@@ -72,12 +76,15 @@ round.py       All game logic. Owns `current_round` state dict and `round_lock`.
                • _build_api_filters()  — splits selected_categories into the two
                                          correct qbreader parameters
                • _run_round()          — thread; drives sentence reveals + end message
+               • _points_for_correct() — points for a correct answer in this round's mode
+               • _penalty_for_wrong()  — deduction for a wrong answer in this round's mode
 
 keyboards.py   Pure functions that build and return InlineKeyboardMarkup objects.
                Re-called on every render so the checkmarks always reflect current
                state. Never mutates anything.
                • build_category_keyboard()
                • build_difficulty_keyboard()
+               • build_scoring_keyboard()   — ✅/☐ checkbox row per scoring mode + 💾 Save
                • build_admin_keyboard()
 
 handlers.py    All Telegram handler functions for /configure and /scores.
@@ -89,6 +96,7 @@ handlers.py    All Telegram handler functions for /configure and /scores.
                • configure_input_value()      — INPUT_VALUE text message
                • configure_toggle_category()  — SELECT_CATEGORIES callbacks
                • configure_toggle_difficulty()— SELECT_DIFFICULTIES callbacks
+               • configure_select_scoring()   — SELECT_SCORING callbacks
                • configure_admin()            — SELECT_ADMIN callbacks
                • error_handler()
 ```
@@ -140,10 +148,51 @@ If all categories are selected the function returns `(None, None)` so no
 filter string is sent, which also avoids URL-length issues.
 
 ### Concurrent correct answers
-`current_round["winners"]` is a list. Multiple answers can be appended within
-`scores_lock` before `_run_round` reads the list. The first correct answer
-calls `event.set()` to trigger round-end, but any answer received before
-`current_round["active"]` is flipped to False also gets scored and added.
+`current_round["winners"]` is a list of `(first_name, points)` tuples. Multiple
+answers can be appended within `scores_lock` before `_run_round` reads the list.
+The first correct answer calls `event.set()` to trigger round-end, but any answer
+received before `current_round["active"]` is flipped to False also gets scored
+and added. `current_round["winner_ids"]` stops the same player scoring twice.
+
+Two things make "received before" hold for answers sent at the same moment:
+- `handle_round_answer` is registered with `run_async=True`. PTB v13 otherwise
+  handles updates one at a time, so a second answer would wait out the first
+  one's qbreader check and arrive after the round closed.
+- Each answer registers in `current_round["pending_checks"]` while its check is
+  in flight. `_run_round` flips `active` off, then waits on `checks_settled`
+  (a Condition on `scores_lock`) until pending checks reach 0, capped at
+  `PENDING_CHECK_TIMEOUT`, before sending the round-end message.
+
+`tests/test_concurrent_answers.py` covers this (`python -m unittest discover tests`).
+
+### Scoring modes
+Scoring modes are independent toggles that can be combined. `settings.scoring_modes`
+is a set of enabled keys; an empty set is default scoring (+`POINTS_PER_CORRECT`
+per correct answer, no penalties). `start_round` snapshots it into
+`current_round["scoring_modes"]` (a frozenset), so toggling mid-round only affects
+the next round. All scoring decisions go through `_points_for_correct()` and
+`_penalty_for_wrong()` in `round.py`.
+
+| Mode key | Effect when on |
+|----------|----------------|
+| `wrong_penalty` | Every wrong answer: −`POINTS_PER_WRONG` |
+| `hourglass` | Correct answer: +`POINTS_PER_CORRECT` × `current_round["hourglasses"]` instead of the flat +`POINTS_PER_CORRECT` |
+| `medal_penalty` | Wrong answer by a player in `current_round["medalists"]`: −`POINTS_PER_MEDAL_WRONG` |
+
+- Penalties stack: with `wrong_penalty` and `medal_penalty` both on, a medal
+  holder loses `POINTS_PER_WRONG + POINTS_PER_MEDAL_WRONG` (4) per wrong answer.
+- `hourglasses` is set by `_run_round` to the ⏳ count of the clue it just sent
+  (`total - i`), so it matches what players see. It stays at 1 during the
+  answer wait after the last clue.
+- `medalists` is `scores.medalist_ids()` captured at round start — the same three
+  players shown with medals on the scoreboard, frozen for the round.
+- "prompt" judgements (qbreader asks for more specificity) are neither scored
+  nor penalised in any mode.
+
+To add a mode: add a key to `SCORING_MODES` and `SCORING_MODE_DESCRIPTIONS` in
+`config.py`, then handle it in `_points_for_correct()` / `_penalty_for_wrong()`
+with an `in current_round["scoring_modes"]` check. The keyboard, menu text, and
+settings summary pick it up automatically.
 
 ### round_lock
 A `threading.Lock` held for the entire duration of a round (acquired in
@@ -161,6 +210,7 @@ in `start_round` silently drops a `/next` command if a round is already running.
             ├─ "time"       ──► SELECT_TIME_FIELD ──► INPUT_VALUE ──► END
             ├─ "category"   ──► SELECT_CATEGORIES (looping) ──► END
             ├─ "difficulty" ──► SELECT_DIFFICULTIES (looping) ──► END
+            ├─ "scoring"    ──► SELECT_SCORING (looping) ──► END
             ├─ "view_settings" ─────────────────────────────────► END
             └─ "admin" (gated to ADMIN_USERNAME; disabled if unset)
                     └─► SELECT_ADMIN (looping) ──► END

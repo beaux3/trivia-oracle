@@ -30,8 +30,24 @@ if not TOKEN:
 ADMIN_USERNAME = (_setting("ADMIN_USERNAME") or "").lstrip("@") or None
 
 SCORES_FILE = _setting("SCORES_FILE") or os.path.join(ROOT_DIR, "data", "scores.md")
-POINTS_PER_CORRECT = 10
-POINTS_PER_WRONG = 1
+POINTS_PER_CORRECT = 10       # per correct answer; ×hourglasses left with "hourglass" on
+POINTS_PER_WRONG = 1          # "wrong_penalty" mode
+POINTS_PER_MEDAL_WRONG = 3    # "medal_penalty" mode, top-3 players only
+
+# ── Scoring modes: key → checkbox label (/configure → Scoring Mode) ─────────────
+# Modes are independent toggles and can be combined. None on = plain
+# +POINTS_PER_CORRECT per correct answer with no penalties.
+SCORING_MODES = {
+    "wrong_penalty": "Wrong answers -1pt",
+    "hourglass":     "Hourglass bonus",
+    "medal_penalty": "Medals get penalty",
+}
+SCORING_MODE_DESCRIPTIONS = {
+    "wrong_penalty": f"every wrong answer is -{POINTS_PER_WRONG} pt.",
+    "hourglass":     f"a correct answer scores {POINTS_PER_CORRECT} pts per ⏳ still showing (⏳⏳⏳⏳⏳ = {5 * POINTS_PER_CORRECT} pts).",
+    "medal_penalty": f"players holding 🥇🥈🥉 when the round starts lose {POINTS_PER_MEDAL_WRONG} pts per wrong answer.",
+}
+DEFAULT_SCORING_LABEL = f"Default (+{POINTS_PER_CORRECT} per correct, no penalties)"
 
 # ── qbreader category/subcategory lists ───────────────────────────────────────
 # All entries are valid qbreader Subcategory or AlternateSubcategory string values.
@@ -102,4 +118,7 @@ DIFFICULTIES = {
 }
 
 # ── ConversationHandler state IDs ─────────────────────────────────────────────
-SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE, SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_ADMIN = range(6)
+(
+    SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE, SELECT_CATEGORIES,
+    SELECT_DIFFICULTIES, SELECT_ADMIN, SELECT_SCORING,
+) = range(7)
