@@ -1,7 +1,5 @@
 # TriviaOracleBot 🎯
 
-![TriviaOracleBot](assets/banner.png)
-
 A Telegram group trivia bot built just for fun by **Terence Chew**. Questions are pulled live from the [qbreader](https://www.qbreader.org) quizbowl database and revealed sentence by sentence — buzz in by typing your answer before the clue runs out.
 
 100% vibe coded. No regrets.
@@ -87,7 +85,7 @@ Only run one instance per bot token — a second instance will shut itself down.
 ```
 trivia_oracle/        The bot (run with `python -m trivia_oracle`)
 qbreader/             Vendored copy of the qbreader Python API wrapper (MIT)
-assets/               Images for this README
+assets/               Project images
 Dockerfile            Container build
 requirements.txt      Python dependencies
 secrets.example.json  Template for local secrets.json

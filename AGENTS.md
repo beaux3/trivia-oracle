@@ -29,7 +29,7 @@ trivia_oracle/          The bot package. Run with `python -m trivia_oracle`
                         from the repo root. Modules use relative imports.
 qbreader/               Vendored qbreader API wrapper (MIT, see qbreader/LICENSE).
                         Must stay at the repo root: it imports itself as `qbreader.*`.
-assets/                 README images only; excluded from the Docker build.
+assets/                 Project images; excluded from the Docker build.
 Dockerfile              python:3.9-slim; installs requirements.txt, copies
                         qbreader/ and trivia_oracle/, runs `python -m trivia_oracle`.
 requirements.txt        Runtime dependencies (python-telegram-bot pinned to 13.7).
