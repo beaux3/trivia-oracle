@@ -1,4 +1,4 @@
-from config import CATEGORIES, DIFFICULTIES
+from .config import CATEGORIES, DIFFICULTIES
 
 
 class _Settings:

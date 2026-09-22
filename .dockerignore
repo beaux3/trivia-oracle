@@ -1,0 +1,17 @@
+# Keep secrets and local state out of the build context
+secrets.json
+.env
+data/
+scores.md
+
+.git
+.gitignore
+.claude
+.vscode
+.idea
+.DS_Store
+__pycache__/
+*.pyc
+
+assets/
+*.md

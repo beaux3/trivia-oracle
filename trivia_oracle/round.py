@@ -5,9 +5,9 @@ import threading
 
 from qbreader.asynchronous import Async
 
-from config import ALL_ALT_SUBCATEGORIES, CATEGORIES, DIFFICULTIES, POINTS_PER_CORRECT, POINTS_PER_WRONG
-from scores import format_scoreboard, save_scores, scores, scores_lock
-from settings import settings
+from .config import ALL_ALT_SUBCATEGORIES, CATEGORIES, DIFFICULTIES, POINTS_PER_CORRECT, POINTS_PER_WRONG
+from .scores import format_scoreboard, save_scores, scores, scores_lock
+from .settings import settings
 
 # ── Round state ───────────────────────────────────────────────────────────────
 
@@ -88,7 +88,7 @@ def _run_round(bot, chat_id: int) -> None:
 
 
 def _send_round_end(bot, chat_id: int) -> None:
-    next_prompt = "\n\nNext question: /next@TriviaOracleBot"
+    next_prompt = f"\n\nNext question: /next@{bot.username}"
     winners = current_round["winners"]
     penalties = current_round["penalties"]
 
@@ -153,7 +153,8 @@ def start_round(update, context) -> None:
     try:
         tossup = asyncio.run(_fetch_tossup())
     except Exception as e:
-        context.bot.send_message(chat_id=update.effective_chat.id, text=f"Failed to fetch question: {e}")
+        logging.error("Failed to fetch question: %s", e)
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to fetch a question. Try /next again.")
         round_lock.release()
         return
 

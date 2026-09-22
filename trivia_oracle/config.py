@@ -1,18 +1,37 @@
 import json
 import os
 
+# Repository root (parent of this package). In Docker this is /app.
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 def _load_secrets() -> dict:
-    path = os.path.join(os.path.dirname(__file__), "secrets.json")
+    path = os.path.join(ROOT_DIR, "secrets.json")
+    if not os.path.exists(path):
+        return {}
     with open(path) as f:
         return json.load(f)
 
-_secrets = _load_secrets()
-TOKEN: str = _secrets["TELEGRAM_TOKEN"]
 
-SCORES_FILE = "/app/scores.md"
+# Environment variables win (used by Docker); secrets.json is the local fallback.
+_secrets = _load_secrets()
+
+
+def _setting(name: str, default=None):
+    return os.environ.get(name) or _secrets.get(name, default)
+
+
+TOKEN: str = _setting("TELEGRAM_TOKEN")
+if not TOKEN:
+    raise SystemExit("TELEGRAM_TOKEN is not set. Export it or add it to secrets.json (see secrets.example.json).")
+
+# Telegram username (without @) allowed into /configure → Admin Settings.
+# Unset = nobody has admin access.
+ADMIN_USERNAME = (_setting("ADMIN_USERNAME") or "").lstrip("@") or None
+
+SCORES_FILE = _setting("SCORES_FILE") or os.path.join(ROOT_DIR, "data", "scores.md")
 POINTS_PER_CORRECT = 10
 POINTS_PER_WRONG = 1
-ADMIN_USERNAME = "terenegade"
 
 # ── qbreader category/subcategory lists ───────────────────────────────────────
 # All entries are valid qbreader Subcategory or AlternateSubcategory string values.

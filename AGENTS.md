@@ -25,11 +25,28 @@ are persisted to a Markdown file and printed to the group after every round.
 ## File structure
 
 ```
-main.py        Entry point. Registers all handlers with the Telegram dispatcher
+trivia_oracle/          The bot package. Run with `python -m trivia_oracle`
+                        from the repo root. Modules use relative imports.
+qbreader/               Vendored qbreader API wrapper (MIT, see qbreader/LICENSE).
+                        Must stay at the repo root: it imports itself as `qbreader.*`.
+assets/                 README images only; excluded from the Docker build.
+Dockerfile              python:3.9-slim; installs requirements.txt, copies
+                        qbreader/ and trivia_oracle/, runs `python -m trivia_oracle`.
+requirements.txt        Runtime dependencies (python-telegram-bot pinned to 13.7).
+secrets.example.json    Template for the gitignored secrets.json.
+data/                   Runtime scores (gitignored; Docker volume at /app/data).
+```
+
+Inside `trivia_oracle/`:
+
+```
+__main__.py    Entry point. Registers all handlers with the Telegram dispatcher
                and starts polling. Nothing else lives here.
 
-config.py      All immutable constants:
-               • TOKEN, SCORES_FILE, POINTS_PER_CORRECT, ADMIN_USERNAME
+config.py      Runtime configuration and immutable constants:
+               • TOKEN, ADMIN_USERNAME, SCORES_FILE — read from env vars,
+                 falling back to secrets.json (see "Configuration & secrets")
+               • POINTS_PER_CORRECT, POINTS_PER_WRONG
                • CATEGORIES list (every selectable category/subcategory label)
                • ALL_ALT_SUBCATEGORIES, ALL_SCIENCE, ALL_ARTS helper sets
                • DIFFICULTIES dict (display label → qbreader numeric string)
@@ -80,6 +97,8 @@ handlers.py    All Telegram handler functions for /configure and /scores.
 
 ## Import dependency graph
 
+All imports below are relative (`from .config import ...`).
+
 ```
 config.py
     ↑
@@ -91,10 +110,10 @@ keyboards.py         (imports config, settings)
     ↑
 handlers.py          (imports config, keyboards, scores, settings)
     ↑
-main.py              (imports config, handlers, round, scores)
+__main__.py          (imports config, handlers, round, scores)
 ```
 
-No circular imports. `config.py` and `settings.py` depend on nothing local.
+No circular imports. `config.py` depends on nothing local.
 
 ---
 
@@ -143,7 +162,7 @@ in `start_round` silently drops a `/next` command if a round is already running.
             ├─ "category"   ──► SELECT_CATEGORIES (looping) ──► END
             ├─ "difficulty" ──► SELECT_DIFFICULTIES (looping) ──► END
             ├─ "view_settings" ─────────────────────────────────► END
-            └─ "admin" (gated to ADMIN_USERNAME)
+            └─ "admin" (gated to ADMIN_USERNAME; disabled if unset)
                     └─► SELECT_ADMIN (looping) ──► END
 ```
 
@@ -153,7 +172,7 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ### Add a new bot command
 1. Write a handler function in `handlers.py` (or `round.py` if it touches game state).
-2. Register it in `main.py` with `dp.add_handler(CommandHandler("name", fn))`.
+2. Register it in `__main__.py` with `dp.add_handler(CommandHandler("name", fn))`.
 
 ### Add a new /configure setting (scalar value)
 1. Add the attribute to `_Settings` in `settings.py`.
@@ -189,6 +208,8 @@ in `start_round` silently drops a `/next` command if a round is already running.
 ## qbreader API notes
 
 - Library: local `qbreader/` folder (vendored, not pip-installed).
+  Copied from qbreader/python-module v1.0.1 with one patch: `AlternateSubcategory.MUSICALS`
+  added to the Other Fine Arts mapping in `_api_utils.py`. Keep `qbreader/LICENSE` with it.
 - Entry point: `qbreader.asynchronous.Async` (async context manager).
 - Key methods used:
   - `qb.random_tossup(number, subcategories, alternate_subcategories, difficulties)`
@@ -198,39 +219,57 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ---
 
-## Secrets
+## Configuration & secrets
 
-API keys live in `secrets.json` (gitignored). The file must exist locally and be
-included in the Docker build. Format:
+`config.py` resolves each setting with `_setting(name)`: environment variable
+first, then `secrets.json` in the repo root (gitignored), then a default.
 
-```json
-{
-    "TELEGRAM_TOKEN": "your-bot-token-here"
-}
-```
+| Name | Required | Default | Notes |
+|------|----------|---------|-------|
+| `TELEGRAM_TOKEN` | yes | — | Bot exits at import time with a clear message if missing. |
+| `ADMIN_USERNAME` | no | `None` | Telegram username without `@`. `None` locks Admin Settings for everyone. |
+| `SCORES_FILE` | no | `<repo>/data/scores.md` | Parent directory is created on first save. |
 
-`config.py` loads this file at import time via `_load_secrets()`. If the file is
-missing the bot will fail immediately with a `FileNotFoundError`.
+`secrets.example.json` shows the format. To add a new setting, read it in
+`config.py` with `_setting("YOUR_KEY")`, expose it as a module-level constant,
+and document it here, in the README table, and in `secrets.example.json`.
 
-To add a new secret: add it to `secrets.json`, then read it in `config.py` with
-`_secrets["YOUR_KEY"]` and expose it as a module-level constant.
+**Never commit real secrets.** This repo is public. `secrets.json`, `.env`, and
+`data/` (player names + Telegram IDs) are gitignored and dockerignored. Secrets
+are passed to Docker at runtime with `-e`, never copied into the image.
 
 ---
 
 ## Docker
 
-Build and run:
-```
-docker build -t chewterence/trivia-oracle:latest .
-docker run --rm chewterence/trivia-oracle:latest
+```bash
+docker build -t trivia-oracle .
+docker run --rm \
+  -e TELEGRAM_TOKEN=... -e ADMIN_USERNAME=... \
+  -v "$(pwd)/data:/app/data" \
+  trivia-oracle
 ```
 
-Push:
-```
-docker login   # use access token
+The image contains only `qbreader/` and `trivia_oracle/`. Scores go to
+`/app/data/scores.md`; mount a volume on `/app/data` to keep them. Mount
+`/app/data`, not `/app` — mounting over `/app` hides the code.
+
+Publishing (maintainer only):
+```bash
+docker build -t chewterence/trivia-oracle:latest .
+docker login   # use an access token
 docker push chewterence/trivia-oracle:latest
 ```
 
-The Dockerfile copies `qbreader/` and all six `.py` source files into `/app`.
-Scores are persisted to `/app/scores.md` inside the container — mount a volume
-if you need scores to survive container restarts.
+---
+
+## Running locally
+
+```bash
+pip install -r requirements.txt
+cp secrets.example.json secrets.json   # then fill it in
+python -m trivia_oracle
+```
+
+Only one process may poll a given token. A second instance gets a Telegram
+`Conflict` error and `error_handler` exits it.

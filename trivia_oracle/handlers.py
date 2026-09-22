@@ -5,14 +5,14 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import Conflict
 from telegram.ext import ConversationHandler
 
-from config import (
+from .config import (
     ADMIN_USERNAME, ALL_ARTS, ALL_SCIENCE, CATEGORIES, DIFFICULTIES,
     INPUT_VALUE, SELECT_ADMIN, SELECT_CATEGORIES, SELECT_DIFFICULTIES,
     SELECT_OPTION, SELECT_TIME_FIELD,
 )
-from keyboards import build_admin_keyboard, build_category_keyboard, build_difficulty_keyboard
-from scores import format_scoreboard, save_scores, scores, scores_lock
-from settings import settings
+from .keyboards import build_admin_keyboard, build_category_keyboard, build_difficulty_keyboard
+from .scores import format_scoreboard, save_scores, scores, scores_lock
+from .settings import settings
 
 
 # ── /scores ───────────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ def configure_select_option(update, context) -> int:
     query = update.callback_query
 
     if query.data == "admin":
-        if update.effective_user.username != ADMIN_USERNAME:
+        if not ADMIN_USERNAME or update.effective_user.username != ADMIN_USERNAME:
             query.answer("⛔ Access denied.", show_alert=True)
             return SELECT_OPTION
         query.answer()
@@ -193,7 +193,7 @@ def configure_toggle_difficulty(update, _context) -> int:
 
 def configure_admin(update, _context) -> int:
     query = update.callback_query
-    if update.effective_user.username != ADMIN_USERNAME:
+    if not ADMIN_USERNAME or update.effective_user.username != ADMIN_USERNAME:
         query.answer("⛔ Access denied.", show_alert=True)
         return ConversationHandler.END
 

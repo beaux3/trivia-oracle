@@ -5,12 +5,12 @@ from telegram.ext import (
     Filters, MessageHandler, Updater,
 )
 
-from config import (
+from .config import (
     TOKEN,
     SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE,
     SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_ADMIN,
 )
-from handlers import (
+from .handlers import (
     configure,
     configure_admin,
     configure_input_value,
@@ -21,8 +21,8 @@ from handlers import (
     error_handler,
     show_scores,
 )
-from round import handle_round_answer, start_round
-from scores import load_scores
+from .round import handle_round_answer, start_round
+from .scores import load_scores
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 

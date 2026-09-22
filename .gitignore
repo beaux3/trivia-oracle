@@ -1,13 +1,20 @@
 # Secrets — never commit these
 secrets.json
+.env
+
+# Runtime data (scores contain players' names and Telegram IDs)
+data/
+scores.md
 
 # Python
 __pycache__/
 *.pyc
 *.pyo
+.venv/
+venv/
 
-# macOS
+# Editor / OS / local tooling
 .DS_Store
-
-# Scores file (runtime data, not source)
-scores.md
+.vscode/
+.idea/
+.claude/settings.local.json

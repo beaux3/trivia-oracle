@@ -1,7 +1,7 @@
 import os
 import threading
 
-from config import SCORES_FILE
+from .config import SCORES_FILE
 
 # Shared score store: { user_id (int): {"name": str, "score": int} }
 scores: dict = {}
@@ -35,6 +35,7 @@ def save_scores() -> None:
         sorted(scores.items(), key=lambda x: x[1]["score"], reverse=True), start=1
     ):
         lines.append(f"| {rank} | {player['name']} | {player['score']} | {uid} |\n")
+    os.makedirs(os.path.dirname(SCORES_FILE) or ".", exist_ok=True)
     with open(SCORES_FILE, "w") as f:
         f.writelines(lines)
 

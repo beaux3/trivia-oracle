@@ -1,0 +1,5 @@
+python-telegram-bot==13.7
+aiohttp
+requests
+strenum
+typing_extensions
