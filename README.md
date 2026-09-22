@@ -72,17 +72,43 @@ cp secrets.example.json secrets.json
 
 ### 3a. Run with Docker (recommended)
 
+A prebuilt `linux/amd64` image is on Docker Hub as `chewterence/trivia-oracle`.
+The container only sees settings you pass in, so give it your secrets in one of two ways.
+
+**Mount your `secrets.json`:**
+
 ```bash
-docker build -t trivia-oracle .
-docker run --rm \
+docker run --rm --name trivia-container \
+  -v "$(pwd)/secrets.json:/app/secrets.json:ro" \
+  -v "$(pwd)/data:/app/data" \
+  chewterence/trivia-oracle
+```
+
+**Or pass environment variables:**
+
+```bash
+docker run --rm --name trivia-container \
   -e TELEGRAM_TOKEN=your-bot-token \
   -e ADMIN_USERNAME=your_username \
   -v "$(pwd)/data:/app/data" \
-  trivia-oracle
+  chewterence/trivia-oracle
 ```
 
-The `-v` mount keeps the scoreboard across container restarts. Secrets are passed at runtime
-and are never baked into the image.
+The `data` mount keeps the scoreboard across container restarts. Secrets are passed at runtime
+and are never baked into the image. If you see `TELEGRAM_TOKEN is not set`, the container
+didn't get your secrets: check the mount path or the `-e` flags.
+
+To keep it running on a server after you log out, swap `--rm` for
+`-d --restart unless-stopped`, then use `docker logs -f trivia-container` to watch it.
+
+**Building the image yourself.** Build for the architecture of the machine that will run it.
+Most Linux servers are `linux/amd64` (`uname -m` prints `x86_64`); ARM servers need `linux/arm64`.
+
+```bash
+docker build --platform linux/amd64 -t trivia-oracle .
+```
+
+Use `trivia-oracle` in place of `chewterence/trivia-oracle` in the run commands above.
 
 ### 3b. Run with Python
 

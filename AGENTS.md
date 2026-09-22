@@ -306,7 +306,7 @@ The image contains only `qbreader/` and `trivia_oracle/`. Scores go to
 
 Publishing (maintainer only):
 ```bash
-docker build -t chewterence/trivia-oracle:latest .
+docker build --platform linux/amd64 -t chewterence/trivia-oracle:latest .
 docker login   # use an access token
 docker push chewterence/trivia-oracle:latest
 ```
