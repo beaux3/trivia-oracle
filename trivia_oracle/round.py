@@ -35,7 +35,7 @@ round_lock = threading.Lock()  # held for the duration of a round; prevents over
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
 PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if qbreader hangs
-SESSION_TIMEOUT = 30 * 60  # seconds since the last accepted /next
+SESSION_TIMEOUT = 30 * 60  # seconds since the last /next
 QUESTION_FETCH_ATTEMPTS = 5
 
 
@@ -215,16 +215,17 @@ def _judge_answer(user, given: str) -> Optional[str]:
 
 
 def start_round(update, context) -> None:
-    if not round_lock.acquire(blocking=False):
-        return
-
     chat_data = context.chat_data
     now = time.monotonic()
     last_next = chat_data.get("last_next")
+    chat_data["last_next"] = now
+
+    if not round_lock.acquire(blocking=False):
+        return
+
     if last_next is None or now - last_next >= SESSION_TIMEOUT:
-        seen = set()
-    else:
-        seen = chat_data.get("seen_tossups", set())
+        chat_data["seen_tossups"] = set()
+    seen = chat_data.setdefault("seen_tossups", set())
 
     try:
         for _ in range(QUESTION_FETCH_ATTEMPTS):
@@ -245,8 +246,6 @@ def start_round(update, context) -> None:
         return
 
     seen.add(tossup.question_sanitized)
-    chat_data["seen_tossups"] = seen
-    chat_data["last_next"] = now
 
     sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
     with scores_lock:

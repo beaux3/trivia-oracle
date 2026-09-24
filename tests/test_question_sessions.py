@@ -50,9 +50,21 @@ class QuestionSessionTest(unittest.TestCase):
 
         attempts = ("First clue.",) * rnd.QUESTION_FETCH_ATTEMPTS
         self.assertEqual(self._next(20, *attempts), (rnd.QUESTION_FETCH_ATTEMPTS, 0))
-        self.assertEqual(self.chat_data["last_next"], 0)
+        self.assertEqual(self.chat_data["last_next"], 20)
         self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
         self.assertIn("Could not find a new question", self.bot.send_message.call_args.kwargs["text"])
+
+    def test_next_during_a_round_refreshes_the_session(self):
+        self._next(0, "First clue.")
+        rnd.round_lock.acquire()
+        try:
+            with mock.patch.object(rnd.time, "monotonic", return_value=rnd.SESSION_TIMEOUT - 1):
+                rnd.start_round(self.update, self.context)
+        finally:
+            rnd.round_lock.release()
+
+        self.assertEqual(self.chat_data["last_next"], rnd.SESSION_TIMEOUT - 1)
+        self.assertEqual(self._next(rnd.SESSION_TIMEOUT + 1, "First clue.", "Second clue."), (2, 1))
 
 
 if __name__ == "__main__":
