@@ -1,4 +1,5 @@
 """A live chat should not see the same tossup twice within its session."""
+import asyncio
 import os
 import unittest
 from types import SimpleNamespace
@@ -65,6 +66,30 @@ class QuestionSessionTest(unittest.TestCase):
 
         self.assertEqual(self.chat_data["last_next"], rnd.SESSION_TIMEOUT - 1)
         self.assertEqual(self._next(rnd.SESSION_TIMEOUT + 1, "First clue.", "Second clue."), (2, 1))
+
+    def test_failed_duplicate_notice_releases_round_lock(self):
+        self._next(0, "First clue.")
+        self.bot.send_message.side_effect = RuntimeError("Telegram unavailable")
+
+        with self.assertRaises(RuntimeError):
+            self._next(20, *(("First clue.",) * rnd.QUESTION_FETCH_ATTEMPTS))
+
+        self.assertFalse(rnd.round_lock.locked())
+        self.bot.send_message.side_effect = None
+        self.assertEqual(self._next(21, "Second clue."), (1, 1))
+
+    def test_slow_fetch_has_total_deadline_and_releases_round_lock(self):
+        async def slow_fetch():
+            await asyncio.sleep(1)
+
+        with mock.patch.object(rnd, "_fetch_tossup", side_effect=slow_fetch) as fetch, \
+             mock.patch.object(rnd, "QUESTION_FETCH_TIMEOUT", 0.01):
+            rnd.start_round(self.update, self.context)
+
+        self.assertEqual(fetch.call_count, 1)
+        self.assertFalse(rnd.round_lock.locked())
+        self.assertIn("Failed to fetch a question", self.bot.send_message.call_args.kwargs["text"])
+        self.assertEqual(self._next(self.chat_data["last_next"] + 1, "Second clue."), (1, 1))
 
 
 if __name__ == "__main__":

@@ -37,6 +37,7 @@ checks_settled = threading.Condition(scores_lock)
 PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if qbreader hangs
 SESSION_TIMEOUT = 30 * 60  # seconds since the last /next
 QUESTION_FETCH_ATTEMPTS = 5
+QUESTION_FETCH_TIMEOUT = 15.0  # total seconds across all duplicate draws
 
 
 # ── Internal helpers ──────────────────────────────────────────────────────────
@@ -74,6 +75,14 @@ async def _fetch_tossup():
     return tossups[0]
 
 
+async def _fetch_fresh_tossup(seen: set):
+    for _ in range(QUESTION_FETCH_ATTEMPTS):
+        tossup = await _fetch_tossup()
+        if tossup.question_sanitized not in seen:
+            return tossup
+    return None
+
+
 def _points_for_correct() -> int:
     if "hourglass" in current_round["scoring_modes"]:
         return POINTS_PER_CORRECT * current_round["hourglasses"]
@@ -98,6 +107,15 @@ async def _check_answer(answerline: str, given: str):
 # ── Round execution ───────────────────────────────────────────────────────────
 
 def _run_round(bot, chat_id: int) -> None:
+    try:
+        _run_round_body(bot, chat_id)
+    finally:
+        with scores_lock:
+            current_round["active"] = False
+        round_lock.release()
+
+
+def _run_round_body(bot, chat_id: int) -> None:
     sentences = current_round["sentences"]
     total = len(sentences)
 
@@ -122,7 +140,6 @@ def _run_round(bot, chat_id: int) -> None:
             logging.warning("Closing round with %d answer check(s) still pending", current_round["pending_checks"])
     _send_round_end(bot, chat_id)
     bot.send_message(chat_id=chat_id, text=format_scoreboard())
-    round_lock.release()
 
 
 def _send_round_end(bot, chat_id: int) -> None:
@@ -223,51 +240,57 @@ def start_round(update, context) -> None:
     if not round_lock.acquire(blocking=False):
         return
 
-    if last_next is None or now - last_next >= SESSION_TIMEOUT:
-        chat_data["seen_tossups"] = set()
-    seen = chat_data.setdefault("seen_tossups", set())
-
+    handed_off = False
     try:
-        for _ in range(QUESTION_FETCH_ATTEMPTS):
-            tossup = asyncio.run(_fetch_tossup())
-            if tossup.question_sanitized not in seen:
-                break
-        else:
+        if last_next is None or now - last_next >= SESSION_TIMEOUT:
+            chat_data["seen_tossups"] = set()
+        seen = chat_data.setdefault("seen_tossups", set())
+
+        try:
+            tossup = asyncio.run(asyncio.wait_for(
+                _fetch_fresh_tossup(seen), timeout=QUESTION_FETCH_TIMEOUT,
+            ))
+        except Exception as e:
+            logging.error("Failed to fetch question: %s", e)
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to fetch a question. Try /next again.")
+            return
+
+        if tossup is None:
             context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 text="Could not find a new question. Try /next again.",
             )
-            round_lock.release()
             return
-    except Exception as e:
-        logging.error("Failed to fetch question: %s", e)
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to fetch a question. Try /next again.")
-        round_lock.release()
-        return
 
-    seen.add(tossup.question_sanitized)
+        seen.add(tossup.question_sanitized)
 
-    sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
-    with scores_lock:
-        medalists = medalist_ids()
-    current_round.update({
-        "active": True,
-        "answer_sanitized": tossup.answer_sanitized,
-        "answerline": tossup.answer,
-        "winners": [],
-        "winner_ids": set(),
-        "penalties": {},
-        "sentences": sentences,
-        "hourglasses": len(sentences),
-        "scoring_modes": frozenset(settings.scoring_modes),
-        "medalists": medalists,
-        "pending_checks": 0,
-    })
-    current_round["event"].clear()
-    logging.info("Answer: %s", tossup.answer_sanitized)
+        sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
+        with scores_lock:
+            medalists = medalist_ids()
+        current_round.update({
+            "active": True,
+            "answer_sanitized": tossup.answer_sanitized,
+            "answerline": tossup.answer,
+            "winners": [],
+            "winner_ids": set(),
+            "penalties": {},
+            "sentences": sentences,
+            "hourglasses": len(sentences),
+            "scoring_modes": frozenset(settings.scoring_modes),
+            "medalists": medalists,
+            "pending_checks": 0,
+        })
+        current_round["event"].clear()
+        logging.info("Answer: %s", tossup.answer_sanitized)
 
-    threading.Thread(
-        target=_run_round,
-        args=(context.bot, update.effective_chat.id),
-        daemon=True,
-    ).start()
+        threading.Thread(
+            target=_run_round,
+            args=(context.bot, update.effective_chat.id),
+            daemon=True,
+        ).start()
+        handed_off = True
+    finally:
+        if not handed_off:
+            with scores_lock:
+                current_round["active"] = False
+            round_lock.release()
