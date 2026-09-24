@@ -2,6 +2,7 @@ import asyncio
 import logging
 import re
 import threading
+import time
 from typing import Optional
 
 from qbreader.asynchronous import Async
@@ -34,6 +35,8 @@ round_lock = threading.Lock()  # held for the duration of a round; prevents over
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
 PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if qbreader hangs
+SESSION_TIMEOUT = 30 * 60  # seconds since the last accepted /next
+QUESTION_FETCH_ATTEMPTS = 5
 
 
 # ── Internal helpers ──────────────────────────────────────────────────────────
@@ -215,13 +218,35 @@ def start_round(update, context) -> None:
     if not round_lock.acquire(blocking=False):
         return
 
+    chat_data = context.chat_data
+    now = time.monotonic()
+    last_next = chat_data.get("last_next")
+    if last_next is None or now - last_next >= SESSION_TIMEOUT:
+        seen = set()
+    else:
+        seen = chat_data.get("seen_tossups", set())
+
     try:
-        tossup = asyncio.run(_fetch_tossup())
+        for _ in range(QUESTION_FETCH_ATTEMPTS):
+            tossup = asyncio.run(_fetch_tossup())
+            if tossup.question_sanitized not in seen:
+                break
+        else:
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="Could not find a new question. Try /next again.",
+            )
+            round_lock.release()
+            return
     except Exception as e:
         logging.error("Failed to fetch question: %s", e)
         context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to fetch a question. Try /next again.")
         round_lock.release()
         return
+
+    seen.add(tossup.question_sanitized)
+    chat_data["seen_tossups"] = seen
+    chat_data["last_next"] = now
 
     sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
     with scores_lock:
