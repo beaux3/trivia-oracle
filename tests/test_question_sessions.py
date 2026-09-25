@@ -51,11 +51,12 @@ class QuestionSessionTest(unittest.TestCase):
 
         attempts = ("First clue.",) * rnd.QUESTION_FETCH_ATTEMPTS
         self.assertEqual(self._next(20, *attempts), (rnd.QUESTION_FETCH_ATTEMPTS, 0))
-        self.assertEqual(self.chat_data["last_next"], 20)
+        self.assertEqual(self.chat_data["last_next"], 0)
         self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
         self.assertIn("Could not find a new question", self.bot.send_message.call_args.kwargs["text"])
+        self.assertEqual(self._next(rnd.SESSION_TIMEOUT, "First clue."), (1, 1))
 
-    def test_next_during_a_round_refreshes_the_session(self):
+    def test_next_during_a_round_does_not_refresh_the_session(self):
         self._next(0, "First clue.")
         rnd.round_lock.acquire()
         try:
@@ -64,8 +65,18 @@ class QuestionSessionTest(unittest.TestCase):
         finally:
             rnd.round_lock.release()
 
-        self.assertEqual(self.chat_data["last_next"], rnd.SESSION_TIMEOUT - 1)
-        self.assertEqual(self._next(rnd.SESSION_TIMEOUT + 1, "First clue.", "Second clue."), (2, 1))
+        self.assertEqual(self.chat_data["last_next"], 0)
+        self.assertEqual(self._next(rnd.SESSION_TIMEOUT + 1, "First clue."), (1, 1))
+
+    def test_failed_fetch_after_expiry_keeps_old_session_until_a_round_starts(self):
+        self._next(0, "First clue.")
+        with mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(side_effect=RuntimeError("QBReader unavailable"))), \
+             mock.patch.object(rnd.time, "monotonic", return_value=rnd.SESSION_TIMEOUT + 1):
+            rnd.start_round(self.update, self.context)
+
+        self.assertEqual(self.chat_data["last_next"], 0)
+        self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
+        self.assertEqual(self._next(rnd.SESSION_TIMEOUT + 2, "First clue."), (1, 1))
 
     def test_failed_duplicate_notice_releases_round_lock(self):
         self._next(0, "First clue.")
@@ -88,8 +99,9 @@ class QuestionSessionTest(unittest.TestCase):
 
         self.assertEqual(fetch.call_count, 1)
         self.assertFalse(rnd.round_lock.locked())
+        self.assertNotIn("last_next", self.chat_data)
         self.assertIn("Failed to fetch a question", self.bot.send_message.call_args.kwargs["text"])
-        self.assertEqual(self._next(self.chat_data["last_next"] + 1, "Second clue."), (1, 1))
+        self.assertEqual(self._next(1, "Second clue."), (1, 1))
 
 
 if __name__ == "__main__":

@@ -35,7 +35,7 @@ round_lock = threading.Lock()  # held for the duration of a round; prevents over
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
 PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if qbreader hangs
-SESSION_TIMEOUT = 30 * 60  # seconds since the last /next
+SESSION_TIMEOUT = 30 * 60  # seconds since the last successful /next
 QUESTION_FETCH_ATTEMPTS = 5
 QUESTION_FETCH_TIMEOUT = 15.0  # total seconds across all duplicate draws
 
@@ -235,16 +235,16 @@ def start_round(update, context) -> None:
     chat_data = context.chat_data
     now = time.monotonic()
     last_next = chat_data.get("last_next")
-    chat_data["last_next"] = now
 
     if not round_lock.acquire(blocking=False):
         return
 
     handed_off = False
     try:
-        if last_next is None or now - last_next >= SESSION_TIMEOUT:
-            chat_data["seen_tossups"] = set()
-        seen = chat_data.setdefault("seen_tossups", set())
+        seen = (
+            set() if last_next is None or now - last_next >= SESSION_TIMEOUT
+            else chat_data.get("seen_tossups", set())
+        )
 
         try:
             tossup = asyncio.run(asyncio.wait_for(
@@ -261,8 +261,6 @@ def start_round(update, context) -> None:
                 text="Could not find a new question. Try /next again.",
             )
             return
-
-        seen.add(tossup.question_sanitized)
 
         sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
         with scores_lock:
@@ -289,6 +287,9 @@ def start_round(update, context) -> None:
             daemon=True,
         ).start()
         handed_off = True
+        seen.add(tossup.question_sanitized)
+        chat_data["seen_tossups"] = seen
+        chat_data["last_next"] = now
     finally:
         if not handed_off:
             with scores_lock:
