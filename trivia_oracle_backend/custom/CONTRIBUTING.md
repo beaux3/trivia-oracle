@@ -135,7 +135,7 @@ Example (each object is really one line):
 | Science | Biology, Chemistry, Physics, Other Science |
 | Fine Arts | Visual Fine Arts, Auditory Fine Arts, Other Fine Arts |
 | Pop Culture | Movies, Music, Sports, Television, Video Games, Other Pop Culture |
-| Religion, Mythology, Philosophy, Social Science, Current Events, Geography, Other Academic, Singapore, Snowsports, Memes, Japan | the same word as the category (e.g. category `Mythology`, subcategory `Mythology`) |
+| Religion, Mythology, Philosophy, Social Science, Current Events, Geography, Other Academic, Singapore, Snowsports, Memes, Japan, Anime | the same word as the category (e.g. category `Mythology`, subcategory `Mythology`) |
 
 `alternate_subcategory` is optional; use `null` when none fits. Allowed only with these parents:
 
@@ -154,6 +154,12 @@ snowboarding: gear, lifts, resorts, brands, technique, culture), with `subcatego
 with `subcategory` `"Memes"`. So is `Japan` (anything about Japan not already covered by a qbreader
 category: places, food, transit, language, culture), with `subcategory` `"Japan"`.
 If the requester names a category, use exactly that one.
+
+`Anime` is also custom-only: use `category` and `subcategory` `"Anime"`, with
+`alternate_subcategory` `null`. Anime questions are played through the existing **Custom**
+toggle; this label is not a separate qbreader filter or a new settings button. Follow the
+requester's scope for the answers and clues (for example, anime titles only, with no
+manga-only details).
 
 Note that Math, Astronomy etc. have `subcategory` **"Other Science"**, and Film, Opera etc.
 have **"Other Fine Arts"**. Choose the category by the *subject of the answer*, not the
