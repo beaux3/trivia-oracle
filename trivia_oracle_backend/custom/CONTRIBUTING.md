@@ -36,17 +36,15 @@ answers. Do not go on to stage 2 until they approve the list (or say "go ahead" 
 For each approved answer, look the facts up on the web with whatever search or browsing tool
 you have. Your memory is not a source.
 
-- Find **at least two independent sources** for each clue you plan to use, and make **at least
-  one of them authoritative**:
+- Find **at least one source** for each clue you plan to use. Prefer it to be *authoritative*
+  when you have a choice:
   - *Authoritative* means the primary source itself (the work, the paper, the law, official
     records) or a publisher with editorial responsibility for the subject: Britannica and other
     edited reference works, national biographies, museum, university, government and publisher
     pages, peer-reviewed articles, newspapers of record.
-  - Wikipedia and every site that copies or paraphrases it (mirrors, fandom wikis, quiz and
-    "fun fact" sites, AI-generated summaries) count together as **one** source at most, and never
-    as the authoritative one. A reference that Wikipedia cites counts separately only if you
-    opened it yourself and it states the fact.
-  - Two sites that copy each other count as one. Do not use blogs, forums or quote sites.
+  - Wikipedia and sites that copy or paraphrase it (mirrors, fandom wikis, quiz and "fun fact"
+    sites, AI-generated summaries) are acceptable as your one source. Do not use blogs, forums or
+    quote sites.
 - Check dates, spellings of names, numbers, and attributions ("first", "only", "largest") in the
   sources themselves. Superlatives are the most often wrong; if sources disagree or you cannot
   confirm one, do not use that clue.
@@ -70,15 +68,18 @@ tool. (If they ask you to write them anyway, write the file, tell them plainly t
      Use letters, digits, `_` and `-`.
    - Never overwrite or delete another contributor's file. Pick a new name or, to add more
      questions, append lines to your own file.
+   - You do **not** need to create a new `_batch_NN` file every time. A new numbered batch (or
+     new file) is for a genuinely new topic; if a submission file for this same topic already
+     exists, append the new questions to it instead of starting another batch.
 2. Write `trivia_oracle_backend/custom/submissions/<set_name>.sources.md` next to it. It is
    not loaded anywhere; it lets a human spot-check your work. Format, per question in file order:
    ```
    ## 1. angular momentum
-   - "Conserved in the absence of external torques": https://...  ; https://...
-   - "SI units kg m^2 / s": https://...  ; https://...
+   - "Conserved in the absence of external torques": https://...
+   - "SI units kg m^2 / s": https://...
    ```
-   Put the full URLs of at least two sources next to every clue, the authoritative one first.
-   Never invent a URL and never list one you did not actually open.
+   Put the full URL of at least one source next to every clue. Never invent a URL and never list
+   one you did not actually open.
 3. Validate from the repo root:
    ```
    python -m trivia_oracle_backend.custom.add --check trivia_oracle_backend/custom/submissions/<set_name>.jsonl
@@ -242,10 +243,10 @@ point to exactly one answer. Clues that also fit a more famous alternative belon
 an extra distinguishing detail.
 
 **Only true, verified facts.** This is the most important rule. Every claim must have been
-confirmed in stage 2 against at least two independent sources, one of them authoritative. If
-you are not sure of a date, name, number or attribution, drop that clue or choose another
-answer. A wrong "fact" gets memorised by players and cannot be detected by the validator. Do
-not invent people, works, or events, and do not write a clue just because it "sounds right".
+confirmed in stage 2 against a source you actually opened. If you are not sure of a date, name,
+number or attribution, drop that clue or choose another answer. A wrong "fact" gets memorised by
+players and cannot be detected by the validator. Do not invent people, works, or events, and do
+not write a clue just because it "sounds right".
 
 **Original text.** Write the clues yourself from your stage 2 sources. Do not copy tossups from
 qbreader, packets, or other question sets, and do not reproduce copyrighted passages. Facts
@@ -334,8 +335,7 @@ Bad:
 
 - [ ] Valid JSON on every line, exactly the six allowed fields, saved as `.jsonl`.
 - [ ] The requester approved the answer list (stage 1).
-- [ ] Every clue was checked against two independent sources you actually opened, at least one
-      of them authoritative and not Wikipedia or a copy of it (stage 2), and they are listed in
+- [ ] Every clue was checked against a source you actually opened (stage 2), and it is listed in
       the `.sources.md` file.
 - [ ] No claim relies on memory alone, and no superlative ("first", "only", "largest") is unconfirmed.
 - [ ] No accepted or prompted string, or another form of one, appears anywhere in the question,

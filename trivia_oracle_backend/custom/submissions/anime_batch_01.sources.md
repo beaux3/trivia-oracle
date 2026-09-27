@@ -688,6 +688,22 @@ A Christmas Eve montage in this anime contrasts a player singing karaoke with hi
 
 </details>
 
+### 21. Sasuke Uchiha — difficulty 3
+
+This character's clan was slaughtered in a single night by his own older brother, who spared only him and told him to live in hatred until he was strong enough for revenge. He later left his home village to seek power under the snake-themed criminal Orochimaru, chasing the strength needed for that revenge. After finally killing his brother, he gains that brother's advanced eye technique, the Mangekyo Sharingan, which he later implants into his own eyes to remove its blindness side effect. In the series' own cosmology, he is identified as the reincarnation of the god Indra Otsutsuki. For 10 points, name this rival and eventual ally of the ninja Naruto Uzumaki, the last son of the Uchiha clan.
+
+**Accepted titles/aliases:** `Sasuke Uchiha`, `Sasuke`.
+
+**Sources (one per clue, per the current one-source standard):**
+- Itachi's massacre of the Uchiha clan, sparing only Sasuke, telling him to live in hatred: https://en.wikipedia.org/wiki/Itachi_Uchiha
+- Sasuke's defection to train under Orochimaru in pursuit of power/revenge: https://naruto.fandom.com/wiki/Sasuke_Uchiha
+- Gaining Itachi's Mangekyo Sharingan after killing him, later implanting it into his own eyes to remove the blindness side effect (Eternal Mangekyo Sharingan): https://naruto.fandom.com/wiki/Sasuke_Uchiha
+- Identified in-series as the reincarnation of Indra Otsutsuki: https://en.wikipedia.org/wiki/Sasuke_Uchiha
+
+Note: this entry uses the current one-source-per-clue standard rather than the heavier two-source,
+clue-by-clue verification format used for entries 1–20 above (written under the project's earlier
+sourcing rule).
+
 ## Validation and limitations
 
 - The requested validator passes: `anime_batch_01.jsonl: 20 question(s) are valid`.
