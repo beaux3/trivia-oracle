@@ -24,7 +24,8 @@
 
 ## 7. Swee Choon
 - "established 1962; expanded from one shophouse to four connecting units on Jalan Besar, tables in back alley; outlets in Tampines, Changi Airport": https://www.sweechoon.com/ ; https://sethlui.com/swee-choon-tim-sum-singapore-food-review/
-- "current hours 7am-2am Sun-Thu, 7am-4am Fri/Sat/eve PH, closed Tuesdays": https://www.sweechoon.com/pages/outlet-details
+- Late-night service at the main branch: https://www.sweechoon.com/pages/outlet-details
+- Menu includes steamed buns and dumplings: https://www.sweechoon.com/pages/corporate-catering-singapore
 
 ## 8. Shaw Theatres Lido
 - "Lido Theatre opened Feb 1959 with Shaw House (built 1958), attended by Tengku Abdul Rahman and Sir Robert Scott, billed most luxurious cinema in Singapore": https://www.roots.gov.sg/Collection-Landing/listing/1193644

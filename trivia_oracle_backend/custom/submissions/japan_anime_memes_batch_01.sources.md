@@ -6,6 +6,7 @@
 
 ## 2. jutsu
 - "jutsu" = technique/art; ninjutsu, taijutsu meanings: https://www.merriam-webster.com/dictionary/ninjutsu ; https://en.wikipedia.org/wiki/Taijutsu
+- Taijutsu includes physical strikes such as spinning kicks: https://naruto-official.com/en/news/01_1489
 - kenjutsu, genjutsu as terms used in Naruto: https://naruto.fandom.com/wiki/Genjutsu ; https://en.wikipedia.org/wiki/Japanese_martial_arts
 - Shadow Clone Technique (Kage Bunshin no Jutsu) naming convention, hand seals: https://naruto.fandom.com/wiki/Shadow_Clone_Technique ; https://www.enjoyip.com/franchises/naruto/memes
 - Fan-coined "Talk no Jutsu": https://www.enjoyip.com/franchises/naruto/memes ; https://naruto.fandom.com/wiki/Naruto_Uzumaki (background/consistency check)

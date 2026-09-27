@@ -169,7 +169,7 @@ text only, because the page itself could not be opened.
 ## 34. aura farming (4)
 - "Aura" (charisma) + "farming" (gaming grind term) definition: https://knowyourmeme.com/memes/aura-farming
 - h.chua_212 TikTok, Jan 28 2024, bowling video caption: https://knowyourmeme.com/memes/aura-farming
-- Rayyan Arkan Dikha, Pacu Jalur boat dance, Riau, Indonesia, mid-2024 viral spread: https://en.wikipedia.org/wiki/Aura_farming ; https://www.cbc.ca/kidsnews/post/watch-meet-the-11-year-old-behind-the-aura-farming-boat-meme
+- Rayyan Arkan Dhika, Pacu Jalur boat dance in Riau, Indonesia; clip filmed in 2024 but went viral in mid-2025: https://www.channelnewsasia.com/asia/indonesia-pacu-jalur-aura-farming-riau-boy-dance-5308951
 - "Aura battles" 2026 trend: https://knowyourmeme.com/memes/aura-battles
 
 ## 35. cooked (2)
@@ -825,9 +825,9 @@ text only, because the page itself could not be opened.
 - Etymology ("two" + "form"), genre narrowing in the 1990s, modern definition: https://www.dictionary.com/culture/pop-culture/futanari
 - Yamai no Sōshi ("Scroll of Afflictions") scroll origin: https://lgbtqia.wiki/wiki/Futanari
 
-## 196. Two Girls One Cup (second, distinct entry — reused answer per standing duplicate-answer policy; new clues not used in #86: Joe Rogan/Kobe Bryant celebrity reactions, the dare mechanic, South Park's parody)
-- Celebrity reaction filmings, dare-based secondary viral loop, South Park parody of the fourth-graders reacting: https://en.wikipedia.org/wiki/2_Girls_1_Cup
-- Corroborating history of the reaction-video dare format and viral spread: https://knowyourmeme.com/videos/260712-2-girls-1-cup
+## 197. Hide the Pain Harold
+- Hungarian electrical engineer recruited for Budapest stock photography after a photographer saw his holiday photos on Facebook; hundreds of images, reverse-image search, sad-looking eyes behind a smile: https://www.theguardian.com/lifeandstyle/2019/nov/08/experience-hide-the-pain-harold-face-became-meme-turned-it-into-career
+- His 2017 fan page and later Hungarian car commercial: https://www.theguardian.com/lifeandstyle/2019/nov/08/experience-hide-the-pain-harold-face-became-meme-turned-it-into-career
 
 ## RE-SKIPPED: black salami
 - Re-checked 2026-09-27 per user request to describe it "unoffensively." Still declined: remains crude sexual slang with no documented cultural/meta history (no Know Your Meme page, no reliable secondary coverage of its origin or spread) to build a factual, non-explicit trivia question around, unlike Two Girls One Cup. Not loaded.
@@ -909,9 +909,9 @@ text only, because the page itself could not be opened.
 ## 218. Speech 100
 - Skyrim skill-tree origin and use for exceptional persuasion: https://digitalcultures.net/memes/speech-100/
 
-## 219. What the fuck, Richard?
-- Disc-golf clip origin and reaction usage: https://www.urbandictionary.com/define.php?term=what+the+fuck%2C+richard
-- Clip context and sanitized variants: https://shungolf.com/article/what-the-heck-richard-frisbee-golf
+## 219. Distracted Boyfriend
+- Antonio Guillem's 2015 stock-photo shoot in Girona, its three-person composition, and an early Phil Collins caption contrasting progressive rock with pop: https://www.theguardian.com/media/2017/aug/30/the-team-that-made-the-distracted-boyfriend-meme-have-split-up
+- The photographer's description of the photo's infidelity scenario and the spread of labeled versions: https://english.elpais.com/elpais/2017/08/28/inenglish/1503927345_659171.html
 
 ## 220. Crab Rave
 - Noisestorm release, animated crabs, and remix usage: https://knowyourmeme.com/memes/crab-rave
@@ -958,8 +958,9 @@ text only, because the page itself could not be opened.
 ## 234. But That's None of My Business
 - Kermit Sipping Tea image-macro origin and usage: https://knowyourmeme.com/memes/kermit-sipping-tea-but-thats-none-of-my-business
 
-## 235. Low Quality Meme
-- Intentional compression and pixelation as a meme aesthetic: https://lowqualitymemes.com/blog/make-low-quality-memes/
+## 235. This Is Fine
+- KC Green's 2013 Gunshow strip "On Fire," its dog seated amid flames, and its later panels: https://gunshowcomic.com/648
+- The cropped two-panel meme and its use as a joke about denial of disaster: https://www.salon.com/2016/08/04/this_is_fine_cartoonist_on_why_its_not_fine_after_all_its_a_response_to_how_weird_and_bad_2016_has_made_me_feel/
 
 ## 236. Deep Fried Meme
 - Tumblr origin, visual characteristics, and community spread: https://knowyourmeme.com/sensitive/memes/deep-fried-memes
@@ -989,10 +990,11 @@ text only, because the page itself could not be opened.
 - AlliCattt Vine origin and late-night caption format: https://knowyourmeme.com/sensitive/memes/me-at-3am
 
 ## 245. Nobody:
-- Script-style caption format and its use for unprompted behavior: https://www.translateen.com/blog/viral-trends-slang/nobody-meme-format-explained/
+- September 2018 Twitter origin, early Spooktober post, J. K. Rowling variants, May 2019 TikTok effect, and caption structure for unprompted behavior: https://knowyourmeme.com/memes/nobody
 
-## 246. Absolutely Nobody:
-- Script-style caption format and its emphatic second line: https://www.translateen.com/blog/viral-trends-slang/nobody-meme-format-explained/
+## 246. Success Kid
+- Laney Griner's 2007 Florida beach photograph of 11-month-old Sam; initial Flickr title, early aggressive captions, and the 2010 shift to a positive image macro: https://knowyourmeme.com/editorials/interviews/laney-griner-mother-of-success-kid-recaps-how-her-photo-became-a-viral-sensation-14-years-later
+- The family's fundraiser for Sam's father's kidney transplant: https://time.com/3823341/success-kid-fundraiser-father-kidney-meme/
 
 ## 247. Me and the Boys
 - 2019 snowclone spread and 1967 Spider-Man villain variation: https://knowyourmeme.com/memes/me-and-the-boys

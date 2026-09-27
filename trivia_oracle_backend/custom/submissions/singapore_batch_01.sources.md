@@ -155,6 +155,7 @@ is given as a range).
 
 ## 36. NUS (3)
 - Medical school origins, 1949 merger, 1962 split, and 1980 formation: https://www.nus.edu.sg/about/founded-by-the-community
+- The medical school was renamed for the late King Edward VII in 1913: https://nus.edu.sg/nuslibraries/whats-on-listing/news/2025/05/08/unearthing-the-king-edward-vii-kevii-medical-school-and-college-of-medicine-14298
 - Medical school opened 28 Sep 1905, renamed King Edward VII Medical School 1913, King Edward VII Medical College 1921: (search-result synthesis of) https://www.nlb.gov.sg/main/article-detail?cmsuuid=a733f1d4-f0e8-47d6-8f1e-dadaaea396d4
 - Raffles College opened 1929, merged with King Edward VII Medical College to form University of Malaya 8 Oct 1949, split to University of Singapore 1 Jan 1962, NUS formed 8 Aug 1980 via merger with Nanyang University: same source
 - NUS Law spent 25 years at Kent Ridge (1981-2006) before returning to Bukit Timah, a former Raffles College site: https://mothership.sg/2024/05/nus-law-relocates-utown-kent-ridge/
@@ -184,10 +185,9 @@ is given as a range).
 - Combines with "kanina" into "KNNBCCB": https://en-academic.com/dic.nsf/enwiki/3586192 (Singlish vocabulary, KNN entry)
 - The literal meaning ("smelly" + a vulgar word for female genitalia) is deliberately not used in any clue.
 
-## 43. geh kiang / hao lian (5)
+## 43. geh kiang (5)
 - "Geh kiang": Hokkien for "fake smart", describes acting overly clever and making a rash, unwise decision: https://en.wiktionary.org/wiki/geh_kiang
-- "Hao lian": Teochew 好臉, literally "good face"/"loves to show off", borrowed into Hokkien, means boastful or arrogant: (search-result synthesis of) http://singaporeabbreviations.blogspot.com/2012/12/lian-hl.html
-- Both used as everyday Singlish putdowns alongside "kiasu" (fear of losing out), a well-documented pairing in Singlish vocabulary lists: https://en.wikipedia.org/wiki/Singlish_vocabulary
+- "Hao lian" describes boastfulness and is a distinct expression: https://en.wikipedia.org/wiki/Singlish_vocabulary
 
 ---
 

@@ -27,6 +27,7 @@ opened during research, except the two marked "search snippet". Facts that could
 
 ## 7. button lift (3)
 - Disc between the legs, snowboarders hold it with hands, low capacity, 3.0 m/s vs about 4 m/s detachable, "Poma lift", no grip strength vs rope tow, disc vs T-bar: https://en.wikipedia.org/wiki/Surface_lift
+- A button lift is one kind of drag/surface lift, so those broader answers warrant a prompt: https://en.wikipedia.org/wiki/Surface_lift
 - The clue about the manufacturer being French is general knowledge (Poma).
 
 ## 8. gondola (2)
@@ -49,7 +50,8 @@ opened during research, except the two marked "search snippet". Facts that could
 
 ## 13. Superski / Dolomiti Superski (4)
 - Created 1974, ~3,000 km² of northeastern Italy: https://en.wikipedia.org/wiki/Dolomiti_Superski
-- 12 resorts, 450 lifts, 1,246 km of slopes on one pass, largest ski area in the world, ~97% snowmaking coverage: https://www.valgardena.it/en/winter-holidays-dolomites/ski-resort-val-gardena/val-gardena/dolomiti-superski/
+- 12 resorts, 450 lifts, 1,246 km of slopes on one pass, ~97% snowmaking coverage: https://www.valgardena.it/en/winter-holidays-dolomites/ski-resort-val-gardena/val-gardena/dolomiti-superski/
+- The areas are not all reachable on skis; some transfers need a bus or train: https://www.dolomitisuperski.com/en/support-and-help/faq
 
 ## 14. La Folie Douce (3)
 - Founded 1974 in Val d'Isère by Luc Reversade (ex-ski instructor) with his mother and chef Mamone, inspired by Ibiza/Turkey/Miami party spots: https://magazine.lecollectionist.com/en/discover-la-folie-douce-val-dis%C3%A8re
@@ -75,6 +77,7 @@ opened during research, except the two marked "search snippet". Facts that could
 ## 19. Hakuba Valley (3)
 - Happo-One hosted 1998 Winter Olympics downhill, super-G, combined and ski jumping: https://en.wikipedia.org/wiki/Hakuba_Happoone_Winter_Resort
 - 10 resorts, 92 lifts, 137 runs over ~30 km, 11+ m of annual snowfall: https://www.snowmonkeyresorts.com/activities/discover-the-spirit-of-the-1998-olympics/
+- The resorts share a pass and are linked by shuttle buses: https://www.hakubavalley.com/en/about_hakubavalley_en/
 
 ## 20. Rhythm / Rythm (5)
 - Founded 2005 by Australians Matthew Hampton and Mick Klima, seven stores across Niseko, Hakuba, Furano: https://www.businessnewsaustralia.com/articles/australian-owned-rhythm-japan-acquired-by-leading-north-american-snowsports-retailer.html
@@ -101,7 +104,8 @@ opened during research, except the two marked "search snippet". Facts that could
 - Best snow often on 30-45 degree slopes, the same steepness most avalanche-prone; guide recommended: https://www.skiworld.co.uk/blog/avalanche-off-piste-skiing/
 
 ## 26. No helmet no steez (6)
-- "Steez" (style + ease) used by Method Man (1995) and sampled in Gang Starr's "You Know My Steez" (1998); phrase debated in ski/snowboard culture over helmets vs style: https://www.outsideonline.com/culture/love-humor/10-outdoor-slang-terms-and-their-unlikely-origins/
+- "Steez" (style + ease) used by Method Man (1995) and sampled in Gang Starr's "You Know My Steez" (1998): https://www.outsideonline.com/culture/love-humor/10-outdoor-slang-terms-and-their-unlikely-origins/
+- "No helmet, no steeze" expresses the view that helmet use is itself stylish: https://www.thegentlemansjournal.com/article/editors-picks-paul-smith-sunglasses-kestin-jacket-salomon-helmet-and-our-place-cookware/
 
 ## 27. Bluebird day (3)
 - Merriam-Webster: first known use 1860, "a day marked by cloudless blue skies"; bluebird native to North America: https://science.howstuffworks.com/nature/climate-weather/atmospheric/bluebird-day.htm
