@@ -521,7 +521,7 @@ text only, because the page itself could not be opened.
 ## 74. Navy Seal Copypasta
 - Originated on 4chan (~2010), possibly the weapons board; "over 300 confirmed kills," "trained in gorilla warfare"; one of the most parodied/remixed copypastas: https://gonzoworld.substack.com/p/a-history-of-copypasta
 
-## 75. Papa Franku (Filthy Frank)
+## 124. Filthy Frank
 - George Miller's channels DizastaMusic then TVFilthyFrank (moved 2014); "The Filthy Frank Show" ran 5 Aug 2011 - 27 Sep 2017; spinoff characters Pink Guy, Salamander Man; Feb 2012 video credited with starting the Harlem Shake trend; retired the character Dec 2017 for health reasons, became musician Joji: https://en.wikipedia.org/wiki/Joji_(musician) ; https://filthyfrank.fandom.com/wiki/The_Filthy_Frank_Show
 
 ## 76. iDubbbz

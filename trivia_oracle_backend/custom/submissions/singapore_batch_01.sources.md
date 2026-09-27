@@ -154,6 +154,7 @@ is given as a range).
 - S$417 million, Mapletree (Temasek subsidiary), soft opening 7 Oct 2006, official opening 1 Dec 2006, ~100,000 sqm NLA, HarbourFront: https://en.wikipedia.org/wiki/VivoCity
 
 ## 36. NUS (3)
+- Medical school origins, 1949 merger, 1962 split, and 1980 formation: https://www.nus.edu.sg/about/founded-by-the-community
 - Medical school opened 28 Sep 1905, renamed King Edward VII Medical School 1913, King Edward VII Medical College 1921: (search-result synthesis of) https://www.nlb.gov.sg/main/article-detail?cmsuuid=a733f1d4-f0e8-47d6-8f1e-dadaaea396d4
 - Raffles College opened 1929, merged with King Edward VII Medical College to form University of Malaya 8 Oct 1949, split to University of Singapore 1 Jan 1962, NUS formed 8 Aug 1980 via merger with Nanyang University: same source
 - NUS Law spent 25 years at Kent Ridge (1981-2006) before returning to Bukit Timah, a former Raffles College site: https://mothership.sg/2024/05/nus-law-relocates-utown-kent-ridge/
@@ -224,7 +225,8 @@ fact** standard as the rest of this file (not CONTRIBUTING.md's normal two-sourc
 - Long-running East-vs-West Singapore rivalry; East cites Changi Airport proximity and hawker food; some restrict "true" East to Kallang-Siglap, excluding/questioning Tampines, Pasir Ris, Bedok: https://onestc.org/2025/08/10/the-rightful-best-side/ ; https://forums.hardwarezone.com.sg/threads/my-friend-said-the-saying-east-side-is-best-side-does-not-apply-to-places-like-tampines-and-pasir-ris-you-agree.7057531/ ; https://www.ricemedia.co/culture-life-east-siders-always-think-side-island-better/
 
 ## 53. CDC voucher (3)
-- Administered by 5 CDCs under the People's Association and MCCY; launched 2020 as targeted lower-income relief, evolved into universal household transfer; split between hawkers/heartland merchants and supermarkets; S$500 (May 2025) + S$300 (Jan 2026) = S$800 total: https://en.wikipedia.org/wiki/Community_Development_Council_Vouchers_Scheme ; https://www.mccy.gov.sg/about-us/news-and-resources/cost-of-the-community-development-council--cdc--vouchers-scheme/
+- Administered by five district councils in the People's Association's network: https://www.pa.gov.sg/our-network/community-development-councils/community-development-councils/
+- Launched in 2020 as targeted lower-income relief, evolved into a universal household transfer; split between hawkers/heartland merchants and supermarkets; S$500 (May 2025) + S$300 (Jan 2026) = S$800 total: https://en.wikipedia.org/wiki/Community_Development_Council_Vouchers_Scheme ; https://www.mccy.gov.sg/about-us/news-and-resources/cost-of-the-community-development-council--cdc--vouchers-scheme/
 
 ## 54. Grab surge pricing (3)
 - Uber introduced surge pricing to Singapore in 2013; 5 taxi companies (incl. Trans-Cab, Premier Taxi) adopted it in 2017; ComfortDelGro (formerly anti-surge campaign) joined 2018: https://loyaltylobby.com/2026/08/03/always-compare-crazy-grab-rideshare-surge-pricing-in-singapore-double-the-taxi-fare/
