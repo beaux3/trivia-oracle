@@ -31,11 +31,9 @@ ADMIN_USERNAME = (_setting("ADMIN_USERNAME") or "").lstrip("@") or None
 
 SCORES_FILE = _setting("SCORES_FILE") or os.path.join(ROOT_DIR, "data", "scores.md")
 
-# Where questions come from: "api" (qbreader.org, the default) or "local"
-# (QUESTIONS_DB, filled by `python -m trivia_questions.local.sync`).
-# Answers are judged by qbreader.org either way until the local checker lands.
-QUESTION_BACKEND = (_setting("QUESTION_BACKEND") or "api").lower()
-QUESTIONS_DB = _setting("QUESTIONS_DB") or os.path.join(ROOT_DIR, "data", "questions.db")
+# Base URL of the question backend service (trivia_oracle_backend). In Docker
+# Compose it is the backend service; run locally, it is `python -m trivia_oracle_backend`.
+BACKEND_URL = _setting("BACKEND_URL") or "http://localhost:8080"
 
 POINTS_PER_CORRECT = 10       # per correct answer; ×hourglasses left with "hourglass" on
 POINTS_PER_WRONG = 1          # "wrong_penalty" mode

@@ -4,12 +4,12 @@ import os
 import tempfile
 import unittest
 
-from trivia_questions import QuestionFilters
-from trivia_questions.api import _VENDOR_DIR  # noqa: F401  (puts vendor/ on sys.path)
-from trivia_questions.local import LocalQuestionSource
-from trivia_questions.local import question_source as local_source
-from trivia_questions.local.db import connect, replace_set, synced_set_names
-from trivia_questions.local.sync import sync_set
+from trivia_oracle_backend import QuestionFilters
+from trivia_oracle_backend.api import _VENDOR_DIR  # noqa: F401  (puts vendor/ on sys.path)
+from trivia_oracle_backend.local import LocalQuestionSource
+from trivia_oracle_backend.local import question_source as local_source
+from trivia_oracle_backend.local.db import connect, replace_set, synced_set_names
+from trivia_oracle_backend.local.sync import sync_set
 
 from qbreader import _api_utils
 from qbreader.types import AlternateSubcategory
@@ -86,7 +86,7 @@ class LocalBackendTest(unittest.TestCase):
 
     def test_missing_database_says_how_to_build_it(self):
         source = LocalQuestionSource(os.path.join(self.tmp.name, "missing.db"))
-        with self.assertRaisesRegex(FileNotFoundError, "questions.local.sync"):
+        with self.assertRaisesRegex(FileNotFoundError, "backend.local.sync"):
             asyncio.run(source.random_tossup(QuestionFilters()))
 
     def test_replace_set_overwrites_and_records_the_set(self):
@@ -99,10 +99,10 @@ class LocalBackendTest(unittest.TestCase):
 
 class AltSubcategoryParentsTest(unittest.TestCase):
     def test_matches_the_vendored_qbreader_client(self):
-        for alt in local_source._ALT_SUBCATEGORY_PARENTS:
+        for alt in local_source.ALT_SUBCATEGORY_PARENTS:
             category, subcategory = _api_utils.category_correspondence(AlternateSubcategory(alt))
             expected = (category and category.value, subcategory and subcategory.value)
-            self.assertEqual(local_source._ALT_SUBCATEGORY_PARENTS[alt], expected, alt)
+            self.assertEqual(local_source.ALT_SUBCATEGORY_PARENTS[alt], expected, alt)
 
 
 class FakeClient:

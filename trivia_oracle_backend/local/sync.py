@@ -1,10 +1,10 @@
 """
 Copy qbreader tossups into the local SQLite database.
 
-    python -m trivia_questions.local.sync                 # every set not synced yet
-    python -m trivia_questions.local.sync --limit 5       # only the next 5 (newest first)
-    python -m trivia_questions.local.sync --sets "2023 ACF Winter" "2024 ACF Fall"
-    python -m trivia_questions.local.sync --refresh       # download synced sets again
+    python -m trivia_oracle_backend.local.sync                 # every set not synced yet
+    python -m trivia_oracle_backend.local.sync --limit 5       # only the next 5 (newest first)
+    python -m trivia_oracle_backend.local.sync --sets "2023 ACF Winter" "2024 ACF Fall"
+    python -m trivia_oracle_backend.local.sync --refresh       # download synced sets again
 
 Crawls /set-list, then /num-packets and /packet?questionTypes=tossups for each
 set. Each set is stored in one transaction and only marked synced once every
@@ -14,18 +14,15 @@ Requests are sequential with a pause between them, far below qbreader's
 """
 import argparse
 import logging
-import os
 import sys
 import time
 
 import requests
 
+from ..config import QUESTIONS_DB
 from .db import connect, replace_set, synced_set_names
 
-# Same default the bot uses: QUESTIONS_DB, else <repo root>/data/questions.db.
-DEFAULT_DB = os.environ.get("QUESTIONS_DB") or os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "questions.db"
-)
+DEFAULT_DB = QUESTIONS_DB
 
 API_URL = "https://www.qbreader.org/api"
 RETRY_STATUSES = {429, 500, 502, 503, 504}

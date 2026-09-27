@@ -1,0 +1,40 @@
+# Bot frontend + question backend, two images built from this repo.
+#
+#   docker compose up -d                          # backend on qbreader.org's API
+#   QUESTION_BACKEND=local docker compose up -d   # backend on ./data/questions.db
+#
+# Build the local database yourself, whenever you like (about an hour, ~300 MB):
+#   docker compose run --rm --no-deps backend python -m trivia_oracle_backend.local.sync
+#
+# The bot reads TELEGRAM_TOKEN and ADMIN_USERNAME from ./secrets.json.
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: trivia_oracle_backend/Dockerfile
+    image: trivia-oracle-backend
+    environment:
+      QUESTION_BACKEND: ${QUESTION_BACKEND:-api}
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  bot:
+    build:
+      context: .
+      dockerfile: trivia_oracle_bot/Dockerfile
+    image: trivia-oracle-bot
+    environment:
+      BACKEND_URL: http://backend:8080
+    volumes:
+      - ./secrets.json:/app/secrets.json:ro
+      - ./data:/app/data
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

@@ -1,5 +1,4 @@
 import logging
-import os
 
 from telegram.ext import (
     CallbackQueryHandler, CommandHandler, ConversationHandler,
@@ -7,7 +6,7 @@ from telegram.ext import (
 )
 
 from ..config import (
-    QUESTION_BACKEND, QUESTIONS_DB, TOKEN,
+    BACKEND_URL, TOKEN,
     SELECT_OPTION, SELECT_TIME_FIELD, INPUT_VALUE,
     SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_ADMIN, SELECT_SCORING,
 )
@@ -55,16 +54,11 @@ def register_handlers(dp) -> None:
 def main() -> None:
     if not TOKEN:
         raise SystemExit("TELEGRAM_TOKEN is not set. Export it or add it to secrets.json (see secrets.example.json).")
-    if QUESTION_BACKEND == "local" and not os.path.exists(QUESTIONS_DB):
-        raise SystemExit(
-            f"QUESTION_BACKEND is local but {QUESTIONS_DB} does not exist. "
-            "Build it with `python -m trivia_questions.local.sync`."
-        )
     updater = Updater(TOKEN)
     register_handlers(updater.dispatcher)
 
     load_scores()
     updater.start_polling(allowed_updates=["message", "callback_query"])
-    logging.info("TriviaOracleBot is running...")
+    logging.info("TriviaOracleBot is running (question backend: %s)", BACKEND_URL)
     updater.idle()
 

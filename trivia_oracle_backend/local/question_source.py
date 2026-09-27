@@ -7,9 +7,9 @@ from .db import connect_readonly
 
 # Parent (category, subcategory) of each alternate subcategory. The qbreader
 # client adds these to a /random-tossup request whenever an alternate
-# subcategory is selected (trivia_questions/vendor/qbreader/_api_utils.py: category_correspondence),
+# subcategory is selected (trivia_oracle_backend/vendor/qbreader/_api_utils.py: category_correspondence),
 # so the local query adds them too.
-_ALT_SUBCATEGORY_PARENTS = {
+ALT_SUBCATEGORY_PARENTS = {
     **dict.fromkeys(
         ["Astronomy", "Computer Science", "Math", "Earth Science", "Engineering", "Misc Science"],
         (None, "Other Science"),
@@ -59,7 +59,7 @@ def build_where(filters: QuestionFilters) -> tuple:
     categories = []
     subcategories = list(filters.subcategories or [])
     for alt in alts:
-        category, subcategory = _ALT_SUBCATEGORY_PARENTS[alt]
+        category, subcategory = ALT_SUBCATEGORY_PARENTS[alt]
         if category:
             categories.append(category)
         if subcategory:
