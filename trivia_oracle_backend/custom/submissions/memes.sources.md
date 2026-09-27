@@ -825,9 +825,10 @@ text only, because the page itself could not be opened.
 - Etymology ("two" + "form"), genre narrowing in the 1990s, modern definition: https://www.dictionary.com/culture/pop-culture/futanari
 - Yamai no Sōshi ("Scroll of Afflictions") scroll origin: https://lgbtqia.wiki/wiki/Futanari
 
-## 197. Hide the Pain Harold
-- Hungarian electrical engineer recruited for Budapest stock photography after a photographer saw his holiday photos on Facebook; hundreds of images, reverse-image search, sad-looking eyes behind a smile: https://www.theguardian.com/lifeandstyle/2019/nov/08/experience-hide-the-pain-harold-face-became-meme-turned-it-into-career
-- His 2017 fan page and later Hungarian car commercial: https://www.theguardian.com/lifeandstyle/2019/nov/08/experience-hide-the-pain-harold-face-became-meme-turned-it-into-career
+## 197. Confused Math Lady
+- October 2013 UKMix reaction GIF and July 2016 9GAG four-still edit with overlaid formulas: https://knowyourmeme.com/memes/confused-math-lady
+- TV Globo's later arithmetic segment with Renata Sorrah, who played a villain in Senhora do Destino: https://gshow.globo.com/tv/noticia/renata-sorrah-tenta-resolver-questoes-matematicas-brincando-com-meme-da-nazare-confusa.ghtml
+- Visual reaction format and documented alternate names: https://knowyourmeme.com/memes/confused-math-lady
 
 ## RE-SKIPPED: black salami
 - Re-checked 2026-09-27 per user request to describe it "unoffensively." Still declined: remains crude sexual slang with no documented cultural/meta history (no Know Your Meme page, no reliable secondary coverage of its origin or spread) to build a factual, non-explicit trivia question around, unlike Two Girls One Cup. Not loaded.
@@ -909,9 +910,9 @@ text only, because the page itself could not be opened.
 ## 218. Speech 100
 - Skyrim skill-tree origin and use for exceptional persuasion: https://digitalcultures.net/memes/speech-100/
 
-## 219. Distracted Boyfriend
-- Antonio Guillem's 2015 stock-photo shoot in Girona, its three-person composition, and an early Phil Collins caption contrasting progressive rock with pop: https://www.theguardian.com/media/2017/aug/30/the-team-that-made-the-distracted-boyfriend-meme-have-split-up
-- The photographer's description of the photo's infidelity scenario and the spread of labeled versions: https://english.elpais.com/elpais/2017/08/28/inenglish/1503927345_659171.html
+## 219. Salt Bae
+- Nusret Gökçe's January 2017 "Ottoman steak" clip, carving and seasoning the meat over his bent forearm: https://knowyourmeme.com/memes/salt-bae
+- His Nusr-Et restaurants, vest and sunglasses, and the copycat videos prompted by his finishing gesture: https://www.eater.com/2017/1/10/14223528/saltbae-meme
 
 ## 220. Crab Rave
 - Noisestorm release, animated crabs, and remix usage: https://knowyourmeme.com/memes/crab-rave
@@ -958,9 +959,9 @@ text only, because the page itself could not be opened.
 ## 234. But That's None of My Business
 - Kermit Sipping Tea image-macro origin and usage: https://knowyourmeme.com/memes/kermit-sipping-tea-but-thats-none-of-my-business
 
-## 235. This Is Fine
-- KC Green's 2013 Gunshow strip "On Fire," its dog seated amid flames, and its later panels: https://gunshowcomic.com/648
-- The cropped two-panel meme and its use as a joke about denial of disaster: https://www.salon.com/2016/08/04/this_is_fine_cartoonist_on_why_its_not_fine_after_all_its_a_response_to_how_weird_and_bad_2016_has_made_me_feel/
+## 235. Crying Jordan
+- Associated Press photographer Stephan Savoia captured the tearful Hall of Fame induction image in Springfield, Massachusetts, in 2009: https://www.si.com/nba/2016/02/05/crying-michael-jordan-meme-original-photographer-viral-social-media
+- An April 2012 Charlotte Bobcats image macro, later pasted-face variants, and its use for sports defeats: https://knowyourmeme.com/memes/crying-michael-jordan
 
 ## 236. Deep Fried Meme
 - Tumblr origin, visual characteristics, and community spread: https://knowyourmeme.com/sensitive/memes/deep-fried-memes
@@ -992,9 +993,10 @@ text only, because the page itself could not be opened.
 ## 245. Nobody:
 - September 2018 Twitter origin, early Spooktober post, J. K. Rowling variants, May 2019 TikTok effect, and caption structure for unprompted behavior: https://knowyourmeme.com/memes/nobody
 
-## 246. Success Kid
-- Laney Griner's 2007 Florida beach photograph of 11-month-old Sam; initial Flickr title, early aggressive captions, and the 2010 shift to a positive image macro: https://knowyourmeme.com/editorials/interviews/laney-griner-mother-of-success-kid-recaps-how-her-photo-became-a-viral-sensation-14-years-later
-- The family's fundraiser for Sam's father's kidney transplant: https://time.com/3823341/success-kid-fundraiser-father-kidney-meme/
+## 246. Blinking White Guy
+- Drew Scanlon's 2013 Giant Bomb Starbound reaction to Jeff Gerstmann's farming joke, the 2015 NeoGAF GIF, and the viral 2017 biology-class tweet: https://knowyourmeme.com/memes/blinking-white-guy
+- Scanlon's account of using the GIF's fame to support Bike MS rides for friends living with multiple sclerosis: https://knowyourmeme.com/editorials/interviews/drew-scanlon-shares-the-legend-of-becoming-blinking-white-guy-and-how-he-used-the-power-of-memes-to-help-others
+- The visual expression and reaction-image use: https://www.theguardian.com/technology/2017/feb/23/meet-the-man-behind-the-white-guy-blinking-meme-drew-scanlon
 
 ## 247. Me and the Boys
 - 2019 snowclone spread and 1967 Spider-Man villain variation: https://knowyourmeme.com/memes/me-and-the-boys
