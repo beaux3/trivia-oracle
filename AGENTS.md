@@ -284,10 +284,12 @@ The first correct answer calls `event.set()` to trigger round-end, but any answe
 received before `current_round["active"]` is flipped to False also gets scored
 and added. `current_round["winner_ids"]` stops the same player scoring twice.
 
-Two things make "received before" hold for answers sent at the same moment:
+Three things make "received before" hold for answers sent at the same moment:
 - `bot/round_handlers.handle_round_answer` is registered with `run_async=True`. PTB v13 otherwise
   handles updates one at a time, so a second answer would wait out the first
-  one's qbreader check and arrive after the round closed.
+  one's answer check and arrive after the round closed.
+- After the first correct answer, the round stays open briefly so queued replies
+  can register even when the local answer judge returns immediately.
 - Each answer registers in `current_round["pending_checks"]` while its check is
   in flight. `_run_round` flips `active` off, then waits on `checks_settled`
   (a Condition on `scores_lock`) until pending checks reach 0, capped at

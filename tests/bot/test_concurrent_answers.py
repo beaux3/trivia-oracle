@@ -138,6 +138,21 @@ class ConcurrentCorrectAnswersTest(unittest.TestCase):
         self.assertIn("Alice", end_text)
         self.assertIn("Bob", end_text)
 
+    def test_fast_first_verdict_still_scores_near_simultaneous_reply(self):
+        alice = User(id=1, first_name="Alice", is_bot=False)
+        bob = User(id=2, first_name="Bob", is_bot=False)
+        with mock.patch.dict(CHECK_LATENCY, {"Paris": 0, "paris": 0}):
+            self._start_round()
+            self.updates.put(_text_update(1, alice, "Paris"))
+            self.assertTrue(rnd.current_round["event"].wait(2), "first answer was not judged")
+            threading.Event().wait(0.05)  # let the round thread reach its close-out path
+            self.updates.put(_text_update(2, bob, "paris"))
+            self._wait_for_round_end()
+
+        self.assertEqual(scores[1]["score"], POINTS_PER_CORRECT)
+        self.assertEqual(scores[2]["score"], POINTS_PER_CORRECT)
+        self.assertIn("Alice & Bob", self._round_end_text())
+
     def test_wrong_answer_does_not_end_round_or_block_correct_one(self):
         alice = User(id=1, first_name="Alice", is_bot=False)
         bob = User(id=2, first_name="Bob", is_bot=False)
