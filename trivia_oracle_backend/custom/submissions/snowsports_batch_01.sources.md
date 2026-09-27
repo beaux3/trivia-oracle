@@ -79,3 +79,54 @@ opened during research, except the two marked "search snippet". Facts that could
 ## 20. Rhythm / Rythm (5)
 - Founded 2005 by Australians Matthew Hampton and Mick Klima, seven stores across Niseko, Hakuba, Furano: https://www.businessnewsaustralia.com/articles/australian-owned-rhythm-japan-acquired-by-leading-north-american-snowsports-retailer.html
 - Acquired by evo in 2022, Hampton became evo's APAC managing director: same source
+
+## 21. Double black diamond (2)
+- Disney's Mineral King research behind the circle/square/diamond system, adopted by NSAA in 1968: https://insidethemagic.net/2020/02/walt-disneys-everlasting-effect-on-ski-resorts-tm1/
+- Circle=soft/green, square=rigid, diamond=serious/black; single vs double diamond meaning: https://www.powder.com/ski-resorts/ski-slope-ratings-explained
+
+## 22. Riding switch / fakie (4)
+- Switch = opposite stance made to look natural; fakie/switch distinction blurred in snowboarding since bindings are fixed: https://www.liveabout.com/how-to-ride-snowboard-fakie-switch-3020467
+- Regular vs goofy footedness: https://www.newschoolers.com/forum/thread/858125/Riding-backwards-on-skis-is-fakie--not-switch
+
+## 23. Tame dog (6)
+- Straight frontflip/sideflip popped from the nose, opposite of the tail-popped "wildcat" backflip, doable on small jumps/rails/rollers: https://www.edshreds.com/how-to-tamedog-on-a-snowboard/
+- Also spelled "tamedog": https://snowboardaddiction.com/blogs/training-education/how-to-tamedog
+
+## 24. Goofy (3)
+- Right-foot-forward stance, opposite of "regular"; name traced to 1950s Disney short of Goofy surfing right-foot-forward: https://www.burton.com/discover/s/article/goofy-vs-regular
+- Applies across skateboarding, snowboarding, surfing; neither stance is "incorrect": https://en.wikipedia.org/wiki/Footedness
+
+## 25. Off-piste (3)
+- Unmarked, unpatrolled, not avalanche-controlled terrain; called "backcountry" in the US: https://trailpedia.org/glossary/off-piste/
+- Best snow often on 30-45 degree slopes, the same steepness most avalanche-prone; guide recommended: https://www.skiworld.co.uk/blog/avalanche-off-piste-skiing/
+
+## 26. No helmet no steez (6)
+- "Steez" (style + ease) used by Method Man (1995) and sampled in Gang Starr's "You Know My Steez" (1998); phrase debated in ski/snowboard culture over helmets vs style: https://www.outsideonline.com/culture/love-humor/10-outdoor-slang-terms-and-their-unlikely-origins/
+
+## 27. Bluebird day (3)
+- Merriam-Webster: first known use 1860, "a day marked by cloudless blue skies"; bluebird native to North America: https://science.howstuffworks.com/nature/climate-weather/atmospheric/bluebird-day.htm
+- Ski/snowboard usage for clear, calm, sunny post-storm powder conditions: https://newtoski.com/bluebird-sky-meaning-for-skiers/
+
+## 28. Cat track (3)
+- "Snowcat" name from 1940s Tucker Sno-Cat Corporation trademark, generic term for tracked grooming machines: https://blog.ansi.org/ansi/snowcats/
+- Cat tracks as connector paths; cats also used to ferry skiers into backcountry for a fee: https://www.theavantski.com/guide-to-ski-and-snowboarding-terms
+
+## 29. Groomer (2)
+- Groomed trail surface = "corduroy," left by a tiller-equipped snowcat packing snow overnight; word also used for the machine itself: https://www.parkcitymountain.com/blog/science-of-grooming.aspx
+- Alternative names (snow groomer, piste machine): https://skicatcompany.com/blog/what-is-a-snow-groomer-called/
+
+## 30. Moguls (2)
+- Word from Bavarian/Austrian German "Mugel" (mound/hillock); form as skiers push snow into mounds via sharp turns: https://en.wikipedia.org/wiki/Mogul_skiing
+- FIS-recognized 1979, Olympic medal event from Albertville 1992: https://www.redbull.com/int-en/mogul-skiing-explained
+
+## 31. Tree well (3)
+- Void of loose snow around a tree trunk where branches block snow accumulation; danger of headfirst falls: https://en.wikipedia.org/wiki/Tree_well
+- NARSID (non-avalanche-related snow immersion death); suffocation in 15-30 min, often from CO2 buildup; concentrated in western North America; ride with a partner: https://pubmed.ncbi.nlm.nih.gov/20832705/
+
+## 32. Intersport (5)
+- Founded 1968 in Bern, Switzerland, alliance of 10 national purchasing centers: https://en.wikipedia.org/wiki/Intersport
+- McKinley private-label brand launched 1984; 5,260+ stores in 40 countries: https://intersport.com/about/our-story/
+
+## 33. Perisher Valley (4)
+- Name legend from stockman's "what a perisher" (attributed to James Spencer); Ngarigo summer grounds; first rope tow 1952 (Sverre Kaaten), first T-bar 1958 (Ken Murray): https://www.perisher.com.au/resort-info/know-perisher/our-history
+- March 1995 merger of Perisher Valley, Smiggin Holes, Mount Blue Cow, Guthega, The Station, Skitube into one resort; largest in Southern Hemisphere: https://en.wikipedia.org/wiki/Perisher_Ski_Resort
