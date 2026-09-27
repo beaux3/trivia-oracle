@@ -104,13 +104,21 @@ Set it with `QUESTION_BACKEND=api docker compose up -d`. The backend also reads 
 
 ### Custom questions
 
-Hand-written questions (see [custom/CONTRIBUTING.md](trivia_oracle_backend/custom/CONTRIBUTING.md)) live in their own
-database, `data/custom_questions.db`, and work in both modes. In `/configure` → **📚 Categories**, tick **Custom** to play them:
+Hand-written questions live in their own database, `data/custom_questions.db`, and work in both modes.
+[custom/CONTRIBUTING.md](trivia_oracle_backend/custom/CONTRIBUTING.md) is the full spec for writing a batch —
+a person or an AI agent can follow it end to end to turn a topic request into a validated, sourced
+submission file, so it's the one link to hand a friend (or their agent) who wants to contribute questions.
 
-- Custom on its own (untick everything else, e.g. with **Deselect All**) plays only custom questions.
-- Custom next to other categories mixes it in: each round has an equal chance of being custom or a regular question,
-  because the custom set is small and would otherwise almost never come up.
-- Custom questions ignore the category and difficulty filters. Every custom question is fair game.
+In `/configure` → **📚 Categories**, below the qbreader categories are **All Custom** plus one toggle per
+custom-only category (currently Snowsports, Singapore, Memes, Japan):
+
+- **All Custom** on its own plays any custom question, any category.
+- Ticking one or more specific custom categories instead of All Custom limits custom draws to just those.
+  Some custom categories exist only under All Custom and have no toggle of their own (currently Anime) —
+  see `CUSTOM_CATEGORIES` in `trivia_oracle_bot/config.py`.
+- Any custom toggle next to qbreader categories mixes it in: each round has an equal chance of being custom
+  or a regular question, because the custom set is small and would otherwise almost never come up.
+- Custom questions always ignore the difficulty filter.
 - A custom round opens with a message of its own, `📝 Custom question` and then `Category: <category>` on the next line, sent just before the first clue.
 - A custom round's end message asks players to rate the question with `/good` or `/bad`. Votes are added to the
   question's `good_votes` / `bad_votes` in `data/custom_questions.db`, and reloading a submission file keeps them.
@@ -196,26 +204,27 @@ Each package has its own `Dockerfile` and `requirements.txt`.
 
 ### Running tests
 
-The tests fake Telegram and qbreader, so they need no token or network. Each image holds only its own code, so
-mount `tests/` and run each side in its own image:
+The tests fake Telegram and qbreader, so they need no token or network. `tests/bot` and `tests/backend`
+each need their own image (different dependencies), and `tests/contract`/`tests/integration` need both
+packages, so historically that meant three separate `docker run` invocations to read through.
 
 ```bash
-docker build -f trivia_oracle_bot/Dockerfile -t trivia-oracle-bot .
-docker build -f trivia_oracle_backend/Dockerfile -t trivia-oracle-backend .
-
-# bot + game
-docker run --rm -v "$PWD/tests:/app/tests:ro" trivia-oracle-bot sh -c \
-  "python -m unittest discover -s tests/bot -t . && python -m unittest discover -s tests/game -t ."
-
-# backend (add -v "$PWD/data:/app/data:ro" to also check every answerline in your database)
-docker run --rm -v "$PWD/tests:/app/tests:ro" trivia-oracle-backend \
-  python -m unittest discover -s tests/backend -t .
-
-# contract + integration (need both packages, so mount the bot's code too)
-docker run --rm -v "$PWD/tests:/app/tests:ro" -v "$PWD/trivia_oracle_bot:/app/trivia_oracle_bot:ro" \
-  trivia-oracle-backend sh -c \
-  "python -m unittest discover -s tests/contract -t . && python -m unittest discover -s tests/integration -t ."
+python3 scripts/run_tests.py
 ```
+
+builds both images, runs all five test directories, and prints one consolidated report: a pass/fail line
+per directory, full tracebacks only for what actually failed, and a ready-to-paste command to rerun just
+the failing test(s) — handy for an agent that doesn't want to scroll a page of dots to find what broke.
+
+```bash
+python3 scripts/run_tests.py backend                                    # one group (bot, backend, integration)
+python3 scripts/run_tests.py tests.backend.test_votes.VotesTest.test_x  # one specific test, by id
+python3 scripts/run_tests.py --no-build                                 # skip the docker build step
+python3 scripts/run_tests.py --with-data backend                        # also check every answerline in data/
+```
+
+Prefer the plain `docker run`/`unittest discover` commands? They still work — see `scripts/run_tests.py`
+for exactly what it wraps per group.
 
 ---
 
@@ -231,6 +240,8 @@ docker run --rm -v "$PWD/tests:/app/tests:ro" -v "$PWD/trivia_oracle_bot:/app/tr
 
 Thanks to everyone who sent a pull request:
 
+- [@Patriarch-Wong](https://github.com/Patriarch-Wong): 20 anime tossups and the custom Anime category ([#9](../../pull/9))
+- [@nigelnnk](https://github.com/nigelnnk): stricter custom question guide ([#6](../../pull/6)), stopped accepting "word forms" as an answer and fixed a quote-closing bug ([#7](../../pull/7))
 - [@beaux3](https://github.com/beaux3): no repeat questions within a chat session ([#5](../../pull/5))
 - [@xianlinc](https://github.com/xianlinc): lenient qbreader spellings and abbreviated game titles ([#4](../../pull/4)), replies to directed answer prompts ([#1](../../pull/1))
 

@@ -532,14 +532,18 @@ Each contains only its own package. The bot mounts `./secrets.json` read-only an
 (scores); the backend mounts `./data` (questions.db) and has no published port, so only the bot can
 reach it on the Compose network. Mount `/app/data`, not `/app`, since mounting over `/app` hides the code.
 
-Run each side's tests inside its own image (tests are not baked in; mount them):
+Run the whole suite (tests are not baked into the images; the script mounts them) with:
 ```bash
-docker run --rm -v "$PWD/tests:/app/tests:ro" trivia-oracle-bot sh -c \
-  "python -m unittest discover -s tests/bot -t . && python -m unittest discover -s tests/game -t ."
-docker run --rm -v "$PWD/tests:/app/tests:ro" trivia-oracle-backend python -m unittest discover -s tests/backend -t .
-docker run --rm -v "$PWD/tests:/app/tests:ro" -v "$PWD/trivia_oracle_bot:/app/trivia_oracle_bot:ro" trivia-oracle-backend sh -c \
-  "python -m unittest discover -s tests/contract -t . && python -m unittest discover -s tests/integration -t ."
+python3 scripts/run_tests.py
 ```
+It builds both images, runs all five test directories each in the right image/mounts, and prints one
+consolidated report — a pass/fail line per directory, full tracebacks only for failures, and a
+ready-to-paste rerun command for just the failing test(s). Use this instead of separate `docker run`
+calls: it's the same coverage in far less output to read. `python3 scripts/run_tests.py backend` runs
+one group; `python3 scripts/run_tests.py tests.backend.test_votes.VotesTest.test_x` reruns one test by
+the id printed in a failure; `--no-build` skips the image build; `--with-data backend` also checks every
+answerline in `data/`. See `scripts/run_tests.py` for the raw `docker run`/`unittest discover` commands
+it wraps per group, if you need to run one by hand.
 
 The old single image `chewterence/trivia-oracle` on Docker Hub predates this split and is not
 updated by it. Publishing the new images is a separate decision for the maintainer.
