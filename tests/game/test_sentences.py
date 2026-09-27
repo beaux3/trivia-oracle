@@ -108,6 +108,58 @@ class SplitSentencesTest(unittest.TestCase):
         text = "The Dr. who wrote this played in the Prof. lounge."
         self.assertEqual(split_sentences(text), [text])
 
+    def test_splits_after_a_sentence_end_inside_quotes_or_brackets(self):
+        for text, expected in (
+            ('He called it "the Rock." Name this island.', ['He called it "the Rock."', "Name this island."]),
+            ("He called it “the Rock.” Name this island.", ["He called it “the Rock.”", "Name this island."]),
+            ("He called it ‘the Rock.’ Name this island.", ["He called it ‘the Rock.’", "Name this island."]),
+            ("It is a gas (like neon.) Name it.", ["It is a gas (like neon.)", "Name it."]),
+            ('He asked "why?" Then he left.', ['He asked "why?"', "Then he left."]),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(split_sentences(text), expected)
+
+    def test_quotes_and_brackets_mid_sentence_are_not_boundaries(self):
+        for text in (
+            'He called it "the Rock" and left.',
+            "The students' union met (in 1968) at noon.",
+            'This poem, "Break of Day." is short.',
+            "This happened in the U.S.) and stopped.",
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(split_sentences(text), [text])
+
+    def test_splits_after_a_single_capital_letter_that_ends_a_sentence(self):
+        for text, expected in (
+            ("It is vitamin C. This vitamin prevents scurvy.", ["It is vitamin C.", "This vitamin prevents scurvy."]),
+            ("He fought in World War I. Name him.", ["He fought in World War I.", "Name him."]),
+            ("They adopted Plan B. It failed.", ["They adopted Plan B.", "It failed."]),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(split_sentences(text), expected)
+
+    def test_initials_before_a_sentence_starter_word_stay_together(self):
+        for text in ("A. A. Milne wrote Winnie-the-Pooh.", "The architect I. M. Pei designed it.",
+                     "It was built c. 1850 by masons."):
+            with self.subTest(text=text):
+                self.assertEqual(split_sentences(text), [text])
+
+    def test_does_not_split_after_month_abbreviations(self):
+        for text in ("It opened on Sept. 11 in Paris.", "It was founded in Jan. 1901 by him.",
+                     "The treaty was signed on Nov. 3, 1903."):
+            with self.subTest(text=text):
+                self.assertEqual(split_sentences(text), [text])
+        self.assertEqual(
+            split_sentences("It was signed in Dec. The war ended."),
+            ["It was signed in Dec.", "The war ended."],
+        )
+
+    def test_a_question_or_exclamation_mark_before_a_lowercase_word_is_not_a_boundary(self):
+        for text in ("The musical Oklahoma! premiered in 1943.",
+                     "This author of Who's Afraid of Virginia Woolf? was born in 1928."):
+            with self.subTest(text=text):
+                self.assertEqual(split_sentences(text), [text])
+
 
 class StartRoundSentencesTest(unittest.TestCase):
     """The real round must use the same splitting."""
