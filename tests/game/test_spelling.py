@@ -6,9 +6,9 @@ from unittest import mock
 
 os.environ.setdefault("TELEGRAM_TOKEN", "test-token")
 
-from trivia_oracle import round as rnd
-from trivia_oracle.scores import scores
-from trivia_oracle.spelling import is_lenient_spelling_match
+from trivia_oracle.game import round as rnd
+from trivia_oracle.game.scores import scores
+from trivia_oracle.game.spelling import is_lenient_spelling_match
 
 
 ANSWERLINE = 'Cú Chulainn [accept "Setanta"]'

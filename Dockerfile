@@ -1,11 +1,11 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY qbreader/ ./qbreader/
+COPY vendor/ ./vendor/
 COPY trivia_oracle/ ./trivia_oracle/
 
 # Scores are written to /app/data/scores.md — mount a volume here to keep them.

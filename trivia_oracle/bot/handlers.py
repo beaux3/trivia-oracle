@@ -5,7 +5,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import Conflict
 from telegram.ext import ConversationHandler
 
-from .config import (
+from ..config import (
     ADMIN_USERNAME, ALL_ARTS, ALL_SCIENCE, CATEGORIES, DEFAULT_SCORING_LABEL, DIFFICULTIES,
     INPUT_VALUE, SCORING_MODE_DESCRIPTIONS, SCORING_MODES, SELECT_ADMIN,
     SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_OPTION, SELECT_SCORING,
@@ -15,8 +15,8 @@ from .keyboards import (
     build_admin_keyboard, build_category_keyboard, build_difficulty_keyboard,
     build_scoring_keyboard,
 )
-from .scores import format_scoreboard, save_scores, scores, scores_lock
-from .settings import settings
+from ..game.scores import format_scoreboard, save_scores, scores, scores_lock
+from ..game.settings import settings
 
 
 # ── /scores ───────────────────────────────────────────────────────────────────

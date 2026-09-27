@@ -3,7 +3,7 @@ secrets.json
 .env
 
 # Runtime data (scores contain players' names and Telegram IDs)
-data/
+/data/
 scores.md
 
 # Python

@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from .config import ALL_ARTS, ALL_SCIENCE, CATEGORIES, DIFFICULTIES, SCORING_MODES
-from .settings import settings
+from ..config import ALL_ARTS, ALL_SCIENCE, CATEGORIES, DIFFICULTIES, SCORING_MODES
+from ..game.settings import settings
 
 
 def build_category_keyboard() -> InlineKeyboardMarkup:

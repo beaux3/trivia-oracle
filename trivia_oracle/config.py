@@ -51,7 +51,7 @@ DEFAULT_SCORING_LABEL = f"Default (+{POINTS_PER_CORRECT} per correct, no penalti
 
 # ── qbreader category/subcategory lists ───────────────────────────────────────
 # All entries are valid qbreader Subcategory or AlternateSubcategory string values.
-# They are split at query time into the correct API parameters (see round.py).
+# They are split at query time into the correct API parameters (see game/round.py).
 
 CATEGORIES = [
     # Literature — Subcategory + AlternateSubcategory
@@ -82,7 +82,7 @@ CATEGORIES = [
 
 # These are valid qbreader AlternateSubcategory values.
 # At query time, selected entries from this set go to alternate_subcategories=;
-# everything else goes to subcategories=. (See round.py: _build_api_filters)
+# everything else goes to subcategories=. (See game/round.py: _build_filters)
 ALL_ALT_SUBCATEGORIES = {
     "Drama", "Long Fiction", "Poetry", "Short Fiction", "Misc Literature",
     "Math", "Astronomy", "Computer Science", "Earth Science", "Engineering", "Misc Science",

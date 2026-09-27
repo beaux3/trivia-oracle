@@ -5,12 +5,11 @@ import threading
 import time
 from typing import Optional
 
-from qbreader.asynchronous import Async
-
-from .config import (
+from ..config import (
     ALL_ALT_SUBCATEGORIES, CATEGORIES, DIFFICULTIES,
     POINTS_PER_CORRECT, POINTS_PER_MEDAL_WRONG, POINTS_PER_WRONG,
 )
+from ..data import QuestionFilters, answer_judge, question_source
 from .scores import format_scoreboard, medalist_ids, save_scores, scores, scores_lock
 from .settings import settings
 from .spelling import is_lenient_spelling_match
@@ -43,37 +42,25 @@ QUESTION_FETCH_TIMEOUT = 15.0  # total seconds across all duplicate draws
 
 # ── Internal helpers ──────────────────────────────────────────────────────────
 
-def _build_api_filters() -> tuple:
+def _build_filters() -> QuestionFilters:
     """
-    Split settings.selected_categories into the two qbreader API parameters.
+    Turn the /configure selections into question filters.
 
-    Returns (subcategories, alt_subcategories) — either can be None (= no filter).
-    When all categories are selected we return (None, None) to avoid sending a
-    redundant filter and to stay within URL-length limits.
+    settings.selected_categories is split across the two qbreader fields
+    (subcategories / alternate_subcategories). A dimension with everything
+    selected becomes None (= no filter), which also keeps qbreader API URLs short.
     """
-    if settings.selected_categories == set(CATEGORIES):
-        return None, None
-
-    subcategories = [c for c in settings.selected_categories if c not in ALL_ALT_SUBCATEGORIES] or None
-    alt_subcategories = [c for c in settings.selected_categories if c in ALL_ALT_SUBCATEGORIES] or None
-    return subcategories, alt_subcategories
+    subcategories = alt_subcategories = difficulties = None
+    if settings.selected_categories != set(CATEGORIES):
+        subcategories = [c for c in settings.selected_categories if c not in ALL_ALT_SUBCATEGORIES] or None
+        alt_subcategories = [c for c in settings.selected_categories if c in ALL_ALT_SUBCATEGORIES] or None
+    if settings.selected_difficulties != set(DIFFICULTIES):
+        difficulties = [DIFFICULTIES[d] for d in settings.selected_difficulties]
+    return QuestionFilters(subcategories, alt_subcategories, difficulties)
 
 
 async def _fetch_tossup():
-    subcategories, alt_subcategories = _build_api_filters()
-    difficulties = (
-        [DIFFICULTIES[d] for d in settings.selected_difficulties]
-        if settings.selected_difficulties != set(DIFFICULTIES)
-        else None
-    )
-    async with await Async.create() as qb:
-        tossups = await qb.random_tossup(
-            number=1,
-            subcategories=subcategories,
-            alternate_subcategories=alt_subcategories,
-            difficulties=difficulties,
-        )
-    return tossups[0]
+    return await question_source.random_tossup(_build_filters())
 
 
 async def _fetch_fresh_tossup(seen: set):
@@ -101,8 +88,7 @@ def _penalty_for_wrong(user_id: int) -> int:
 
 
 async def _check_answer(answerline: str, given: str):
-    async with await Async.create() as qb:
-        return await qb.check_answer(answerline, given)
+    return await answer_judge.check(answerline, given)
 
 
 # ── Round execution ───────────────────────────────────────────────────────────

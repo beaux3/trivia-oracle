@@ -1,7 +1,7 @@
 import os
 import threading
 
-from .config import SCORES_FILE
+from ..config import SCORES_FILE
 
 # Shared score store: { user_id (int): {"name": str, "score": int} }
 scores: dict = {}

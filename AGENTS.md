@@ -27,101 +27,118 @@ are persisted to a Markdown file and printed to the group after every round.
 ```
 trivia_oracle/          The bot package. Run with `python -m trivia_oracle`
                         from the repo root. Modules use relative imports.
-qbreader/               Vendored qbreader API wrapper (MIT, see qbreader/LICENSE).
-                        Must stay at the repo root: it imports itself as `qbreader.*`.
+vendor/qbreader/        Vendored qbreader API wrapper (MIT, see vendor/qbreader/LICENSE).
+                        It imports itself as `qbreader.*`; data/api/__init__.py puts
+                        vendor/ on sys.path before importing it.
+tests/                  Unit tests, mirroring the package (tests/bot, tests/game).
 assets/                 Project images; excluded from the Docker build.
-Dockerfile              python:3.9-slim; installs requirements.txt, copies
-                        qbreader/ and trivia_oracle/, runs `python -m trivia_oracle`.
+Dockerfile              python:3.11-slim; installs requirements.txt, copies
+                        vendor/ and trivia_oracle/, runs `python -m trivia_oracle`.
 requirements.txt        Runtime dependencies (python-telegram-bot pinned to 13.7).
 secrets.example.json    Template for the gitignored secrets.json.
 data/                   Runtime scores (gitignored; Docker volume at /app/data).
+                        Not to be confused with the trivia_oracle/data/ package.
 ```
 
-Inside `trivia_oracle/`:
+Inside `trivia_oracle/` there are three layers. `bot/` is Telegram UI,
+`game/` is rules and state, and `data/` is where questions and answer
+judgements come from:
 
 ```
-__main__.py    Entry point. Registers all handlers with the Telegram dispatcher
-               and starts polling. Nothing else lives here.
+__main__.py        Entry point; just calls bot.app.main().
 
-config.py      Runtime configuration and immutable constants:
-               • TOKEN, ADMIN_USERNAME, SCORES_FILE — read from env vars,
-                 falling back to secrets.json (see "Configuration & secrets")
-               • POINTS_PER_CORRECT, POINTS_PER_WRONG, POINTS_PER_MEDAL_WRONG
-               • SCORING_MODES (key → checkbox label), SCORING_MODE_DESCRIPTIONS,
-                 DEFAULT_SCORING_LABEL (shown when no mode is on)
-               • CATEGORIES list (every selectable category/subcategory label)
-               • ALL_ALT_SUBCATEGORIES, ALL_SCIENCE, ALL_ARTS helper sets
-               • DIFFICULTIES dict (display label → qbreader numeric string)
-               • ConversationHandler state IDs (SELECT_OPTION … SELECT_SCORING)
+config.py          Runtime configuration and immutable constants:
+                   • TOKEN, ADMIN_USERNAME, SCORES_FILE — read from env vars,
+                     falling back to secrets.json (see "Configuration & secrets")
+                   • POINTS_PER_CORRECT, POINTS_PER_WRONG, POINTS_PER_MEDAL_WRONG
+                   • SCORING_MODES (key → checkbox label), SCORING_MODE_DESCRIPTIONS,
+                     DEFAULT_SCORING_LABEL (shown when no mode is on)
+                   • CATEGORIES list (every selectable category/subcategory label)
+                   • ALL_ALT_SUBCATEGORIES, ALL_SCIENCE, ALL_ARTS helper sets
+                   • DIFFICULTIES dict (display label → qbreader numeric string)
+                   • ConversationHandler state IDs (SELECT_OPTION … SELECT_SCORING)
 
-settings.py    Single `settings` object holding mutable runtime state that
-               /configure can change:
-               • sentence_interval (float, seconds between sentences)
-               • answer_wait (float, seconds to wait after last sentence)
-               • selected_categories (set of strings from CATEGORIES)
-               • selected_difficulties (set of display-label strings)
-               • scoring_modes (set of SCORING_MODES keys; empty = default scoring)
+bot/               Telegram UI.
+  app.py           register_handlers() wires every handler into the dispatcher;
+                   main() starts polling.
+  keyboards.py     Pure functions that build and return InlineKeyboardMarkup objects.
+                   Re-called on every render so the checkmarks always reflect current
+                   state. Never mutates anything.
+                   • build_category_keyboard()
+                   • build_difficulty_keyboard()
+                   • build_scoring_keyboard()   — ✅/☐ checkbox row per scoring mode + 💾 Save
+                   • build_admin_keyboard()
+  handlers.py      All Telegram handler functions for /configure and /scores.
+                   Organised by ConversationHandler state with section comments.
+                   • show_scores()
+                   • configure()                  — entry point → SELECT_OPTION
+                   • configure_select_option()    — SELECT_OPTION callbacks
+                   • configure_select_time_field()— SELECT_TIME_FIELD callbacks
+                   • configure_input_value()      — INPUT_VALUE text message
+                   • configure_toggle_category()  — SELECT_CATEGORIES callbacks
+                   • configure_toggle_difficulty()— SELECT_DIFFICULTIES callbacks
+                   • configure_select_scoring()   — SELECT_SCORING callbacks
+                   • configure_admin()            — SELECT_ADMIN callbacks
+                   • error_handler()
 
-scores.py      In-memory score store (dict + threading.Lock) and helpers:
-               • load_scores()     — populate from SCORES_FILE on startup
-               • save_scores()     — write current scores to SCORES_FILE
-               • format_scoreboard() — return a human-readable scoreboard string
-               • medalist_ids()    — user IDs shown with 🥇🥈🥉 (top 3 on the board)
+game/              Game rules and state.
+  settings.py      Single `settings` object holding mutable runtime state that
+                   /configure can change:
+                   • sentence_interval (float, seconds between sentences)
+                   • answer_wait (float, seconds to wait after last sentence)
+                   • selected_categories (set of strings from CATEGORIES)
+                   • selected_difficulties (set of display-label strings)
+                   • scoring_modes (set of SCORING_MODES keys; empty = default scoring)
+  scores.py        In-memory score store (dict + threading.Lock) and helpers:
+                   • load_scores()     — populate from SCORES_FILE on startup
+                   • save_scores()     — write current scores to SCORES_FILE
+                   • format_scoreboard() — return a human-readable scoreboard string
+                   • medalist_ids()    — user IDs shown with 🥇🥈🥉 (top 3 on the board)
+  spelling.py      is_lenient_spelling_match(): local fallback that accepts near-miss
+                   spellings the answer judge rejected.
+  round.py         Round logic. Owns `current_round` state dict and `round_lock`.
+                   start_round and handle_round_answer are still Telegram handlers
+                   (they take update/context and send messages); moving that into
+                   bot/ is a planned follow-up.
+                   • start_round()         — /next handler; fetches question, spawns thread
+                   • handle_round_answer() — MessageHandler; judges free-text answers
+                   • _build_filters()      — settings → data.QuestionFilters
+                   • _fetch_tossup()       — async; data.question_source.random_tossup
+                   • _check_answer()       — async; data.answer_judge.check
+                   • _run_round()          — thread; drives sentence reveals + end message
+                   • _points_for_correct() — points for a correct answer in this round's mode
+                   • _penalty_for_wrong()  — deduction for a wrong answer in this round's mode
 
-round.py       All game logic. Owns `current_round` state dict and `round_lock`.
-               • start_round()         — /next handler; fetches question, spawns thread
-               • handle_round_answer() — MessageHandler; judges free-text answers
-               • _fetch_tossup()       — async; calls qbreader random_tossup
-               • _check_answer()       — async; calls qbreader check_answer
-               • _build_api_filters()  — splits selected_categories into the two
-                                         correct qbreader parameters
-               • _run_round()          — thread; drives sentence reveals + end message
-               • _points_for_correct() — points for a correct answer in this round's mode
-               • _penalty_for_wrong()  — deduction for a wrong answer in this round's mode
-
-keyboards.py   Pure functions that build and return InlineKeyboardMarkup objects.
-               Re-called on every render so the checkmarks always reflect current
-               state. Never mutates anything.
-               • build_category_keyboard()
-               • build_difficulty_keyboard()
-               • build_scoring_keyboard()   — ✅/☐ checkbox row per scoring mode + 💾 Save
-               • build_admin_keyboard()
-
-handlers.py    All Telegram handler functions for /configure and /scores.
-               Organised by ConversationHandler state with section comments.
-               • show_scores()
-               • configure()                  — entry point → SELECT_OPTION
-               • configure_select_option()    — SELECT_OPTION callbacks
-               • configure_select_time_field()— SELECT_TIME_FIELD callbacks
-               • configure_input_value()      — INPUT_VALUE text message
-               • configure_toggle_category()  — SELECT_CATEGORIES callbacks
-               • configure_toggle_difficulty()— SELECT_DIFFICULTIES callbacks
-               • configure_select_scoring()   — SELECT_SCORING callbacks
-               • configure_admin()            — SELECT_ADMIN callbacks
-               • error_handler()
+data/              Question data behind two interfaces (see "Question data backends").
+  __init__.py      Exposes the active `question_source` and `answer_judge`.
+  base.py          QuestionFilters, and the Tossup / Judgement / QuestionSource /
+                   AnswerJudge protocols.
+  api/             qbreader.org backend: QbreaderQuestionSource, QbreaderAnswerJudge.
 ```
 
 ---
 
 ## Import dependency graph
 
-All imports below are relative (`from .config import ...`).
+All imports below are relative (`from ..config import ...`).
 
 ```
 config.py
     ↑
-settings.py          (imports CATEGORIES, DIFFICULTIES from config)
-scores.py            (imports SCORES_FILE from config)
+data/                (base ← api ← __init__; no dependency on game or bot)
+game/settings.py     (imports CATEGORIES, DIFFICULTIES from config)
+game/scores.py       (imports SCORES_FILE from config)
     ↑
-round.py             (imports config, scores, settings)
-keyboards.py         (imports config, settings)
+game/round.py        (imports config, data, scores, settings, spelling)
+bot/keyboards.py     (imports config, game.settings)
     ↑
-handlers.py          (imports config, keyboards, scores, settings)
+bot/handlers.py      (imports config, keyboards, game.scores, game.settings)
     ↑
-__main__.py          (imports config, handlers, round, scores)
+bot/app.py           (imports config, handlers, game.round, game.scores)
 ```
 
-No circular imports. `config.py` depends on nothing local.
+No circular imports. `config.py` depends on nothing local. `data/` must never
+import `game/` or `bot/`, and `game/` must never import `bot/`.
 
 ---
 
@@ -141,7 +158,7 @@ assignment on the settings object and is safe; it does NOT need `global`.
 
 ### Two qbreader filter parameters
 The qbreader API has both `subcategories=` and `alternate_subcategories=`.
-`round._build_api_filters()` splits `settings.selected_categories` across
+`game/round._build_filters()` splits `settings.selected_categories` across
 both. The `ALL_ALT_SUBCATEGORIES` set in `config.py` is the authoritative
 list of which display names map to the `alternate_subcategories=` parameter.
 If all categories are selected the function returns `(None, None)` so no
@@ -171,7 +188,7 @@ is a set of enabled keys; an empty set is default scoring (+`POINTS_PER_CORRECT`
 per correct answer, no penalties). `start_round` snapshots it into
 `current_round["scoring_modes"]` (a frozenset), so toggling mid-round only affects
 the next round. All scoring decisions go through `_points_for_correct()` and
-`_penalty_for_wrong()` in `round.py`.
+`_penalty_for_wrong()` in `game/round.py`.
 
 | Mode key | Effect when on |
 |----------|----------------|
@@ -221,24 +238,24 @@ in `start_round` silently drops a `/next` command if a round is already running.
 ## How to extend the bot
 
 ### Add a new bot command
-1. Write a handler function in `handlers.py` (or `round.py` if it touches game state).
-2. Register it in `__main__.py` with `dp.add_handler(CommandHandler("name", fn))`.
+1. Write a handler function in `bot/handlers.py` (or `game/round.py` if it touches game state).
+2. Register it in `register_handlers()` in `bot/app.py` with `dp.add_handler(CommandHandler("name", fn))`.
 
 ### Add a new /configure setting (scalar value)
-1. Add the attribute to `_Settings` in `settings.py`.
-2. Add a button in `configure()` keyboard in `handlers.py` with a new `callback_data`.
+1. Add the attribute to `_Settings` in `game/settings.py`.
+2. Add a button in `configure()` keyboard in `bot/handlers.py` with a new `callback_data`.
 3. Handle that `callback_data` in `configure_select_option` — either create a new
    state or reuse `INPUT_VALUE` flow (copy the time setting pattern).
 4. Update `"view_settings"` block in `configure_select_option` to display the new value.
 
 ### Add a new admin-only action
-1. Add a button to `build_admin_keyboard()` in `keyboards.py`.
-2. Add an `elif query.data == "your_action":` branch in `configure_admin()` in `handlers.py`.
+1. Add a button to `build_admin_keyboard()` in `bot/keyboards.py`.
+2. Add an `elif query.data == "your_action":` branch in `configure_admin()` in `bot/handlers.py`.
    - For destructive actions, follow the existing "Are you sure?" confirmation pattern.
 
 ### Add a new category group bulk-toggle button (like Science / Arts)
 1. Add a set constant (e.g. `ALL_HISTORY = {...}`) in `config.py`.
-2. Add a suffix emoji for those entries in `build_category_keyboard()` in `keyboards.py`.
+2. Add a suffix emoji for those entries in `build_category_keyboard()` in `bot/keyboards.py`.
 3. Add the toggle row above the existing bulk-toggle rows in `build_category_keyboard()`.
 4. Add an `elif query.data == "cat_toggle_X":` branch in `configure_toggle_category()`.
 
@@ -246,8 +263,9 @@ in `start_round` silently drops a `/next` command if a round is already running.
 - **Subcategory values** (qbreader `Subcategory` enum): add to `CATEGORIES` only.
 - **AlternateSubcategory values** (qbreader `AlternateSubcategory` enum): add to
   both `CATEGORIES` and `ALL_ALT_SUBCATEGORIES` in `config.py`.
-- Check the qbreader enums with:
+- Check the qbreader enums with (vendor/ must be on the path):
   ```python
+  import trivia_oracle.data.api  # puts vendor/ on sys.path
   from qbreader.types import Subcategory, AlternateSubcategory
   list(Subcategory)
   list(AlternateSubcategory)
@@ -255,11 +273,30 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ---
 
+## Question data backends
+
+`game/round.py` gets questions and judgements only through `trivia_oracle.data`:
+
+- `data.question_source.random_tossup(filters)` → a Tossup (`question_sanitized`,
+  `answer` with HTML, `answer_sanitized`)
+- `data.answer_judge.check(answerline, given)` → a Judgement (`directive`,
+  `directed_prompt`)
+
+Both are async and defined as Protocols in `data/base.py`. The active backend
+is chosen in `data/__init__.py` and is currently qbreader.org (`data/api/`).
+To add a backend (e.g. local SQLite), create `data/<name>/` with classes that
+match those protocols and switch the two assignments in `data/__init__.py`.
+The tests patch `round._fetch_tossup` / `round._check_answer`, so they are
+backend-independent.
+
+---
+
 ## qbreader API notes
 
-- Library: local `qbreader/` folder (vendored, not pip-installed).
+- Library: local `vendor/qbreader/` folder (vendored, not pip-installed).
+  Only `trivia_oracle/data/api/` imports it.
   Copied from qbreader/python-module v1.0.1 with one patch: `AlternateSubcategory.MUSICALS`
-  added to the Other Fine Arts mapping in `_api_utils.py`. Keep `qbreader/LICENSE` with it.
+  added to the Other Fine Arts mapping in `_api_utils.py`. Keep `vendor/qbreader/LICENSE` with it.
 - Entry point: `qbreader.asynchronous.Async` (async context manager).
 - Key methods used:
   - `qb.random_tossup(number, subcategories, alternate_subcategories, difficulties)`
@@ -300,7 +337,7 @@ docker run --rm \
   trivia-oracle
 ```
 
-The image contains only `qbreader/` and `trivia_oracle/`. Scores go to
+The image contains only `vendor/` and `trivia_oracle/`. Scores go to
 `/app/data/scores.md`; mount a volume on `/app/data` to keep them. Mount
 `/app/data`, not `/app` — mounting over `/app` hides the code.
 

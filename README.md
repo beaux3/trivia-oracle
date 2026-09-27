@@ -114,7 +114,7 @@ Use `trivia-oracle` in place of `chewterence/trivia-oracle` in the run commands 
 
 ### 3b. Run with Python
 
-Requires Python 3.9+ (python-telegram-bot 13.x doesn't support 3.13+).
+Requires Python 3.9–3.11 (python-telegram-bot 13.x breaks on 3.12+). The Docker image uses 3.11.
 
 ```bash
 pip install -r requirements.txt
@@ -137,8 +137,12 @@ The tests fake Telegram and qbreader, so they need no token or network access.
 
 ```
 trivia_oracle/        The bot (run with `python -m trivia_oracle`)
-qbreader/             Vendored copy of the qbreader Python API wrapper (MIT)
-tests/                Unit tests (python -m unittest discover tests)
+  bot/                Telegram UI: handler registration, /configure menus, keyboards
+  game/               Rounds, scoring, settings, lenient spelling
+  data/               Question source + answer judge interfaces and backends
+    api/              qbreader.org backend
+vendor/qbreader/      Vendored copy of the qbreader Python API wrapper (MIT)
+tests/                Unit tests, mirroring the package (python -m unittest discover tests)
 assets/               Project images
 Dockerfile            Container build
 requirements.txt      Python dependencies
@@ -151,6 +155,6 @@ AGENTS.md             Architecture notes for contributors and AI coding agents
 ## Credits
 
 - Questions and answer judging: [qbreader](https://www.qbreader.org) — please be gentle with their API.
-- `qbreader/` is vendored from [qbreader/python-module](https://github.com/qbreader/python-module)
-  (MIT License, © 2022 QBreader — see [qbreader/LICENSE](qbreader/LICENSE)), with one small patch: `Musicals` is mapped to Other Fine Arts in `_api_utils.py`.
+- `vendor/qbreader/` is vendored from [qbreader/python-module](https://github.com/qbreader/python-module)
+  (MIT License, © 2022 QBreader — see [vendor/qbreader/LICENSE](vendor/qbreader/LICENSE)), with one small patch: `Musicals` is mapped to Other Fine Arts in `_api_utils.py`.
 - Built on [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot) v13.
