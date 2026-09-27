@@ -36,6 +36,7 @@ class Tossup:
 class Judgement:
     directive: str                   # "accept" | "reject" | "prompt"
     directed_prompt: Optional[str]   # set only for directed prompts
+    final: bool = False              # the backend's verdict is exact; do not apply extra leniency to a reject
 
 
 class BackendClient:

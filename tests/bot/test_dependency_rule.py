@@ -26,6 +26,24 @@ class DependencyRuleTest(unittest.TestCase):
                             offenders.append(f"{os.path.relpath(path, PACKAGE_DIR)}: {module}")
         self.assertEqual(offenders, [])
 
+    def test_trivia_oracle_bot_never_talks_to_qbreader(self):
+        """The bot's only data source is BACKEND_URL: no qbreader import, and no qbreader address in the code."""
+        offenders = []
+        for folder, dirs, files in os.walk(PACKAGE_DIR):
+            dirs[:] = [d for d in dirs if d != "__pycache__"]
+            for name in files:
+                if not name.endswith(".py"):
+                    continue
+                path = os.path.join(folder, name)
+                for node in ast.walk(ast.parse(open(path).read())):
+                    if isinstance(node, ast.Import):
+                        offenders += [f"{name}: import {a.name}" for a in node.names if "qbreader" in a.name.lower()]
+                    elif isinstance(node, ast.ImportFrom) and "qbreader" in (node.module or "").lower():
+                        offenders.append(f"{name}: from {node.module}")
+                    elif isinstance(node, ast.Constant) and isinstance(node.value, str) and "qbreader.org" in node.value.lower():
+                        offenders.append(f"{name}: {node.value[:60]}")
+        self.assertEqual(offenders, [])
+
 
 if __name__ == "__main__":
     unittest.main()

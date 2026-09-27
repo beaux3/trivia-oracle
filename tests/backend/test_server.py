@@ -67,6 +67,6 @@ class ServerTest(AioHTTPTestCase):
 
     async def test_check_answer(self):
         response = await self.client.post("/check-answer", json={"answerline": "<b>a</b>", "given": "a"})
-        self.assertEqual(await response.json(), {"directive": "accept", "directed_prompt": None})
+        self.assertEqual(await response.json(), {"directive": "accept", "directed_prompt": None, "final": False})
         response = await self.client.post("/check-answer", json={"answerline": "<b>a</b>", "given": "boom"})
         self.assertEqual(response.status, 502)

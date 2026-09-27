@@ -81,13 +81,13 @@ class BackendHttpTest(unittest.IsolatedAsyncioTestCase):
 
     async def test_check_answer_relays_the_judges_verdict(self):
         status, body = await self.post("/check-answer", json={"answerline": "<b><u>mitosis</u></b>", "given": "Mitosis"})
-        self.assertEqual((status, body), (200, {"directive": "accept", "directed_prompt": None}))
+        self.assertEqual((status, body), (200, {"directive": "accept", "directed_prompt": None, "final": False}))
 
         status, body = await self.post("/check-answer", json={"answerline": "<u>mitosis</u>", "given": "more specific"})
-        self.assertEqual((status, body), (200, {"directive": "prompt", "directed_prompt": "the full name"}))
+        self.assertEqual((status, body), (200, {"directive": "prompt", "directed_prompt": "the full name", "final": False}))
 
         status, body = await self.post("/check-answer", json={"answerline": "<u>mitosis</u>", "given": "meiosis"})
-        self.assertEqual((status, body), (200, {"directive": "reject", "directed_prompt": None}))
+        self.assertEqual((status, body), (200, {"directive": "reject", "directed_prompt": None, "final": False}))
 
     async def test_check_answer_rejects_non_string_fields(self):
         for payload in ({}, {"answerline": "a"}, {"answerline": 1, "given": "a"}, {"answerline": "a", "given": None}):
@@ -109,6 +109,33 @@ class BackendHttpTest(unittest.IsolatedAsyncioTestCase):
 
 class BackendStartupTest(unittest.TestCase):
     """__main__.main() must refuse to start on bad configuration instead of serving errors."""
+
+    def served_with(self, backend, db_path):
+        """The (source, judge) that main() hands to the service for this QUESTION_BACKEND."""
+        with mock.patch.object(backend_main, "QUESTION_BACKEND", backend), \
+                mock.patch.object(backend_main, "QUESTIONS_DB", db_path), \
+                mock.patch.object(backend_main, "build_app") as build_app, \
+                mock.patch.object(backend_main.web, "run_app"):
+            backend_main.main()
+        source, judge, name = build_app.call_args.args
+        self.assertEqual(name, backend)
+        return source, judge
+
+    def test_local_mode_judges_answers_itself_and_api_mode_asks_qbreader(self):
+        from trivia_oracle_backend import LocalAnswerJudge, LocalQuestionSource, QbreaderAnswerJudge, QbreaderQuestionSource
+        from trivia_oracle_backend.local.db import connect
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = os.path.join(tmp, "questions.db")
+            connect(db_path).close()
+            source, judge = self.served_with("local", db_path)
+            self.assertIsInstance(source, LocalQuestionSource)
+            self.assertIsInstance(judge, LocalAnswerJudge)
+            self.assertNotIsInstance(judge, QbreaderAnswerJudge)
+
+            source, judge = self.served_with("api", db_path)
+            self.assertIsInstance(source, QbreaderQuestionSource)
+            self.assertIsInstance(judge, QbreaderAnswerJudge)
 
     def test_local_mode_without_a_database_says_how_to_build_one(self):
         with tempfile.TemporaryDirectory() as tmp, \

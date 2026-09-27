@@ -1,7 +1,6 @@
 import asyncio
 import enum
 import logging
-import re
 import threading
 import time
 from typing import Callable, Optional
@@ -12,6 +11,7 @@ from ..config import (
 )
 from ..questions import QuestionFilters, answer_judge, question_source
 from .scores import format_scoreboard, medalist_ids, save_scores, scores, scores_lock
+from .sentences import split_sentences
 from .settings import settings
 from .spelling import is_lenient_spelling_match
 
@@ -28,14 +28,14 @@ current_round: dict = {
     "hourglasses": 0,    # ⏳ count on the latest clue message (hourglass scoring)
     "scoring_modes": frozenset(),  # snapshot of settings.scoring_modes at round start
     "medalists": set(),  # user IDs holding 🥇🥈🥉 at round start (medal_penalty scoring)
-    "pending_checks": 0, # answers sent while active whose qbreader check hasn't returned yet
+    "pending_checks": 0, # answers sent while active whose backend check hasn't returned yet
     "event": threading.Event(),
 }
 round_lock = threading.Lock()  # held for the duration of a round; prevents overlapping rounds
 # Signalled whenever pending_checks drops, so the round can close once every
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
-PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if qbreader hangs
+PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if the backend hangs
 SESSION_TIMEOUT = 30 * 60  # seconds since the last successful /next
 QUESTION_FETCH_ATTEMPTS = 5
 QUESTION_FETCH_TIMEOUT = 15.0  # total seconds across all duplicate draws
@@ -47,9 +47,9 @@ def _build_filters() -> QuestionFilters:
     """
     Turn the /configure selections into question filters.
 
-    settings.selected_categories is split across the two qbreader fields
+    settings.selected_categories is split across the two backend filter fields
     (subcategories / alternate_subcategories). A dimension with everything
-    selected becomes None (= no filter), which also keeps qbreader API URLs short.
+    selected becomes None (= no filter), which also keeps requests small.
     """
     subcategories = alt_subcategories = difficulties = None
     if settings.selected_categories != set(CATEGORIES):
@@ -197,6 +197,7 @@ def _judge_answer(user_id: int, name: str, given: str) -> Optional[str]:
 
     if judgement.directive == "accept" or (
         judgement.directive == "reject"
+        and not getattr(judgement, "final", False)
         and is_lenient_spelling_match(current_round["answerline"], given)
     ):
         with scores_lock:
@@ -254,7 +255,7 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
         if tossup is None:
             return StartResult.NO_FRESH_QUESTION
 
-        sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', tossup.question_sanitized) if s.strip()]
+        sentences = split_sentences(tossup.question_sanitized)
         with scores_lock:
             medalists = medalist_ids()
         current_round.update({

@@ -25,8 +25,12 @@ from trivia_oracle_backend.server import build_app
 
 
 def tossup(id, category="Science", subcategory="Biology", alt=None, difficulty=8,
-           question=None, answer=None, set_name="Test Set", packet=1):
-    """A qbreader-shaped tossup object, as sync.py stores them."""
+           question=None, answer=None, set_name="Test Set", packet=1, answerline=None):
+    """
+    A qbreader-shaped tossup object, as sync.py stores them.
+
+    `answerline` is the answer as HTML, directives and all; by default the answer is just underlined.
+    """
     answer = answer or id
     return {
         "_id": id,
@@ -39,8 +43,8 @@ def tossup(id, category="Science", subcategory="Biology", alt=None, difficulty=8
         "difficulty": difficulty,
         "question": question or f"First clue for {id}. Second clue for {id}.",
         "question_sanitized": question or f"First clue for {id}. Second clue for {id}.",
-        "answer": f"<b><u>{answer}</u></b>",
-        "answer_sanitized": answer,
+        "answer": answerline or f"<b><u>{answer}</u></b>",
+        "answer_sanitized": re.sub(r"<[^>]+>", "", answerline) if answerline else answer,
         "updatedAt": "2024-01-01T00:00:00.000Z",
     }
 

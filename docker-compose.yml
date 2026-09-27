@@ -1,7 +1,7 @@
 # Bot frontend + question backend, two images built from this repo.
 #
-#   docker compose up -d                          # backend on qbreader.org's API
-#   QUESTION_BACKEND=local docker compose up -d   # backend on ./data/questions.db
+#   docker compose up -d                        # backend on ./data/questions.db, no network calls
+#   QUESTION_BACKEND=api docker compose up -d   # backend on qbreader.org's API instead
 #
 # Build the local database yourself, whenever you like (about an hour, ~300 MB):
 #   docker compose run --rm --no-deps backend python -m trivia_oracle_backend.local.sync
@@ -14,7 +14,7 @@ services:
       dockerfile: trivia_oracle_backend/Dockerfile
     image: trivia-oracle-backend
     environment:
-      QUESTION_BACKEND: ${QUESTION_BACKEND:-api}
+      QUESTION_BACKEND: ${QUESTION_BACKEND:-local}
     volumes:
       - ./data:/app/data
     healthcheck:

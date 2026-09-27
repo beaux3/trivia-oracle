@@ -85,6 +85,30 @@ class LenientSpellingTest(unittest.TestCase):
         self.assertTrue(rnd.current_round["event"].is_set())
         scores.clear()
 
+    def test_round_keeps_a_final_reject_from_the_backend(self):
+        scores.clear()
+        scores[1] = {"name": "Alice", "score": 0}
+        rnd.current_round.update(
+            answerline=ANSWERLINE,
+            winners=[],
+            winner_ids=set(),
+            scoring_modes=frozenset(),
+            hourglasses=1,
+            event=threading.Event(),
+            penalties={},
+            medalists=set(),
+        )
+
+        async def final_reject(_answerline, _given):
+            return SimpleNamespace(directive="reject", directed_prompt=None, final=True)
+
+        with mock.patch.object(rnd, "_check_answer", final_reject), mock.patch.object(rnd, "save_scores"):
+            rnd._judge_answer(1, "Alice", "Cu chulain")
+
+        self.assertEqual(scores[1]["score"], 0)
+        self.assertFalse(rnd.current_round["event"].is_set())
+        scores.clear()
+
 
 if __name__ == "__main__":
     unittest.main()

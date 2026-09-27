@@ -45,7 +45,7 @@ def register_handlers(dp) -> None:
         fallbacks=[],
     ))
     # run_async: the dispatcher otherwise handles updates one at a time, so a
-    # second simultaneous answer would wait out the first one's qbreader check
+    # second simultaneous answer would wait out the first one's backend check
     # and arrive after the round had already closed.
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_round_answer, run_async=True))
     dp.add_error_handler(error_handler)

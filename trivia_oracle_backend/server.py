@@ -5,7 +5,9 @@ HTTP service in front of a question backend. The Telegram bot is its client.
   POST /random-tossup  {subcategories, alternate_subcategories, difficulties}
                        -> {question_sanitized, answer, answer_sanitized}
                           404 if nothing matches, 502 if the backend fails
-  POST /check-answer   {answerline, given} -> {directive, directed_prompt}
+  POST /check-answer   {answerline, given} -> {directive, directed_prompt, final}
+                       final is true when the verdict is exact (the local judge), so the
+                       bot does not apply its own lenient spelling pass to a reject
 
 Filter fields are lists of strings or null. This wire format is the only
 contract with the bot; the two never import each other.
@@ -75,6 +77,7 @@ def build_app(question_source: QuestionSource, answer_judge: AnswerJudge, backen
         return web.json_response({
             "directive": str(judgement.directive),
             "directed_prompt": judgement.directed_prompt,
+            "final": bool(getattr(judgement, "final", False)),
         })
 
     app = web.Application()

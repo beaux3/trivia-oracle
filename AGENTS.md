@@ -40,7 +40,8 @@ tests/                  tests/bot, tests/game (bot image), tests/backend (backen
                         tests/contract and tests/integration (need both packages; run from the
                         repo root, or in the backend image with trivia_oracle_bot mounted).
                         integration = real backend service + SQLite + bot client + game rounds,
-                        with only the qbreader answer judge scripted (tests/integration/support.py).
+                        with the qbreader answer judge scripted (tests/integration/support.py), except
+                        test_local_answer_checking.py, which uses the real local judge.
 assets/                 Project images; excluded from the Docker builds.
 secrets.example.json    Template for the gitignored secrets.json.
 data/                   Runtime files, never code (gitignored; mounted at /app/data in both
@@ -113,7 +114,9 @@ game/              Game rules and state.
                    • format_scoreboard() — return a human-readable scoreboard string
                    • medalist_ids()    — user IDs shown with 🥇🥈🥉 (top 3 on the board)
   spelling.py      is_lenient_spelling_match(): local fallback that accepts near-miss
-                   spellings the answer judge rejected.
+                   spellings the answer judge rejected, unless the judge marked its verdict `final` (local mode).
+  sentences.py     split_sentences(): breaks a tossup into the clues revealed one at a time,
+                   without splitting inside abbreviations like "St. Louis" or "U.S.".
   round.py         Round logic. Owns `current_round` state dict and `round_lock`.
                    Knows nothing about Telegram: chat output goes through an
                    `announce(text)` callback and prompts through `on_prompt(text)`.
@@ -136,7 +139,7 @@ questions.py      (in trivia_oracle_bot/) HTTP client for the backend (aiohttp).
 trivia_oracle_backend/  Question data behind two interfaces (see "Question data backend").
   __init__.py      Re-exports the interfaces and both sources; reads no config.
   __main__.py      Picks the source from QUESTION_BACKEND and runs the HTTP service.
-  config.py        QUESTION_BACKEND, QUESTIONS_DB, HOST, PORT (env vars only).
+  config.py        QUESTION_BACKEND, QUESTIONS_DB, CUSTOM_QUESTIONS_DB, HOST, PORT (env vars only).
   server.py        aiohttp app: GET /health, POST /random-tossup, POST /check-answer.
   base.py          QuestionFilters, and the Tossup / Judgement / QuestionSource /
                    AnswerJudge protocols.
@@ -147,6 +150,18 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
     question_source.py  LocalQuestionSource; build_where() turns QuestionFilters into SQL.
     sync.py        CLI that copies qbreader into the database
                    (`python -m trivia_oracle_backend.local.sync`).
+    answer_judge.py  LocalAnswerJudge / judge(): rejected → accepted → prompt → reject, in that
+                   order. Never touches the network.
+    answerline.py  parse_answerline(): answerline HTML → Answerline (accepted phrases, prompts with an
+                   optional "by asking" text, rejected phrases, word_forms flag). Cached.
+    matching.py    fold_char, Phrase (words + which are underlined), words_match / strings_match
+                   (typo rules), Roman numerals, edit distance.
+  custom/          Hand-written questions, same schema as the local database:
+    CONTRIBUTING.md  Instructions for an LLM (or person) writing questions. Keep it in step with add.py.
+    submissions/   One .jsonl file per set: the source of truth (committable, unlike the .db).
+    add.py         `python -m trivia_oracle_backend.custom.add [--check] [files]`: validates
+                   submissions and loads each into data/custom_questions.db via local/db.replace_set. That database adds
+                   good_votes / bad_votes columns to tossups (player feedback; kept across reloads).
 ```
 
 ---
@@ -173,6 +188,7 @@ share the JSON wire format.
 | Local DB schema | `trivia_oracle_backend/local/schema.sql`, `db.py` | `tests/backend`, `tests/integration/test_sync_pipeline.py` |
 | What the sync downloads | `trivia_oracle_backend/local/sync.py` | `tests/integration/test_sync_pipeline.py` |
 | Calling qbreader (API mode, answer judge) | `trivia_oracle_backend/api/qbreader_api.py` | `tests/backend` |
+| How local mode judges answers (required words, typo limits, directives) | `trivia_oracle_backend/local/matching.py`, `answerline.py`, `answer_judge.py` | `tests/backend/test_local_answer_judge.py` (behaviour table), `test_answer_matching.py`, `test_answerline_parser.py`, `test_answer_corpus.py` (mount `data/`) |
 | Choosing between api and local | `trivia_oracle_backend/__main__.py`, `config.py` | `BackendStartupTest` |
 | New environment variable | that package's `config.py` | the Configuration tables below, README, `docker-compose.yml`, `secrets.example.json` if the bot reads it |
 | Container setup | the package's `Dockerfile`, `docker-compose.yml` | `.dockerignore` |
@@ -183,7 +199,11 @@ never put game rules in `bot/` or Telegram code in `game/`.
 
 ## Known limitations
 
-- Answer checking always calls qbreader.org, even with `QUESTION_BACKEND=local`.
+- Local answer checking (`local/answer_judge.py`) works from the answerline's structure. Free-text
+  instructions ("accept equivalents", "accept any Coalition War") are not understood, typo tolerance
+  cannot tell near neighbours apart (Iceland/Ireland), and `A / B` alternatives in the main answer are
+  one long phrase. Local verdicts are `final`, so the bot's `game/spelling.py` never overturns them;
+  in `api` mode that pass still runs after a qbreader reject. `api` mode still judges with qbreader.org.
 - The local DB only holds the synced sets, but the bot defaults to HS Easy and HS Regular
   (`game/settings.py`). With a college-only DB, `/next` answers "Failed to fetch a question".
 - Local mode ANDs the subcategory and alternate-subcategory fields, so a mixed selection such as
@@ -204,7 +224,7 @@ questions.py        (imports config; aiohttp)
 game/settings.py     (imports CATEGORIES, DIFFICULTIES from config)
 game/scores.py       (imports SCORES_FILE from config)
     ↑
-game/round.py        (imports config, questions, scores, settings, spelling)
+game/round.py        (imports config, questions, scores, sentences, settings, spelling)
 bot/keyboards.py     (imports config, game.settings)
     ↑
 bot/handlers.py      (imports config, keyboards, game.scores, game.settings)
@@ -371,8 +391,8 @@ tossup fields; 404 when nothing matches, 502 when the source fails, 400 for a ba
 
 | `QUESTION_BACKEND` | Questions from | Answers judged by |
 |--------------------|----------------|-------------------|
-| `api` (default) | qbreader.org `/random-tossup` | qbreader.org `/check-answer` |
-| `local` | `QUESTIONS_DB` (SQLite) | qbreader.org `/check-answer` (local judge not written yet) |
+| `local` (default) | `QUESTIONS_DB` (SQLite) | `local/answer_judge.LocalAnswerJudge`, in-process; no network, no fallback |
+| `api` | qbreader.org `/random-tossup` | qbreader.org `/check-answer` |
 
 The bot tests patch `round._fetch_tossup` / `round._check_answer`, so they are backend-independent;
 `tests/bot/test_backend_client.py` covers the client against a stand-in server, and
@@ -428,8 +448,9 @@ The backend has its own settings, read from environment variables only (`trivia_
 
 | Name | Default | Notes |
 |------|---------|-------|
-| `QUESTION_BACKEND` | `api` | `api` or `local`. With `local`, the backend refuses to start if `QUESTIONS_DB` is missing. |
+| `QUESTION_BACKEND` | `local` | `local` or `api`. With `local`, the backend refuses to start if `QUESTIONS_DB` is missing. |
 | `QUESTIONS_DB` | `<repo>/data/questions.db` | Written by the sync script, opened read-only per request by the service. |
+| `CUSTOM_QUESTIONS_DB` | `<repo>/data/custom_questions.db` | Written by `custom/add.py`; not read by the service yet. |
 | `HOST`, `PORT` | `0.0.0.0`, `8080` | Where the service listens. Compose does not publish it. |
 
 `secrets.example.json` shows the format. To add a new setting, read it in
@@ -446,10 +467,13 @@ into an image. The backend container gets no secrets.
 ## Docker
 
 ```bash
-docker compose up -d                          # backend on the qbreader API
-QUESTION_BACKEND=local docker compose up -d   # backend on ./data/questions.db
+docker compose up -d                        # backend on ./data/questions.db
+QUESTION_BACKEND=api docker compose up -d   # backend on the qbreader API instead
 docker compose run --rm --no-deps backend python -m trivia_oracle_backend.local.sync   # run by hand
 ```
+
+Watch the console with `docker compose logs -f --tail 50 bot` (or `docker logs -f --tail 50 trivia-oracle-bot-1`).
+The bot logs each round's correct answer as `Answer: ...` (`game/round.py`); it does not log players' guesses or verdicts.
 
 Two images, `trivia-oracle-bot` and `trivia-oracle-backend`, built from the repo root with
 `docker build -f trivia_oracle_bot/Dockerfile .` and `docker build -f trivia_oracle_backend/Dockerfile .`.
