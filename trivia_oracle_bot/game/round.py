@@ -87,10 +87,17 @@ async def _fetch_tossup():
     return await question_source.random_tossup(_build_filters())
 
 
+def _session_keys(tossup):
+    yield tossup.question_sanitized
+    if getattr(tossup, "custom", False):
+        primary_answer = tossup.answer_sanitized.partition("[")[0]
+        yield ("custom_answer", "".join(c for c in primary_answer.casefold() if c.isalnum()))
+
+
 async def _fetch_fresh_tossup(seen: set):
     for _ in range(QUESTION_FETCH_ATTEMPTS):
         tossup = await _fetch_tossup()
-        if tossup.question_sanitized not in seen:
+        if not any(key in seen for key in _session_keys(tossup)):
             return tossup
     return None
 
@@ -354,7 +361,7 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
 
         threading.Thread(target=_run_round, args=(announce, end_hint), daemon=True).start()
         handed_off = True
-        seen.add(tossup.question_sanitized)
+        seen.update(_session_keys(tossup))
         session["seen_tossups"] = seen
         session["last_next"] = now
         return StartResult.STARTED
