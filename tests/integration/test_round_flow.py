@@ -1,0 +1,298 @@
+"""
+Whole-game flow: game.round and the bot's HTTP client, against the real backend
+service reading a real SQLite database. Only the qbreader answer judge is scripted.
+"""
+import asyncio
+import os
+import tempfile
+import unittest
+from types import SimpleNamespace
+from unittest import mock
+
+from tests.integration.support import LocalStack, tossup, wait_until
+
+from trivia_oracle_bot.bot import round_handlers
+from trivia_oracle_bot.game import round as rnd
+from trivia_oracle_bot.game import scores as score_store
+from trivia_oracle_bot.game.round import StartResult
+from trivia_oracle_bot.game.settings import settings
+from trivia_oracle_bot.questions import BackendAnswerJudge, BackendQuestionSource
+
+COLLEGE_8 = "College ⭐⭐⭐ (8)"
+COLLEGE_7 = "College ⭐⭐ (7)"
+
+
+class GameIntegrationTest(unittest.TestCase):
+    TOSSUPS = [tossup("mitosis", difficulty=8)]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.stack = LocalStack(cls.TOSSUPS)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.stack.close()
+
+    def setUp(self):
+        self._saved_settings = dict(vars(settings))
+        settings.selected_difficulties = {COLLEGE_8}
+        settings.sentence_interval = 0.3
+        settings.answer_wait = 0.5
+
+        self._tmp = tempfile.TemporaryDirectory()
+        patches = [
+            mock.patch.object(rnd, "question_source", BackendQuestionSource(self.stack.url)),
+            mock.patch.object(rnd, "answer_judge", BackendAnswerJudge(self.stack.url)),
+            mock.patch.object(score_store, "SCORES_FILE", os.path.join(self._tmp.name, "scores.md")),
+        ]
+        for p in patches:
+            p.start()
+            self.addCleanup(p.stop)
+        score_store.scores.clear()
+        self.stack.judge.calls.clear()
+
+        self.messages = []
+        self.session = {}
+
+    def tearDown(self):
+        wait_until(lambda: not rnd.round_lock.locked())
+        vars(settings).clear()
+        vars(settings).update(self._saved_settings)
+        score_store.scores.clear()
+        self._tmp.cleanup()
+
+    def start(self, session=None):
+        return rnd.start_round(self.messages.append, "\n\nNext: /next", session if session is not None else self.session)
+
+    def finish_round(self):
+        self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
+
+    def texts(self):
+        return "\n".join(self.messages)
+
+    def test_correct_answer_wins_the_round_and_is_scored(self):
+        self.assertEqual(self.start(), StartResult.STARTED)
+        prompts = []
+        rnd.submit_answer(1, "Ada", "mitosis", prompts.append)
+        self.finish_round()
+
+        self.assertEqual(prompts, [])
+        self.assertIn("Congrats Ada answered correctly!", self.texts())
+        self.assertIn("Answer: mitosis", self.texts())
+        self.assertEqual(score_store.scores[1], {"name": "Ada", "score": 10})
+        self.assertIn("Ada — 10 pts", self.messages[-1])
+        # The answerline reached the judge with its HTML intact, as the checker needs it.
+        self.assertEqual(self.stack.judge.calls, [("<b><u>mitosis</u></b>", "mitosis")])
+
+    def test_scores_are_persisted_to_the_scores_file(self):
+        self.start()
+        rnd.submit_answer(7, "Grace", "mitosis", lambda _: None)
+        self.finish_round()
+        with open(score_store.SCORES_FILE) as f:
+            self.assertIn("| 1 | Grace | 10 | 7 |", f.read())
+
+    def test_unanswered_round_reveals_each_clue_then_the_answer(self):
+        self.assertEqual(self.start(), StartResult.STARTED)
+        self.finish_round()
+
+        clues = [m for m in self.messages if "clue for mitosis." in m]
+        self.assertEqual(len(clues), 2)
+        self.assertIn("First clue for mitosis.", clues[0])
+        self.assertIn("Second clue for mitosis.", clues[1])
+        self.assertIn("nobody answered correctly", self.texts())
+        self.assertIn("The answer is actually: mitosis", self.texts())
+        self.assertIn("Next: /next", self.texts())
+        self.assertEqual(self.messages[-1], "📊 Scoreboard\n\nNo scores yet!")
+
+    def test_directed_prompt_from_the_judge_is_relayed_to_the_player(self):
+        self.start()
+        prompts = []
+        rnd.submit_answer(1, "Ada", "more specific", prompts.append)
+        self.assertEqual(prompts, ["the full name"])
+        rnd.submit_answer(1, "Ada", "mitosis", prompts.append)
+        self.finish_round()
+        self.assertIn("Congrats Ada", self.texts())
+
+    def test_wrong_answer_costs_a_point_only_in_wrong_penalty_mode(self):
+        self.start()
+        rnd.submit_answer(1, "Ada", "photosynthesis", lambda _: None)
+        self.finish_round()
+        self.assertEqual(score_store.scores[1]["score"], 0)
+
+        settings.scoring_modes = {"wrong_penalty"}
+        self.messages.clear()
+        self.session = {}
+        self.start()
+        rnd.submit_answer(1, "Ada", "photosynthesis", lambda _: None)
+        self.finish_round()
+        self.assertEqual(score_store.scores[1]["score"], -1)
+        self.assertIn("-1 pts — Ada", self.texts())
+
+    def test_hourglass_mode_scores_by_clues_remaining(self):
+        settings.scoring_modes = {"hourglass"}
+        self.start()
+        rnd.submit_answer(1, "Ada", "mitosis", lambda _: None)
+        self.finish_round()
+        # Answered during the first of two clues: 2 hourglasses × 10 points.
+        self.assertEqual(score_store.scores[1]["score"], 20)
+        self.assertIn("Ada (+20 pts)", self.texts())
+
+    def test_each_player_scores_once_per_round(self):
+        self.start()
+        rnd.submit_answer(1, "Ada", "mitosis", lambda _: None)
+        rnd.submit_answer(1, "Ada", "mitosis", lambda _: None)
+        self.finish_round()
+        self.assertEqual(score_store.scores[1]["score"], 10)
+
+    def test_answers_outside_a_round_are_ignored(self):
+        rnd.submit_answer(1, "Ada", "mitosis", lambda _: None)
+        self.assertEqual(score_store.scores, {})
+        self.assertEqual(self.stack.judge.calls, [])
+
+    def test_judge_outage_leaves_the_round_playable(self):
+        self.start()
+        prompts = []
+        rnd.submit_answer(1, "Ada", "boom", prompts.append)  # backend answers 502
+        self.assertEqual(prompts, [])
+        rnd.submit_answer(2, "Bo", "mitosis", prompts.append)
+        self.finish_round()
+        self.assertIn("Congrats Bo", self.texts())
+        self.assertNotIn("Ada", "\n".join(m for m in self.messages if "Congrats" in m))
+
+    def test_second_next_during_a_round_is_busy(self):
+        self.assertEqual(self.start(), StartResult.STARTED)
+        self.assertEqual(self.start(session={}), StartResult.BUSY)
+        self.finish_round()
+
+    def test_a_chat_does_not_get_the_same_tossup_twice(self):
+        self.assertEqual(self.start(), StartResult.STARTED)
+        self.finish_round()
+        # The database holds one tossup, and this chat has already seen it.
+        self.assertEqual(self.start(), StartResult.NO_FRESH_QUESTION)
+        self.assertFalse(rnd.round_lock.locked())
+        # A different chat has not.
+        self.assertEqual(self.start(session={}), StartResult.STARTED)
+        self.finish_round()
+
+
+class FilterIntegrationTest(unittest.TestCase):
+    """The /configure selections must reach the database query through the HTTP hop."""
+
+    TOSSUPS = [
+        tossup("mitosis", "Science", "Biology", difficulty=8),
+        tossup("enzymes", "Science", "Biology", difficulty=7),
+        tossup("orbits", "Science", "Other Science", alt="Astronomy", difficulty=8),
+        tossup("sonnet", "Literature", "British Literature", alt="Poetry", difficulty=8),
+        tossup("treaty", "History", "European History", difficulty=9),
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.stack = LocalStack(cls.TOSSUPS)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.stack.close()
+
+    def setUp(self):
+        self._saved_settings = dict(vars(settings))
+        patch = mock.patch.object(rnd, "question_source", BackendQuestionSource(self.stack.url))
+        patch.start()
+        self.addCleanup(patch.stop)
+
+    def tearDown(self):
+        vars(settings).clear()
+        vars(settings).update(self._saved_settings)
+
+    def draw_answers(self, times=30):
+        return {asyncio.run(rnd._fetch_tossup()).answer_sanitized for _ in range(times)}
+
+    def test_all_categories_and_difficulties_draws_from_everything(self):
+        settings.selected_difficulties = set(rnd.DIFFICULTIES)
+        self.assertEqual(self.draw_answers(150), {t["_id"] for t in self.TOSSUPS})
+
+    def test_difficulty_selection_limits_the_draw(self):
+        settings.selected_difficulties = {COLLEGE_7}
+        self.assertEqual(self.draw_answers(), {"enzymes"})
+        settings.selected_difficulties = {COLLEGE_7, "College ⭐⭐⭐⭐ (9)"}
+        self.assertEqual(self.draw_answers(), {"enzymes", "treaty"})
+
+    def test_subcategory_selection_limits_the_draw(self):
+        settings.selected_difficulties = set(rnd.DIFFICULTIES)
+        settings.selected_categories = {"Biology"}
+        self.assertEqual(self.draw_answers(), {"mitosis", "enzymes"})
+
+    def test_alternate_subcategory_selection_limits_the_draw(self):
+        settings.selected_difficulties = set(rnd.DIFFICULTIES)
+        settings.selected_categories = {"Astronomy"}
+        # Astronomy is Science / Other Science; untagged tossups in that parent match too.
+        self.assertEqual(self.draw_answers(), {"orbits"})
+
+    def test_categories_and_difficulty_combine(self):
+        settings.selected_difficulties = {COLLEGE_8}
+        settings.selected_categories = {"Biology"}
+        self.assertEqual(self.draw_answers(), {"mitosis"})
+
+    @unittest.expectedFailure
+    def test_subcategory_and_alternate_subcategory_selections_are_a_union(self):
+        # Known limitation: the two fields are ANDed, so Biology (subcategory) plus
+        # Poetry (alternate subcategory of Literature) matches nothing at all.
+        settings.selected_difficulties = {COLLEGE_8}
+        settings.selected_categories = {"Biology", "Poetry"}
+        self.assertEqual(self.draw_answers(), {"mitosis", "sonnet"})
+
+    def test_no_match_is_a_lookup_error_naming_the_cause(self):
+        settings.selected_difficulties = {"HS Easy (2)", "HS Regular (3)"}
+        with self.assertRaisesRegex(LookupError, "match the selected categories and difficulties"):
+            asyncio.run(rnd._fetch_tossup())
+
+
+class StartFailureIntegrationTest(unittest.TestCase):
+    """/next when the backend has nothing to serve or cannot be reached."""
+
+    def setUp(self):
+        self._saved_settings = dict(vars(settings))
+        settings.selected_difficulties = {"HS Easy (2)", "HS Regular (3)"}
+        self.bot = SimpleNamespace(username="TriviaOracleBot")
+        self.sent = []
+        self.bot.send_message = lambda chat_id, text: self.sent.append(text)
+        self.update = SimpleNamespace(effective_chat=SimpleNamespace(id=-1))
+        self.context = SimpleNamespace(bot=self.bot, chat_data={})
+
+    def tearDown(self):
+        vars(settings).clear()
+        vars(settings).update(self._saved_settings)
+        wait_until(lambda: not rnd.round_lock.locked())
+
+    def _next(self, url):
+        with mock.patch.object(rnd, "question_source", BackendQuestionSource(url)):
+            round_handlers.start_round(self.update, self.context)
+
+    def test_no_matching_tossups_tells_the_chat_and_frees_the_lock(self):
+        stack = LocalStack([tossup("mitosis", difficulty=8)])  # college only; HS is selected
+        self.addCleanup(stack.close)
+        self._next(stack.url)
+
+        self.assertEqual(self.sent, ["Failed to fetch a question. Try /next again."])
+        self.assertFalse(rnd.round_lock.locked())
+        self.assertNotIn("last_next", self.context.chat_data)
+
+    def test_the_same_chat_recovers_once_the_difficulty_matches(self):
+        stack = LocalStack([tossup("mitosis", difficulty=8)])
+        self.addCleanup(stack.close)
+        self._next(stack.url)
+        self.assertEqual(len(self.sent), 1)
+
+        settings.selected_difficulties = {COLLEGE_8}
+        self._next(stack.url)
+        self.assertTrue(wait_until(lambda: any("[ROUND END]" in m for m in self.sent), timeout=30))
+        self.assertIn("The answer is actually: mitosis", "\n".join(self.sent))
+
+    def test_unreachable_backend_tells_the_chat_and_frees_the_lock(self):
+        self._next("http://127.0.0.1:1")
+        self.assertEqual(self.sent, ["Failed to fetch a question. Try /next again."])
+        self.assertFalse(rnd.round_lock.locked())
+
+
+if __name__ == "__main__":
+    unittest.main()
