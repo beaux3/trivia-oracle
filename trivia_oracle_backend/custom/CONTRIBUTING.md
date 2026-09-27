@@ -36,10 +36,17 @@ answers. Do not go on to stage 2 until they approve the list (or say "go ahead" 
 For each approved answer, look the facts up on the web with whatever search or browsing tool
 you have. Your memory is not a source.
 
-- Find **at least two independent, reputable sources** for each clue you plan to use (for
-  example an encyclopedia plus a primary or academic source; two sites that copy each other
-  count as one). Prefer encyclopedias, museum, university, government and publisher pages over
-  blogs, forums, quote sites and AI-generated pages.
+- Find **at least two independent sources** for each clue you plan to use, and make **at least
+  one of them authoritative**:
+  - *Authoritative* means the primary source itself (the work, the paper, the law, official
+    records) or a publisher with editorial responsibility for the subject: Britannica and other
+    edited reference works, national biographies, museum, university, government and publisher
+    pages, peer-reviewed articles, newspapers of record.
+  - Wikipedia and every site that copies or paraphrases it (mirrors, fandom wikis, quiz and
+    "fun fact" sites, AI-generated summaries) count together as **one** source at most, and never
+    as the authoritative one. A reference that Wikipedia cites counts separately only if you
+    opened it yourself and it states the fact.
+  - Two sites that copy each other count as one. Do not use blogs, forums or quote sites.
 - Check dates, spellings of names, numbers, and attributions ("first", "only", "largest") in the
   sources themselves. Superlatives are the most often wrong; if sources disagree or you cannot
   confirm one, do not use that clue.
@@ -47,7 +54,8 @@ you have. Your memory is not a source.
   answer (tell the requester which one and why) instead of padding it with unverified claims.
 - Confirm the **answerline** too: the standard name, common alternate names and spellings,
   and any commonly confused answer that should be rejected.
-- Do **not** copy wording from the sources or from qbreader. Use them for facts only.
+- Do **not** copy wording from the sources. Do not use qbreader or other quizbowl questions as
+  sources: the bot already plays qbreader's questions, and old tossups contain errors.
 
 If you have **no way to browse the web**, say so at the start. You may still do stage 1, but you
 must not write questions for the database: tell the requester that stage 2 needs a browsing
@@ -69,8 +77,8 @@ tool. (If they ask you to write them anyway, write the file, tell them plainly t
    - "Conserved in the absence of external torques": https://...  ; https://...
    - "SI units kg m^2 / s": https://...  ; https://...
    ```
-   Put the full URLs of at least two sources next to every clue. Never invent a URL and never
-   list one you did not actually open.
+   Put the full URLs of at least two sources next to every clue, the authoritative one first.
+   Never invent a URL and never list one you did not actually open.
 3. Validate from the repo root:
    ```
    python -m trivia_oracle_backend.custom.add --check trivia_oracle_backend/custom/submissions/<set_name>.jsonl
@@ -114,8 +122,8 @@ questions loaded from here, so they can be told apart from qbreader questions la
 Example (each object is really one line):
 
 ```json
-{"category": "Science", "subcategory": "Physics", "alternate_subcategory": null, "difficulty": 5, "question": "This quantity is conserved in the absence of external torques. Its SI units are kilogram meters squared per second. For a point particle, it equals the cross product of position and linear momentum. A figure skater spins faster after pulling in her arms because this quantity stays constant. Kepler's second law, the equal-areas law, is a consequence of its conservation. For 10 points, name this rotational analogue of linear momentum.", "answer": "<b><u>angular momentum</u></b> [prompt on <u>momentum</u>; do not accept or prompt on \"linear momentum\"]"}
-{"category": "Literature", "subcategory": "American Literature", "alternate_subcategory": "Long Fiction", "difficulty": 4, "question": "A character in this novel keeps a green light in view across the bay and hosts lavish parties every Saturday night. The narrator, Nick Carraway, rents a small house next door to that character. A yellowed advertisement showing a pair of spectacles looms over the Valley of Ashes. Daisy Buchanan is the love interest at the center of the plot. For 10 points, name this F. Scott Fitzgerald novel about Jay Gatsby.", "answer": "<u>The Great Gatsby</u>"}
+{"category": "Science", "subcategory": "Physics", "alternate_subcategory": null, "difficulty": 5, "question": "Kepler's second law, the equal-areas law, follows from the conservation of this quantity for a planet orbiting the Sun. Its SI units are kilogram meters squared per second. For a point particle, it is the cross product of the position vector with mass times velocity. It is conserved in the absence of external torques. A figure skater spins faster after pulling in her arms because this quantity stays constant. For 10 points, name this rotational counterpart of mass times velocity.", "answer": "<b><u>angular momentum</u></b> [prompt on <u>momentum</u>; do not accept or prompt on “linear momentum”]"}
+{"category": "Literature", "subcategory": "American Literature", "alternate_subcategory": "Long Fiction", "difficulty": 4, "question": "In this novel, a faded billboard showing a huge pair of spectacles looms over the Valley of Ashes. Myrtle Wilson is killed by a car that, the narrator later learns, was being driven by Daisy Buchanan. The narrator, Nick Carraway, rents a small house next door to a mansion famous for its lavish parties. Its title character reaches out toward a green light at the end of Daisy's dock across the bay. For 10 points, name this 1925 F. Scott Fitzgerald novel set on Long Island during the Jazz Age.", "answer": "<u>The Great Gatsby</u>"}
 ```
 
 ## Categories, subcategories and alternate subcategories
@@ -168,79 +176,168 @@ answer and the *first* clues are; the last clue should always be easier. Do not 
 
 ## How to write a good tossup
 
-**Structure (pyramidal).** 4–7 sentences, roughly 100–250 words.
-- Sentence 1: the hardest clue, still uniquely identifying the answer to an expert.
-- Middle sentences: progressively better-known clues.
+**Structure (pyramidal).** 4–7 sentences of about 15–30 words each, roughly 80–180 words in all.
+- Sentence 1 (the "lead"): the hardest clue, and one that **an expert in the subject could
+  answer from that sentence alone**. Being unique is not enough. An exact attendance figure, a
+  catalogue number or a minor relative's name may fit only one answer, but nobody would buzz on
+  it. If you cannot picture a specialist recognising the clue, it is too obscure for a lead.
+- Middle sentences: progressively better-known clues (see "Ordering clues by difficulty").
 - Last sentence ("giveaway"): a clue almost anyone who knows the answer gets, ending with
-  **"For 10 points, name this ..."** (or "identify", "give this ...").
-- One clue per sentence. The bot splits on sentence boundaries, so every sentence should stand
-  alone. Avoid one enormous sentence with many clauses.
+  **"For 10 points, name this ..."** (or "identify", "give this ..."). The giveaway must not
+  contain the answer either (see "No answer leaks").
+- One clue per sentence, or at most two closely linked facts (a work and its year, an event and
+  where it happened). The bot shows each sentence and then waits the same time before the next,
+  so a long sentence full of clues reveals easy and hard information at once and flattens the
+  pyramid.
 
-**No answer leaks.** The answer (or an obvious part of it) must not appear in the question
-before the last sentence. Use "this man", "this novel", "this element", and so on. Refer to
-the answer as `this <thing>`, never by name.
+**Ordering clues by difficulty.** Judge how widely known each clue is, not how hard it feels to you.
+- Where the fact appears: in the opening paragraph of the encyclopedia article, in school
+  textbooks, or in nearly everything written about the answer means late. Only in specialist
+  or primary sources means early.
+- Who would know it: anyone who has heard of the answer (giveaway); someone who has studied the
+  subject (middle); a specialist (lead).
+- Test the order: a player who knows a clue should almost certainly know every clue after it.
+
+Do not search or read qbreader while writing. The bot's main question database comes from it, so
+a custom question must not repeat one there, and reading those tossups makes that likely.
+
+**No answer leaks, anywhere.** No string that the answerline accepts or prompts on may appear
+anywhere in the question, **the giveaway included**. That means:
+- the underlined answer and every word of it that is underlined;
+- every alternate in `[or ...]` / `[accept ...]`: other names, spellings, abbreviations,
+  symbols and translations;
+- every string in `[prompt on ...]`;
+- other forms of all of these (photosynthetic or photosynthesize for photosynthesis,
+  Gatsby's for Gatsby).
+
+Refer to the answer as "this man", "this novel", "this element", and so on. Typical leaks:
+"name this element, also called wolfram" (an alternate), "name this Fitzgerald novel about Jay
+Gatsby" (an underlined word), "name this anthem, whose title means Onward Singapore" when
+"Onward Singapore" is an accepted alternate.
+
+Allowed:
+- Indirect clues that point to a name without containing it: an etymology ("its name comes
+  from the Swedish for 'heavy stone'"), or a translation, **unless** the answerline accepts that
+  translation.
+- Strings the answerline lists under "do not accept", as long as they contain no accepted or
+  prompted word. "Chloroplast" may appear in a question on mitochondria that rejects it, but
+  "linear momentum" may not appear in a question on angular momentum, because "momentum" is
+  part of the answer.
+
+If the noun you want for "this ___" is something you would prompt on ("this organelle"), do not
+prompt on it: the question has already told players that much.
 
 **Unique answer.** Every clue must be true of the answer and, taken together, the question must
 point to exactly one answer. Clues that also fit a more famous alternative belong later, or need
 an extra distinguishing detail.
 
 **Only true, verified facts.** This is the most important rule. Every claim must have been
-confirmed in stage 2 against at least two independent sources. If you are not sure of a date,
-name, number or attribution, drop that clue or choose another answer. A wrong "fact" gets
-memorised by players and cannot be detected by the validator. Do not invent people, works, or
-events, and do not write a clue just because it "sounds right".
+confirmed in stage 2 against at least two independent sources, one of them authoritative. If
+you are not sure of a date, name, number or attribution, drop that clue or choose another
+answer. A wrong "fact" gets memorised by players and cannot be detected by the validator. Do
+not invent people, works, or events, and do not write a clue just because it "sounds right".
 
-**Original text.** Write the clues yourself. Do not copy tossups from qbreader, packets, or
-other question sets, and do not reproduce copyrighted passages. Facts are free to use; wording
-is not.
+**Original text.** Write the clues yourself from your stage 2 sources. Do not copy tossups from
+qbreader, packets, or other question sets, and do not reproduce copyrighted passages. Facts
+are free to use; wording is not.
 
-**Plain text question.** No HTML, no markdown, no numbering, no "TOSSUP:" prefix. Use normal
-quotes and dashes. Spell out enough of the context that the sentence works when read on its
-own.
+**Plain text question.** No HTML, no markdown, no numbering, no "TOSSUP:" prefix. Spell out
+enough of the context that the sentence works when read on its own.
+
+**Quotes.** The same rule applies to `question` and `answer`: use double quotes, either curly
+(“...”, no escaping needed) or straight (written `\"` inside JSON), and do not open with a
+straight `"` and close with a curly `”`. Never use single quotes (`'...'` or `‘...’`) as
+quotation marks in `answer`: the parser does not treat them as quotes, so a comma, "or" or
+directive word inside them splits the text (`do not accept 'Romeo, Juliet'` rejects "Romeo"
+and "Juliet" separately). Quote marks never affect whether a typed answer matches; they are
+ignored in the comparison.
+
+**Sentence boundaries.** The bot splits the question after `.`, `!` or `?` followed by a space.
+It recognises common abbreviations, so "Dr. Livingstone", "St. Louis", "the U.S. Army", "T. S.
+Eliot", "c. 1850", "No. 5" and decimals like "3.5" stay within one sentence. It gets these wrong:
+- **A sentence that ends inside a quote or bracket** (`He called it "the Rock." Name ...`) is
+  not split. Put the period outside (`"the Rock". Name ...`) or rephrase.
+- **A sentence that ends with a single capital letter** ("vitamin C.", "World War I.", "Plan
+  B.") is taken for an initial and joined to the next one. Rephrase.
+- **A `?` or `!` inside a sentence** ("Oklahoma! premiered in 1943", "Who's Afraid of Virginia
+  Woolf? was first staged ...") ends the sentence there. Put the title at the end of its
+  sentence, or rephrase.
+- **Abbreviations it does not know**, notably months ("Sept. 11", "Jan. 1901"), end the
+  sentence. Write them in full.
+- **An abbreviation at the end of a sentence followed by a name** ("... across the U.S. Lincoln
+  then ...") is not split. Write "United States" at a sentence end.
 
 **Variety.** Within one file, vary categories, subcategories and answer types (people, works,
-places, concepts), do not repeat an answer, and do not reuse the same clue twice.
+places, concepts), do not repeat an answer, do not reuse the same clue twice, and do not let one
+question name another question's answer.
 
 ## Writing the answerline
 
 The answerline (`answer`) is what the bot uses to judge typed answers. It is HTML-ish text in
-the qbreader style.
+the qbreader style. Small typos are forgiven in words of 6 or more letters, and
+"the" and a leading "a"/"an" are ignored.
 
 1. Wrap the **required** part in `<b><u>...</u></b>` (or just `<u>...</u>`). Players must
    say at least this, so keep it to the shortest form a knowledgeable person would give
    (`Josip Broz <b><u>Tito</u></b>` needs only "Tito"). With no underline at all the bot
-   requires the whole answer, so always underline.
+   requires every word of the answer, so always underline.
 2. Put extra instructions in **square brackets** after it, separated by semicolons:
-   - `[or Alternate name; accept Another name]` – other correct answers
-   - `[prompt on <u>partial</u>]` – a too-vague or partial answer makes the bot ask for more
-   - `[do not accept or prompt on "wrong thing"]` – a commonly confused answer that is wrong
+   - `[or <b><u>Alternate name</u></b>; accept <b><u>Another name</u></b>]`: other correct
+     answers. Underline alternates the same way as the main answer. An alternate with no
+     underline is accepted only when the player types all of its words.
+   - `[prompt on <u>partial</u>]`: an answer that is right but not specific enough ("Vincent"
+     for Van Gogh) makes the bot ask for more. Do not prompt on a wrong answer, however
+     closely related it is.
+   - `[do not accept or prompt on “wrong thing”]`: a commonly confused answer that is wrong.
+     It is matched word for word, without typo tolerance, so write it the way players would
+     type it.
 3. Anything in round brackets that does not begin with accept/prompt/do-not-accept is
    treated as a comment (pronunciation, clarification) and ignored.
-4. Add reasonable alternate names, abbreviations, spellings and titles ("accept **WWI** or
-   **World War One**"), but only genuinely equivalent answers.
-5. For titles, underline the part that identifies the work (`<u>The Great Gatsby</u>`, or
+4. Add reasonable alternate names, abbreviations, spellings, translations and singular/plural
+   forms (`accept <b><u>WWI</u></b> or <b><u>World War One</u></b>`), but only genuinely
+   equivalent answers. Every string you add becomes off-limits in the question (see "No
+   answer leaks").
+5. Other forms of a word: list the ones players are likely to type as alternates rather than
+   relying on "accept word forms". The bot does understand that phrase, but only for small
+   changes of ending: it accepts "photosynthesize" for photosynthesis but not
+   "photosynthetic". It also applies to prompts.
+6. For titles, underline the part that identifies the work (`<u>The Great Gatsby</u>`, or
    `<u>Lord of the Rings</u>` when a leading "The" is not needed).
-6. Inside JSON, escape double quotes as `\"`. It is easier to use single quotes or “curly”
-   quotes in the text and avoid escapes.
-7. Never put the question text, explanations, or citations in `answer`.
+7. Quote with double quotes (see "Quotes" above), never single quotes.
+8. Never put the question text, explanations, or citations in `answer`.
 
 Good:
-`<b><u>Vincent van Gogh</u></b> [or <b><u>Van Gogh</u></b>; prompt on <u>Vincent</u>]`
-`<b><u>photosynthesis</u></b> [accept word forms; prompt on <u>respiration</u> by asking "which process converts light energy?"]`
+- `<b><u>Vincent van Gogh</u></b> [or <b><u>Van Gogh</u></b>; prompt on <u>Vincent</u>]`.
+  All three words are underlined, so "Van Gogh" needs its own alternate.
+- `<b><u>mitochondria</u></b> [or <b><u>mitochondrion</u></b>]`. The singular differs by two
+  letters, too many for typo tolerance, so it is listed.
+- `<b><u>tungsten</u></b> [or <b><u>wolfram</u></b>; accept <b><u>W</u></b>]`. The question
+  must now avoid "wolfram" and the symbol W as well as "tungsten".
 
-Bad: `Vincent van Gogh` (no underline, so a player must type the full name exactly).
+Bad:
+- `Vincent van Gogh` (no underline, so a player must type all three words, and "Van Gogh" is
+  marked wrong).
+- `<b><u>photosynthesis</u></b> [prompt on <u>respiration</u>]` (respiration is a wrong answer,
+  not a partial one).
 
 ## Self-check before you finish
 
 - [ ] Valid JSON on every line, exactly the six allowed fields, saved as `.jsonl`.
 - [ ] The requester approved the answer list (stage 1).
-- [ ] Every clue was checked against two independent sources you actually opened (stage 2), and
-      they are listed in the `.sources.md` file.
+- [ ] Every clue was checked against two independent sources you actually opened, at least one
+      of them authoritative and not Wikipedia or a copy of it (stage 2), and they are listed in
+      the `.sources.md` file.
 - [ ] No claim relies on memory alone, and no superlative ("first", "only", "largest") is unconfirmed.
-- [ ] Answer not named in the question; the last sentence is the giveaway.
+- [ ] No accepted or prompted string, or another form of one, appears anywhere in the question,
+      giveaway included; no question names another question's answer.
+- [ ] An expert could answer from the lead alone; each clue is easier than the one before; the
+      last sentence is the giveaway.
+- [ ] No sentence is over about 30 words, and none of the splitting traps under "Sentence
+      boundaries" occurs.
 - [ ] Category / subcategory / alternate_subcategory combination matches the tables above.
 - [ ] Difficulty roughly matches how obscure the *first* clue is.
-- [ ] Every `answer` underlines its required part with `<b><u>` and sensible alternates and prompts.
+- [ ] Every `answer` underlines its required part and its alternates with `<b><u>`, and prompts
+      only on partial answers.
 - [ ] No duplicate questions or answers within the file; nothing copied from qbreader.
 - [ ] `python -m trivia_oracle_backend.custom.add --check <file>` passes.
 
