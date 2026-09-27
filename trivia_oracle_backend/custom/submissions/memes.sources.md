@@ -1,8 +1,11 @@
-# Sources for memes_batch_01
+# Sources for memes
+
+Merged from memes_batch_01 and memes_batch_02 (now a single ongoing "memes" set, no more batch
+numbering) plus a third round of additions. Entry numbers match line/question order in memes.jsonl.
 
 Verification standard: the requester asked for **one confirming source per fact**. Meme history is thinly
-sourced, so most facts come from Wikipedia. Facts marked (snippet) come from search-result text only,
-because the page itself could not be opened.
+sourced, so most facts come from Wikipedia or Know Your Meme. Facts marked (snippet) come from search-result
+text only, because the page itself could not be opened.
 
 ## 1. 67 (difficulty 3)
 - Skrilla drill song, first released Dec 2024 and officially 7 Feb 2025; LaMelo Ball basketball edits; Taylen Kinney and the canned water; Maverick Trevillian in Cam Wilder's 31 Mar 2025 video with the hand gesture; Skrilla saying he never put a meaning on it; Dictionary.com 2025 Word of the Year: https://en.wikipedia.org/wiki/6-7_(meme)
@@ -110,8 +113,8 @@ because the page itself could not be opened.
 - "Newbie" as Vietnam-War-era US troop slang for a green recruit: https://www.digitaltrends.com/gaming/noob-newbie-word-origins/
 - Usenet's talk.bizarre newsgroup, earliest archived post 31 May 1988; l33t-speak spinoff "noob"/"n00b" in 1990s gamer/programmer chat; noob vs. newbie distinction (incorrigible vs. merely inexperienced); Concise Oxford English Dictionary added it in 2011: https://meme.com/memes/noob
 
-## Skipped answers from this request, and why
-- **edging**, **foot fetish**, **no nut november**: inherently sexual topics with no distinguishing non-sexual meaning, excluded per CONTRIBUTING.md's rule against sexual content (same call as "gooning" earlier in this file).
+## Skipped answers from an earlier request, and why
+- **edging**, **foot fetish**, **no nut november**: inherently sexual topics with no distinguishing non-sexual meaning, excluded per CONTRIBUTING.md's rule against sexual content (same call as "gooning" earlier in this project).
 - **pokenut**: only source found was Urban Dictionary, with two contradictory definitions (a term for a bald person; an unrelated Pokémon-picking November challenge) and no reputable secondary coverage of either. Excluded for insufficient, unreliable sourcing per CONTRIBUTING.md's "skip answers you could not find good sources for."
 
 ## 24. cuck (5)
@@ -135,7 +138,7 @@ because the page itself could not be opened.
 ## 28. brain rot (2)
 - Oxford 2024 Word of the Year, 230% usage increase, 37,000-person public vote: https://corp.oup.com/news/brain-rot-named-oxford-word-of-the-year-2024/
 - First recorded use in Thoreau's Walden (1854); associated slang "Skibidi," "Ohio": https://time.com/7199246/brain-rot-oxford-university-press-word-of-the-year-2024/
-- Italian brainrot AI-animal subgenre: https://en.wikipedia.org/wiki/Italian_brainrot (already used for tung tung tung sahur, entry 2)
+- Italian brainrot AI-animal subgenre: https://en.wikipedia.org/wiki/Italian_brainrot (see also entry 2, and entry 43 below)
 
 ## 29. Ugandan Knuckles (4)
 - Gregzilla's Feb 2017 Sonic Lost World review warping Knuckles's design: https://knowyourmeme.com/memes/ugandan-knuckles
@@ -157,3 +160,62 @@ because the page itself could not be opened.
 - 2016 Big Brother removal after a video surfaced, producers called it consensual, he denied wrongdoing; 2017 Twitter ban over a tweet about sexual assault victims; Hustler's University: https://www.yahoo.com/news/andrew-tate-timeline-rise-fall-170439597.html
 - 29 Dec 2022 detention in Romania with brother Tristan on human trafficking and rape charges, denied by Tate; later extradition to the UK for separate charges: https://www.npr.org/2022/12/30/1146174119/divisive-social-media-star-andrew-tate-detained-in-romania-in-human-trafficking- ; https://www.npr.org/2024/03/12/1238086900/andrew-tate-arrested-romania-to-extradite-uk
 - Charges are reported as charges/allegations, not adjudicated fact; no graphic detail included.
+
+## 33. crash out (3)
+- AAVE term, "crash dummy" derivation, Baton Rouge/NBA YoungBoy origin: https://knowyourmeme.com/memes/crashout-crash-out ; https://knowyourmeme.com/editorials/guides/what-does-crash-out-mean-the-tiktok-slang-term-explained
+- @peezyante TikTok video, Dec 18 2023, 1.7M plays in three months: https://knowyourmeme.com/memes/crashout-crash-out
+- Meaning (reckless outburst, meltdown synonym), spread across TikTok early 2024: https://www.dexerto.com/tiktok/what-does-crash-out-mean-on-tiktok-2634287/ ; https://slangspace.com/crash-out-meaning/
+
+## 34. aura farming (4)
+- "Aura" (charisma) + "farming" (gaming grind term) definition: https://knowyourmeme.com/memes/aura-farming
+- h.chua_212 TikTok, Jan 28 2024, bowling video caption: https://knowyourmeme.com/memes/aura-farming
+- Rayyan Arkan Dikha, Pacu Jalur boat dance, Riau, Indonesia, mid-2024 viral spread: https://en.wikipedia.org/wiki/Aura_farming ; https://www.cbc.ca/kidsnews/post/watch-meet-the-11-year-old-behind-the-aura-farming-boat-meme
+- "Aura battles" 2026 trend: https://knowyourmeme.com/memes/aura-battles
+
+## 35. cooked (2)
+- Merriam-Webster "done/finished" sense since 19th c.; Australian slang origin (ruined/broken/ridiculous), spread via gaming/hip-hop: https://www.mentalfloss.com/language/slang/why-everyone-is-saying-cooked-what-it-means ; https://www.today.com/parents/teens/cooked-meaning-slang-rcna179119
+- "Roasted" synonym, "getting cooked": https://knowyourmeme.com/memes/cooked-getting-cooked
+- "Chat, am I cooked?" streaming usage: https://locomag.com/what-is-chat-am-i-cooked/ ; https://www.distractify.com/p/what-does-im-cooked-mean-tiktok
+
+## 36. no cap (2)
+- AAVE "to cap" = lie/boast/exaggerate since early 1900s; 1960s "capping" insult exchanges: https://screenwiseapp.com/guides/aave ; https://7esl.com/no-cap-meaning/
+- Willie D (Geto Boys) "high cappin'" 1989: https://7esl.com/no-cap-meaning/
+- Atlanta hip-hop popularization (Young Thug, Future), modern TikTok/Twitter ubiquity: https://later.com/social-media-glossary/cap/ ; https://en.wikipedia.org/wiki/Glossary_of_2020s_slang
+
+## 37. lowkey (1)
+- 1800s "restrained/subdued" sense; modern AAVE-credited "secretly/quietly/to some extent" sense: https://www.today.com/parents/teens/low-key-slang-meaning-rcna155952 ; https://contentstudio.io/social-media-terms/lowkey
+- Rise via Twitter/Instagram/Snapchat in 2010s; antonym "highkey": https://later.com/social-media-glossary/lowkey/ ; https://quso.ai/social-media-terms/lowkey
+
+## 38. negus (6)
+- Ethiopian Semitic title for "king"; Negusa Nagast ("King of Kings") as imperial title; Ezana of Axum ~250 AD early usage: https://en.wikipedia.org/wiki/Negus ; https://en.wikipedia.org/wiki/King_of_Kings ; https://en.wikipedia.org/wiki/Ethiopian_aristocratic_and_court_titles
+- 2007 Scripps National Spelling Bee viral video: contestant Andrew Lay (age 12), June 2 2007, judge's definition line "ruled Ethiopia until the coup of 1974": https://knowyourmeme.com/memes/negus-spelling-bee-video
+- Disputed/debunked link to the racial slur (most linguists trace slur to Latin niger / Spanish-Portuguese negro instead): https://www.okayafrica.com/kendrick-helped-popularize-it-but-we-need-to-talk-about-the-complicated-ethiopian-history-of-negus/220977
+
+## 39. Bee Movie (3)
+- 2007 DreamWorks film; script copypasta spreading via Tumblr/Pastebin from 2013; opening line "According to all known laws of aviation..."; conversation-ender/shitposting use: https://knowyourmeme.com/memes/bee-movie-script-according-to-all-known-laws-of-aviation
+- AvoidAtAllCosts "faster every time they say bee" remix genre (2015-16); platforms adjusting text-display algorithms: https://meme.com/memes/bee-movie-script-according-to-all-known-laws-of-aviation
+- Plot (Barry B. Benson, voiced by Jerry Seinfeld, sues humans for stealing honey): general film knowledge, corroborated by https://en.wikipedia.org/wiki/Bee_Movie
+
+## 40. Shrek (3)
+- "Shrek is love, Shrek is life" 4chan greentext, Jan 14 2013; "brogres"; peaked late 2014: https://knowyourmeme.com/editorials/guides/what-is-shrek-is-love-shrek-is-life-the-copypasta-meme-and-its-origin-explained ; https://dailydot.com/meme-history-shrek-memes
+- Based on William Steig's 1990 picture book; Mike Myers as Shrek; Smash Mouth "All Star" soundtrack meme status: general film knowledge, corroborated by https://en.wikipedia.org/wiki/Shrek
+
+## 41. Tekashi 6ix9ine (3)
+- Real name Daniel Hernandez, rainbow hair, face tattoos, "Gummo" 2017 breakout: https://www.rollingstone.com/music/music-features/tekashi-69-rise-and-fall-feature-777971/
+- Nine Trey Gangsta Bloods affiliation, Nov 2018 RICO/firearms/conspiracy-to-murder arrest, 2019 cooperating-witness testimony against former associates, online "snitch"/rat mockery: https://www.rollingstone.com/music/music-features/tekashi-69-rise-and-fall-feature-777971/ ; https://www.oxygen.com/crime-time/tekashi-6ix9ine-daniel-hernandez-rapper-takes-stand-turns-on-gang-members
+- "Gooba" released days after May 2020 home-confinement release, briefly set a 24-hour YouTube record: https://www.rollingstone.com/music/music-features/tekashi-69-rise-and-fall-feature-777971/
+
+## 42. Nothing beats a Jet2 holiday (2)
+- Original ad campaign 23 Dec 2022, voiced by Zoe Lister, "Hold My Hand" by Jess Glynne: https://knowyourmeme.com/memes/nothing-beats-a-jet2-holiday ; https://www.nme.com/news/music/jess-glynnes-hold-my-hand-takes-on-life-of-its-own-after-becoming-viral-jet2-holiday-meme-3879375
+- Jan 2024 YouTube re-upload; March 2025 ironic TikTok dubbing over holiday-disaster clips (sunburns, airport meltdowns); 1.3M+ videos soundtracked; Jet2 embracing the meme: https://www.forbes.com/sites/conormurray/2025/07/21/the-nothing-beats-a-jet2-holiday-tiktok-trend-explained-and-how-the-airline-capitalized-on-viral-ad/ ; https://www.nbcnews.com/pop-culture/pop-culture-news/nothing-beats-jet2-holiday-viral-tiktok-audio-voice-actress-zoe-lister-rcna220620
+
+## 43. tung tung tung sahur, second tossup (3)
+- Deliberately different clue set from entry 2 (which covers Noxa/DALL-E/Roblox/copyright); this one frames it within the wider Italian brainrot genre instead.
+- Tralalero Tralala (Nike-wearing shark, Jan 2025, first viral entry) and Bombardiro Crocodilo (crocodile-bomber hybrid, 20 Feb 2025, @armenjiharhanyan) as genre-mates; AI-generated Italian-accented narration convention: https://simple.wikipedia.org/wiki/Italian_brainrot ; https://knowyourmeme.com/memes/bombardiro-crocodilo-italian-brainrot
+- Indonesian (not Italian) origin of this character's name/design, referencing the kentongan slit drum used to wake villagers for sahur: https://en.wikipedia.org/wiki/Tung_Tung_Tung_Sahur (also cited at entry 2)
+
+## 44. tung tung tung sahur, third tossup — harder (8)
+- Deliberately distinct, more obscure clue set from entries 2 and 43: centers on the copyright/trademark lawsuit rather than the character's creation or genre.
+- Spyder Games LLC (and Speedy Simulator Gaming) v. Mementum Lab, filed Nov 2025 in N.D. Cal.; seeks declaratory judgment Mementum holds no US copyright (AI human-authorship requirement argument); Mementum countersued for trademark infringement; jury trial set for 8 Nov 2027: https://www.dexerto.com/roblox/tung-tung-sahur-is-at-the-center-of-a-bizarre-federal-custody-battle-over-brainrot-characters-3381733/ ; https://gamesbeat.com/the-battle-over-tung-tung-tung-sahur-is-testing-the-limits-of-copyright-and-trademark-law/
+- Do Big Studios' Steal a Brainrot (Roblox game), Sept 2025 cease-and-desist, character briefly removed then reintroduced without permission, sparking the suit; game peaked at 25.8M concurrent players: https://en.wikipedia.org/wiki/Steal_a_Brainrot ; https://www.npr.org/2026/08/19/nx-s1-5867638/artificial-intelligence-brainrot-memes-copyright-spyder-tung-tung-sahur
+- Creator's real name (Fernanda Bagas Indrastata, alias Noxa) intentionally left as "an alias" in the clue rather than named, to keep this harder than entry 2, which already names Noxa; design took 15 minutes and 7 prompts, kentongan/baseball-bat misread by the AI tool: https://www.bitrue.com/blog/who-created-tung-tung-tung-sahur
