@@ -187,3 +187,96 @@ is given as a range).
 - "Geh kiang": Hokkien for "fake smart", describes acting overly clever and making a rash, unwise decision: https://en.wiktionary.org/wiki/geh_kiang
 - "Hao lian": Teochew 好臉, literally "good face"/"loves to show off", borrowed into Hokkien, means boastful or arrogant: (search-result synthesis of) http://singaporeabbreviations.blogspot.com/2012/12/lian-hl.html
 - Both used as everyday Singlish putdowns alongside "kiasu" (fear of losing out), a well-documented pairing in Singlish vocabulary lists: https://en.wikipedia.org/wiki/Singlish_vocabulary
+
+---
+
+Second verification standard note: entries 44-64 below follow the same **one confirming source per
+fact** standard as the rest of this file (not CONTRIBUTING.md's normal two-source rule).
+
+## 44. can is can (2)
+- Two senses (firm reassurance vs. "technically possible but not simple"); "can" as calque of Hokkien 會/會使 or Malay "boleh": https://en.wiktionary.org/wiki/can_is_can ; https://en.wikipedia.org/wiki/Singlish_vocabulary
+- Singlish arose from contact between Hokkien, Malay, Teochew, Cantonese, Tamil: https://journals.library.columbia.edu/index.php/TMR/article/view/5412
+
+## 45. walao eh (2)
+- Traced to Hokkien 我老的 (óa lāu--ê, "my elder"); disputed second element possibly from 老爸 (father) or 老母 (mother); expresses annoyance, incredulity, shock, surprise; used in Singapore and Malaysia: https://en.wiktionary.org/wiki/walao_eh ; https://en.wiktionary.org/wiki/walao
+
+## 46. siao liao (3)
+- "Siao" (Hokkien for crazy) + "liao" (Singlish particle marking completed change of state, "already"); means either "acting crazy" or "disaster has struck": https://www.quora.com/What-does-Siao-liao-loh-mean-in-English ; https://en.wiktionary.org/wiki/liao ; http://www.singlish.net/siao/
+
+## 47. bo jio (2)
+- Hokkien "bo" (without) + "jio" (invite); mock-indignant complaint about being left out of an outing; ritualized use in Instagram comments as FOMO shorthand: https://singternet.fandom.com/wiki/Jio ; https://www.kaobeiking.com/how-bo-jio-became-the-ultimate-singlish-fomo-phrase/
+- Hokkien brought to Singapore by Fujianese immigrants: https://en.wikipedia.org/wiki/Singlish
+
+## 48. jia lat (3)
+- From Hokkien 食力 (chia̍h-la̍t, "to eat strength"/exhausting); spelling influenced by Mandarin pinyin; broadened to mean severe/troublesome/dire: https://en.wiktionary.org/wiki/jialat ; https://www.kaobeiking.com/unlocking-jia-lat-mastering-this-singaporean-singlish-gem/
+
+## 49. shiok (2)
+- OED earliest English use: 1977, Singapore's New Nation; from Malay "syok" (pleasing/attractive) via Persian/Arabic, alt. theory from Malay "seronok" (enjoy), noted coincidental Punjabi "śauk" (eagerness) resemblance; describes delicious food, satisfying experience, or attractive person: https://www.oed.com/dictionary/shiok_int ; https://languagelog.ldc.upenn.edu/nll/?p=27080
+
+## 50. lepak (2)
+- OED earliest noun use: 1993, Aliran Monthly; Malay loanword for idly hanging out/loitering, positive connotation of relaxed leisure among younger Singaporeans/Malaysians: https://www.oed.com/dictionary/lepak_n ; https://en.wiktionary.org/wiki/lepak
+
+## 51. whole lot knock it down (5)
+- Viral Reddit comment on a Uniqlo olive-green AIRism tee post ("Welcome to Uniqlo, whole lot knock it down now"), sparking NS nostalgia: https://mustsharenews.com/uniqlos-airism-saf/
+- Original context: drill-instructor command for a platoon to drop into push-ups, "The whole damn company waiting for you! Never mind, whole lot knock it down": listed among iconic Encik quotes: https://thesmartlocal.com/read/encik-quotes/
+
+## 52. east side best side (4)
+- Long-running East-vs-West Singapore rivalry; East cites Changi Airport proximity and hawker food; some restrict "true" East to Kallang-Siglap, excluding/questioning Tampines, Pasir Ris, Bedok: https://onestc.org/2025/08/10/the-rightful-best-side/ ; https://forums.hardwarezone.com.sg/threads/my-friend-said-the-saying-east-side-is-best-side-does-not-apply-to-places-like-tampines-and-pasir-ris-you-agree.7057531/ ; https://www.ricemedia.co/culture-life-east-siders-always-think-side-island-better/
+
+## 53. CDC voucher (3)
+- Administered by 5 CDCs under the People's Association and MCCY; launched 2020 as targeted lower-income relief, evolved into universal household transfer; split between hawkers/heartland merchants and supermarkets; S$500 (May 2025) + S$300 (Jan 2026) = S$800 total: https://en.wikipedia.org/wiki/Community_Development_Council_Vouchers_Scheme ; https://www.mccy.gov.sg/about-us/news-and-resources/cost-of-the-community-development-council--cdc--vouchers-scheme/
+
+## 54. Grab surge pricing (3)
+- Uber introduced surge pricing to Singapore in 2013; 5 taxi companies (incl. Trans-Cab, Premier Taxi) adopted it in 2017; ComfortDelGro (formerly anti-surge campaign) joined 2018: https://loyaltylobby.com/2026/08/03/always-compare-crazy-grab-rideshare-surge-pricing-in-singapore-double-the-taxi-fare/
+- Pulitzer Center investigation on Grab's "opaque algorithm" and surge fares not correlating with shorter wait times: https://pulitzercenter.org/stories/grab-fares-surge-under-opaque-algorithm
+- General surge-pricing mechanism (demand vs. driver supply): https://www.grab.com/inside-grab/stories/surge-dynamic-pricing-explained/
+
+## 55. kukubird (5)
+- Leaked 2019 NTU freshman orientation camp video of students chanting "kukubird" while gesturing at their crotches; NTU deputy associate provost statement on violating values of safety/respect/inclusiveness; sparked debate on orientation camp culture: https://zula.sg/university-orientation/
+- Word as children's Singlish euphemism for male genitalia, confirmed via unrelated news usage ("his kukubird is out"): https://www.asiaone.com/singapore/his-kukubird-out-mum-calls-police-after-son-spots-man-exposing-himself
+- Kukubird fashion brand riding on search interest with a "special" promotion: https://www.asiaone.com/singapore/kukubird-fashion-brand-rides-singapore-interest-offering-special
+- Literal meaning is not spelled out beyond "euphemism for male genitalia," matching this file's treatment of other vulgar Singlish terms (kanina, chao chee bai).
+
+## 56. SAF cookhouse food (4)
+- Pre-privatization: NS cooks selected after BMT, trained at School of Army Catering; private catering considerations began 1984, fully implemented ~15 years later: https://mothership.sg/2022/10/army-food-ns-cooks/
+- Soldier accounts ("tasted more like a spoonful of salt"; NTUC food "like poison"; improved under SFI): same source
+- Reputation as a comedic benchmark for bad food: https://theindependent.sg/cookhouse-food-at-hci-gets-thumbs-down-from-sporeans/
+
+## 57. tekong cough (5)
+- MINDEF's official position that it's a myth, with no elevated respiratory-infection surveillance data: https://www.mindef.gov.sg/news-and-events/latest-releases/2012may07-forum-letter-028/
+- Recruit folklore theories (chlorinated water, communal living, damp towels/clothing): https://sgforums.com/forums/1390/topics/197544/ ; https://babaaz.wordpress.com/2010/09/17/tekong-cough/
+- Pulau Tekong houses the Basic Military Training Centre, reachable by ferry: https://en.wikipedia.org/wiki/Basic_Military_Training_Centre ; https://en.wikipedia.org/wiki/Pulau_Tekong
+
+## 58. Kurt Tay (6)
+- Real name Tay Foo Wei; self-styled "superstar celebrity"; Singapore Idol audition 2006; breast implants in Bangkok, removed after 3 years; WWE belt stunts: https://alvinology.com/2019/06/22/who-is-kurt-tay-internet-troll-fired-from-work-did-he-really-get-breast-implants-years-ago/ ; https://www.thestar.com.my/aseanplus/aseanplus-news/2026/04/22/singaporean-online-personality-kurt-tay-jailed-fined-for-sharing-womans-intimate-video-and-threatening-her
+- Fake Mediacorp interview prank/police report: https://www.asiaone.com/singapore/internet-celebrity-kurt-tay-files-police-report-after-getting-pranked-someone
+- YouTube channel since 2013, 5,000+ subscribers, 12,000+ videos as of Feb 2024: https://www.thestar.com.my/aseanplus/aseanplus-news/2026/04/22/singaporean-online-personality-kurt-tay-jailed-fined-for-sharing-womans-intimate-video-and-threatening-her
+- April 2026 sentencing (14 months + 10 days jail) for distributing an intimate video without consent and making threats: https://mothership.sg/2026/04/kurt-tay-jailed/
+- Treatment note: as with Andrew Tate in memes_batch_01, the conviction is stated as a flat journalistic fact with no victim-identifying or graphic detail, per CONTRIBUTING.md.
+
+## 59. Steven Lim (5)
+- Steven Lim Kor Kor: Singapore Idol-era pioneer of solo YouTube celebrity channels, 10M+ views; Muay Thai, fitness training, acting, singing, dancing background: https://en.wikipedia.org/wiki/Steven_Lim ; https://www.youtube.com/@StevenLimKorKorOfficial/videos
+- 2024 viral TikTok "WhatsApp down, Oh My God" shirtless reaction video: https://goodyfeed.com/steven-lim-tiktok-viral/
+
+## 60. East Coast Plan (5)
+- Heng Swee Keat's rambling GE2020 nomination-day speech for East Coast GRC, repeating "East Coast" without stating the plan; exact quote: "We have a East Coast, Singapore, we have a together and East Coast plan": https://wethelovingcritics.medium.com/why-the-east-coast-plan-is-so-funny-a51a91fdd26a
+- $2 stickers sold for charity, raised $1,000: https://www.asiaone.com/digital/east-coast-plan-meme-gets-turned-2-stickers-donation-drive-raises-1000-charity
+- Netizen defense of Heng, asking for compassion: https://mustsharenews.com/dpm-heng-east-coast-plan/
+
+## 61. Thumbs Up Man (6)
+- NSP candidate Choong Hon Heng, MacPherson SMC rally, 8 Sep 2015; handshake/three-finger analogy, "Boo! Boo to PAP!" while thumping podium: https://wiki.sg/p/Choong_Hon_Heng_Thumbs_Up_Man_(GE2015) ; https://www.youtube.com/watch?v=uad3MzWsDCY
+- Description as "Inception-like," confusing, went viral: https://mothership.sg/2015/09/tampines-grc-nsp-candidate-choong-hon-heng-just-upped-the-ante-in-terms-of-tipsiness-with-this-rally-speech/
+- Contested again in GE2020, embracing the nickname: https://mothership.sg/2020/07/thumbs-up-man-nsp-choong-hon-heng/
+
+## 62. circuit breaker (3)
+- Implemented 7 Apr 2020, planned to 4 May, extended to 1 Jun; remote work default, home-based learning, religious activity suspension, F&B takeaway/delivery only: https://en.wikipedia.org/wiki/2020%E2%80%9321_Singapore_circuit_breaker_measures ; https://www.moh.gov.sg/newsroom/circuit-breaker-to-minimise-further-spread-of-covid-19/
+- Migrant worker dormitory clusters as trigger: https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Singapore
+- Survey on top disrupted activities (socialising, visiting relatives, exercise): https://lkyspp.nus.edu.sg/gia/article/how-singapore-s-covid-19-circuit-breaker-disrupted-everyday-life
+
+## 63. SAF's 9th core value (6)
+- Official 8 core values: Loyalty to Country, Leadership, Discipline, Professionalism, Fighting Spirit, Ethics, Care for Soldiers (1996) + Safety (added 2013): http://kementah.blogspot.com/2013/04/singapore-armed-forces-saf-adds-safety.html
+- Joking "9th/0th core value": "you can do anything, so long you don't get caught," tied to "chao keng" (duty-evading) culture: https://medium.com/@nicktang10.sg/ns-reflections-3-on-not-getting-caught-9fd65de4c326 ; https://www.tiktok.com/@kengmando/video/7314327118450543874
+
+## 64. BTO (2)
+- Pilot launched 15 Apr 2001, 2,500 flats at Sengkang and Sembawang; replaced Registration for Flats System after 1997 Asian Financial Crisis left ~20,000 unsold flats: https://en.wikipedia.org/wiki/Build-To-Order_(HDB) ; https://eresources.nlb.gov.sg/history/events/d33acabb-a341-460c-8fde-99cf0a9270f4
+- Tender threshold 70% originally, lowered to 50% in 2011; HDB has since moved toward building ahead of demand: https://mothership.sg/2022/12/bto-mini-explainer/
