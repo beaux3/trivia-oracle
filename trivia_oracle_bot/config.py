@@ -85,6 +85,13 @@ CATEGORIES = [
     "Movies", "Music", "Sports", "Television", "Video Games", "Other Pop Culture",
 ]
 
+# "Custom" is not a qbreader category, so it is not in CATEGORIES: it is a separate on/off
+# switch (settings.custom_questions) shown alongside them in /configure → Categories.
+CUSTOM_CATEGORY = "Custom"
+
+# What a player can say about a custom question once its round is over (/good, /bad).
+RATINGS = ("good", "bad")
+
 # These are valid qbreader AlternateSubcategory values.
 # At query time, selected entries from this set go to alternate_subcategories=;
 # everything else goes to subcategories=. (See game/round.py: _build_filters)

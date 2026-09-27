@@ -23,7 +23,7 @@ from .handlers import (
     show_scores,
 )
 from ..game.scores import load_scores
-from .round_handlers import handle_round_answer, start_round
+from .round_handlers import handle_round_answer, rate_bad, rate_good, start_round
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
@@ -31,6 +31,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 def register_handlers(dp) -> None:
     dp.add_handler(CommandHandler("next", start_round))
     dp.add_handler(CommandHandler("scores", show_scores))
+    # Rating the custom question that was just played. Sent to the backend, so run_async.
+    dp.add_handler(CommandHandler("good", rate_good, run_async=True))
+    dp.add_handler(CommandHandler("bad", rate_bad, run_async=True))
     dp.add_handler(ConversationHandler(
         entry_points=[CommandHandler("configure", configure)],
         states={

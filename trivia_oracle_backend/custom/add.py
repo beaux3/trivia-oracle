@@ -11,10 +11,11 @@ number. Loading a file replaces that set, so the file stays the source of truth
 and running the command twice changes nothing. A file with any invalid line is
 not loaded at all; every problem is printed with its line number.
 
-The database has the qbreader copy's schema (local/schema.sql) plus two vote
-columns on tossups, good_votes and bad_votes. Players' votes live only in the
-database, so reloading a file keeps the votes of every question that is still in it.
-The local backend selects columns by name, so it can read this database as it is.
+The database has exactly the schema of the qbreader copy (local/schema.sql), so
+the local backend can read it as it is. Custom sets and questions have is_custom = 1,
+which is what will tell them apart if they are moved into the main database later.
+Players' votes (good_votes, bad_votes) live only in the database, and reloading a
+file keeps the votes of every question that is still in it.
 """
 import argparse
 import hashlib
@@ -32,7 +33,9 @@ from ..local.db import connect, replace_set
 SUBMISSIONS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "submissions")
 
 # category -> allowed subcategories. Categories without an entry of their own use
-# the category name as the subcategory, the way qbreader stores them.
+# the category name as the subcategory, the way qbreader stores them. Singapore is
+# not a qbreader category: it is the custom-only category that will be added to the
+# main database when these questions are moved there.
 SUBCATEGORIES = {
     "Literature": ["American Literature", "British Literature", "Classical Literature",
                    "European Literature", "World Literature", "Other Literature"],
@@ -42,7 +45,7 @@ SUBCATEGORIES = {
     "Pop Culture": ["Movies", "Music", "Sports", "Television", "Video Games", "Other Pop Culture"],
 }
 for _category in ["Religion", "Mythology", "Philosophy", "Social Science", "Current Events",
-                  "Geography", "Other Academic"]:
+                  "Geography", "Other Academic", "Singapore"]:
     SUBCATEGORIES[_category] = [_category]
 
 # alternate subcategory -> (category, subcategory) it must sit under; None = any.
@@ -62,33 +65,6 @@ REQUIRED = FIELDS - {"alternate_subcategory"}
 MIN_QUESTION_CHARS = 100
 _TAG = re.compile(r"<[^>]*>")
 _HTML_IN_QUESTION = re.compile(r"</?[a-zA-Z][^>]*>")
-
-
-# Added on top of the shared schema; a rating score is derived from these (e.g. good - bad).
-VOTE_COLUMNS = ("good_votes", "bad_votes")
-
-
-def connect_custom(path: str):
-    """Open the custom database for writing: the shared schema plus the vote columns (added to older files too)."""
-    conn = connect(path)
-    existing = {row[1] for row in conn.execute("PRAGMA table_info(tossups)")}
-    with conn:
-        for column in VOTE_COLUMNS:
-            if column not in existing:
-                conn.execute(f"ALTER TABLE tossups ADD COLUMN {column} INTEGER NOT NULL DEFAULT 0")
-    return conn
-
-
-def replace_set_keeping_votes(conn, set_name: str, tossups: list) -> int:
-    """replace_set, then put back the votes of each question that survived the replacement."""
-    votes = conn.execute(
-        "SELECT id, good_votes, bad_votes FROM tossups WHERE set_name = ?", (set_name,)
-    ).fetchall()
-    count = replace_set(conn, set_name, 1, tossups)
-    with conn:
-        conn.executemany("UPDATE tossups SET good_votes = ?, bad_votes = ? WHERE id = ?",
-                         [(good, bad, id) for id, good, bad in votes])
-    return count
 
 
 def strip_tags(markup: str) -> str:
@@ -208,7 +184,7 @@ def main(argv=None) -> int:
         print(f"No .jsonl files in {SUBMISSIONS_DIR}")
         return 1
 
-    conn = None if args.check else connect_custom(args.db)
+    conn = None if args.check else connect(args.db)
     updated_at = datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     failed = 0
     for path in files:
@@ -223,7 +199,7 @@ def main(argv=None) -> int:
             print(f"{os.path.basename(path)}: {len(records)} question(s) are valid")
             continue
         tossups = [to_tossup(set_name, 1, number, r, updated_at) for number, r in enumerate(records, 1)]
-        count = replace_set_keeping_votes(conn, set_name, tossups)
+        count = replace_set(conn, set_name, 1, tossups, custom=True)
         print(f"{os.path.basename(path)}: loaded {count} question(s) as set {set_name!r}")
     if conn is not None:
         total_sets, total = conn.execute("SELECT COUNT(*), COALESCE(SUM(tossup_count), 0) FROM sets").fetchone()

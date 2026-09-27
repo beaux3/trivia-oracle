@@ -1,5 +1,6 @@
 """The backend service's HTTP surface, called with a plain HTTP client over a real socket."""
 import os
+import sqlite3
 import tempfile
 import unittest
 from unittest import mock
@@ -79,6 +80,17 @@ class BackendHttpTest(unittest.IsolatedAsyncioTestCase):
                 status, _ = await self.post("/random-tossup", **kwargs)
                 self.assertEqual(status, 400)
 
+    async def test_custom_only_without_a_custom_database_is_404(self):
+        status, body = await self.post("/random-tossup", json={"custom": "only"})
+        self.assertEqual(status, 404)
+        self.assertIn("custom", body["error"].lower())
+
+    async def test_custom_include_without_a_custom_database_still_serves_ordinary_questions(self):
+        for _ in range(10):
+            status, body = await self.post("/random-tossup", json={"custom": "include"})
+            self.assertEqual(status, 200)
+            self.assertNotIn("custom", body)
+
     async def test_check_answer_relays_the_judges_verdict(self):
         status, body = await self.post("/check-answer", json={"answerline": "<b><u>mitosis</u></b>", "given": "Mitosis"})
         self.assertEqual((status, body), (200, {"directive": "accept", "directed_prompt": None, "final": False}))
@@ -105,6 +117,77 @@ class BackendHttpTest(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(response.status, 405)
         async with self.http.get("/nope") as response:
             self.assertEqual(response.status, 404)
+
+
+class RateTossupHttpTest(unittest.IsolatedAsyncioTestCase):
+    """POST /rate-tossup, writing into the custom database through a real socket."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.stack = LocalStack(
+            [tossup("mitosis")],
+            custom_tossups=[tossup("merlion", "Singapore", "Singapore", difficulty=1)],
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.stack.close()
+
+    async def asyncSetUp(self):
+        self.http = aiohttp.ClientSession(self.stack.url)
+
+    async def asyncTearDown(self):
+        await self.http.close()
+
+    async def post(self, path, **kwargs):
+        async with self.http.post(path, **kwargs) as response:
+            try:
+                body = await response.json()
+            except aiohttp.ContentTypeError:
+                body = await response.text()
+            return response.status, body
+
+    def stored_votes(self, tossup_id):
+        conn = sqlite3.connect(self.stack.custom_db_path)
+        try:
+            return conn.execute("SELECT good_votes, bad_votes FROM tossups WHERE id = ?", (tossup_id,)).fetchone()
+        finally:
+            conn.close()
+
+    async def test_a_custom_tossup_carries_the_id_to_vote_on_and_a_vote_reaches_the_database(self):
+        status, drawn = await self.post("/random-tossup", json={"custom": "only"})
+        self.assertEqual((status, drawn["id"]), (200, "merlion"))
+        before = self.stored_votes("merlion")
+
+        status, body = await self.post("/rate-tossup", json={"id": drawn["id"], "rating": "good", "previous": None})
+        self.assertEqual(status, 200)
+        self.assertEqual(self.stored_votes("merlion"), (before[0] + 1, before[1]))
+        self.assertEqual((body["good_votes"], body["bad_votes"]), self.stored_votes("merlion"))
+
+        status, body = await self.post("/rate-tossup", json={"id": "merlion", "rating": "bad", "previous": "good"})
+        self.assertEqual((status, self.stored_votes("merlion")), (200, (before[0], before[1] + 1)))
+
+    async def test_ordinary_tossups_have_no_id_and_cannot_be_rated(self):
+        _, drawn = await self.post("/random-tossup", json={})
+        self.assertNotIn("id", drawn)
+        status, _ = await self.post("/rate-tossup", json={"id": "mitosis", "rating": "good"})
+        self.assertEqual(status, 404)
+
+    async def test_unknown_question_is_404_and_malformed_requests_are_400(self):
+        status, body = await self.post("/rate-tossup", json={"id": "nope", "rating": "good"})
+        self.assertEqual(status, 404)
+        self.assertIn("error", body)
+        for payload in ({"id": "merlion"}, {"id": "merlion", "rating": "great"}, {"rating": "good"}):
+            status, _ = await self.post("/rate-tossup", json=payload)
+            self.assertEqual(status, 400, payload)
+
+    async def test_without_a_custom_database_rating_is_404(self):
+        stack = LocalStack([tossup("mitosis")])
+        self.addCleanup(stack.close)
+        async with aiohttp.ClientSession(stack.url) as http:
+            async with http.post("/rate-tossup", json={"id": "merlion", "rating": "good"}) as response:
+                self.assertEqual(response.status, 404)
+        self.assertFalse(os.path.exists(stack.custom_db_path))
 
 
 class BackendStartupTest(unittest.TestCase):

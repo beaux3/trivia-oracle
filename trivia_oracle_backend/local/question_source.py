@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from ..base import QuestionFilters
-from .db import connect_readonly
+from .db import connect_readonly, record_vote
 
 # Parent (category, subcategory) of each alternate subcategory. The qbreader
 # client adds these to a /random-tossup request whenever an alternate
@@ -105,3 +105,7 @@ class LocalQuestionSource:
         if row is None:
             raise LookupError("No tossups in the local database match the selected categories and difficulties.")
         return LocalTossup(*row)
+
+    async def rate_tossup(self, tossup_id: str, rating: str, previous: Optional[str] = None) -> tuple:
+        """Record a player's "good" / "bad" vote on a custom question; returns its new (good, bad) totals."""
+        return record_vote(self.db_path, tossup_id, rating, previous)

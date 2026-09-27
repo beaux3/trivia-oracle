@@ -4,7 +4,7 @@ import os
 from aiohttp import web
 
 from . import LocalAnswerJudge, LocalQuestionSource, QbreaderAnswerJudge, QbreaderQuestionSource
-from .config import HOST, PORT, QUESTION_BACKEND, QUESTIONS_DB
+from .config import CUSTOM_QUESTIONS_DB, HOST, PORT, QUESTION_BACKEND, QUESTIONS_DB
 from .server import build_app
 
 
@@ -22,7 +22,10 @@ def main() -> None:
     else:
         raise SystemExit(f'QUESTION_BACKEND must be "api" or "local", not "{QUESTION_BACKEND}".')
     # Local mode never touches the network: questions come from the database, answers from LocalAnswerJudge.
-    web.run_app(build_app(source, judge, QUESTION_BACKEND), host=HOST, port=PORT)
+    # Custom questions come from their own database in either mode. It is opened per request, so it may be
+    # created or refilled (custom.add) while the service runs, and a missing file only fails custom draws.
+    custom_source = LocalQuestionSource(CUSTOM_QUESTIONS_DB)
+    web.run_app(build_app(source, judge, QUESTION_BACKEND, custom_source=custom_source), host=HOST, port=PORT)
 
 
 if __name__ == "__main__":

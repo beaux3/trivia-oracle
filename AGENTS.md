@@ -19,6 +19,7 @@ are persisted to a Markdown file and printed to the group after every round.
 |---------|-------------|
 | `/next` | Start a new round (ignored if one is already active) |
 | `/scores` | Print the current scoreboard |
+| `/good`, `/bad` | Rate the custom question just played (one vote per player per round; latest wins; open until the next round starts) |
 | `/configure` | Open the interactive settings menu |
 
 ---
@@ -80,6 +81,7 @@ bot/               Telegram UI.
                    to game/round.py and its results into chat messages:
                    • start_round()         — /next handler → round.start_round()
                    • handle_round_answer() — MessageHandler (run_async) → round.submit_answer()
+                   • rate_good() / rate_bad() — /good, /bad CommandHandlers (run_async) → round.submit_rating()
   keyboards.py     Pure functions that build and return InlineKeyboardMarkup objects.
                    Re-called on every render so the checkmarks always reflect current
                    state. Never mutates anything.
@@ -106,6 +108,8 @@ game/              Game rules and state.
                    • sentence_interval (float, seconds between sentences)
                    • answer_wait (float, seconds to wait after last sentence)
                    • selected_categories (set of strings from CATEGORIES)
+                   • custom_questions (bool; the "Custom" category, off by default. It is not in
+                     CATEGORIES, so "all categories" still means all qbreader ones)
                    • selected_difficulties (set of display-label strings)
                    • scoring_modes (set of SCORING_MODES keys; empty = default scoring)
   scores.py        In-memory score store (dict + threading.Lock) and helpers:
@@ -125,7 +129,15 @@ game/              Game rules and state.
                                              `session` is per-chat storage (Telegram chat_data)
                    • submit_answer(user_id, name, given, on_prompt)
                                            — judges one answer; blocks during the check
-                   • _build_filters()      — settings → questions.QuestionFilters
+                   • submit_rating(user_id, rating)
+                                           — a player's /good or /bad on the custom question just played;
+                                             blocks while the vote is sent. State: current_round["rating"]
+                                             = (question id, {user_id: rating}), set by start_round for
+                                             custom tossups that have an id, else None
+                   • _build_filters()      — settings → questions.QuestionFilters (incl. `custom`:
+                                             "exclude" | "include" | "only")
+                   • _round_header()       — "📝 Custom question\nCategory: X" for custom tossups,
+                                             announced as its own message before the first clue
                    • _fetch_tossup()       — async; questions.question_source.random_tossup
                    • _check_answer()       — async; questions.answer_judge.check
                    • _run_round()          — thread; drives sentence reveals + end message
@@ -140,13 +152,15 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
   __init__.py      Re-exports the interfaces and both sources; reads no config.
   __main__.py      Picks the source from QUESTION_BACKEND and runs the HTTP service.
   config.py        QUESTION_BACKEND, QUESTIONS_DB, CUSTOM_QUESTIONS_DB, HOST, PORT (env vars only).
-  server.py        aiohttp app: GET /health, POST /random-tossup, POST /check-answer.
+  server.py        aiohttp app: GET /health, POST /random-tossup, POST /rate-tossup, POST /check-answer.
   base.py          QuestionFilters, and the Tossup / Judgement / QuestionSource /
                    AnswerJudge protocols.
   api/             qbreader.org backend: QbreaderQuestionSource, QbreaderAnswerJudge.
   local/           Offline backend over data/questions.db:
-    schema.sql     `sets` and `tossups` tables.
-    db.py          connect(), connect_readonly(), replace_set() (one set per transaction).
+    schema.sql     `sets` and `tossups` tables, incl. good_votes / bad_votes / is_custom. db.connect()
+                   adds columns missing from older files; replace_set() keeps votes.
+    db.py          connect(), connect_readonly(), replace_set() (one set per transaction),
+                   record_vote() (the only writer at run time: a custom question's good/bad votes).
     question_source.py  LocalQuestionSource; build_where() turns QuestionFilters into SQL.
     sync.py        CLI that copies qbreader into the database
                    (`python -m trivia_oracle_backend.local.sync`).
@@ -156,12 +170,13 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
                    optional "by asking" text, rejected phrases, word_forms flag). Cached.
     matching.py    fold_char, Phrase (words + which are underlined), words_match / strings_match
                    (typo rules), Roman numerals, edit distance.
-  custom/          Hand-written questions, same schema as the local database:
+  custom/          Hand-written questions, same schema as the local database (is_custom = 1):
     CONTRIBUTING.md  Instructions for an LLM (or person) writing questions. Keep it in step with add.py.
-    submissions/   One .jsonl file per set: the source of truth (committable, unlike the .db).
+    submissions/   One .jsonl file per set (the source of truth, committable, unlike the .db), plus an
+                   optional <set>.sources.md listing each clue's sources; add.py ignores the .md files.
     add.py         `python -m trivia_oracle_backend.custom.add [--check] [files]`: validates
-                   submissions and loads each into data/custom_questions.db via local/db.replace_set. That database adds
-                   good_votes / bad_votes columns to tossups (player feedback; kept across reloads).
+                   submissions and loads each into data/custom_questions.db via local/db.replace_set(custom=True),
+                   which sets is_custom = 1 (so a set can later be moved into questions.db).
 ```
 
 ---
@@ -184,6 +199,7 @@ share the JSON wire format.
 | Message shown when `/next` fails | `trivia_oracle_bot/bot/round_handlers.py` | `StartFailureIntegrationTest` |
 | Wire format (request or response fields) | `trivia_oracle_backend/server.py` **and** `trivia_oracle_bot/questions.py` | `tests/backend/test_server.py`, `tests/bot/test_backend_client.py`, `tests/integration/test_backend_http.py` |
 | New endpoint | `trivia_oracle_backend/server.py` | `tests/backend`, `tests/integration` |
+| Rating custom questions (prompt text, who may vote, when) | `trivia_oracle_bot/game/round.py` (`submit_rating`, `RATING_PROMPT`); the counting is `local/db.py` (`record_vote`) | `tests/bot/test_ratings.py`, `tests/backend/test_votes.py`, `CustomQuestionsIntegrationTest`, `RateTossupHttpTest` |
 | How local questions are filtered | `trivia_oracle_backend/local/question_source.py` (`build_where`) | `tests/backend/test_local_backend.py`, `FilterIntegrationTest` |
 | Local DB schema | `trivia_oracle_backend/local/schema.sql`, `db.py` | `tests/backend`, `tests/integration/test_sync_pipeline.py` |
 | What the sync downloads | `trivia_oracle_backend/local/sync.py` | `tests/integration/test_sync_pipeline.py` |
@@ -378,13 +394,16 @@ in `start_round` silently drops a `/next` command if a round is already running.
 client for the backend service (`BACKEND_URL`):
 
 - `questions.question_source.random_tossup(filters)` → a Tossup (`question_sanitized`,
-  `answer` with HTML, `answer_sanitized`)
+  `answer` with HTML, `answer_sanitized`, and for custom questions `custom=True`, `category` and `id`)
+- `questions.question_source.rate_tossup(id, rating, previous)` → the question's new `(good, bad)` totals
 - `questions.answer_judge.check(answerline, given)` → a Judgement (`directive`,
   `directed_prompt`)
 
 Both are async. On the backend side they are Protocols in `trivia_oracle_backend/base.py`, and
 `server.py` exposes them as `POST /random-tossup` (filters as lists of strings or null → the three
-tossup fields; 404 when nothing matches, 502 when the source fails, 400 for a bad request) and
+tossup fields, plus `custom`, `category` and `id` for a custom question; 404 when nothing matches, 502 when the
+source fails, 400 for a bad request),
+`POST /rate-tossup` and
 `POST /check-answer`. Change the wire format in `server.py` and `questions.py` together.
 
 `trivia_oracle_backend/__main__.py` picks the source from `QUESTION_BACKEND`:
@@ -393,6 +412,27 @@ tossup fields; 404 when nothing matches, 502 when the source fails, 400 for a ba
 |--------------------|----------------|-------------------|
 | `local` (default) | `QUESTIONS_DB` (SQLite) | `local/answer_judge.LocalAnswerJudge`, in-process; no network, no fallback |
 | `api` | qbreader.org `/random-tossup` | qbreader.org `/check-answer` |
+
+### Custom questions in play
+`__main__.py` always gives `build_app` a second `LocalQuestionSource` on `CUSTOM_QUESTIONS_DB`, in either
+`QUESTION_BACKEND` mode. `POST /random-tossup` takes `custom`: `"exclude"` (default) never draws from it,
+`"only"` always does, `"include"` tries the custom or the main source first with equal odds and falls back to
+the other when it has nothing. Custom draws ignore all three filters. A missing or empty custom database is a 404
+for `only` and is skipped for `include`. In the bot, `settings.custom_questions` + `selected_categories` become
+`custom` in `_build_filters()`: on with categories selected = `include`, on with none = `only`.
+
+### Rating custom questions
+A custom round's end message ends with "Please rate the question /good or /bad" (`round.RATING_PROMPT`).
+`POST /rate-tossup {id, rating: "good"|"bad", previous: "good"|"bad"|null}` adds one vote to that custom
+question's `good_votes` / `bad_votes` (`local/db.record_vote`) and withdraws `previous`, so a changed vote
+moves instead of doubling; counts never go below 0. Only `is_custom = 1` rows can be rated (404 otherwise, and
+when there is no custom database; the file is never created). The backend just counts. The one-vote-per-player
+rule lives in the bot: `round.submit_rating` keeps `{user_id: rating}` for the round, ignores a repeat, sends a
+change with `previous` set, and only records a vote once the backend accepted it. `ratings_lock` is held while a
+vote is in flight, so one player's votes reach the backend in the order they were made. The rating state is
+replaced when the next round starts, which is also when voting closes; a new round lets the player vote again,
+even on the same question. `custom_questions.db` is therefore no longer read-only at run time: the backend's
+`./data` mount must stay writable.
 
 The bot tests patch `round._fetch_tossup` / `round._check_answer`, so they are backend-independent;
 `tests/bot/test_backend_client.py` covers the client against a stand-in server, and
@@ -450,7 +490,7 @@ The backend has its own settings, read from environment variables only (`trivia_
 |------|---------|-------|
 | `QUESTION_BACKEND` | `local` | `local` or `api`. With `local`, the backend refuses to start if `QUESTIONS_DB` is missing. |
 | `QUESTIONS_DB` | `<repo>/data/questions.db` | Written by the sync script, opened read-only per request by the service. |
-| `CUSTOM_QUESTIONS_DB` | `<repo>/data/custom_questions.db` | Written by `custom/add.py`; not read by the service yet. |
+| `CUSTOM_QUESTIONS_DB` | `<repo>/data/custom_questions.db` | Written by `custom/add.py` and, for players' votes, by `POST /rate-tossup`; opened per request, so it may appear or change while the service runs. |
 | `HOST`, `PORT` | `0.0.0.0`, `8080` | Where the service listens. Compose does not publish it. |
 
 `secrets.example.json` shows the format. To add a new setting, read it in

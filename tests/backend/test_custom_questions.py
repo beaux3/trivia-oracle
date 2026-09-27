@@ -43,6 +43,10 @@ class ValidateTest(unittest.TestCase):
             with self.subTest(overrides):
                 self.assertTrue(add.validate(record(**overrides)))
 
+    def test_singapore_is_a_category_of_its_own(self):
+        self.assertEqual(add.validate(record(category="Singapore", subcategory="Singapore")), [])
+        self.assertTrue(add.validate(record(category="Singapore", subcategory="Geography")))
+
     def test_missing_field(self):
         incomplete = record()
         del incomplete["answer"]
@@ -77,7 +81,7 @@ class LoadTest(unittest.TestCase):
         first, second = record(), record(question=QUESTION + " Extra clue.", answer="<u>torque</u>")
         path = self.write("mine.jsonl", [first, second])
         add.main(["--db", self.db, path])
-        conn = add.connect_custom(self.db)
+        conn = connect(self.db)
         self.assertEqual(conn.execute("SELECT good_votes, bad_votes FROM tossups").fetchall(), [(0, 0), (0, 0)])
         conn.execute("UPDATE tossups SET good_votes = good_votes + 3, bad_votes = bad_votes + 1 WHERE number = 1")
         conn.commit()
@@ -89,11 +93,11 @@ class LoadTest(unittest.TestCase):
             "SELECT number, good_votes, bad_votes FROM tossups ORDER BY number").fetchall()
         self.assertEqual(rows, [(1, 3, 1), (2, 0, 0)])
 
-    def test_old_database_without_vote_columns_is_upgraded(self):
-        connect(self.db).close()  # plain shared schema, as before the vote columns existed
-        add.connect_custom(self.db).close()
-        columns = {row[1] for row in connect_readonly(self.db).execute("PRAGMA table_info(tossups)")}
-        self.assertLessEqual({"good_votes", "bad_votes"}, columns)
+    def test_sets_and_tossups_are_marked_custom(self):
+        add.main(["--db", self.db, self.write("mine.jsonl", [record()])])
+        conn = connect_readonly(self.db)
+        self.assertEqual(conn.execute("SELECT is_custom FROM sets").fetchall(), [(1,)])
+        self.assertEqual(conn.execute("SELECT is_custom FROM tossups").fetchall(), [(1,)])
 
     def test_invalid_file_is_not_loaded(self):
         path = self.write("bad.jsonl", [record(), "not json", record(difficulty=99)])

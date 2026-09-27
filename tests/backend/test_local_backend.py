@@ -1,6 +1,7 @@
 """The local SQLite backend: storing synced sets and drawing filtered tossups."""
 import asyncio
 import os
+import sqlite3
 import tempfile
 import unittest
 
@@ -132,6 +133,47 @@ class SyncSetTest(unittest.TestCase):
             self.assertEqual(
                 conn.execute("SELECT packet_count, tossup_count FROM sets WHERE name = 'S'").fetchone(), (2, 3),
             )
+            conn.close()
+
+
+OLD_SCHEMA = """
+CREATE TABLE sets (name TEXT PRIMARY KEY, id TEXT, year INTEGER, standard INTEGER,
+                   packet_count INTEGER NOT NULL, tossup_count INTEGER NOT NULL, synced_at TEXT NOT NULL);
+CREATE TABLE tossups (id TEXT PRIMARY KEY, set_name TEXT NOT NULL, packet_number INTEGER NOT NULL, number INTEGER,
+                      category TEXT, subcategory TEXT, alternate_subcategory TEXT, difficulty INTEGER,
+                      question_sanitized TEXT NOT NULL, answer TEXT NOT NULL, answer_sanitized TEXT NOT NULL,
+                      updated_at TEXT);
+INSERT INTO tossups (id, set_name, packet_number, question_sanitized, answer, answer_sanitized)
+VALUES ('old', 'S', 1, 'q', 'a', 'a');
+"""
+
+
+class ColumnsAddedLaterTest(unittest.TestCase):
+    def test_connect_upgrades_an_older_database_and_keeps_its_rows(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "questions.db")
+            old = sqlite3.connect(path)
+            old.executescript(OLD_SCHEMA)
+            old.close()
+            conn = connect(path)
+            self.assertEqual(conn.execute("SELECT good_votes, bad_votes, is_custom FROM tossups").fetchall(), [(0, 0, 0)])
+            conn.execute("SELECT is_custom FROM sets")
+            connect(path).close()  # a second connect finds the columns and changes nothing
+            conn.close()
+
+    def test_replace_set_keeps_votes_and_qbreader_sets_are_not_custom(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            conn = connect(os.path.join(tmp, "questions.db"))
+            replace_set(conn, "S", 1, [_tossup("a", "Science", "Biology", set_name="S")])
+            conn.execute("UPDATE tossups SET good_votes = 2, bad_votes = 1 WHERE id = 'a'")
+            conn.commit()
+            replace_set(conn, "S", 1, [_tossup("a", "Science", "Biology", set_name="S"),
+                                       _tossup("b", "Science", "Physics", set_name="S")])
+            self.assertEqual(
+                conn.execute("SELECT id, good_votes, bad_votes, is_custom FROM tossups ORDER BY id").fetchall(),
+                [("a", 2, 1, 0), ("b", 0, 0, 0)],
+            )
+            self.assertEqual(conn.execute("SELECT is_custom FROM sets").fetchall(), [(0,)])
             conn.close()
 
 

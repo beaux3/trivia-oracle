@@ -37,3 +37,17 @@ def handle_round_answer(update, context) -> None:
         )
 
     game_round.submit_answer(user.id, user.first_name, update.message.text, reply_prompt)
+
+
+def _rate(rating: str, update) -> None:
+    game_round.submit_rating(update.effective_user.id, rating)
+
+
+def rate_good(update, _context) -> None:
+    """/good handler. Runs on a worker thread (run_async): the vote is sent to the backend."""
+    _rate("good", update)
+
+
+def rate_bad(update, _context) -> None:
+    """/bad handler. Runs on a worker thread (run_async): the vote is sent to the backend."""
+    _rate("bad", update)

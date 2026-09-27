@@ -1,0 +1,99 @@
+"""Player votes on custom questions: how they are written into the database's good_votes / bad_votes."""
+import asyncio
+import os
+import tempfile
+import unittest
+
+from trivia_oracle_backend.local import LocalQuestionSource
+from trivia_oracle_backend.local.db import connect, connect_readonly, record_vote, replace_set
+from tests.integration.support import tossup
+
+
+class VoteDatabaseCase(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.path = os.path.join(self._tmp.name, "custom.db")
+        conn = connect(self.path)
+        replace_set(conn, "Custom Set", 1, [tossup("merlion"), tossup("laksa")], custom=True)
+        replace_set(conn, "qbreader Set", 1, [tossup("mitosis", set_name="qbreader Set")])
+        conn.close()
+
+    def votes(self, tossup_id):
+        conn = connect_readonly(self.path)
+        try:
+            return conn.execute("SELECT good_votes, bad_votes FROM tossups WHERE id = ?", (tossup_id,)).fetchone()
+        finally:
+            conn.close()
+
+
+class RecordVoteTest(VoteDatabaseCase):
+    def test_a_first_vote_adds_one_to_that_side_and_returns_the_totals(self):
+        self.assertEqual(record_vote(self.path, "merlion", "good"), (1, 0))
+        self.assertEqual(record_vote(self.path, "laksa", "bad"), (0, 1))
+        self.assertEqual(self.votes("merlion"), (1, 0))
+        self.assertEqual(self.votes("laksa"), (0, 1))
+
+    def test_votes_from_different_players_add_up(self):
+        for _ in range(3):
+            record_vote(self.path, "merlion", "good")
+        record_vote(self.path, "merlion", "bad")
+        self.assertEqual(self.votes("merlion"), (3, 1))
+
+    def test_changing_a_vote_moves_it_to_the_other_side(self):
+        record_vote(self.path, "merlion", "good")
+        self.assertEqual(record_vote(self.path, "merlion", "bad", previous="good"), (0, 1))
+        self.assertEqual(record_vote(self.path, "merlion", "good", previous="bad"), (1, 0))
+
+    def test_changing_a_vote_leaves_other_players_votes_alone(self):
+        for _ in range(2):
+            record_vote(self.path, "merlion", "good")
+        record_vote(self.path, "merlion", "bad")
+        self.assertEqual(record_vote(self.path, "merlion", "bad", previous="good"), (1, 2))
+
+    def test_a_count_never_goes_below_zero(self):
+        self.assertEqual(record_vote(self.path, "merlion", "bad", previous="good"), (0, 1))
+
+    def test_other_questions_are_untouched(self):
+        record_vote(self.path, "merlion", "good")
+        self.assertEqual(self.votes("laksa"), (0, 0))
+        self.assertEqual(self.votes("mitosis"), (0, 0))
+
+    def test_only_custom_questions_can_be_rated(self):
+        with self.assertRaises(LookupError):
+            record_vote(self.path, "mitosis", "good")
+        self.assertEqual(self.votes("mitosis"), (0, 0))
+
+    def test_unknown_question_is_a_lookup_error(self):
+        with self.assertRaises(LookupError):
+            record_vote(self.path, "nope", "good")
+
+    def test_bad_ratings_are_refused_and_change_nothing(self):
+        for rating, previous in (("great", None), ("good", "great"), (None, None), ("good", "")):
+            with self.subTest(rating=rating, previous=previous):
+                with self.assertRaises(ValueError):
+                    record_vote(self.path, "merlion", rating, previous)
+        self.assertEqual(self.votes("merlion"), (0, 0))
+
+    def test_a_missing_database_is_not_created(self):
+        missing = os.path.join(self._tmp.name, "missing.db")
+        with self.assertRaises(FileNotFoundError):
+            record_vote(missing, "merlion", "good")
+        self.assertFalse(os.path.exists(missing))
+
+
+class LocalQuestionSourceRatingTest(VoteDatabaseCase):
+    def test_rate_tossup_writes_the_vote(self):
+        source = LocalQuestionSource(self.path)
+        self.assertEqual(asyncio.run(source.rate_tossup("merlion", "good", None)), (1, 0))
+        self.assertEqual(asyncio.run(source.rate_tossup("merlion", "bad", "good")), (0, 1))
+        self.assertEqual(self.votes("merlion"), (0, 1))
+
+    def test_drawn_tossups_carry_the_id_a_vote_needs(self):
+        from trivia_oracle_backend import QuestionFilters
+        tossup_drawn = asyncio.run(LocalQuestionSource(self.path).random_tossup(QuestionFilters()))
+        self.assertIn(tossup_drawn.id, {"merlion", "laksa", "mitosis"})
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -16,6 +16,7 @@ A Telegram group trivia bot built just for fun by **Terence Chew**. It asks quiz
 |---------|--------------|
 | `/next` | Start a new round |
 | `/scores` | Show the scoreboard |
+| `/good`, `/bad` | Rate the custom question that was just played (see [Custom questions](#custom-questions)) |
 | `/configure` | Change timing, categories, difficulty and scoring mode |
 
 During a round, just type your answer in the chat. The first correct answer wins the points.
@@ -101,6 +102,23 @@ check goes to the **question backend**, a small HTTP service (`trivia_oracle_bac
 Set it with `QUESTION_BACKEND=api docker compose up -d`. The backend also reads `QUESTIONS_DB`, `HOST` and
 `PORT` (see [AGENTS.md](AGENTS.md)).
 
+### Custom questions
+
+Hand-written questions (see [custom/CONTRIBUTING.md](trivia_oracle_backend/custom/CONTRIBUTING.md)) live in their own
+database, `data/custom_questions.db`, and work in both modes. In `/configure` → **📚 Categories**, tick **Custom** to play them:
+
+- Custom on its own (untick everything else, e.g. with **Deselect All**) plays only custom questions.
+- Custom next to other categories mixes it in: each round has an equal chance of being custom or a regular question,
+  because the custom set is small and would otherwise almost never come up.
+- Custom questions ignore the category and difficulty filters. Every custom question is fair game.
+- A custom round opens with a message of its own, `📝 Custom question` and then `Category: <category>` on the next line, sent just before the first clue.
+- A custom round's end message asks players to rate the question with `/good` or `/bad`. Votes are added to the
+  question's `good_votes` / `bad_votes` in `data/custom_questions.db`, and reloading a submission file keeps them.
+  Each player has one vote per round: repeating the same command is ignored, and the other command replaces their
+  earlier vote. Voting closes when the next round starts, and the bot does not reply to votes.
+- If no custom questions are loaded yet, a custom-only `/next` says "Failed to fetch a question", and a mixed one just
+  plays a regular question. The file is read on every request, so you can load questions while the bot is running.
+
 ### Filling the local database
 
 You run the sync yourself, whenever you like. It copies qbreader into `data/questions.db`: about an hour and
@@ -151,7 +169,7 @@ trivia_oracle_bot/       Frontend: the Telegram bot
   questions.py           HTTP client for the backend
   config.py              Token, admin, categories, difficulties, scoring constants
 trivia_oracle_backend/   Backend: questions and answer checking as an HTTP service
-  server.py              /health, /random-tossup, /check-answer
+  server.py              /health, /random-tossup, /rate-tossup, /check-answer
   local/                 SQLite source, the sync script and the answer checker
   api/, vendor/qbreader/ The qbreader.org source and its vendored client
   custom/                Hand-written questions (see custom/CONTRIBUTING.md)

@@ -7,7 +7,7 @@ from typing import Callable, Optional
 
 from ..config import (
     ALL_ALT_SUBCATEGORIES, CATEGORIES, DIFFICULTIES,
-    POINTS_PER_CORRECT, POINTS_PER_MEDAL_WRONG, POINTS_PER_WRONG,
+    POINTS_PER_CORRECT, POINTS_PER_MEDAL_WRONG, POINTS_PER_WRONG, RATINGS,
 )
 from ..questions import QuestionFilters, answer_judge, question_source
 from .scores import format_scoreboard, medalist_ids, save_scores, scores, scores_lock
@@ -25,13 +25,20 @@ current_round: dict = {
     "winner_ids": set(), # user IDs already scored this round (one correct answer each)
     "penalties": {},     # {first_name: total_points_deducted} for wrong answers this round
     "sentences": [],
+    "header": "",        # sent as its own message before the first clue (marks custom questions)
     "hourglasses": 0,    # ⏳ count on the latest clue message (hourglass scoring)
     "scoring_modes": frozenset(),  # snapshot of settings.scoring_modes at round start
     "medalists": set(),  # user IDs holding 🥇🥈🥉 at round start (medal_penalty scoring)
     "pending_checks": 0, # answers sent while active whose backend check hasn't returned yet
+    # (question id, {user_id: "good" | "bad"}) once a custom question can be rated, else None. Rounds
+    # replace it whole, so a vote still being sent for the last question can't land in the next one's.
+    "rating": None,
     "event": threading.Event(),
 }
 round_lock = threading.Lock()  # held for the duration of a round; prevents overlapping rounds
+# Held while a player's vote is sent to the backend, so one player's votes arrive in the order they were made.
+ratings_lock = threading.Lock()
+RATING_PROMPT = "\n\nPlease rate the question /good or /bad"
 # Signalled whenever pending_checks drops, so the round can close once every
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
@@ -52,12 +59,24 @@ def _build_filters() -> QuestionFilters:
     selected becomes None (= no filter), which also keeps requests small.
     """
     subcategories = alt_subcategories = difficulties = None
+    custom = "exclude"
+    if settings.custom_questions:
+        # Custom on its own (nothing else ticked) plays only custom questions; otherwise they are mixed in.
+        custom = "include" if settings.selected_categories else "only"
     if settings.selected_categories != set(CATEGORIES):
         subcategories = [c for c in settings.selected_categories if c not in ALL_ALT_SUBCATEGORIES] or None
         alt_subcategories = [c for c in settings.selected_categories if c in ALL_ALT_SUBCATEGORIES] or None
     if settings.selected_difficulties != set(DIFFICULTIES):
         difficulties = [DIFFICULTIES[d] for d in settings.selected_difficulties]
-    return QuestionFilters(subcategories, alt_subcategories, difficulties)
+    return QuestionFilters(subcategories, alt_subcategories, difficulties, custom)
+
+
+def _round_header(tossup) -> str:
+    """The message sent just before the first clue that says a hand-written question is coming, and its category."""
+    if not getattr(tossup, "custom", False):
+        return ""
+    category = getattr(tossup, "category", None)
+    return f"📝 Custom question\nCategory: {category}" if category else "📝 Custom question"
 
 
 async def _fetch_tossup():
@@ -106,8 +125,11 @@ def _run_round(announce: Callable[[str], None], end_hint: str) -> None:
 
 def _run_round_body(announce: Callable[[str], None], end_hint: str) -> None:
     sentences = current_round["sentences"]
+    header = current_round["header"]
     total = len(sentences)
 
+    if header:
+        announce(header)
     for i, sentence in enumerate(sentences):
         if current_round["event"].is_set():
             break
@@ -124,7 +146,7 @@ def _run_round_body(announce: Callable[[str], None], end_hint: str) -> None:
         # being checked; score them before announcing the result.
         if not checks_settled.wait_for(lambda: current_round["pending_checks"] == 0, PENDING_CHECK_TIMEOUT):
             logging.warning("Closing round with %d answer check(s) still pending", current_round["pending_checks"])
-    announce(_round_end_text() + end_hint)
+    announce(_round_end_text() + end_hint + (RATING_PROMPT if current_round["rating"] else ""))
     announce(format_scoreboard())
 
 
@@ -223,6 +245,33 @@ def _judge_answer(user_id: int, name: str, given: str) -> Optional[str]:
             current_round["penalties"][name] = current_round["penalties"].get(name, 0) + penalty
 
 
+def submit_rating(user_id: int, rating: str) -> None:
+    """
+    Record a player's /good or /bad on the custom question that was just played.
+
+    Votes are open from the round's end until the next round starts, and only for custom questions.
+    Each player has one vote per round: repeating it is ignored, and the other one replaces it (the
+    backend moves the vote). A vote the backend fails to record does not count, so it can be retried.
+    Blocks while the vote is sent, so callers run it on a worker thread.
+    """
+    if rating not in RATINGS:
+        return
+    with ratings_lock:
+        target = current_round["rating"]
+        if current_round["active"] or target is None:
+            return
+        question_id, votes = target
+        previous = votes.get(user_id)
+        if previous == rating:
+            return
+        try:
+            asyncio.run(question_source.rate_tossup(question_id, rating, previous))
+        except Exception as e:
+            logging.error("Rating failed: %s", e)
+            return
+        votes[user_id] = rating
+
+
 def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -> StartResult:
     """
     Fetch a question and run the round on a background thread.
@@ -266,10 +315,12 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
             "winner_ids": set(),
             "penalties": {},
             "sentences": sentences,
+            "header": _round_header(tossup),
             "hourglasses": len(sentences),
             "scoring_modes": frozenset(settings.scoring_modes),
             "medalists": medalists,
             "pending_checks": 0,
+            "rating": (tossup.id, {}) if getattr(tossup, "custom", False) and getattr(tossup, "id", None) else None,
         })
         current_round["event"].clear()
         logging.info("Answer: %s", tossup.answer_sanitized)

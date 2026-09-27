@@ -75,8 +75,8 @@ class ScriptedJudge:
 class BackendServer:
     """The backend service on 127.0.0.1:<free port>, served from its own thread and event loop."""
 
-    def __init__(self, source, judge, backend_name="local"):
-        self._app = build_app(source, judge, backend_name)
+    def __init__(self, source, judge, backend_name="local", custom_source=None):
+        self._app = build_app(source, judge, backend_name, custom_source=custom_source)
         self._loop = asyncio.new_event_loop()
         self._ready = threading.Event()
         self._thread = threading.Thread(target=self._serve, daemon=True)
@@ -106,16 +106,28 @@ class BackendServer:
 
 
 class LocalStack:
-    """A temporary questions.db behind a running backend service."""
+    """
+    A temporary questions.db behind a running backend service.
 
-    def __init__(self, tossups, judge=None):
+    `custom_tossups`, if given, fill a second database that serves the custom questions.
+    """
+
+    def __init__(self, tossups, judge=None, custom_tossups=None):
         self.judge = judge or ScriptedJudge()
         self._tmp = tempfile.TemporaryDirectory()
         self.db_path = os.path.join(self._tmp.name, "questions.db")
         conn = connect(self.db_path)
         replace_set(conn, "Test Set", 1, tossups)
         conn.close()
-        self.server = BackendServer(LocalQuestionSource(self.db_path), self.judge).start()
+        self.custom_db_path = os.path.join(self._tmp.name, "custom_questions.db")
+        if custom_tossups:
+            conn = connect(self.custom_db_path)
+            replace_set(conn, "Custom Set", 1, custom_tossups, custom=True)
+            conn.close()
+        # The custom database file is opened per request, so without custom_tossups it simply does not exist.
+        self.server = BackendServer(
+            LocalQuestionSource(self.db_path), self.judge, custom_source=LocalQuestionSource(self.custom_db_path),
+        ).start()
         self.url = self.server.url
 
     def close(self):

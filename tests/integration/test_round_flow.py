@@ -4,6 +4,7 @@ service reading a real SQLite database. Only the qbreader answer judge is script
 """
 import asyncio
 import os
+import sqlite3
 import tempfile
 import unittest
 from types import SimpleNamespace
@@ -245,6 +246,139 @@ class FilterIntegrationTest(unittest.TestCase):
         settings.selected_difficulties = {"HS Easy (2)", "HS Regular (3)"}
         with self.assertRaisesRegex(LookupError, "match the selected categories and difficulties"):
             asyncio.run(rnd._fetch_tossup())
+
+
+class CustomQuestionsIntegrationTest(unittest.TestCase):
+    """The Custom category, from the settings through the HTTP hop to a played round."""
+
+    TOSSUPS = [tossup("mitosis", "Science", "Biology", difficulty=8)]
+    CUSTOM = [
+        tossup("merlion", "Singapore", "Singapore", difficulty=1,
+               question="This creature guards a bay. It has a lion head."),
+        tossup("laksa", "Singapore", "Singapore", difficulty=9,
+               question="This noodle soup is spicy. It has coconut milk."),
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.stack = LocalStack(cls.TOSSUPS, custom_tossups=cls.CUSTOM)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.stack.close()
+
+    def setUp(self):
+        self._saved_settings = dict(vars(settings))
+        settings.selected_difficulties = {COLLEGE_8}  # excludes the custom questions' difficulty 1
+        settings.sentence_interval = 0.1
+        settings.answer_wait = 0.1
+        self._tmp = tempfile.TemporaryDirectory()
+        patches = [
+            mock.patch.object(rnd, "question_source", BackendQuestionSource(self.stack.url)),
+            mock.patch.object(rnd, "answer_judge", BackendAnswerJudge(self.stack.url)),
+            mock.patch.object(score_store, "SCORES_FILE", os.path.join(self._tmp.name, "scores.md")),
+        ]
+        for p in patches:
+            p.start()
+            self.addCleanup(p.stop)
+        score_store.scores.clear()
+
+    def tearDown(self):
+        wait_until(lambda: not rnd.round_lock.locked())
+        vars(settings).clear()
+        vars(settings).update(self._saved_settings)
+        score_store.scores.clear()
+        self._tmp.cleanup()
+
+    def draw(self, times=40):
+        return [asyncio.run(rnd._fetch_tossup()) for _ in range(times)]
+
+    def test_custom_only_draws_every_custom_question_whatever_the_other_filters(self):
+        settings.custom_questions = True
+        settings.selected_categories = set()
+        tossups = self.draw()
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa"})
+        self.assertTrue(all(t.custom and t.category == "Singapore" for t in tossups))
+
+    def test_custom_mixed_with_other_categories_draws_from_both(self):
+        settings.custom_questions = True
+        tossups = self.draw()
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"mitosis", "merlion", "laksa"})
+        self.assertFalse(any(t.custom for t in tossups if t.answer_sanitized == "mitosis"))
+
+    def test_custom_off_never_draws_a_custom_question(self):
+        settings.custom_questions = False
+        self.assertEqual({t.answer_sanitized for t in self.draw()}, {"mitosis"})
+
+    def test_a_custom_round_opens_with_its_label_and_can_be_won(self):
+        settings.custom_questions = True
+        settings.selected_categories = set()
+        messages = []
+        self.assertEqual(rnd.start_round(messages.append, "", {}), StartResult.STARTED)
+        answer = rnd.current_round["answer_sanitized"]
+        rnd.submit_answer(1, "Ada", answer, lambda _: None)
+        self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
+
+        self.assertEqual(messages[0], "📝 Custom question\nCategory: Singapore")
+        self.assertTrue(messages[1].startswith("🎯\n"), messages[1])
+        self.assertIn(f"Answer: {answer}", "\n".join(messages))
+
+    def votes(self, tossup_id):
+        conn = sqlite3.connect(self.stack.custom_db_path)
+        try:
+            return conn.execute("SELECT good_votes, bad_votes FROM tossups WHERE id = ?", (tossup_id,)).fetchone()
+        finally:
+            conn.close()
+
+    def play_custom_round(self, winner=None):
+        """Run one custom-only round to its end; returns (question id, everything announced)."""
+        settings.custom_questions = True
+        settings.selected_categories = set()
+        messages = []
+        self.assertEqual(rnd.start_round(messages.append, "\n\nNext: /next", {}), StartResult.STARTED)
+        answer = rnd.current_round["answer_sanitized"]  # the test data's answer is the question's id
+        if winner:
+            rnd.submit_answer(winner, "Ada", answer, lambda _: None)
+        self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
+        return answer, messages
+
+    def test_players_rate_a_custom_question_after_its_round_and_the_database_is_updated(self):
+        answer, messages = self.play_custom_round(winner=1)
+        end = next(m for m in messages if "[ROUND END]" in m)
+        self.assertTrue(end.endswith("\n\nNext: /next\n\nPlease rate the question /good or /bad"), end)
+
+        good, bad = self.votes(answer)
+        rnd.submit_rating(1, "good")
+        rnd.submit_rating(2, "good")
+        rnd.submit_rating(3, "bad")
+        self.assertEqual(self.votes(answer), (good + 2, bad + 1))
+
+    def test_spam_is_ignored_and_a_players_latest_choice_stands(self):
+        answer, _ = self.play_custom_round()
+        good, bad = self.votes(answer)
+        for _ in range(5):
+            rnd.submit_rating(1, "good")
+        rnd.submit_rating(2, "bad")
+        rnd.submit_rating(2, "good")   # pressed the wrong one first
+        rnd.submit_rating(2, "good")
+        rnd.submit_rating(1, "bad")    # changed their mind
+        self.assertEqual(self.votes(answer), (good + 1, bad + 1))
+
+    def test_votes_after_the_next_round_has_started_go_nowhere(self):
+        answer, _ = self.play_custom_round()
+        settings.custom_questions = False
+        self.assertEqual(rnd.start_round(lambda _: None, "", {}), StartResult.STARTED)
+        self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
+        before = {t: self.votes(t) for t in ("merlion", "laksa")}
+        rnd.submit_rating(1, "good")
+        self.assertEqual({t: self.votes(t) for t in ("merlion", "laksa")}, before)
+
+    def test_ordinary_rounds_do_not_ask_for_a_rating(self):
+        settings.custom_questions = False
+        messages = []
+        rnd.start_round(messages.append, "", {})
+        self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
+        self.assertNotIn("/good", "\n".join(messages))
 
 
 class StartFailureIntegrationTest(unittest.TestCase):

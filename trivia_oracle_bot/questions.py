@@ -23,6 +23,9 @@ class QuestionFilters:
     subcategories: Optional[Sequence[str]] = None
     alternate_subcategories: Optional[Sequence[str]] = None
     difficulties: Optional[Sequence[str]] = None  # qbreader numeric strings, "0"–"10"
+    # Custom questions ignore the three filters above: "exclude" never draws one, "only" always
+    # does, and "include" mixes them in with the others (the backend picks).
+    custom: str = "exclude"
 
 
 @dataclass(frozen=True)
@@ -30,6 +33,9 @@ class Tossup:
     question_sanitized: str  # question text, no HTML
     answer: str              # answerline with HTML; the judge needs the <b>/<u> tags
     answer_sanitized: str    # answerline, no HTML (shown to players)
+    custom: bool = False               # a hand-written question from the custom database
+    category: Optional[str] = None     # only sent for custom questions
+    id: Optional[str] = None           # only sent for custom questions: what a vote is recorded against
 
 
 @dataclass(frozen=True)
@@ -56,6 +62,17 @@ class BackendClient:
 class BackendQuestionSource(BackendClient):
     async def random_tossup(self, filters: QuestionFilters) -> Tossup:
         return Tossup(**await self._post("/random-tossup", asdict(filters)))
+
+
+    async def rate_tossup(self, tossup_id: str, rating: str, previous: Optional[str]) -> tuple:
+        """
+        Record one player's "good" / "bad" vote on a custom question; returns its new (good, bad) totals.
+
+        `previous` is that player's earlier vote on it, if any, which the backend withdraws.
+        Raises LookupError if the question is unknown or not a custom one.
+        """
+        body = await self._post("/rate-tossup", {"id": tossup_id, "rating": rating, "previous": previous})
+        return body["good_votes"], body["bad_votes"]
 
 
 class BackendAnswerJudge(BackendClient):
