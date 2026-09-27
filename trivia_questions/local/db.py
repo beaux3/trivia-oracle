@@ -25,7 +25,7 @@ def connect_readonly(path: str) -> sqlite3.Connection:
     if not os.path.exists(path):
         raise FileNotFoundError(
             f"No question database at {path}. "
-            "Run `python -m trivia_oracle_bot.questions.local.sync` to create it."
+            "Run `python -m trivia_questions.local.sync` to create it."
         )
     return sqlite3.connect(f"file:{path}?mode=ro", uri=True)
 

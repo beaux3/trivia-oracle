@@ -26,25 +26,27 @@ are persisted to a Markdown file and printed to the group after every round.
 ## File structure
 
 ```
-trivia_oracle_bot/      The bot package. Run with `python -m trivia_oracle_bot`
-                        from the repo root. Modules use relative imports.
-vendor/qbreader/        Vendored qbreader API wrapper (MIT, see vendor/qbreader/LICENSE).
-                        It imports itself as `qbreader.*`; questions/api/__init__.py puts
-                        vendor/ on sys.path before importing it.
-tests/                  Unit tests, mirroring the package (tests/bot, tests/game,
-                        tests/questions).
+trivia_questions/       Subproject 1: question data (qbreader API backend, offline SQLite
+                        backend + sync crawler). No Telegram code; must never import
+                        `telegram` or `trivia_oracle_bot` (tests/bot/test_backend_wiring.py).
+  vendor/qbreader/      Vendored qbreader API wrapper (MIT, see its LICENSE). It imports
+                        itself as `qbreader.*`; api/__init__.py puts vendor/ on sys.path
+                        before importing it.
+trivia_oracle_bot/      Subproject 2: the Telegram bot. Run with `python -m trivia_oracle_bot`
+                        from the repo root. Uses trivia_questions through questions.py.
+tests/                  Unit tests: tests/questions, tests/bot, tests/game.
 assets/                 Project images; excluded from the Docker build.
 Dockerfile              python:3.11-slim; installs requirements.txt, copies
-                        vendor/ and trivia_oracle_bot/, runs `python -m trivia_oracle_bot`.
+                        trivia_questions/ and trivia_oracle_bot/, runs `python -m trivia_oracle_bot`.
 requirements.txt        Runtime dependencies (python-telegram-bot pinned to 13.7).
 secrets.example.json    Template for the gitignored secrets.json.
 data/                   Runtime files, never code (gitignored; Docker volume at /app/data):
                         scores.md, and questions.db once the local sync has run.
 ```
 
-Inside `trivia_oracle_bot/` there are three layers. `bot/` is Telegram UI,
-`game/` is rules and state, and `questions/` is where questions and answer
-judgements come from:
+`trivia_oracle_bot/` has `bot/` (Telegram UI), `game/` (rules and state) and
+`questions.py` (wires the game to a `trivia_questions` backend). `trivia_questions/`
+holds the question data. Module by module:
 
 ```
 __main__.py        Entry point; just calls bot.app.main().
@@ -119,9 +121,11 @@ game/              Game rules and state.
                    • _points_for_correct() — points for a correct answer in this round's mode
                    • _penalty_for_wrong()  — deduction for a wrong answer in this round's mode
 
-questions/         Question data behind two interfaces (see "Question data backends").
-  __init__.py      Picks the backend from QUESTION_BACKEND and exposes the active
-                   `question_source` and `answer_judge`.
+questions.py      (in trivia_oracle_bot/) Picks the backend from QUESTION_BACKEND and
+                   exposes the active `question_source`, `answer_judge`, QuestionFilters.
+
+trivia_questions/  Question data behind two interfaces (see "Question data backends").
+  __init__.py      Re-exports the interfaces and both backends; reads no config.
   base.py          QuestionFilters, and the Tossup / Judgement / QuestionSource /
                    AnswerJudge protocols.
   api/             qbreader.org backend: QbreaderQuestionSource, QbreaderAnswerJudge.
@@ -130,19 +134,20 @@ questions/         Question data behind two interfaces (see "Question data backe
     db.py          connect(), connect_readonly(), replace_set() (one set per transaction).
     question_source.py  LocalQuestionSource; build_where() turns QuestionFilters into SQL.
     sync.py        CLI that copies qbreader into the database
-                   (`python -m trivia_oracle_bot.questions.local.sync`).
+                   (`python -m trivia_questions.local.sync`).
 ```
 
 ---
 
 ## Import dependency graph
 
-All imports below are relative (`from ..config import ...`).
+Inside `trivia_oracle_bot/` imports are relative (`from ..config import ...`); the bot
+reaches the other subproject only through `from trivia_questions import ...`.
 
 ```
 config.py
     ↑
-questions/           (base ← api, local ← __init__; no dependency on game or bot)
+questions.py        (imports config and trivia_questions)
 game/settings.py     (imports CATEGORIES, DIFFICULTIES from config)
 game/scores.py       (imports SCORES_FILE from config)
     ↑
@@ -155,8 +160,8 @@ bot/round_handlers.py (imports game.round)
 bot/app.py           (imports config, handlers, round_handlers, game.scores)
 ```
 
-No circular imports. `config.py` depends on nothing local. `questions/` must never
-import `game/` or `bot/`, and `game/` must never import `bot/` or `telegram`.
+No circular imports. `config.py` depends on nothing local. `trivia_questions` must never
+import `trivia_oracle_bot` or `telegram`, and `game/` must never import `bot/` or `telegram`.
 
 ---
 
@@ -283,9 +288,9 @@ in `start_round` silently drops a `/next` command if a round is already running.
 - **Subcategory values** (qbreader `Subcategory` enum): add to `CATEGORIES` only.
 - **AlternateSubcategory values** (qbreader `AlternateSubcategory` enum): add to
   both `CATEGORIES` and `ALL_ALT_SUBCATEGORIES` in `config.py`.
-- Check the qbreader enums with (vendor/ must be on the path):
+- Check the qbreader enums with (trivia_questions/vendor/ must be on the path):
   ```python
-  import trivia_oracle_bot.questions.api  # puts vendor/ on sys.path
+  import trivia_questions.api  # puts trivia_questions/vendor/ on sys.path
   from qbreader.types import Subcategory, AlternateSubcategory
   list(Subcategory)
   list(AlternateSubcategory)
@@ -295,15 +300,15 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ## Question data backends
 
-`game/round.py` gets questions and judgements only through `trivia_oracle_bot.questions`:
+`game/round.py` gets questions and judgements only through `trivia_oracle_bot.questions` (which wraps `trivia_questions`):
 
 - `questions.question_source.random_tossup(filters)` → a Tossup (`question_sanitized`,
   `answer` with HTML, `answer_sanitized`)
 - `questions.answer_judge.check(answerline, given)` → a Judgement (`directive`,
   `directed_prompt`)
 
-Both are async and defined as Protocols in `questions/base.py`.
-`questions/__init__.py` picks the source from `QUESTION_BACKEND`:
+Both are async and defined as Protocols in `trivia_questions/base.py`.
+`trivia_oracle_bot/questions.py` picks the source from `QUESTION_BACKEND`:
 
 | `QUESTION_BACKEND` | Questions from | Answers judged by |
 |--------------------|----------------|-------------------|
@@ -315,7 +320,7 @@ backend-independent. `tests/questions/` covers the local backend on a temporary
 database.
 
 ### Local database and sync
-`python -m trivia_oracle_bot.questions.local.sync` crawls `/set-list`, then
+`python -m trivia_questions.local.sync` crawls `/set-list`, then
 `/num-packets` and `/packet?questionTypes=tossups` for each set, sequentially with
 a 0.2 s gap (qbreader allows 20 requests/s). Each set is written in one
 transaction and only then recorded in `sets`, so re-running the command resumes
@@ -334,11 +339,11 @@ switching backends doesn't change which questions a /configure selection draws.
 
 ## qbreader API notes
 
-- Library: local `vendor/qbreader/` folder (vendored, not pip-installed).
-  Only `trivia_oracle_bot/questions/api/` imports it (and tests/questions, to
+- Library: local `trivia_questions/vendor/qbreader/` folder (vendored, not pip-installed).
+  Only `trivia_questions/api/` imports it (and tests/questions, to
   compare category mappings). The sync script calls the HTTP API directly with `requests`.
   Copied from qbreader/python-module v1.0.1 with one patch: `AlternateSubcategory.MUSICALS`
-  added to the Other Fine Arts mapping in `_api_utils.py`. Keep `vendor/qbreader/LICENSE` with it.
+  added to the Other Fine Arts mapping in `_api_utils.py`. Keep `trivia_questions/vendor/qbreader/LICENSE` with it.
 - Entry point: `qbreader.asynchronous.Async` (async context manager).
 - Key methods used:
   - `qb.random_tossup(number, subcategories, alternate_subcategories, difficulties)`
@@ -381,10 +386,10 @@ docker run --rm \
   trivia-oracle
 ```
 
-The image contains only `vendor/` and `trivia_oracle_bot/`. Scores go to
+The image contains only `trivia_questions/` and `trivia_oracle_bot/`. Scores go to
 `/app/data/scores.md` and the local question database to `/app/data/questions.db`;
 mount a volume on `/app/data` to keep them. Build the database with the same image:
-`docker run --rm -v "$(pwd)/data:/app/data" trivia-oracle python -m trivia_oracle_bot.questions.local.sync`. Mount
+`docker run --rm -v "$(pwd)/data:/app/data" trivia-oracle python -m trivia_questions.local.sync`. Mount
 `/app/data`, not `/app` — mounting over `/app` hides the code.
 
 Publishing (maintainer only):

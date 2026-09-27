@@ -4,13 +4,12 @@ import os
 import tempfile
 import unittest
 
-from trivia_oracle_bot.config import ALL_ALT_SUBCATEGORIES
-from trivia_oracle_bot.questions import QuestionFilters
-from trivia_oracle_bot.questions.api import _VENDOR_DIR  # noqa: F401  (puts vendor/ on sys.path)
-from trivia_oracle_bot.questions.local import LocalQuestionSource
-from trivia_oracle_bot.questions.local import question_source as local_source
-from trivia_oracle_bot.questions.local.db import connect, replace_set, synced_set_names
-from trivia_oracle_bot.questions.local.sync import sync_set
+from trivia_questions import QuestionFilters
+from trivia_questions.api import _VENDOR_DIR  # noqa: F401  (puts vendor/ on sys.path)
+from trivia_questions.local import LocalQuestionSource
+from trivia_questions.local import question_source as local_source
+from trivia_questions.local.db import connect, replace_set, synced_set_names
+from trivia_questions.local.sync import sync_set
 
 from qbreader import _api_utils
 from qbreader.types import AlternateSubcategory
@@ -100,7 +99,7 @@ class LocalBackendTest(unittest.TestCase):
 
 class AltSubcategoryParentsTest(unittest.TestCase):
     def test_matches_the_vendored_qbreader_client(self):
-        for alt in ALL_ALT_SUBCATEGORIES:
+        for alt in local_source._ALT_SUBCATEGORY_PARENTS:
             category, subcategory = _api_utils.category_correspondence(AlternateSubcategory(alt))
             expected = (category and category.value, subcategory and subcategory.value)
             self.assertEqual(local_source._ALT_SUBCATEGORY_PARENTS[alt], expected, alt)

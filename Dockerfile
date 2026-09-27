@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY vendor/ ./vendor/
+COPY trivia_questions/ ./trivia_questions/
 COPY trivia_oracle_bot/ ./trivia_oracle_bot/
 
 # Scores are written to /app/data/scores.md — mount a volume here to keep them.

@@ -7,7 +7,7 @@ from .db import connect_readonly
 
 # Parent (category, subcategory) of each alternate subcategory. The qbreader
 # client adds these to a /random-tossup request whenever an alternate
-# subcategory is selected (vendor/qbreader/_api_utils.py: category_correspondence),
+# subcategory is selected (trivia_questions/vendor/qbreader/_api_utils.py: category_correspondence),
 # so the local query adds them too.
 _ALT_SUBCATEGORY_PARENTS = {
     **dict.fromkeys(

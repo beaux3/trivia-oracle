@@ -132,9 +132,9 @@ for every round. Build the database once (about an hour and ~300 MB for all sets
 it resumes if interrupted, and a re-run only fetches sets it doesn't have yet):
 
 ```bash
-python -m trivia_oracle_bot.questions.local.sync              # or with Docker:
+python -m trivia_questions.local.sync              # or with Docker:
 docker run --rm -v "$(pwd)/data:/app/data" chewterence/trivia-oracle \
-  python -m trivia_oracle_bot.questions.local.sync
+  python -m trivia_questions.local.sync
 ```
 
 Add `--limit 5` or `--sets "2023 ACF Winter"` to try it on a few sets first. Then set
@@ -154,14 +154,15 @@ The tests fake Telegram and qbreader, so they need no token or network access.
 ## Project layout
 
 ```
-trivia_oracle_bot/    The bot (run with `python -m trivia_oracle_bot`)
+trivia_questions/     Question data, no Telegram code (sync: python -m trivia_questions.local.sync)
+  api/                qbreader.org backend
+  local/              SQLite backend + the sync script that fills it
+  vendor/qbreader/    Vendored copy of the qbreader Python API wrapper (MIT)
+trivia_oracle_bot/    The Telegram bot (run with `python -m trivia_oracle_bot`)
   bot/                Telegram UI: handlers for rounds, /configure menus, keyboards
   game/               Rounds, scoring, settings, lenient spelling (no Telegram code)
-  questions/          Where questions and answer judgements come from
-    api/              qbreader.org backend
-    local/            SQLite backend + the sync script that fills it
-vendor/qbreader/      Vendored copy of the qbreader Python API wrapper (MIT)
-tests/                Unit tests, mirroring the package (python -m unittest discover tests)
+  questions.py        Picks the question backend from QUESTION_BACKEND
+tests/                Unit tests, one folder per area (python -m unittest discover tests)
 data/                 Runtime files: scores.md, questions.db (gitignored, Docker volume)
 assets/               Project images
 Dockerfile            Container build
@@ -175,6 +176,6 @@ AGENTS.md             Architecture notes for contributors and AI coding agents
 ## Credits
 
 - Questions and answer judging: [qbreader](https://www.qbreader.org) — please be gentle with their API.
-- `vendor/qbreader/` is vendored from [qbreader/python-module](https://github.com/qbreader/python-module)
-  (MIT License, © 2022 QBreader — see [vendor/qbreader/LICENSE](vendor/qbreader/LICENSE)), with one small patch: `Musicals` is mapped to Other Fine Arts in `_api_utils.py`.
+- `trivia_questions/vendor/qbreader/` is vendored from [qbreader/python-module](https://github.com/qbreader/python-module)
+  (MIT License, © 2022 QBreader — see [LICENSE](trivia_questions/vendor/qbreader/LICENSE)), with one small patch: `Musicals` is mapped to Other Fine Arts in `_api_utils.py`.
 - Built on [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot) v13.

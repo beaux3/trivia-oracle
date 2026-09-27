@@ -58,7 +58,7 @@ def main() -> None:
     if QUESTION_BACKEND == "local" and not os.path.exists(QUESTIONS_DB):
         raise SystemExit(
             f"QUESTION_BACKEND is local but {QUESTIONS_DB} does not exist. "
-            "Build it with `python -m trivia_oracle_bot.questions.local.sync`."
+            "Build it with `python -m trivia_questions.local.sync`."
         )
     updater = Updater(TOKEN)
     register_handlers(updater.dispatcher)
