@@ -354,3 +354,16 @@ Note: several anime-plot clues (Q2, Q3, Q8) are corroborated across multiple ind
 - Clue 3, “Fans remixed the repeated syllables into videos and…”: https://knowyourmeme.com/memes/nico-nico-nii
 - Clue 4, “The performer is Yazawa, a school idol from…”: https://knowyourmeme.com/memes/nico-nico-nii
 - Clue 5, “For 10 points, give this singsong idol catchphrase,…”: https://knowyourmeme.com/memes/nico-nico-nii
+
+## Alias review — 2026-09-28
+
+Reviewed the set for recognizable meme names; alias changes to older questions edited by PR #13 are deferred to avoid overlapping that review. Shortened answers and grammatical variants below are explicit acceptance choices; performer names and broad franchise names are not substitutes for a specific song or catchphrase. Existing aliases were retained.
+
+- Q13 (it's over 9000) — “Over 9000”, “Over nine thousand”, “It is over 9000”, “It is over nine thousand”. Accept the common shortened title and expanded contractions, with either numeral notation. https://knowyourmeme.com/memes/its-over-9000
+- Q44 (Is that a JoJo reference) — “JoJo reference”, “Is this a JoJos reference”, “Is that a JoJos reference”. Accept the identifying core of the existing meme name and the possessive series-name form; these are wording variants of the same rhetorical question. https://knowyourmeme.com/memes/is-this-a-jojo-reference
+- Q46 (This isn't even my final form) — “This is not even my final form”. Quote the existing comma-containing alternative so the parser treats it as one answer; also accept the expanded contraction. No new factual clue.
+- Q49 (Throughout heaven and earth, I alone am the honored one) — “The honored one”, “The honoured one”, “I am the honored one”, “I am the honoured one”. Accept the identifying core of the existing quotation, with US/UK spelling and with or without its introductory words. These are shortened answers, not additional claims about the scene.
+- Q51 (Shikanoko nokonoko koshitantan) — “Shikairo Days”, “Shikairo Days Dance”, “Shikanoko”. Accept the opening-song/dance name and an identifying shortened chant; the giveaway allows those forms. https://knowyourmeme.com/memes/shikairo-days-dance
+- Q54 (Just according to keikaku) — “Just as planned”, “Just according to plan”, “All according to plan”. Accept the English rendering as well as the fansub phrasing; remove the gloss from the clue and permit the translation in the giveaway. https://knowyourmeme.com/memes/just-according-to-keikaku/
+- Q61 (Yamero) — “Crow of Judgement”, “Crow of Judgment”, “Yamero Crow”. Accept the documented image name as well as its red-caption variant; remove the image name from the lead and allow either in the giveaway. https://knowyourmeme.com/sensitive/memes/crow-of-judgement
+- Q63 (To Be Continued) — “Roundabout”, “Roundabout meme”. The meme is indexed under both its caption and the backing-song title; the giveaway now allows either. https://knowyourmeme.com/memes/yes-roundabout-to-be-continued

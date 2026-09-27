@@ -1550,3 +1550,35 @@ The Hampster Dance question deliberately omits a creation year because the consu
 - Clue 3 — Marine Jedi lyric: https://knowyourmeme.com/memes/narwhals-song-narwhals-swimming-in-the-ocean
 - Clue 4 — Swimming animation and repetitive chorus: https://knowyourmeme.com/memes/narwhals-song-narwhals-swimming-in-the-ocean
 - Clue 5 — Arctic whales with long tusks: https://knowyourmeme.com/memes/narwhals-song-narwhals-swimming-in-the-ocean; https://en.wikipedia.org/wiki/Narwhal
+
+## 327. My Mom Is Kinda Homeless
+
+Sources checked 2026-09-28. This clip originated on YouTube, not Twitch. The question asks for the viral plea, not the streamer’s name.
+
+- Clue 1 — October 2025 reunion recreating the exchange from the December 2021 stream: https://knowyourmeme.com/memes/my-mom-is-kinda-homeless-please-speed-i-need-this
+- Clue 2 — Suppressed-laughter reaction edits, including the serious-conversation caption: https://knowyourmeme.com/memes/my-mom-is-kinda-homeless-please-speed-i-need-this
+- Clue 3 — Young Fortnite player pleading for a win and explaining his family’s situation: https://knowyourmeme.com/memes/my-mom-is-kinda-homeless-please-speed-i-need-this
+- Clue 4 — Another player watching the stream calls out the host for trying not to laugh: https://knowyourmeme.com/memes/my-mom-is-kinda-homeless-please-speed-i-need-this
+- Clue 5 — The plea concerns the speaker’s mother lacking stable housing and asks the host to throw the game: https://knowyourmeme.com/memes/my-mom-is-kinda-homeless-please-speed-i-need-this
+- Answer names — “My Mom Is Kinda Homeless”, “My Mom Is Kind of Homeless”, and “Please Speed I Need This” are documented names; “mum” variants accommodate British spelling: https://knowyourmeme.com/memes/my-mom-is-kinda-homeless-please-speed-i-need-this
+
+## 328. Ninja’s Times Square Floss Fail
+
+Sources checked 2026-09-28. Requires both the streamer and the dance; the existing question about flossing alone remains distinct.
+
+- Clue 1 — Fan recreation using The Reaper skin, an unresponsive audience, and the broadcast audio: https://www.dexerto.com/entertainment/fortnite-fan-recreates-ninjas-new-years-eve-flossing-fail-in-game-270612/
+- Clue 2 — Twelve-hour New York City stream on December 31, 2018: https://knowyourmeme.com/memes/events/ninjas-times-square-floss-fail
+- Clue 3 — Attempt to lead the crowd in the dance, with most attendees not joining: https://knowyourmeme.com/memes/events/ninjas-times-square-floss-fail
+- Clue 4 — The complaint about insufficient movement became a captioned image macro: https://knowyourmeme.com/memes/events/ninjas-times-square-floss-fail
+- Clue 5 — Tyler Blevins’s dance attempt: https://knowyourmeme.com/memes/events/ninjas-times-square-floss-fail ; arm movements and dental-floss etymology: https://en.wikipedia.org/wiki/Floss_(dance)
+- Answer names — Event title and streamer/dance identification: https://knowyourmeme.com/memes/events/ninjas-times-square-floss-fail
+
+## 329. You Have No Mana
+
+Sources checked 2026-09-28. The Phreak wiki page was opened in the browser after the web reader failed; the clue uses its “Phreak’s Mana” section. No exact recording date or champion is asserted.
+
+- Clue 1 — Aropatnik’s sound modification replaces the failed spell-casting warning with Tyler1’s outburst: https://runeforge.dev/mods/623ef732-4c36-4a5a-bbde-5a6a85b7a125
+- Clue 2 — Phreak’s defeat in a ranked match against Tyler1 while out of the resource became a meme: https://leagueoflegends.fandom.com/wiki/David_%27Phreak%27_Turley
+- Clue 3 — Tyler1 delivers the line and then screams while playing League of Legends: https://shop.creatorset.com/products/tyler1-saying-you-have-no-mana-meme-league-of-legends-green-screen
+- Clue 4 — Four-word wording and its meaning as a spell-resource taunt: https://shop.creatorset.com/products/tyler1-saying-you-have-no-mana-meme-league-of-legends-green-screen ; https://runeforge.dev/mods/623ef732-4c36-4a5a-bbde-5a6a85b7a125 ; https://leagueoflegends.fandom.com/wiki/David_%27Phreak%27_Turley
+- Answer names — The quoted line is the template and mod title; the answerline also accepts the core phrase with Phreak’s name and the shortened “No Mana”: https://shop.creatorset.com/products/tyler1-saying-you-have-no-mana-meme-league-of-legends-green-screen ; https://runeforge.dev/mods/623ef732-4c36-4a5a-bbde-5a6a85b7a125 ; https://leagueoflegends.fandom.com/wiki/David_%27Phreak%27_Turley

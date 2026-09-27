@@ -214,3 +214,80 @@ The 25 approved additions below exclude KOMOREBI’s Giri Happy; Hai Yorokonde i
 - C3 — Class trip: https://knowyourmeme.com/memes/danjo
 - C4 — Dance derivatives: https://knowyourmeme.com/memes/danjo
 - C5 — Title meaning: https://knowyourmeme.com/memes/danjo
+
+## 27. Kawaikute Gomen
+
+Sources checked 2026-09-28.
+
+- C1 — Capi version on the 2022 character-song album released at Comiket 100: https://honeyworks.jp/news/8555/
+- C2 — Saori Hayami version, Chuu-tan / Chizuru Nakamura, and Heroines Run the Show: https://www.billboard-japan.com/d_news/detail/132539/2 ; https://en.wikipedia.org/wiki/Kawaikute_Gomen
+- C3 — TikTok makeup videos and the manga-style AI image filter: https://www.billboard-japan.com/d_news/detail/132539/2
+- C4 — Dance challenge with blown kisses on the chorus’s “Chu” sounds: https://www.billboard-japan.com/d_news/detail/132539/2
+- C5 — HoneyWorks attribution and the Japanese title’s apologetic reference to the singer’s appearance: https://en.wikipedia.org/wiki/Kawaikute_Gomen
+- Answerline — Romanized and Japanese titles, “Sorry for Being Cute” and “I'm Sorry for Being So Cute”: https://en.wikipedia.org/wiki/Kawaikute_Gomen
+
+
+## 28. Padoru
+
+Sources checked 2026-09-28.
+
+- C1 — Nero Claudius, Fate/Extra, and the PlayStation Portable: https://knowyourmeme.com/memes/padoru
+- C2 — 2016 hour-long loop and later anime-music mashups: https://knowyourmeme.com/memes/padoru
+- C3 — Recurring Christmas-season meme: https://knowyourmeme.com/videos/244399-padoru
+- C4 — Japanese “Jingle Bells” parody and repeated final shout: https://knowyourmeme.com/memes/padoru
+- C5 / answerline — Padoru and Padoru Padoru: https://knowyourmeme.com/memes/padoru
+
+## 29. Chika Dance
+
+Sources checked 2026-09-28.
+
+- C1 — Nakayama’s rotoscoping from Sugao’s costumed performance: https://gigazine.net/news/20190201-kaguya-ed-chika-dance/
+- C2 — Konomi Kohara’s singing and character voice: https://en.wikipedia.org/wiki/Chika_Fujiwara
+- C3 — First-season episode-three ending, January 2019: https://knowyourmeme.com/memes/chika-dance ; https://en.wikipedia.org/wiki/Chika_Fujiwara
+- C4 — Live-action recreations and soundtrack remixes: https://knowyourmeme.com/memes/chika-dance
+- C5 — Pink hair, student-council role, series and routine: https://en.wikipedia.org/wiki/Chika_Fujiwara ; https://knowyourmeme.com/memes/chika-dance
+- Answerline — Meme name and accompanying song title; doubled “Chika” and final-vowel spellings accepted: https://knowyourmeme.com/memes/chika-dance ; https://en.wikipedia.org/wiki/Chika_Fujiwara ; https://gigazine.net/news/20190201-kaguya-ed-chika-dance/
+
+## 30. Yamcha’s Death Pose
+
+Sources checked 2026-09-28.
+
+- C1 — Baseball callback between Universes 6 and 7 at home plate: https://en.wikipedia.org/wiki/Yamcha
+- C2 — Saibaman attack reproduces the position in Budokai Tenkaichi: https://knowyourmeme.com/memes/yamchas-death-pose
+- C3 — Character substitutions represent failure or weakness: https://knowyourmeme.com/memes/yamchas-death-pose
+- C4 — Saibaman’s self-destruction during the Saiyan invasion: https://knowyourmeme.com/memes/yamchas-death-pose ; https://en.wikipedia.org/wiki/Yamcha
+- C5 — Fallen fighter in a crater, wearing the orange Turtle School outfit: https://knowyourmeme.com/memes/yamchas-death-pose ; https://en.wikipedia.org/wiki/Yamcha
+- Answerline — Meme name; accept natural possessive-free, shortened and “Dead Yamcha” descriptions, prompt on the character alone: https://knowyourmeme.com/memes/yamchas-death-pose
+
+## 31. Long Long Man
+
+Sources checked 2026-09-28.
+
+- C1 — Wedding twist reveals his interest in Tooru-san: https://en.wikipedia.org/wiki/Long_Long_Man
+- C2 — Ozawa’s role and Imura’s Hakuhodo campaign for UHA Mikakuto: https://en.wikipedia.org/wiki/Long_Long_Man ; https://www.hakuhodo-global.com/news/mitsuaki-imura-on-sakeru-gummy-and-his-career.html
+- C3 — Sakeru Gummy advertisements and the romantic triangle: https://en.wikipedia.org/wiki/Long_Long_Man ; https://www.hakuhodo-global.com/news/mitsuaki-imura-on-sakeru-gummy-and-his-career.html
+- C4 — Mustached stranger, jazz accompaniment and elongated candy strip: https://en.wikipedia.org/wiki/Long_Long_Man
+- C5 / answerline — English nickname and Nagai Otoko: https://en.wikipedia.org/wiki/Long_Long_Man
+
+## 32. Pokédance
+
+Sources checked 2026-09-28.
+
+- C1 — Nanahira’s vocal credit and CHOCOLATE’s production: https://www.youtube.com/watch?v=zf7EZR7tMKU ; https://www.chocolate-inc.com/contents/pokedance/
+- C2 — Trainers and partners, released for Pokémon Day in February 2024: https://www.chocolate-inc.com/contents/pokedance/ ; https://trending.knowyourmeme.com/editorials/guides/what-is-the-pokedance-and-how-is-it-done-the-viral-pokemon-dance-explained
+- C3 — ENHYPEN performance and fan animations using unrelated characters: https://trending.knowyourmeme.com/editorials/guides/what-is-the-pokedance-and-how-is-it-done-the-viral-pokemon-dance-explained
+- C4 — Alternating pointing arms and hip sways: https://trending.knowyourmeme.com/editorials/guides/what-is-the-pokedance-and-how-is-it-done-the-viral-pokemon-dance-explained
+- C5 / answerline — Official title, franchise association and Japanese spelling; accept spaced or accent-free input: https://www.youtube.com/watch?v=zf7EZR7tMKU ; https://trending.knowyourmeme.com/editorials/guides/what-is-the-pokedance-and-how-is-it-done-the-viral-pokemon-dance-explained
+
+## Alias review — 2026-09-28
+
+Reviewed the complete set for recognizable meme names. Shortened answers and grammatical variants below are explicit acceptance choices; performer names and broad franchise names are not substitutes for a specific song or catchphrase. Existing aliases were retained.
+
+- Q1 (Gachimuchi) — “Gachi”. The abbreviated community name is also indexed with the full meme name. https://knowyourmeme.com/sensitive/memes/people/billy-herrington-gachimuchi
+- Q2 (Ai Scream!) — “Nani ga suki”, “Choco Mint”, “Choco Mint Song”, “AiScReam Love Live Song”. Accept the recognizable call-and-response name and the documented Choco Mint and AiScReam Love Live labels; the giveaway no longer names the flavor. https://knowyourmeme.com/memes/ruby-chan-hai-song-aiscream-love-live-song
+- Q3 (Bling-Bang-Bang-Born) — “BBBB Dance”. Accept the named dance challenge as well as the song; the giveaway explicitly permits both. https://en.wikipedia.org/wiki/Bling-Bang-Bang-Born
+- Q4 (Hai Yorokonde) — “Giri Giri”. Accept the distinctive repeated words of the already-accepted dance name without requiring the English suffix. https://blowout.co.jp/en/works/2243/
+- Q8 (Renai Circulation) — “Love Circulation”, “恋愛サーキュレーション”, “Se no”. The translated and Japanese titles identify the same song. Also accept the recognizable opening call as a song identifier under the requested meme-name policy. https://en.wikipedia.org/wiki/Renai_Circulation ; https://www.cifraclub.com/bakemonogatari/renai-circulation/
+- Q12 (Leekspin) — “Ievan Polkka”, “Ievan Polkka meme”. Accept the backing-song title as well as the animation names; remove the previously printed song title and allow either identification in the giveaway. https://en.wikipedia.org/wiki/Loituma_Girl
+- Q20 (Shuzo Matsuoka) — “Never Give Up”, “Never Give Up Guy”, “I Said Never Give Up”, “Inspirational Japanese Guy”. The clam-gathering clip and its familiar English exhortation identify the same meme; the giveaway now allows the performer or his catchphrase. https://en.wikipedia.org/wiki/Shuzo_Matsuoka
+- Q27 (Kawaikute Gomen) — “Chu Kawaikute Gomen”, “Sorry for Being So Cute”. Accept the title with its opening interjection and the English title with or without the introductory pronoun; remove the interjection from the clue. https://www.uta-net.com/song/328567/ ; https://en.wikipedia.org/wiki/Kawaikute_Gomen

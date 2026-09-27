@@ -268,3 +268,9 @@ publisher, government/trade body), that is noted explicitly rather than overstat
 - Clue 3, “The 1975 film series Torakku Yaro popularized these…”: https://en.wikipedia.org/wiki/Dekotora
 - Clue 4, “Their decorations often combine illuminated panels, colorful murals…”: https://en.wikipedia.org/wiki/Dekotora
 - Clue 5, “For 10 points, give the Japanese name for…”: https://en.wikipedia.org/wiki/Dekotora
+
+## Alias review — 2026-09-28
+
+Reviewed the set for recognizable meme names; alias changes to older questions edited by PR #13 are deferred to avoid overlapping that review. Shortened answers and grammatical variants below are explicit acceptance choices; performer names and broad franchise names are not substitutes for a specific song or catchphrase. Existing aliases were retained.
+
+- Q14 (Kumamon) — “For the Glory of Satan”, “For the Glory of Satan of course”, “For the Glory of Satan Bear”, “Satan Bear”. Accept the caption and its bear nickname as ways to identify the pictured mascot; the lead no longer supplies the distinctive caption wording. https://knowyourmeme.com/memes/kumamon
