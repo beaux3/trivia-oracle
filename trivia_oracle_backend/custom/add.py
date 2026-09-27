@@ -34,8 +34,8 @@ SUBMISSIONS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "subm
 
 # category -> allowed subcategories. Categories without an entry of their own use
 # the category name as the subcategory, the way qbreader stores them. Singapore is
-# not a qbreader category, and neither are Snowsports and Memes: they are the custom-only categories
-# that will be added to the main database when these questions are moved there.
+# not a qbreader category, and neither are Snowsports, Memes and Japan: they are the custom-only
+# categories that will be added to the main database when these questions are moved there.
 SUBCATEGORIES = {
     "Literature": ["American Literature", "British Literature", "Classical Literature",
                    "European Literature", "World Literature", "Other Literature"],
@@ -45,7 +45,7 @@ SUBCATEGORIES = {
     "Pop Culture": ["Movies", "Music", "Sports", "Television", "Video Games", "Other Pop Culture"],
 }
 for _category in ["Religion", "Mythology", "Philosophy", "Social Science", "Current Events",
-                  "Geography", "Other Academic", "Singapore", "Snowsports", "Memes"]:
+                  "Geography", "Other Academic", "Singapore", "Snowsports", "Memes", "Japan"]:
     SUBCATEGORIES[_category] = [_category]
 
 # alternate subcategory -> (category, subcategory) it must sit under; None = any.

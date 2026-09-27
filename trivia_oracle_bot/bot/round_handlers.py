@@ -6,6 +6,7 @@ _START_FAILURE_TEXT = {
     StartResult.FETCH_FAILED: "Failed to fetch a question. Try /next again.",
     StartResult.NO_FRESH_QUESTION: "Could not find a new question. Try /next again.",
 }
+NEEDS_RATING_TEXT = "Please rate the question first /good or /bad"
 
 
 def start_round(update, context) -> None:
@@ -21,7 +22,9 @@ def start_round(update, context) -> None:
         end_hint=f"\n\nNext question: /next@{bot.username}",
         session=context.chat_data,
     )
-    if result in _START_FAILURE_TEXT:
+    if result is StartResult.NEEDS_RATING:
+        bot.send_message(chat_id=chat_id, text=NEEDS_RATING_TEXT, reply_to_message_id=update.message.message_id)
+    elif result in _START_FAILURE_TEXT:
         announce(_START_FAILURE_TEXT[result])
 
 

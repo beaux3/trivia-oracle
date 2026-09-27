@@ -116,6 +116,8 @@ database, `data/custom_questions.db`, and work in both modes. In `/configure` â†
   question's `good_votes` / `bad_votes` in `data/custom_questions.db`, and reloading a submission file keeps them.
   Each player has one vote per round: repeating the same command is ignored, and the other command replaces their
   earlier vote. Voting closes when the next round starts, and the bot does not reply to votes.
+- `/next` is refused right after a custom round until someone rates it with `/good` or `/bad`, replying "Please rate
+  the question first /good or /bad" to whoever tried. This lifts on its own after 10 seconds, so a quiet chat isn't stuck.
 - If no custom questions are loaded yet, a custom-only `/next` says "Failed to fetch a question", and a mixed one just
   plays a regular question. The file is read on every request, so you can load questions while the bot is running.
 

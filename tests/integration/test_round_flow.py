@@ -288,6 +288,8 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
         vars(settings).clear()
         vars(settings).update(self._saved_settings)
         score_store.scores.clear()
+        rnd.current_round["rating"] = None
+        rnd.current_round["ended_at"] = None
         self._tmp.cleanup()
 
     def draw(self, times=40):
@@ -366,6 +368,7 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
 
     def test_votes_after_the_next_round_has_started_go_nowhere(self):
         answer, _ = self.play_custom_round()
+        rnd.submit_rating(1, "good")  # satisfies the /next rating gate so round 2 can start right away
         settings.custom_questions = False
         self.assertEqual(rnd.start_round(lambda _: None, "", {}), StartResult.STARTED)
         self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
@@ -379,6 +382,12 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
         rnd.start_round(messages.append, "", {})
         self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
         self.assertNotIn("/good", "\n".join(messages))
+
+    def test_next_is_refused_until_the_question_is_rated(self):
+        self.play_custom_round()
+        self.assertEqual(rnd.start_round(lambda _: None, "", {}), StartResult.NEEDS_RATING)
+        rnd.submit_rating(1, "good")
+        self.assertEqual(rnd.start_round(lambda _: None, "", {}), StartResult.STARTED)
 
 
 class StartFailureIntegrationTest(unittest.TestCase):

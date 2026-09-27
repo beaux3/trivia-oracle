@@ -33,6 +33,7 @@ current_round: dict = {
     # (question id, {user_id: "good" | "bad"}) once a custom question can be rated, else None. Rounds
     # replace it whole, so a vote still being sent for the last question can't land in the next one's.
     "rating": None,
+    "ended_at": None,    # time.monotonic() when the round last finished; gates /next while it needs a rating
     "event": threading.Event(),
 }
 round_lock = threading.Lock()  # held for the duration of a round; prevents overlapping rounds
@@ -43,6 +44,7 @@ RATING_PROMPT = "\n\nPlease rate the question /good or /bad"
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
 PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if the backend hangs
+RATING_GRACE_PERIOD = 10.0  # seconds /next is blocked after an unrated custom round, before it opens up anyway
 SESSION_TIMEOUT = 30 * 60  # seconds since the last successful /next
 QUESTION_FETCH_ATTEMPTS = 5
 QUESTION_FETCH_TIMEOUT = 15.0  # total seconds across all duplicate draws
@@ -146,6 +148,7 @@ def _run_round_body(announce: Callable[[str], None], end_hint: str) -> None:
         # being checked; score them before announcing the result.
         if not checks_settled.wait_for(lambda: current_round["pending_checks"] == 0, PENDING_CHECK_TIMEOUT):
             logging.warning("Closing round with %d answer check(s) still pending", current_round["pending_checks"])
+    current_round["ended_at"] = time.monotonic()
     announce(_round_end_text() + end_hint + (RATING_PROMPT if current_round["rating"] else ""))
     announce(format_scoreboard())
 
@@ -181,6 +184,25 @@ class StartResult(enum.Enum):
     BUSY = "busy"                            # a round is already running; ignore silently
     FETCH_FAILED = "fetch_failed"            # the question source errored or timed out
     NO_FRESH_QUESTION = "no_fresh_question"  # every draw was already seen this session
+    NEEDS_RATING = "needs_rating"            # the last custom question is still unrated within its grace period
+
+
+def _rating_still_required() -> bool:
+    """
+    True while the round that just finished was a ratable custom question, nobody has voted on it
+    yet, and RATING_GRACE_PERIOD hasn't passed since it ended. Never true while a round is active:
+    that case is round_lock's job (StartResult.BUSY), not this one's.
+    """
+    if current_round["active"]:
+        return False
+    rating = current_round["rating"]
+    if rating is None:
+        return False
+    _, votes = rating
+    if votes:
+        return False
+    ended_at = current_round["ended_at"]
+    return ended_at is not None and time.monotonic() - ended_at < RATING_GRACE_PERIOD
 
 
 def submit_answer(user_id: int, name: str, given: str, on_prompt: Callable[[str], None]) -> None:
@@ -280,6 +302,9 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
     which tossups the chat has seen. `end_hint` is appended to the round-end
     message (e.g. how to start the next round).
     """
+    if _rating_still_required():
+        return StartResult.NEEDS_RATING
+
     now = time.monotonic()
     last_next = session.get("last_next")
 

@@ -42,6 +42,8 @@ class _RoundCase(unittest.TestCase):
         if rnd.round_lock.locked():
             rnd.round_lock.release()
         rnd.current_round["active"] = False
+        rnd.current_round["rating"] = None
+        rnd.current_round["ended_at"] = None
 
     def play(self, tossup):
         """Start a round on `tossup` and run it to its end on this thread, returning what was announced."""
@@ -164,7 +166,8 @@ class SubmitRatingTest(_RoundCase):
 
     def test_voting_closes_when_the_next_round_starts(self):
         self.play(_custom("merlion"))
-        self.play(_tossup(id=None))
+        with mock.patch.object(rnd, "RATING_GRACE_PERIOD", 0):  # bypass the /next rating gate for this test
+            self.play(_tossup(id=None))
         rnd.submit_rating(1, "good")
         self.assertEqual(self.votes_sent(), [])
 
@@ -184,7 +187,8 @@ class SubmitRatingTest(_RoundCase):
 
     def test_a_failed_round_start_does_not_close_voting(self):
         self.play(_custom("merlion"))
-        with mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(side_effect=RuntimeError("backend down"))):
+        with mock.patch.object(rnd, "RATING_GRACE_PERIOD", 0), \
+             mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(side_effect=RuntimeError("backend down"))):
             self.assertEqual(rnd.start_round(lambda _: None, END_HINT, {}), rnd.StartResult.FETCH_FAILED)
         rnd.submit_rating(1, "good")
         self.assertEqual(self.votes_sent(), [("merlion", "good", None)])
@@ -219,12 +223,70 @@ class SubmitRatingTest(_RoundCase):
         worker = threading.Thread(target=rnd.submit_rating, args=(1, "good"))
         worker.start()
         self.assertTrue(started.wait(5))
-        self.play(_custom("laksa"))       # the next round begins while that vote is still in flight
+        with mock.patch.object(rnd, "RATING_GRACE_PERIOD", 0):  # bypass the /next rating gate for this test
+            self.play(_custom("laksa"))   # the next round begins while that vote is still in flight
         release.set()
         worker.join(5)
         self.backend.rate_tossup = mock.AsyncMock(return_value=(1, 0))
         rnd.submit_rating(1, "good")      # this player's vote on the new question must still count
         self.assertEqual(self.votes_sent(), [("laksa", "good", None)])
+
+
+class NextGateTest(_RoundCase):
+    """/next is refused right after an unrated custom round, until a vote comes in or the grace period passes."""
+
+    def start(self, tossup):
+        with mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(return_value=tossup)), \
+             mock.patch.object(rnd.threading, "Thread"):
+            return rnd.start_round(lambda _: None, END_HINT, {})
+
+    def test_next_is_refused_right_after_an_unrated_custom_round(self):
+        self.play(_custom("merlion"))
+        self.assertEqual(self.start(_tossup(id=None)), rnd.StartResult.NEEDS_RATING)
+
+    def test_a_vote_opens_next_back_up(self):
+        self.play(_custom("merlion"))
+        rnd.submit_rating(1, "good")
+        self.assertEqual(self.start(_tossup(id=None)), rnd.StartResult.STARTED)
+
+    def test_next_opens_up_on_its_own_once_the_grace_period_passes(self):
+        self.play(_custom("merlion"))
+        later = rnd.time.monotonic() + rnd.RATING_GRACE_PERIOD + 1
+        with mock.patch.object(rnd.time, "monotonic", return_value=later):
+            self.assertEqual(self.start(_tossup(id=None)), rnd.StartResult.STARTED)
+
+    def test_ordinary_rounds_never_gate_next(self):
+        self.play(_tossup(id=None))
+        self.assertEqual(self.start(_tossup(id=None)), rnd.StartResult.STARTED)
+
+    def test_a_custom_question_nobody_can_rate_does_not_gate_next(self):
+        self.play(_tossup(custom=True, category="Singapore"))  # no id: not ratable, so never gates
+        self.assertEqual(self.start(_tossup(id=None)), rnd.StartResult.STARTED)
+
+    def test_a_round_still_in_progress_is_just_busy_not_a_rating_prompt(self):
+        with mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(return_value=_custom("merlion"))), \
+             mock.patch.object(rnd.threading, "Thread"):
+            self.assertEqual(rnd.start_round(lambda _: None, END_HINT, {}), rnd.StartResult.STARTED)
+        self.assertEqual(self.start(_tossup(id=None)), rnd.StartResult.BUSY)
+
+
+class NextGateHandlerTest(_RoundCase):
+    """The /next handler's reply when NextGateTest's gate blocks it."""
+
+    def test_the_player_who_tried_next_is_told_to_rate_first(self):
+        self.play(_custom("merlion"))
+        bot = mock.Mock(username="TriviaOracleBot")
+        update = SimpleNamespace(
+            effective_chat=SimpleNamespace(id=-100),
+            message=SimpleNamespace(message_id=42),
+        )
+        context = SimpleNamespace(bot=bot, chat_data={})
+        with mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(return_value=_tossup(id=None))), \
+             mock.patch.object(rnd.threading, "Thread"):
+            round_handlers.start_round(update, context)
+        bot.send_message.assert_called_once_with(
+            chat_id=-100, text=round_handlers.NEEDS_RATING_TEXT, reply_to_message_id=42,
+        )
 
 
 class RatingHandlerTest(unittest.TestCase):

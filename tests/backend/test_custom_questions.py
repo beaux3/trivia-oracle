@@ -55,6 +55,10 @@ class ValidateTest(unittest.TestCase):
         self.assertEqual(add.validate(record(category="Memes", subcategory="Memes")), [])
         self.assertTrue(add.validate(record(category="Memes", subcategory="Other Pop Culture")))
 
+    def test_japan_is_a_category_of_its_own(self):
+        self.assertEqual(add.validate(record(category="Japan", subcategory="Japan")), [])
+        self.assertTrue(add.validate(record(category="Japan", subcategory="Geography")))
+
     def test_missing_field(self):
         incomplete = record()
         del incomplete["answer"]

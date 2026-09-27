@@ -17,7 +17,7 @@ are persisted to a Markdown file and printed to the group after every round.
 **Bot commands**
 | Command | What it does |
 |---------|-------------|
-| `/next` | Start a new round (ignored if one is already active) |
+| `/next` | Start a new round (ignored if one is already active; refused with a reply if the last custom question is still unrated) |
 | `/scores` | Print the current scoreboard |
 | `/good`, `/bad` | Rate the custom question just played (one vote per player per round; latest wins; open until the next round starts) |
 | `/configure` | Open the interactive settings menu |
@@ -199,7 +199,7 @@ share the JSON wire format.
 | Message shown when `/next` fails | `trivia_oracle_bot/bot/round_handlers.py` | `StartFailureIntegrationTest` |
 | Wire format (request or response fields) | `trivia_oracle_backend/server.py` **and** `trivia_oracle_bot/questions.py` | `tests/backend/test_server.py`, `tests/bot/test_backend_client.py`, `tests/integration/test_backend_http.py` |
 | New endpoint | `trivia_oracle_backend/server.py` | `tests/backend`, `tests/integration` |
-| Rating custom questions (prompt text, who may vote, when) | `trivia_oracle_bot/game/round.py` (`submit_rating`, `RATING_PROMPT`); the counting is `local/db.py` (`record_vote`) | `tests/bot/test_ratings.py`, `tests/backend/test_votes.py`, `CustomQuestionsIntegrationTest`, `RateTossupHttpTest` |
+| Rating custom questions (prompt text, who may vote, when, and the /next gate) | `trivia_oracle_bot/game/round.py` (`submit_rating`, `RATING_PROMPT`, `_rating_still_required`, `RATING_GRACE_PERIOD`); the counting is `local/db.py` (`record_vote`) | `tests/bot/test_ratings.py`, `tests/backend/test_votes.py`, `CustomQuestionsIntegrationTest`, `RateTossupHttpTest` |
 | How local questions are filtered | `trivia_oracle_backend/local/question_source.py` (`build_where`) | `tests/backend/test_local_backend.py`, `FilterIntegrationTest` |
 | Local DB schema | `trivia_oracle_backend/local/schema.sql`, `db.py` | `tests/backend`, `tests/integration/test_sync_pipeline.py` |
 | What the sync downloads | `trivia_oracle_backend/local/sync.py` | `tests/integration/test_sync_pipeline.py` |
@@ -437,6 +437,13 @@ vote is in flight, so one player's votes reach the backend in the order they wer
 replaced when the next round starts, which is also when voting closes; a new round lets the player vote again,
 even on the same question. `custom_questions.db` is therefore no longer read-only at run time: the backend's
 `./data` mount must stay writable.
+
+`round.start_round` refuses to start (`StartResult.NEEDS_RATING`) right after a custom round whose `rating` slot
+is still `(id, {})` (nobody has voted) and less than `RATING_GRACE_PERIOD` (10s) has passed since `ended_at`
+(`round._rating_still_required`). `round_handlers.start_round` replies to that player with `NEEDS_RATING_TEXT`
+("Please rate the question first /good or /bad") instead of the usual `announce`. The gate never fires while a
+round is active (round_lock's `StartResult.BUSY` already covers that) and is a no-op for ordinary rounds, whose
+`rating` is always `None`.
 
 The bot tests patch `round._fetch_tossup` / `round._check_answer`, so they are backend-independent;
 `tests/bot/test_backend_client.py` covers the client against a stand-in server, and

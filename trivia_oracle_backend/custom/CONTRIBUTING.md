@@ -135,7 +135,7 @@ Example (each object is really one line):
 | Science | Biology, Chemistry, Physics, Other Science |
 | Fine Arts | Visual Fine Arts, Auditory Fine Arts, Other Fine Arts |
 | Pop Culture | Movies, Music, Sports, Television, Video Games, Other Pop Culture |
-| Religion, Mythology, Philosophy, Social Science, Current Events, Geography, Other Academic, Singapore, Snowsports, Memes | the same word as the category (e.g. category `Mythology`, subcategory `Mythology`) |
+| Religion, Mythology, Philosophy, Social Science, Current Events, Geography, Other Academic, Singapore, Snowsports, Memes, Japan | the same word as the category (e.g. category `Mythology`, subcategory `Mythology`) |
 
 `alternate_subcategory` is optional; use `null` when none fits. Allowed only with these parents:
 
@@ -151,7 +151,8 @@ Example (each object is really one line):
 food, slang, places, people) goes in it, with `subcategory` `"Singapore"` and `alternate_subcategory`
 `null`, whatever the topic. `Snowsports` is a custom-only category in the same way (skiing and
 snowboarding: gear, lifts, resorts, brands, technique, culture), with `subcategory` `"Snowsports"`. So is `Memes` (internet memes, slang and viral trends),
-with `subcategory` `"Memes"`.
+with `subcategory` `"Memes"`. So is `Japan` (anything about Japan not already covered by a qbreader
+category: places, food, transit, language, culture), with `subcategory` `"Japan"`.
 If the requester names a category, use exactly that one.
 
 Note that Math, Astronomy etc. have `subcategory` **"Other Science"**, and Film, Opera etc.

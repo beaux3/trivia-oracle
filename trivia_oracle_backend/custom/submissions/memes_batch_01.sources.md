@@ -109,3 +109,51 @@ because the page itself could not be opened.
 ## 23. noob (1)
 - "Newbie" as Vietnam-War-era US troop slang for a green recruit: https://www.digitaltrends.com/gaming/noob-newbie-word-origins/
 - Usenet's talk.bizarre newsgroup, earliest archived post 31 May 1988; l33t-speak spinoff "noob"/"n00b" in 1990s gamer/programmer chat; noob vs. newbie distinction (incorrigible vs. merely inexperienced); Concise Oxford English Dictionary added it in 2011: https://meme.com/memes/noob
+
+## Skipped answers from this request, and why
+- **edging**, **foot fetish**, **no nut november**: inherently sexual topics with no distinguishing non-sexual meaning, excluded per CONTRIBUTING.md's rule against sexual content (same call as "gooning" earlier in this file).
+- **pokenut**: only source found was Urban Dictionary, with two contradictory definitions (a term for a bald person; an unrelated Pokémon-picking November challenge) and no reputable secondary coverage of either. Excluded for insufficient, unreliable sourcing per CONTRIBUTING.md's "skip answers you could not find good sources for."
+
+## 24. cuck (5)
+- Etymology from Old French for cuckoo bird (nest-parasitism): https://www.etymonline.com/word/cuck
+- Partridge's Dictionary of Slang: origin in fetish terminology, genre tag for internet erotica by 2000; "weakling"/"race traitor" sense on 4chan 2014, spread to Reddit; Aug 2015 "cuckservative" hashtag peak during GOP debates; white-nationalist usage against mainstream Republicans: https://www.dictionary.com/culture/slang/cuck
+- The clue omits any explicit description of the pornographic genre itself.
+
+## 25. sigma (3)
+- Coined 2010 by Theodore Robert Beale ("Vox Day") on a nationalist blog; introverted "lone wolf" archetype, Greek-letter male hierarchy: https://knowyourmeme.com/editorials/guides/what-makes-a-sigma-male-the-internet-slang-term-trend-and-memes-explained
+- 25 Jan 2021 viral tweet (@LilySimpson1312) mocking sigma-male infographics, 25,000+ retweets; now used ironically: https://www.dazeddigital.com/science-tech/article/55208/1/rise-and-grind-how-sigma-male-memes-are-upturning-the-man-o-sphere
+
+## 26. what the sigma (6)
+- March 2024, TikToker lawfreeza, "is this rizz" caption, Instagram voice-message clip, phrase riffing on Family Guy's "Erm, what the deuce": https://meme.com/memes/erm-what-the-sigma
+- Squidward-voice comparison; 1 April 2024 huugh_mungus SpongeBob/Squidward dub, 1M+ views in two days, "overstimulation" edit format: same source
+- This is thin, recent-meme sourcing (one detailed source plus corroborating TikTok/blog snippets); flagged as lower-confidence, matching this file's standard for very recent slang.
+
+## 27. sus (3)
+- "Sus law" 1824 UK stop-and-search statute, discriminatory enforcement linked to the 1981 Brixton riot; 1930s police jargon: https://www.inverse.com/gaming/sus-meaning-among-us-definition-origin
+- Black internet community usage pre-dating an August 2003 Urban Dictionary entry; Tyler, the Creator's Loiter Squad sketch (2012); August 2020 surge alongside Among Us's second wave of popularity: https://www.dailydot.com/news/sus-meme/
+
+## 28. brain rot (2)
+- Oxford 2024 Word of the Year, 230% usage increase, 37,000-person public vote: https://corp.oup.com/news/brain-rot-named-oxford-word-of-the-year-2024/
+- First recorded use in Thoreau's Walden (1854); associated slang "Skibidi," "Ohio": https://time.com/7199246/brain-rot-oxford-university-press-word-of-the-year-2024/
+- Italian brainrot AI-animal subgenre: https://en.wikipedia.org/wiki/Italian_brainrot (already used for tung tung tung sahur, entry 2)
+
+## 29. Ugandan Knuckles (4)
+- Gregzilla's Feb 2017 Sonic Lost World review warping Knuckles's design: https://knowyourmeme.com/memes/ugandan-knuckles
+- Forsen fans giving it a Ugandan identity; catchphrases from Who Killed Captain Alex? (2010); Sept 2017 VRChat model upload; Jan 2018 Jameskii video launching the craze: https://dailydot.com/ugandan-knuckles-vrchat-meme
+- Creator's regret and critics calling it a mockery of African accents: https://www.gamerevolution.com/news/362289-creator-vrchats-ugandan-knuckles-meme-regrets-decision
+- The clue reports the racism criticism as a fact about the meme's reception; it does not reproduce the mocked accent or catchphrases beyond the one quoted, sourced phrase.
+
+## 30. John Pork (3)
+- Instagram debut 15 June 2018, travel-photo aesthetic (Doune Castle, Isle of Skye), CGI pig-headed human, uncanny valley: https://appsniffles.com/john-pork/
+- "John Pork is calling" meme, TikToker rover.joe, 21 March 2023, viral call-screen format: https://knowyourmeme.com/memes/people/john-pork-john-pork-is-calling
+- Sources disagree on the creators' names (a named studio vs. "anonymous digital artist"); the clue avoids naming a creator given the conflict.
+
+## 31. Kai Cenat (3)
+- Born Dec 2001 NYC, Haitian father/Trinidadian mother, dropped out of SUNY Morrisville 2020: https://en.wikipedia.org/wiki/Kai_Cenat
+- First YouTube video Jan 2018, recruited into AMP by Fanum, Twitch move Feb 2021, Feb 2023 subathon record, briefly lost to Ironmouse Sept 2024, reclaimed via Mafiathon: same source
+- Credited with popularizing Rizz, Fanum tax, Gyatt: same source
+
+## 32. Andrew Tate (4)
+- 2016 Big Brother removal after a video surfaced, producers called it consensual, he denied wrongdoing; 2017 Twitter ban over a tweet about sexual assault victims; Hustler's University: https://www.yahoo.com/news/andrew-tate-timeline-rise-fall-170439597.html
+- 29 Dec 2022 detention in Romania with brother Tristan on human trafficking and rape charges, denied by Tate; later extradition to the UK for separate charges: https://www.npr.org/2022/12/30/1146174119/divisive-social-media-star-andrew-tate-detained-in-romania-in-human-trafficking- ; https://www.npr.org/2024/03/12/1238086900/andrew-tate-arrested-romania-to-extradite-uk
+- Charges are reported as charges/allegations, not adjudicated fact; no graphic detail included.
