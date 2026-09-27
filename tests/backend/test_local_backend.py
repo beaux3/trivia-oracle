@@ -68,6 +68,20 @@ class LocalBackendTest(unittest.TestCase):
         self.assertEqual(tossup.answer, "<b><u>bio-hard</u></b>")
         self.assertEqual(tossup.answer_sanitized, "bio-hard")
 
+    def test_unrated_tossups_are_drawn_before_rated_ones(self):
+        # Every tossup but "drama" gets a vote, so a matching draw should always be "drama"
+        # until it's the only one left unrated too.
+        self.conn.execute("UPDATE tossups SET good_votes = 1 WHERE id != 'drama'")
+        self.conn.commit()
+        for _ in range(20):
+            self.assertEqual(asyncio.run(self.source.random_tossup(QuestionFilters())).id, "drama")
+
+    def test_once_everything_matching_is_rated_a_rated_one_is_still_drawn(self):
+        self.conn.execute("UPDATE tossups SET bad_votes = 1")
+        self.conn.commit()
+        tossup = asyncio.run(self.source.random_tossup(QuestionFilters(subcategories=["Biology"])))
+        self.assertIn(tossup.id, {"bio-easy", "bio-hard"})
+
     def test_no_filters_matches_everything(self):
         self.assertEqual(self._matching_ids(QuestionFilters()), {t["_id"] for t in TOSSUPS})
 

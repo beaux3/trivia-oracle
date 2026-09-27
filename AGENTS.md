@@ -426,7 +426,11 @@ A custom round's end message ends with "Please rate the question /good or /bad" 
 `POST /rate-tossup {id, rating: "good"|"bad", previous: "good"|"bad"|null}` adds one vote to that custom
 question's `good_votes` / `bad_votes` (`local/db.record_vote`) and withdraws `previous`, so a changed vote
 moves instead of doubling; counts never go below 0. Only `is_custom = 1` rows can be rated (404 otherwise, and
-when there is no custom database; the file is never created). The backend just counts. The one-vote-per-player
+when there is no custom database; the file is never created). The backend just counts. Those votes also steer future
+draws: `LocalQuestionSource.random_tossup` orders unrated tossups (`good_votes + bad_votes = 0`) before rated ones,
+random within each group, so a fresh custom question gets seen before an already-rated one repeats. It falls back to
+rated ones once every matching tossup has at least one vote. Every qbreader-synced row stays at 0/0, so this has no
+effect on `QUESTIONS_DB` draws. The one-vote-per-player
 rule lives in the bot: `round.submit_rating` keeps `{user_id: rating}` for the round, ignores a repeat, sends a
 change with `previous` set, and only records a vote once the backend accepted it. `ratings_lock` is held while a
 vote is in flight, so one player's votes reach the backend in the order they were made. The rating state is

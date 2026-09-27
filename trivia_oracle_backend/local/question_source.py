@@ -95,9 +95,14 @@ class LocalQuestionSource:
         where, params = build_where(filters)
         conn = connect_readonly(self.db_path)
         try:
+            # Prefer a tossup nobody has rated yet (good_votes + bad_votes = 0) over one that
+            # already has a vote; random within each of those two groups. Matters for the custom
+            # database, where votes accumulate — every qbreader-sourced row stays at 0/0, so this
+            # is a no-op there.
             row = conn.execute(
                 "SELECT id, question_sanitized, answer, answer_sanitized, category, subcategory, difficulty, set_name"
-                f" FROM tossups WHERE {where} ORDER BY RANDOM() LIMIT 1",
+                f" FROM tossups WHERE {where}"
+                " ORDER BY (good_votes + bad_votes > 0), RANDOM() LIMIT 1",
                 params,
             ).fetchone()
         finally:
