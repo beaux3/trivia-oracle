@@ -37,7 +37,10 @@ trivia_oracle_backend/  Backend: question data as an aiohttp service (server.py)
                         before importing it.
 docker-compose.yml      Runs both containers; QUESTION_BACKEND picks api or local for the backend.
 tests/                  tests/bot, tests/game (bot image), tests/backend (backend image),
-                        tests/contract (needs both packages; run from the repo root).
+                        tests/contract and tests/integration (need both packages; run from the
+                        repo root, or in the backend image with trivia_oracle_bot mounted).
+                        integration = real backend service + SQLite + bot client + game rounds,
+                        with only the qbreader answer judge scripted (tests/integration/support.py).
 assets/                 Project images; excluded from the Docker builds.
 secrets.example.json    Template for the gitignored secrets.json.
 data/                   Runtime files, never code (gitignored; mounted at /app/data in both
@@ -51,7 +54,8 @@ only its own package. The bot and the backend share no code: the JSON wire forma
 
 `trivia_oracle_bot/` has `bot/` (Telegram UI), `game/` (rules and state) and
 `questions.py` (HTTP client for the backend). `trivia_oracle_backend/` holds the question
-data. Module by module:
+data. Module by module (paths are relative to `trivia_oracle_bot/` until the
+`trivia_oracle_backend/` heading):
 
 ```
 __main__.py        Entry point; just calls bot.app.main().
@@ -147,6 +151,47 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
 
 ---
 
+## Where to edit
+
+Start here when you know what you want to change. Keep the bot and the backend apart: they only
+share the JSON wire format.
+
+| Goal | Edit | Also touch |
+|------|------|------------|
+| New bot command | `trivia_oracle_bot/bot/handlers.py`, register in `bot/app.py` | `tests/bot` |
+| New /configure setting | `game/settings.py`, `bot/handlers.py`, `bot/keyboards.py` | `tests/bot` or `tests/game` |
+| New category or difficulty | `trivia_oracle_bot/config.py` (`CATEGORIES`, `DIFFICULTIES`) | `ALL_ALT_SUBCATEGORIES` if it is an alternate subcategory; `tests/contract` |
+| Different default difficulties or categories | `game/settings.py` | check the local DB has questions at those levels |
+| Round timing, reveal flow, winners | `trivia_oracle_bot/game/round.py` | `tests/bot`, `tests/integration/test_round_flow.py` |
+| Scoring mode or point values | `trivia_oracle_bot/config.py`, `game/round.py` (`_points_for_correct`, `_penalty_for_wrong`) | `tests/integration/test_round_flow.py` |
+| Scoreboard format or storage | `trivia_oracle_bot/game/scores.py` | |
+| Lenient answer matching | `trivia_oracle_bot/game/spelling.py` | `tests/game` |
+| Message shown when `/next` fails | `trivia_oracle_bot/bot/round_handlers.py` | `StartFailureIntegrationTest` |
+| Wire format (request or response fields) | `trivia_oracle_backend/server.py` **and** `trivia_oracle_bot/questions.py` | `tests/backend/test_server.py`, `tests/bot/test_backend_client.py`, `tests/integration/test_backend_http.py` |
+| New endpoint | `trivia_oracle_backend/server.py` | `tests/backend`, `tests/integration` |
+| How local questions are filtered | `trivia_oracle_backend/local/question_source.py` (`build_where`) | `tests/backend/test_local_backend.py`, `FilterIntegrationTest` |
+| Local DB schema | `trivia_oracle_backend/local/schema.sql`, `db.py` | `tests/backend`, `tests/integration/test_sync_pipeline.py` |
+| What the sync downloads | `trivia_oracle_backend/local/sync.py` | `tests/integration/test_sync_pipeline.py` |
+| Calling qbreader (API mode, answer judge) | `trivia_oracle_backend/api/qbreader_api.py` | `tests/backend` |
+| Choosing between api and local | `trivia_oracle_backend/__main__.py`, `config.py` | `BackendStartupTest` |
+| New environment variable | that package's `config.py` | the Configuration tables below, README, `docker-compose.yml`, `secrets.example.json` if the bot reads it |
+| Container setup | the package's `Dockerfile`, `docker-compose.yml` | `.dockerignore` |
+| A new shared test fake | `tests/integration/support.py` | |
+
+Never import across the two packages (`tests/*/test_dependency_rule.py` fails if you do), and
+never put game rules in `bot/` or Telegram code in `game/`.
+
+## Known limitations
+
+- Answer checking always calls qbreader.org, even with `QUESTION_BACKEND=local`.
+- The local DB only holds the synced sets, but the bot defaults to HS Easy and HS Regular
+  (`game/settings.py`). With a college-only DB, `/next` answers "Failed to fetch a question".
+- Local mode ANDs the subcategory and alternate-subcategory fields, so a mixed selection such as
+  Biology plus Poetry matches nothing. `test_subcategory_and_alternate_subcategory_selections_are_a_union`
+  is an `expectedFailure`; remove the decorator when it is fixed.
+
+---
+
 ## Import dependency graph
 
 Inside each package imports are relative (`from ..config import ...`). The two packages never
@@ -212,7 +257,7 @@ Two things make "received before" hold for answers sent at the same moment:
   (a Condition on `scores_lock`) until pending checks reach 0, capped at
   `PENDING_CHECK_TIMEOUT`, before sending the round-end message.
 
-`tests/bot/test_concurrent_answers.py` covers this (`python -m unittest discover tests`).
+`tests/bot/test_concurrent_answers.py` covers this (run it as shown under "Docker").
 
 ### Scoring modes
 Scoring modes are independent toggles that can be combined. `settings.scoring_modes`
@@ -417,6 +462,8 @@ Run each side's tests inside its own image (tests are not baked in; mount them):
 docker run --rm -v "$PWD/tests:/app/tests:ro" trivia-oracle-bot sh -c \
   "python -m unittest discover -s tests/bot -t . && python -m unittest discover -s tests/game -t ."
 docker run --rm -v "$PWD/tests:/app/tests:ro" trivia-oracle-backend python -m unittest discover -s tests/backend -t .
+docker run --rm -v "$PWD/tests:/app/tests:ro" -v "$PWD/trivia_oracle_bot:/app/trivia_oracle_bot:ro" trivia-oracle-backend sh -c \
+  "python -m unittest discover -s tests/contract -t . && python -m unittest discover -s tests/integration -t ."
 ```
 
 The old single image `chewterence/trivia-oracle` on Docker Hub predates this split and is not
