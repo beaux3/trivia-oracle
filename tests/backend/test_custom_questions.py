@@ -59,6 +59,11 @@ class ValidateTest(unittest.TestCase):
         self.assertEqual(add.validate(record(category="Japan", subcategory="Japan")), [])
         self.assertTrue(add.validate(record(category="Japan", subcategory="Geography")))
 
+    def test_anime_is_a_custom_category_of_its_own(self):
+        self.assertEqual(add.validate(record(category="Anime", subcategory="Anime")), [])
+        self.assertTrue(add.validate(record(category="Anime", subcategory="Television")))
+        self.assertTrue(add.validate(record(category="Anime", subcategory="Anime", alternate_subcategory="Film")))
+
     def test_missing_field(self):
         incomplete = record()
         del incomplete["answer"]
