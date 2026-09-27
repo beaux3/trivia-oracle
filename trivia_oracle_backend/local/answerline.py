@@ -44,6 +44,10 @@ _TIMING = re.compile(
 )
 _INSTRUCTION = re.compile(r"\s*either\b", re.IGNORECASE)  # "accept either underlined portion": an instruction, not an answer
 _WORD_FORMS = re.compile(r"word\s+forms?", re.IGNORECASE)
+# "accept word forms like Italy": the instruction is not an answer, but the example after it is.
+_WORD_FORMS_ITEM = re.compile(
+    r"\s*(?:(?:any|all|other)\s+)?word\s+forms?\b(?:\s+(?:like|such\s+as|including)\b)?", re.IGNORECASE
+)
 _EITHER_UNDERLINED = re.compile(r"either\s+(?:of\s+the\s+)?(?:underlined|bolded|bold)\b", re.IGNORECASE)
 _QUOTE_MASK = "\0"
 
@@ -104,16 +108,18 @@ def _split_groups(chars: Styled) -> Tuple[Styled, List[Tuple[str, Styled]]]:
 
 
 def _mask_quotes(text: str) -> str:
-    """Blank out quoted text so the words inside are never taken for directives or separators."""
-    out, closing = [], None
+    """
+    Blank out quoted text so the words inside are never taken for directives or separators.
+    Either closing mark ends a quote whichever mark opened it, because editors mix "straight” and “curly".
+    """
+    out, quoted = [], False
     for c in text:
-        if closing is None:
+        if not quoted:
             out.append(c)
-            if c in ('"', "“"):
-                closing = "”" if c == "“" else '"'
-        elif c == closing or (closing == "”" and c == '"'):
+            quoted = c in ('"', "“")
+        elif c in ('"', "”"):
             out.append(c)
-            closing = None
+            quoted = False
         else:
             out.append(_QUOTE_MASK)
     return "".join(out)
@@ -170,6 +176,12 @@ def _message(chars: Styled) -> Tuple[Styled, Optional[str]]:
     return chars[:m.start()], asked or None
 
 
+def _strip_word_forms(chars: Styled) -> Styled:
+    """Drop a leading "word forms" instruction, keeping any example after it ("like Italy")."""
+    m = _WORD_FORMS_ITEM.match("".join(c for c, _ in chars))
+    return chars[m.end():] if m else chars
+
+
 def _emphasised_runs(chars: Styled) -> List[Styled]:
     runs, run = [], []
     for char, emphasised in chars:
@@ -202,7 +214,7 @@ def parse_answerline(answerline: str) -> Answerline:
             kind = clause_kind or kind
             for item in _items(clause):
                 item, message = _message(item)
-                item = _strip_timing(item)
+                item = _strip_word_forms(_strip_timing(item))
                 phrase = Phrase.from_styled(item)
                 if not phrase or _INSTRUCTION.match("".join(c for c, _ in item)):
                     continue

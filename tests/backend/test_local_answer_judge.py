@@ -298,6 +298,16 @@ class SpecialDirectivesTest(Cases):
             ("<b><u>donate</u></b>", "donating", R),
         ])
 
+    def test_the_word_forms_instruction_itself_is_not_an_answer(self):
+        self.check([
+            ("<b><u>donate</u></b> [accept word forms]", "word forms", R),
+            (ITALIAN, "word forms like Italy", R),
+        ])
+
+    def test_a_prompt_after_mixed_quotes_still_prompts(self):
+        answerline = '<b><u>angular momentum</u></b> [do not accept "linear momentum”; prompt on <u>momentum</u>]'
+        self.check([(answerline, "momentum", P), (answerline, "linear momentum", R)])
+
     def test_either_underlined_portion(self):
         self.check([
             (EITHER, "Philippe II", A),
