@@ -106,6 +106,11 @@ class DirectiveTest(unittest.TestCase):
         self.assertEqual(words(line.accepted), ["grant", "sam or jim prompt on none"])
         self.assertEqual(line.prompts, ())
 
+    def test_a_straight_quote_may_close_with_a_curly_one(self):
+        line = parse_answerline('Grant [do not accept "Wood, or Oak”; prompt on Sam]')
+        self.assertEqual(words(line.rejected), ["wood or oak"])
+        self.assertEqual(words(p.phrase for p in line.prompts), ["sam"])
+
     def test_the_kind_carries_over_commas_and_or(self):
         line = parse_answerline("Grant [prompt on A, B, or C]")
         self.assertEqual(words(p.phrase for p in line.prompts), ["a", "b", "c"])
@@ -145,6 +150,23 @@ class DirectiveTest(unittest.TestCase):
         self.assertTrue(parse_answerline("Grant [accept word forms]").word_forms)
         self.assertTrue(parse_answerline("Grant (accept word form like <u>Italy</u>)").word_forms)
         self.assertFalse(parse_answerline("Grant [accept Sam]").word_forms)
+
+    def test_the_word_forms_instruction_is_not_an_answer(self):
+        for directive in ("accept word forms", "accept word form", "accept all word forms", "or any word forms"):
+            with self.subTest(directive=directive):
+                line = parse_answerline(f"Grant [{directive}; prompt on Sam]")
+                self.assertEqual(words(line.accepted), ["grant"])
+                self.assertEqual(words(p.phrase for p in line.prompts), ["sam"])
+
+    def test_an_example_after_word_forms_is_an_answer(self):
+        for directive in ("accept word forms like <u>Italy</u>", "accept word forms such as <u>Italy</u>"):
+            with self.subTest(directive=directive):
+                line = parse_answerline(f"<u>Italian</u> ({directive})")
+                self.assertEqual(words(line.accepted), ["italian", "italy"])
+                self.assertEqual(required(line.accepted), ["italian", "italy"])
+
+    def test_words_that_only_start_like_the_instruction_are_answers(self):
+        self.assertEqual(words(parse_answerline("Grant [accept word formation]").accepted), ["grant", "word formation"])
 
     def test_either_underlined_portion_adds_each_run(self):
         line = parse_answerline("<b><u>Philippe II</u></b>, <b><u>Duke of Orléans</u></b> [accept either underlined portion]")
