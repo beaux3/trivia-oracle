@@ -15,7 +15,8 @@ class _Settings:
         self.sentence_interval: float = 5.0
         self.answer_wait: float = 10.0
         self.selected_categories: set = set(CATEGORIES)
-        self.custom_questions: bool = False  # the "Custom" category: draw from the custom question database
+        self.custom_all: bool = False  # "All Custom": draw from the whole custom database, any category
+        self.selected_custom_categories: set = set()  # granular picks from config.CUSTOM_CATEGORIES
         self.selected_difficulties: set = {"HS Easy (2)", "HS Regular (3)"}
         self.scoring_modes: set = set()  # enabled keys of config.SCORING_MODES; empty = default
 

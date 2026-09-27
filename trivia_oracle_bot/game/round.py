@@ -60,17 +60,19 @@ def _build_filters() -> QuestionFilters:
     (subcategories / alternate_subcategories). A dimension with everything
     selected becomes None (= no filter), which also keeps requests small.
     """
-    subcategories = alt_subcategories = difficulties = None
+    subcategories = alt_subcategories = difficulties = custom_subcategories = None
     custom = "exclude"
-    if settings.custom_questions:
+    if settings.custom_all or settings.selected_custom_categories:
         # Custom on its own (nothing else ticked) plays only custom questions; otherwise they are mixed in.
         custom = "include" if settings.selected_categories else "only"
+        if not settings.custom_all:
+            custom_subcategories = sorted(settings.selected_custom_categories)
     if settings.selected_categories != set(CATEGORIES):
         subcategories = [c for c in settings.selected_categories if c not in ALL_ALT_SUBCATEGORIES] or None
         alt_subcategories = [c for c in settings.selected_categories if c in ALL_ALT_SUBCATEGORIES] or None
     if settings.selected_difficulties != set(DIFFICULTIES):
         difficulties = [DIFFICULTIES[d] for d in settings.selected_difficulties]
-    return QuestionFilters(subcategories, alt_subcategories, difficulties, custom)
+    return QuestionFilters(subcategories, alt_subcategories, difficulties, custom, custom_subcategories)
 
 
 def _round_header(tossup) -> str:

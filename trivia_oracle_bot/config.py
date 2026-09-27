@@ -85,9 +85,14 @@ CATEGORIES = [
     "Movies", "Music", "Sports", "Television", "Video Games", "Other Pop Culture",
 ]
 
-# "Custom" is not a qbreader category, so it is not in CATEGORIES: it is a separate on/off
-# switch (settings.custom_questions) shown alongside them in /configure → Categories.
-CUSTOM_CATEGORY = "Custom"
+# The custom database's own categories are not qbreader ones, so they are not in CATEGORIES.
+# /configure → Categories shows them as their own stack of rows below the qbreader ones:
+# "All Custom" (settings.custom_all) draws from the whole custom database regardless of category,
+# and each entry in CUSTOM_CATEGORIES is its own checkbox (settings.selected_custom_categories)
+# for picking specific custom categories instead. Keep this in sync with the custom-only
+# categories in trivia_oracle_backend/custom/add.py's SUBCATEGORIES.
+ALL_CUSTOM_LABEL = "All Custom"
+CUSTOM_CATEGORIES = ["Snowsports", "Singapore", "Memes", "Japan"]
 
 # What a player can say about a custom question once its round is over (/good, /bad).
 RATINGS = ("good", "bad")

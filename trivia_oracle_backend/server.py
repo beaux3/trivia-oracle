@@ -20,8 +20,12 @@ Filter fields are lists of strings or null. `custom` says whether to draw from t
 custom question database: "exclude" (the default) never does, "only" always does,
 and "include" picks the custom or the main source with equal odds (the custom set is
 tiny, so mixing by size would almost never show it) and falls back to the other one
-when the first has nothing. Custom questions ignore every filter. This wire format is
-the only contract with the bot; the two never import each other.
+when the first has nothing. Custom questions ignore subcategories, alternate_subcategories
+and difficulties. `custom_subcategories` is a separate filter that applies only to a
+custom draw: a list of custom-only category names (e.g. "Singapore", "Memes") restricts
+it to just those, and null (the default) draws from the whole custom database
+unfiltered. This wire format is the only contract with the bot; the two never import
+each other.
 """
 import logging
 import random
@@ -100,6 +104,8 @@ def build_app(question_source: QuestionSource, answer_judge: AnswerJudge, backen
             if alt not in ALT_SUBCATEGORY_PARENTS:
                 raise web.HTTPBadRequest(text=f"unknown alternate subcategory: {alt}")
         custom_mode = _custom_mode(body)
+        custom_subcategories = _string_list(body, "custom_subcategories")
+        custom_filters = QuestionFilters(subcategories=custom_subcategories)
 
         # (source, is_custom) in the order they are tried; the first one with a question wins.
         candidates = [(question_source, False)]
@@ -114,7 +120,7 @@ def build_app(question_source: QuestionSource, answer_judge: AnswerJudge, backen
                 errors.append(LookupError(NO_CUSTOM_QUESTIONS))
                 continue
             try:
-                tossup = await source.random_tossup(QuestionFilters() if is_custom else filters)
+                tossup = await source.random_tossup(custom_filters if is_custom else filters)
             except Exception as e:
                 if is_custom and isinstance(e, (LookupError, FileNotFoundError)):
                     errors.append(LookupError(NO_CUSTOM_QUESTIONS))  # nothing loaded (yet)

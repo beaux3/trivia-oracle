@@ -296,24 +296,24 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
         return [asyncio.run(rnd._fetch_tossup()) for _ in range(times)]
 
     def test_custom_only_draws_every_custom_question_whatever_the_other_filters(self):
-        settings.custom_questions = True
+        settings.custom_all = True
         settings.selected_categories = set()
         tossups = self.draw()
         self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa"})
         self.assertTrue(all(t.custom and t.category == "Singapore" for t in tossups))
 
     def test_custom_mixed_with_other_categories_draws_from_both(self):
-        settings.custom_questions = True
+        settings.custom_all = True
         tossups = self.draw()
         self.assertEqual({t.answer_sanitized for t in tossups}, {"mitosis", "merlion", "laksa"})
         self.assertFalse(any(t.custom for t in tossups if t.answer_sanitized == "mitosis"))
 
     def test_custom_off_never_draws_a_custom_question(self):
-        settings.custom_questions = False
+        settings.custom_all = False
         self.assertEqual({t.answer_sanitized for t in self.draw()}, {"mitosis"})
 
     def test_a_custom_round_opens_with_its_label_and_can_be_won(self):
-        settings.custom_questions = True
+        settings.custom_all = True
         settings.selected_categories = set()
         messages = []
         self.assertEqual(rnd.start_round(messages.append, "", {}), StartResult.STARTED)
@@ -334,7 +334,7 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
 
     def play_custom_round(self, winner=None):
         """Run one custom-only round to its end; returns (question id, everything announced)."""
-        settings.custom_questions = True
+        settings.custom_all = True
         settings.selected_categories = set()
         messages = []
         self.assertEqual(rnd.start_round(messages.append, "\n\nNext: /next", {}), StartResult.STARTED)
@@ -369,7 +369,7 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
     def test_votes_after_the_next_round_has_started_go_nowhere(self):
         answer, _ = self.play_custom_round()
         rnd.submit_rating(1, "good")  # satisfies the /next rating gate so round 2 can start right away
-        settings.custom_questions = False
+        settings.custom_all = False
         self.assertEqual(rnd.start_round(lambda _: None, "", {}), StartResult.STARTED)
         self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
         before = {t: self.votes(t) for t in ("merlion", "laksa")}
@@ -377,7 +377,7 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
         self.assertEqual({t: self.votes(t) for t in ("merlion", "laksa")}, before)
 
     def test_ordinary_rounds_do_not_ask_for_a_rating(self):
-        settings.custom_questions = False
+        settings.custom_all = False
         messages = []
         rnd.start_round(messages.append, "", {})
         self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")

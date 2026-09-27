@@ -6,7 +6,8 @@ from telegram.error import Conflict
 from telegram.ext import ConversationHandler
 
 from ..config import (
-    ADMIN_USERNAME, ALL_ARTS, ALL_SCIENCE, CATEGORIES, CUSTOM_CATEGORY, DEFAULT_SCORING_LABEL, DIFFICULTIES,
+    ADMIN_USERNAME, ALL_ARTS, ALL_CUSTOM_LABEL, ALL_SCIENCE, CATEGORIES, CUSTOM_CATEGORIES,
+    DEFAULT_SCORING_LABEL, DIFFICULTIES,
     INPUT_VALUE, SCORING_MODE_DESCRIPTIONS, SCORING_MODES, SELECT_ADMIN,
     SELECT_CATEGORIES, SELECT_DIFFICULTIES, SELECT_OPTION, SELECT_SCORING,
     SELECT_TIME_FIELD,
@@ -25,11 +26,22 @@ def show_scores(update, _context) -> None:
     update.message.reply_text(format_scoreboard())
 
 
+def _custom_labels() -> list:
+    """The chosen custom picks, "All Custom" if that switch is on, else one "Custom: X" per category."""
+    if settings.custom_all:
+        return [ALL_CUSTOM_LABEL]
+    return [f"Custom: {cat}" for cat in CUSTOM_CATEGORIES if cat in settings.selected_custom_categories]
+
+
+def _custom_count() -> int:
+    """How many custom picks count toward the "N selected" label. "All Custom" counts as one pick."""
+    return (1 if settings.custom_all else 0) + len(settings.selected_custom_categories)
+
+
 def _categories_label(all_label: str) -> str:
-    """The chosen categories for a message, with Custom listed after the qbreader ones."""
+    """The chosen categories for a message, with Custom picks listed after the qbreader ones."""
     chosen = [all_label] if settings.selected_categories == set(CATEGORIES) else sorted(settings.selected_categories)
-    if settings.custom_questions:
-        chosen.append(CUSTOM_CATEGORY)
+    chosen += _custom_labels()
     return ", ".join(chosen)
 
 
@@ -90,9 +102,10 @@ def configure_select_option(update, context) -> int:
 
     if query.data == "category":
         if settings.selected_categories == set(CATEGORIES):
-            label = "All categories" + (f" + {CUSTOM_CATEGORY}" if settings.custom_questions else "")
+            extra = _custom_labels()
+            label = "All categories" + (f" + {', '.join(extra)}" if extra else "")
         else:
-            label = f"{len(settings.selected_categories) + settings.custom_questions} selected"
+            label = f"{len(settings.selected_categories) + _custom_count()} selected"
         query.edit_message_text(f"Toggle categories on/off ({label}):", reply_markup=build_category_keyboard())
         return SELECT_CATEGORIES
 
@@ -147,7 +160,7 @@ def configure_toggle_category(update, _context) -> int:
     query.answer()
 
     if query.data == "cat_save":
-        if not settings.selected_categories and not settings.custom_questions:
+        if not settings.selected_categories and not settings.custom_all and not settings.selected_custom_categories:
             query.answer("⚠️ Select at least one category!", show_alert=True)
             return SELECT_CATEGORIES
         query.edit_message_text(f"✅ Categories saved:\n{_categories_label('All categories')}")
@@ -163,13 +176,19 @@ def configure_toggle_category(update, _context) -> int:
             settings.selected_categories -= ALL_SCIENCE
         else:
             settings.selected_categories |= ALL_SCIENCE
-    elif query.data == "cat_toggle_custom":
-        settings.custom_questions = not settings.custom_questions
+    elif query.data == "cat_toggle_custom_all":
+        settings.custom_all = not settings.custom_all
     elif query.data == "cat_toggle_all":
         if settings.selected_categories == set(CATEGORIES):
             settings.selected_categories.clear()
         else:
             settings.selected_categories = set(CATEGORIES)
+    elif query.data.startswith("cat_custom:"):
+        cat = query.data[len("cat_custom:"):]
+        if cat in settings.selected_custom_categories:
+            settings.selected_custom_categories.discard(cat)
+        else:
+            settings.selected_custom_categories.add(cat)
     else:
         cat = query.data[len("cat:"):]
         if cat in settings.selected_categories:

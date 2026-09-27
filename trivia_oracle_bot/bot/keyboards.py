@@ -1,6 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from ..config import ALL_ARTS, ALL_SCIENCE, CATEGORIES, CUSTOM_CATEGORY, DIFFICULTIES, SCORING_MODES
+from ..config import ALL_ARTS, ALL_CUSTOM_LABEL, ALL_SCIENCE, CATEGORIES, CUSTOM_CATEGORIES, DIFFICULTIES, SCORING_MODES
 from ..game.settings import settings
 
 
@@ -15,9 +15,12 @@ def build_category_keyboard() -> InlineKeyboardMarkup:
         rows.append(row)
 
     rows.append([InlineKeyboardButton(
-        f"{'✅' if settings.custom_questions else '☐'} {CUSTOM_CATEGORY} 📝",
-        callback_data="cat_toggle_custom",
+        f"{'✅' if settings.custom_all else '☐'} {ALL_CUSTOM_LABEL} 📝",
+        callback_data="cat_toggle_custom_all",
     )])
+    for cat in CUSTOM_CATEGORIES:
+        mark = "✅" if cat in settings.selected_custom_categories else "☐"
+        rows.append([InlineKeyboardButton(f"{mark} Custom: {cat} 📝", callback_data=f"cat_custom:{cat}")])
 
     arts_on = ALL_ARTS.issubset(settings.selected_categories)
     rows.append([InlineKeyboardButton(

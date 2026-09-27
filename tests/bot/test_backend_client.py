@@ -56,6 +56,7 @@ class BackendClientTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(tossup, Tossup("Q?", "<b>A</b>", "A"))
         self.assertEqual(self.received, [{
             "subcategories": ["Biology"], "alternate_subcategories": None, "difficulties": ["3"], "custom": "exclude",
+            "custom_subcategories": None,
         }])
 
     async def test_custom_questions_come_back_marked_with_their_category(self):

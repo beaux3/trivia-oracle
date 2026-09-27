@@ -110,6 +110,19 @@ class ServerTest(AioHTTPTestCase):
         self.assertEqual(self.custom.seen, [QuestionFilters(None, None, None)])
         self.assertEqual(self.source.seen, [])
 
+    async def test_custom_subcategories_narrows_the_custom_source_but_not_the_main_one(self):
+        response = await self.client.post("/random-tossup", json={
+            "subcategories": ["Biology"], "custom": "only", "custom_subcategories": ["Singapore", "Memes"],
+        })
+        self.assertEqual(response.status, 200)
+        self.assertEqual(self.custom.seen, [QuestionFilters(["Singapore", "Memes"], None, None)])
+        self.assertEqual(self.source.seen, [])
+
+    async def test_missing_custom_subcategories_still_draws_from_the_whole_custom_database(self):
+        response = await self.client.post("/random-tossup", json={"custom": "only"})
+        self.assertEqual(response.status, 200)
+        self.assertEqual(self.custom.seen, [QuestionFilters(None, None, None)])
+
     async def test_custom_exclude_or_missing_never_touches_the_custom_source(self):
         for payload in ({}, {"custom": None}, {"custom": "exclude"}):
             response = await self.client.post("/random-tossup", json=payload)

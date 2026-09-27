@@ -26,6 +26,9 @@ class QuestionFilters:
     # Custom questions ignore the three filters above: "exclude" never draws one, "only" always
     # does, and "include" mixes them in with the others (the backend picks).
     custom: str = "exclude"
+    # Restricts a custom draw to these custom-only category names (config.CUSTOM_CATEGORIES);
+    # None draws from the whole custom database regardless of category.
+    custom_subcategories: Optional[Sequence[str]] = None
 
 
 @dataclass(frozen=True)
