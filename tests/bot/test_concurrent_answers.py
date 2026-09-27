@@ -21,11 +21,11 @@ os.environ.setdefault("TELEGRAM_TOKEN", "test-token")
 from telegram import Chat, Message, Update, User
 from telegram.ext import Dispatcher
 
-from trivia_oracle.game import round as rnd
-from trivia_oracle.bot.app import register_handlers
-from trivia_oracle.config import POINTS_PER_CORRECT
-from trivia_oracle.game.scores import scores
-from trivia_oracle.game.settings import settings
+from trivia_oracle_bot.game import round as rnd
+from trivia_oracle_bot.bot.app import register_handlers
+from trivia_oracle_bot.config import POINTS_PER_CORRECT
+from trivia_oracle_bot.game.scores import scores
+from trivia_oracle_bot.game.settings import settings
 
 CHAT = Chat(id=-100, type="group")
 # qbreader round-trip time per submitted text. Real latency varies, so a

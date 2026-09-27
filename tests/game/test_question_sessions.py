@@ -7,7 +7,7 @@ from unittest import mock
 
 os.environ.setdefault("TELEGRAM_TOKEN", "test-token")
 
-from trivia_oracle.game import round as rnd
+from trivia_oracle_bot.game import round as rnd
 
 
 def _tossup(question):

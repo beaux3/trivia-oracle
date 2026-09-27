@@ -118,7 +118,7 @@ Requires Python 3.9–3.11 (python-telegram-bot 13.x breaks on 3.12+). The Docke
 
 ```bash
 pip install -r requirements.txt
-python -m trivia_oracle
+python -m trivia_oracle_bot
 ```
 
 Only run one instance per bot token — a second instance will shut itself down.
@@ -136,7 +136,7 @@ The tests fake Telegram and qbreader, so they need no token or network access.
 ## Project layout
 
 ```
-trivia_oracle/        The bot (run with `python -m trivia_oracle`)
+trivia_oracle_bot/    The bot (run with `python -m trivia_oracle_bot`)
   bot/                Telegram UI: handler registration, /configure menus, keyboards
   game/               Rounds, scoring, settings, lenient spelling
   data/               Question source + answer judge interfaces and backends

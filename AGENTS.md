@@ -25,7 +25,7 @@ are persisted to a Markdown file and printed to the group after every round.
 ## File structure
 
 ```
-trivia_oracle/          The bot package. Run with `python -m trivia_oracle`
+trivia_oracle_bot/      The bot package. Run with `python -m trivia_oracle_bot`
                         from the repo root. Modules use relative imports.
 vendor/qbreader/        Vendored qbreader API wrapper (MIT, see vendor/qbreader/LICENSE).
                         It imports itself as `qbreader.*`; data/api/__init__.py puts
@@ -33,14 +33,14 @@ vendor/qbreader/        Vendored qbreader API wrapper (MIT, see vendor/qbreader/
 tests/                  Unit tests, mirroring the package (tests/bot, tests/game).
 assets/                 Project images; excluded from the Docker build.
 Dockerfile              python:3.11-slim; installs requirements.txt, copies
-                        vendor/ and trivia_oracle/, runs `python -m trivia_oracle`.
+                        vendor/ and trivia_oracle_bot/, runs `python -m trivia_oracle_bot`.
 requirements.txt        Runtime dependencies (python-telegram-bot pinned to 13.7).
 secrets.example.json    Template for the gitignored secrets.json.
 data/                   Runtime scores (gitignored; Docker volume at /app/data).
-                        Not to be confused with the trivia_oracle/data/ package.
+                        Not to be confused with the trivia_oracle_bot/data/ package.
 ```
 
-Inside `trivia_oracle/` there are three layers. `bot/` is Telegram UI,
+Inside `trivia_oracle_bot/` there are three layers. `bot/` is Telegram UI,
 `game/` is rules and state, and `data/` is where questions and answer
 judgements come from:
 
@@ -265,7 +265,7 @@ in `start_round` silently drops a `/next` command if a round is already running.
   both `CATEGORIES` and `ALL_ALT_SUBCATEGORIES` in `config.py`.
 - Check the qbreader enums with (vendor/ must be on the path):
   ```python
-  import trivia_oracle.data.api  # puts vendor/ on sys.path
+  import trivia_oracle_bot.data.api  # puts vendor/ on sys.path
   from qbreader.types import Subcategory, AlternateSubcategory
   list(Subcategory)
   list(AlternateSubcategory)
@@ -275,7 +275,7 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ## Question data backends
 
-`game/round.py` gets questions and judgements only through `trivia_oracle.data`:
+`game/round.py` gets questions and judgements only through `trivia_oracle_bot.data`:
 
 - `data.question_source.random_tossup(filters)` → a Tossup (`question_sanitized`,
   `answer` with HTML, `answer_sanitized`)
@@ -294,7 +294,7 @@ backend-independent.
 ## qbreader API notes
 
 - Library: local `vendor/qbreader/` folder (vendored, not pip-installed).
-  Only `trivia_oracle/data/api/` imports it.
+  Only `trivia_oracle_bot/data/api/` imports it.
   Copied from qbreader/python-module v1.0.1 with one patch: `AlternateSubcategory.MUSICALS`
   added to the Other Fine Arts mapping in `_api_utils.py`. Keep `vendor/qbreader/LICENSE` with it.
 - Entry point: `qbreader.asynchronous.Async` (async context manager).
@@ -337,7 +337,7 @@ docker run --rm \
   trivia-oracle
 ```
 
-The image contains only `vendor/` and `trivia_oracle/`. Scores go to
+The image contains only `vendor/` and `trivia_oracle_bot/`. Scores go to
 `/app/data/scores.md`; mount a volume on `/app/data` to keep them. Mount
 `/app/data`, not `/app` — mounting over `/app` hides the code.
 
@@ -355,7 +355,7 @@ docker push chewterence/trivia-oracle:latest
 ```bash
 pip install -r requirements.txt
 cp secrets.example.json secrets.json   # then fill it in
-python -m trivia_oracle
+python -m trivia_oracle_bot
 ```
 
 Only one process may poll a given token. A second instance gets a Telegram
