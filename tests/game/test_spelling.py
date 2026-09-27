@@ -79,7 +79,7 @@ class LenientSpellingTest(unittest.TestCase):
             return SimpleNamespace(directive="reject")
 
         with mock.patch.object(rnd, "_check_answer", rejected_answer), mock.patch.object(rnd, "save_scores"):
-            rnd._judge_answer(SimpleNamespace(id=1, first_name="Alice"), "Cu chulain")
+            rnd._judge_answer(1, "Alice", "Cu chulain")
 
         self.assertEqual(scores[1]["score"], 10)
         self.assertTrue(rnd.current_round["event"].is_set())

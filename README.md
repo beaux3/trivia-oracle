@@ -65,6 +65,8 @@ The bot reads these settings from environment variables, falling back to a local
 | `TELEGRAM_TOKEN` | Yes | Bot token from BotFather |
 | `ADMIN_USERNAME` | No | Your Telegram username (without `@`). Unlocks **Admin Settings** in `/configure`. If unset, nobody is admin. |
 | `SCORES_FILE` | No | Where to store scores. Default: `data/scores.md` |
+| `QUESTION_BACKEND` | No | `api` (default) fetches questions live from qbreader.org; `local` reads them from `QUESTIONS_DB` (see [Offline questions](#offline-questions)) |
+| `QUESTIONS_DB` | No | Local question database. Default: `data/questions.db` |
 
 For local runs, copy the example file and fill it in (`secrets.json` is gitignored):
 
@@ -123,6 +125,22 @@ python -m trivia_oracle_bot
 
 Only run one instance per bot token — a second instance will shut itself down.
 
+### Offline questions
+
+The bot can draw questions from a local copy of qbreader instead of calling its API
+for every round. Build the database once (about an hour and ~300 MB for all sets;
+it resumes if interrupted, and a re-run only fetches sets it doesn't have yet):
+
+```bash
+python -m trivia_oracle_bot.questions.local.sync              # or with Docker:
+docker run --rm -v "$(pwd)/data:/app/data" chewterence/trivia-oracle \
+  python -m trivia_oracle_bot.questions.local.sync
+```
+
+Add `--limit 5` or `--sets "2023 ACF Winter"` to try it on a few sets first. Then set
+`QUESTION_BACKEND` to `local`. Answers are still checked by qbreader's answer checker,
+so the bot needs internet access for now.
+
 ### Running tests
 
 ```bash
@@ -137,12 +155,14 @@ The tests fake Telegram and qbreader, so they need no token or network access.
 
 ```
 trivia_oracle_bot/    The bot (run with `python -m trivia_oracle_bot`)
-  bot/                Telegram UI: handler registration, /configure menus, keyboards
-  game/               Rounds, scoring, settings, lenient spelling
-  data/               Question source + answer judge interfaces and backends
+  bot/                Telegram UI: handlers for rounds, /configure menus, keyboards
+  game/               Rounds, scoring, settings, lenient spelling (no Telegram code)
+  questions/          Where questions and answer judgements come from
     api/              qbreader.org backend
+    local/            SQLite backend + the sync script that fills it
 vendor/qbreader/      Vendored copy of the qbreader Python API wrapper (MIT)
 tests/                Unit tests, mirroring the package (python -m unittest discover tests)
+data/                 Runtime files: scores.md, questions.db (gitignored, Docker volume)
 assets/               Project images
 Dockerfile            Container build
 requirements.txt      Python dependencies

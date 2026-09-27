@@ -21,15 +21,22 @@ def _setting(name: str, default=None):
     return os.environ.get(name) or _secrets.get(name, default)
 
 
+# Checked in bot.app.main() rather than here, so tools like the question sync
+# can import config without a Telegram token.
 TOKEN: str = _setting("TELEGRAM_TOKEN")
-if not TOKEN:
-    raise SystemExit("TELEGRAM_TOKEN is not set. Export it or add it to secrets.json (see secrets.example.json).")
 
 # Telegram username (without @) allowed into /configure → Admin Settings.
 # Unset = nobody has admin access.
 ADMIN_USERNAME = (_setting("ADMIN_USERNAME") or "").lstrip("@") or None
 
 SCORES_FILE = _setting("SCORES_FILE") or os.path.join(ROOT_DIR, "data", "scores.md")
+
+# Where questions come from: "api" (qbreader.org, the default) or "local"
+# (QUESTIONS_DB, filled by `python -m trivia_oracle_bot.questions.local.sync`).
+# Answers are judged by qbreader.org either way until the local checker lands.
+QUESTION_BACKEND = (_setting("QUESTION_BACKEND") or "api").lower()
+QUESTIONS_DB = _setting("QUESTIONS_DB") or os.path.join(ROOT_DIR, "data", "questions.db")
+
 POINTS_PER_CORRECT = 10       # per correct answer; ×hourglasses left with "hourglass" on
 POINTS_PER_WRONG = 1          # "wrong_penalty" mode
 POINTS_PER_MEDAL_WRONG = 3    # "medal_penalty" mode, top-3 players only

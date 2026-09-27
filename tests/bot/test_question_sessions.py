@@ -7,6 +7,7 @@ from unittest import mock
 
 os.environ.setdefault("TELEGRAM_TOKEN", "test-token")
 
+from trivia_oracle_bot.bot import round_handlers
 from trivia_oracle_bot.game import round as rnd
 
 
@@ -31,7 +32,7 @@ class QuestionSessionTest(unittest.TestCase):
         with mock.patch.object(rnd, "_fetch_tossup", fetch), \
              mock.patch.object(rnd.time, "monotonic", return_value=at), \
              mock.patch.object(rnd.threading, "Thread") as thread:
-            rnd.start_round(self.update, context or self.context)
+            round_handlers.start_round(self.update, context or self.context)
         if rnd.round_lock.locked():
             rnd.round_lock.release()  # the mocked round thread did not run
         return fetch.await_count, thread.call_count
@@ -61,7 +62,7 @@ class QuestionSessionTest(unittest.TestCase):
         rnd.round_lock.acquire()
         try:
             with mock.patch.object(rnd.time, "monotonic", return_value=rnd.SESSION_TIMEOUT - 1):
-                rnd.start_round(self.update, self.context)
+                round_handlers.start_round(self.update, self.context)
         finally:
             rnd.round_lock.release()
 
@@ -72,7 +73,7 @@ class QuestionSessionTest(unittest.TestCase):
         self._next(0, "First clue.")
         with mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(side_effect=RuntimeError("QBReader unavailable"))), \
              mock.patch.object(rnd.time, "monotonic", return_value=rnd.SESSION_TIMEOUT + 1):
-            rnd.start_round(self.update, self.context)
+            round_handlers.start_round(self.update, self.context)
 
         self.assertEqual(self.chat_data["last_next"], 0)
         self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
@@ -95,7 +96,7 @@ class QuestionSessionTest(unittest.TestCase):
 
         with mock.patch.object(rnd, "_fetch_tossup", side_effect=slow_fetch) as fetch, \
              mock.patch.object(rnd, "QUESTION_FETCH_TIMEOUT", 0.01):
-            rnd.start_round(self.update, self.context)
+            round_handlers.start_round(self.update, self.context)
 
         self.assertEqual(fetch.call_count, 1)
         self.assertFalse(rnd.round_lock.locked())

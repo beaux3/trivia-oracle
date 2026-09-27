@@ -21,6 +21,7 @@ os.environ.setdefault("TELEGRAM_TOKEN", "test-token")
 from telegram import Chat, Message, Update, User
 from telegram.ext import Dispatcher
 
+from trivia_oracle_bot.bot import round_handlers
 from trivia_oracle_bot.game import round as rnd
 from trivia_oracle_bot.bot.app import register_handlers
 from trivia_oracle_bot.config import POINTS_PER_CORRECT
@@ -108,7 +109,7 @@ class ConcurrentCorrectAnswersTest(unittest.TestCase):
 
     def _start_round(self):
         update = SimpleNamespace(effective_chat=CHAT)
-        rnd.start_round(update, SimpleNamespace(bot=self.bot, chat_data=self.chat_data))
+        round_handlers.start_round(update, SimpleNamespace(bot=self.bot, chat_data=self.chat_data))
         self.assertTrue(rnd.current_round["active"])
 
     def _wait_for_round_end(self):

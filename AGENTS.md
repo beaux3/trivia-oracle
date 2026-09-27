@@ -8,7 +8,8 @@
 ## What the bot does
 
 TriviaOracleBot is a Telegram group trivia bot. It fetches tossup questions from
-the [qbreader API](https://www.qbreader.org/api-docs) and reveals them sentence
+the [qbreader API](https://www.qbreader.org/api-docs) (or a local SQLite copy of
+it, see "Question data backends") and reveals them sentence
 by sentence. Any group member can type a free-text answer at any time. The first
 correct answer (or multiple simultaneous correct answers) wins points. Scores
 are persisted to a Markdown file and printed to the group after every round.
@@ -28,27 +29,29 @@ are persisted to a Markdown file and printed to the group after every round.
 trivia_oracle_bot/      The bot package. Run with `python -m trivia_oracle_bot`
                         from the repo root. Modules use relative imports.
 vendor/qbreader/        Vendored qbreader API wrapper (MIT, see vendor/qbreader/LICENSE).
-                        It imports itself as `qbreader.*`; data/api/__init__.py puts
+                        It imports itself as `qbreader.*`; questions/api/__init__.py puts
                         vendor/ on sys.path before importing it.
-tests/                  Unit tests, mirroring the package (tests/bot, tests/game).
+tests/                  Unit tests, mirroring the package (tests/bot, tests/game,
+                        tests/questions).
 assets/                 Project images; excluded from the Docker build.
 Dockerfile              python:3.11-slim; installs requirements.txt, copies
                         vendor/ and trivia_oracle_bot/, runs `python -m trivia_oracle_bot`.
 requirements.txt        Runtime dependencies (python-telegram-bot pinned to 13.7).
 secrets.example.json    Template for the gitignored secrets.json.
-data/                   Runtime scores (gitignored; Docker volume at /app/data).
-                        Not to be confused with the trivia_oracle_bot/data/ package.
+data/                   Runtime files, never code (gitignored; Docker volume at /app/data):
+                        scores.md, and questions.db once the local sync has run.
 ```
 
 Inside `trivia_oracle_bot/` there are three layers. `bot/` is Telegram UI,
-`game/` is rules and state, and `data/` is where questions and answer
+`game/` is rules and state, and `questions/` is where questions and answer
 judgements come from:
 
 ```
 __main__.py        Entry point; just calls bot.app.main().
 
 config.py          Runtime configuration and immutable constants:
-                   • TOKEN, ADMIN_USERNAME, SCORES_FILE — read from env vars,
+                   • TOKEN, ADMIN_USERNAME, SCORES_FILE, QUESTION_BACKEND,
+                     QUESTIONS_DB — read from env vars,
                      falling back to secrets.json (see "Configuration & secrets")
                    • POINTS_PER_CORRECT, POINTS_PER_WRONG, POINTS_PER_MEDAL_WRONG
                    • SCORING_MODES (key → checkbox label), SCORING_MODE_DESCRIPTIONS,
@@ -60,7 +63,12 @@ config.py          Runtime configuration and immutable constants:
 
 bot/               Telegram UI.
   app.py           register_handlers() wires every handler into the dispatcher;
-                   main() starts polling.
+                   main() checks TOKEN (and the local database if selected), then
+                   starts polling.
+  round_handlers.py Telegram side of rounds; translates update/context into calls
+                   to game/round.py and its results into chat messages:
+                   • start_round()         — /next handler → round.start_round()
+                   • handle_round_answer() — MessageHandler (run_async) → round.submit_answer()
   keyboards.py     Pure functions that build and return InlineKeyboardMarkup objects.
                    Re-called on every render so the checkmarks always reflect current
                    state. Never mutates anything.
@@ -97,23 +105,32 @@ game/              Game rules and state.
   spelling.py      is_lenient_spelling_match(): local fallback that accepts near-miss
                    spellings the answer judge rejected.
   round.py         Round logic. Owns `current_round` state dict and `round_lock`.
-                   start_round and handle_round_answer are still Telegram handlers
-                   (they take update/context and send messages); moving that into
-                   bot/ is a planned follow-up.
-                   • start_round()         — /next handler; fetches question, spawns thread
-                   • handle_round_answer() — MessageHandler; judges free-text answers
-                   • _build_filters()      — settings → data.QuestionFilters
-                   • _fetch_tossup()       — async; data.question_source.random_tossup
-                   • _check_answer()       — async; data.answer_judge.check
+                   Knows nothing about Telegram: chat output goes through an
+                   `announce(text)` callback and prompts through `on_prompt(text)`.
+                   • start_round(announce, end_hint, session) → StartResult
+                                           — fetches a question, spawns the round thread.
+                                             `session` is per-chat storage (Telegram chat_data)
+                   • submit_answer(user_id, name, given, on_prompt)
+                                           — judges one answer; blocks during the check
+                   • _build_filters()      — settings → questions.QuestionFilters
+                   • _fetch_tossup()       — async; questions.question_source.random_tossup
+                   • _check_answer()       — async; questions.answer_judge.check
                    • _run_round()          — thread; drives sentence reveals + end message
                    • _points_for_correct() — points for a correct answer in this round's mode
                    • _penalty_for_wrong()  — deduction for a wrong answer in this round's mode
 
-data/              Question data behind two interfaces (see "Question data backends").
-  __init__.py      Exposes the active `question_source` and `answer_judge`.
+questions/         Question data behind two interfaces (see "Question data backends").
+  __init__.py      Picks the backend from QUESTION_BACKEND and exposes the active
+                   `question_source` and `answer_judge`.
   base.py          QuestionFilters, and the Tossup / Judgement / QuestionSource /
                    AnswerJudge protocols.
   api/             qbreader.org backend: QbreaderQuestionSource, QbreaderAnswerJudge.
+  local/           Offline backend over data/questions.db:
+    schema.sql     `sets` and `tossups` tables.
+    db.py          connect(), connect_readonly(), replace_set() (one set per transaction).
+    question_source.py  LocalQuestionSource; build_where() turns QuestionFilters into SQL.
+    sync.py        CLI that copies qbreader into the database
+                   (`python -m trivia_oracle_bot.questions.local.sync`).
 ```
 
 ---
@@ -125,20 +142,21 @@ All imports below are relative (`from ..config import ...`).
 ```
 config.py
     ↑
-data/                (base ← api ← __init__; no dependency on game or bot)
+questions/           (base ← api, local ← __init__; no dependency on game or bot)
 game/settings.py     (imports CATEGORIES, DIFFICULTIES from config)
 game/scores.py       (imports SCORES_FILE from config)
     ↑
-game/round.py        (imports config, data, scores, settings, spelling)
+game/round.py        (imports config, questions, scores, settings, spelling)
 bot/keyboards.py     (imports config, game.settings)
     ↑
 bot/handlers.py      (imports config, keyboards, game.scores, game.settings)
+bot/round_handlers.py (imports game.round)
     ↑
-bot/app.py           (imports config, handlers, game.round, game.scores)
+bot/app.py           (imports config, handlers, round_handlers, game.scores)
 ```
 
-No circular imports. `config.py` depends on nothing local. `data/` must never
-import `game/` or `bot/`, and `game/` must never import `bot/`.
+No circular imports. `config.py` depends on nothing local. `questions/` must never
+import `game/` or `bot/`, and `game/` must never import `bot/` or `telegram`.
 
 ---
 
@@ -172,7 +190,7 @@ received before `current_round["active"]` is flipped to False also gets scored
 and added. `current_round["winner_ids"]` stops the same player scoring twice.
 
 Two things make "received before" hold for answers sent at the same moment:
-- `handle_round_answer` is registered with `run_async=True`. PTB v13 otherwise
+- `bot/round_handlers.handle_round_answer` is registered with `run_async=True`. PTB v13 otherwise
   handles updates one at a time, so a second answer would wait out the first
   one's qbreader check and arrive after the round closed.
 - Each answer registers in `current_round["pending_checks"]` while its check is
@@ -180,7 +198,7 @@ Two things make "received before" hold for answers sent at the same moment:
   (a Condition on `scores_lock`) until pending checks reach 0, capped at
   `PENDING_CHECK_TIMEOUT`, before sending the round-end message.
 
-`tests/test_concurrent_answers.py` covers this (`python -m unittest discover tests`).
+`tests/bot/test_concurrent_answers.py` covers this (`python -m unittest discover tests`).
 
 ### Scoring modes
 Scoring modes are independent toggles that can be combined. `settings.scoring_modes`
@@ -238,7 +256,9 @@ in `start_round` silently drops a `/next` command if a round is already running.
 ## How to extend the bot
 
 ### Add a new bot command
-1. Write a handler function in `bot/handlers.py` (or `game/round.py` if it touches game state).
+1. Write a handler function in `bot/handlers.py`. If it touches round state, put the
+   logic in a plain function in `game/round.py` and keep only the Telegram glue in
+   `bot/round_handlers.py`.
 2. Register it in `register_handlers()` in `bot/app.py` with `dp.add_handler(CommandHandler("name", fn))`.
 
 ### Add a new /configure setting (scalar value)
@@ -265,7 +285,7 @@ in `start_round` silently drops a `/next` command if a round is already running.
   both `CATEGORIES` and `ALL_ALT_SUBCATEGORIES` in `config.py`.
 - Check the qbreader enums with (vendor/ must be on the path):
   ```python
-  import trivia_oracle_bot.data.api  # puts vendor/ on sys.path
+  import trivia_oracle_bot.questions.api  # puts vendor/ on sys.path
   from qbreader.types import Subcategory, AlternateSubcategory
   list(Subcategory)
   list(AlternateSubcategory)
@@ -275,26 +295,48 @@ in `start_round` silently drops a `/next` command if a round is already running.
 
 ## Question data backends
 
-`game/round.py` gets questions and judgements only through `trivia_oracle_bot.data`:
+`game/round.py` gets questions and judgements only through `trivia_oracle_bot.questions`:
 
-- `data.question_source.random_tossup(filters)` → a Tossup (`question_sanitized`,
+- `questions.question_source.random_tossup(filters)` → a Tossup (`question_sanitized`,
   `answer` with HTML, `answer_sanitized`)
-- `data.answer_judge.check(answerline, given)` → a Judgement (`directive`,
+- `questions.answer_judge.check(answerline, given)` → a Judgement (`directive`,
   `directed_prompt`)
 
-Both are async and defined as Protocols in `data/base.py`. The active backend
-is chosen in `data/__init__.py` and is currently qbreader.org (`data/api/`).
-To add a backend (e.g. local SQLite), create `data/<name>/` with classes that
-match those protocols and switch the two assignments in `data/__init__.py`.
-The tests patch `round._fetch_tossup` / `round._check_answer`, so they are
-backend-independent.
+Both are async and defined as Protocols in `questions/base.py`.
+`questions/__init__.py` picks the source from `QUESTION_BACKEND`:
 
----
+| `QUESTION_BACKEND` | Questions from | Answers judged by |
+|--------------------|----------------|-------------------|
+| `api` (default) | qbreader.org `/random-tossup` | qbreader.org `/check-answer` |
+| `local` | `QUESTIONS_DB` (SQLite) | qbreader.org `/check-answer` (local judge not written yet) |
+
+The tests patch `round._fetch_tossup` / `round._check_answer`, so they are
+backend-independent. `tests/questions/` covers the local backend on a temporary
+database.
+
+### Local database and sync
+`python -m trivia_oracle_bot.questions.local.sync` crawls `/set-list`, then
+`/num-packets` and `/packet?questionTypes=tossups` for each set, sequentially with
+a 0.2 s gap (qbreader allows 20 requests/s). Each set is written in one
+transaction and only then recorded in `sets`, so re-running the command resumes
+where it stopped. Options: `--sets NAME…`, `--limit N`, `--refresh`, `--delay S`,
+`--db PATH`. A set takes ~5 s; all ~700 sets take about an hour and ~300 MB.
+Only tossups are stored, and the question HTML is dropped (the bot shows
+`question_sanitized`).
+
+### Filter semantics
+`local/question_source.build_where()` reproduces qbreader's server query rather
+than the obvious one. All filters are ANDed. An alternate subcategory adds its
+parent category or subcategory (the vendored client's `category_correspondence`;
+`tests/questions` checks the copy stays in sync), and an alternate-subcategory
+filter also admits tossups with no alternate subcategory. Keep that behaviour so
+switching backends doesn't change which questions a /configure selection draws.
 
 ## qbreader API notes
 
 - Library: local `vendor/qbreader/` folder (vendored, not pip-installed).
-  Only `trivia_oracle_bot/data/api/` imports it.
+  Only `trivia_oracle_bot/questions/api/` imports it (and tests/questions, to
+  compare category mappings). The sync script calls the HTTP API directly with `requests`.
   Copied from qbreader/python-module v1.0.1 with one patch: `AlternateSubcategory.MUSICALS`
   added to the Other Fine Arts mapping in `_api_utils.py`. Keep `vendor/qbreader/LICENSE` with it.
 - Entry point: `qbreader.asynchronous.Async` (async context manager).
@@ -313,9 +355,11 @@ first, then `secrets.json` in the repo root (gitignored), then a default.
 
 | Name | Required | Default | Notes |
 |------|----------|---------|-------|
-| `TELEGRAM_TOKEN` | yes | — | Bot exits at import time with a clear message if missing. |
+| `TELEGRAM_TOKEN` | yes | — | `bot.app.main()` exits with a clear message if missing. Not needed by the sync script. |
 | `ADMIN_USERNAME` | no | `None` | Telegram username without `@`. `None` locks Admin Settings for everyone. |
 | `SCORES_FILE` | no | `<repo>/data/scores.md` | Parent directory is created on first save. |
+| `QUESTION_BACKEND` | no | `api` | `api` or `local`. With `local`, the bot refuses to start if `QUESTIONS_DB` is missing. |
+| `QUESTIONS_DB` | no | `<repo>/data/questions.db` | Written by the sync script, read-only for the bot. |
 
 `secrets.example.json` shows the format. To add a new setting, read it in
 `config.py` with `_setting("YOUR_KEY")`, expose it as a module-level constant,
@@ -338,7 +382,9 @@ docker run --rm \
 ```
 
 The image contains only `vendor/` and `trivia_oracle_bot/`. Scores go to
-`/app/data/scores.md`; mount a volume on `/app/data` to keep them. Mount
+`/app/data/scores.md` and the local question database to `/app/data/questions.db`;
+mount a volume on `/app/data` to keep them. Build the database with the same image:
+`docker run --rm -v "$(pwd)/data:/app/data" trivia-oracle python -m trivia_oracle_bot.questions.local.sync`. Mount
 `/app/data`, not `/app` — mounting over `/app` hides the code.
 
 Publishing (maintainer only):
