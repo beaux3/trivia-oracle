@@ -43,7 +43,7 @@ This anime follows a schoolboy whose troubles with homework and everyday life of
 
 ### 2. Crayon Shin-chan — difficulty 1
 
-In this anime, a mischievous kindergartner keeps making life difficult for his parents, Misae and Hiroshi. The boy is a devoted fan of a television superhero called Action Mask, whose adventures capture his imagination. His household includes a pet dog named Shiro, whom the family takes in after finding him abandoned. He also has a baby sister named Himawari, who is still young enough to crawl around the house. For 10 points, name this comedy anime about the everyday antics of five-year-old Shinnosuke Nohara.
+In this anime, a mischievous kindergartner keeps making life difficult for his parents, Misae and Hiroshi. The boy is a devoted fan of a television superhero called Action Mask, whose adventures capture his imagination. His household includes a pet dog named Shiro, whom the family takes in after finding him abandoned. He also has a baby sister named Himawari, who is still young enough to crawl around the house. For 10 points, name this comedy anime about the everyday antics of the Nohara family's five-year-old son.
 
 **Accepted titles/aliases:** `Crayon Shin-chan`, `Shin-chan`, `Shinchan`, `Kureyon Shin-chan`, `クレヨンしんちゃん`, `しんちゃん`.
 
@@ -68,7 +68,7 @@ In this anime, a mischievous kindergartner keeps making life difficult for his p
 
    Sources: https://www.tv-asahi.co.jp/shinchan/character/ ; https://en.wikipedia.org/wiki/List_of_Crayon_Shin-chan_characters
 
-5. For 10 points, name this comedy anime about the everyday antics of five-year-old Shinnosuke Nohara.
+5. For 10 points, name this comedy anime about the everyday antics of the Nohara family's five-year-old son.
 
    Sources: https://www.tv-asahi.co.jp/shinchan/character/ ; https://en.wikipedia.org/wiki/List_of_Crayon_Shin-chan_characters
 
@@ -210,7 +210,7 @@ In this anime, the elite swordsmen called Hashira hold the highest rank within a
 
 ### 7. Death Note — difficulty 4
 
-This anime's first opening theme is "the WORLD," performed by the band Nightmare. In one episode, its protagonist hides a miniature television inside a bag of potato chips to continue his activities under surveillance. A supernatural observer named Ryuk follows the action mainly for his own amusement and has a particular fondness for apples. The detective known as L tries to uncover the identity of a killer whom the public calls Kira. For 10 points, name this anime in which Light Yagami can kill people by writing their names in a supernatural notebook.
+This anime's first opening theme is "the WORLD," performed by the band Nightmare. In one episode, its protagonist hides a miniature television inside a bag of potato chips to continue his activities under surveillance. A supernatural observer named Ryuk follows the action mainly for his own amusement and has a particular fondness for apples. The detective known as L tries to uncover the identity of a killer whom the public calls Kira. For 10 points, name this anime in which Light Yagami can kill people by writing their names in a supernatural book.
 
 **Accepted titles/aliases:** `Death Note`, `Desu Noto`, `デスノート`.
 
@@ -235,7 +235,7 @@ This anime's first opening theme is "the WORLD," performed by the band Nightmare
 
    Sources: https://journals.le.ac.uk/index.php/jist/article/download/4584/3874/15545 ; https://en.wikipedia.org/wiki/List_of_Death_Note_episodes
 
-5. For 10 points, name this anime in which Light Yagami can kill people by writing their names in a supernatural notebook.
+5. For 10 points, name this anime in which Light Yagami can kill people by writing their names in a supernatural book.
 
    Sources: https://journals.le.ac.uk/index.php/jist/article/download/4584/3874/15545 ; https://en.wikipedia.org/wiki/List_of_Death_Note_episodes
 
@@ -276,7 +276,7 @@ In this anime, an artificial intelligence named Yui comes to be treated as the d
 
 ### 9. Frieren: Beyond Journey's End — difficulty 5
 
-In this anime, the first stage of a mage examination requires teams to capture a bird called a Stille. A later journey has Aureole, the land of souls, as its destination, offering a chance to speak with a departed companion. That companion's funeral leaves the protagonist regretting how little she understood about him while he was alive. Fern and Stark become her traveling companions after the days of her original adventuring party have passed. For 10 points, name this anime about a long-lived elf mage learning to understand humans after her party's victory over the Demon King.
+In this anime, the first stage of a mage examination requires teams to capture a bird called a Stille. A later expedition has Aureole, the land of souls, as its destination, offering a chance to speak with a departed companion. That companion's funeral leaves the protagonist regretting how little she understood about him while he was alive. Fern and Stark become her traveling companions after the days of her original adventuring party have passed. For 10 points, name this anime about a long-lived elf mage learning to understand humans after her party's victory over the Demon King.
 
 **Accepted titles/aliases:** `Frieren: Beyond Journey's End`, `Frieren`, `Sousou no Frieren`, `Soso no Frieren`, `葬送のフリーレン`.
 
@@ -289,7 +289,7 @@ In this anime, the first stage of a mage examination requires teams to capture a
 
    Sources: https://www.thereviewgeek.com/frieren-beyondjourneysend-s1e18review/ ; https://wrongeverytime.com/2026/05/23/frieren-beyond-journeys-end-episode-18/
 
-2. A later journey has Aureole, the land of souls, as its destination, offering a chance to speak with a departed companion.
+2. A later expedition has Aureole, the land of souls, as its destination, offering a chance to speak with a departed companion.
 
    Sources: https://en.wikipedia.org/wiki/Frieren_(TV_series) ; https://magicplanetanime.design.blog/2024/08/19/review-frieren/
 
@@ -309,7 +309,7 @@ In this anime, the first stage of a mage examination requires teams to capture a
 
 ### 10. Fullmetal Alchemist: Brotherhood — difficulty 5
 
-In this anime, tunnels dug beneath Amestris are part of a plan to turn the country into a gigantic transmutation circle. A prince from Xing named Ling shares his body with the being known as Greed. The central brothers' troubles began with a forbidden attempt to bring their dead mother back to life. They seek a Philosopher's Stone in hopes of recovering the bodies they lost through that failed experiment. For 10 points, name this anime adaptation about Edward Elric, who uses metal prostheses, and Alphonse, whose soul is bound to a suit of armor.
+In this anime, tunnels dug beneath Amestris are part of a plan to turn the country into a gigantic transmutation circle. A prince from Xing named Ling shares his body with the being known as Greed. The central brothers' troubles began with a forbidden attempt to bring their dead mother back to life. They seek a Philosopher's Stone in hopes of recovering the bodies they lost through that failed experiment. For 10 points, name this anime adaptation about Edward Elric, who uses mechanical prostheses, and Alphonse, whose soul is bound to a suit of armor.
 
 **Accepted titles/aliases:** `Fullmetal Alchemist: Brotherhood`, `Full Metal Alchemist Brotherhood`, `FMAB`, `FMA:B`, `Brotherhood`, `Hagane no Renkinjutsushi Fullmetal Alchemist`, `鋼の錬金術師 FULLMETAL ALCHEMIST`.
 
@@ -340,7 +340,7 @@ In this anime, tunnels dug beneath Amestris are part of a plan to turn the count
 
    Sources: https://fullmetalalchemistusa.com/character/ ; https://en.wikipedia.org/wiki/Fullmetal_Alchemist:_Brotherhood
 
-5. For 10 points, name this anime adaptation about Edward Elric, who uses metal prostheses, and Alphonse, whose soul is bound to a suit of armor.
+5. For 10 points, name this anime adaptation about Edward Elric, who uses mechanical prostheses, and Alphonse, whose soul is bound to a suit of armor.
 
    Sources: https://fullmetalalchemistusa.com/character/ ; https://en.wikipedia.org/wiki/Fullmetal_Alchemist:_Brotherhood
 
@@ -447,7 +447,7 @@ Near the end of this anime's second season, four graduating bandmates perform a 
 
 ### 14. Puella Magi Madoka Magica — difficulty 7
 
-In this anime, a fighter activates her time-stopping ability through the shield attached to her arm. The heroines discover that their Soul Gems literally contain their souls, leaving their bodies dependent on those gems. They also learn that the witches they fight were once girls like themselves, transformed after their gems became corrupted. A creature named Kyubey offers to grant a wish in exchange for becoming a magical girl and fighting those witches. For 10 points, name this anime in which Homura repeatedly tries to prevent her friend from accepting that bargain.
+In this anime, a fighter activates her time-stopping ability through the shield attached to her arm. The heroines discover that their Soul Gems literally contain their souls, leaving their bodies dependent on those gems. They also learn that the witches they fight were once girls like themselves, transformed after their gems became corrupted. A creature named Kyubey offers to grant a wish and supernatural powers in exchange for a contract to hunt those witches. For 10 points, name this anime in which Homura repeatedly tries to prevent her friend from accepting that bargain.
 
 **Accepted titles/aliases:** `Puella Magi Madoka Magica`, `Madoka Magica`, `Mahou Shoujo Madoka Magica`, `Maho Shojo Madoka Magica`, `魔法少女まどか☆マギカ`, `PMMM`.
 
@@ -470,7 +470,7 @@ In this anime, a fighter activates her time-stopping ability through the shield 
 
    Sources: https://en.wikipedia.org/wiki/Puella_Magi_Madoka_Magica ; https://iopn.library.illinois.edu/journals/jams/article/download/231/399/1907
 
-4. A creature named Kyubey offers to grant a wish in exchange for becoming a magical girl and fighting those witches.
+4. A creature named Kyubey offers to grant a wish and supernatural powers in exchange for a contract to hunt those witches.
 
    Sources: https://en.wikipedia.org/wiki/Puella_Magi_Madoka_Magica ; https://iopn.library.illinois.edu/journals/jams/article/download/231/399/1907
 
@@ -655,7 +655,7 @@ In one story in this anime, a broken Universal Clock freezes everyone in Edo exc
 
 ### 20. Ping Pong the Animation — difficulty 10
 
-A Christmas Eve montage in this anime contrasts a player singing karaoke with his teammates and another sitting alone with a cake from his coach. One central friendship is explored through recurring images of a robot and a hero who might come to rescue it. A player named Kong Wenge arrives from China hoping to recover from his rejection by his home country's team. Two childhood friends bring sharply different personalities to the sport, one reserved and the other brash. For 10 points, name this anime about table-tennis players nicknamed Smile and Peco.
+A Christmas Eve montage in this series contrasts a player singing karaoke with his teammates and another sitting alone with a cake from his coach. One central friendship is explored through recurring images of a robot and a hero who might come to rescue it. A player named Kong Wenge arrives from China hoping to recover from his rejection by his home country's team. Two childhood friends bring sharply different personalities to the sport, one reserved and the other brash. For 10 points, name this television series about table-tennis players nicknamed Smile and Peco.
 
 **Accepted titles/aliases:** `Ping Pong the Animation`, `Ping Pong`, `Pin Pon`, `ピンポン THE ANIMATION`, `ピンポン`.
 
@@ -666,7 +666,7 @@ A Christmas Eve montage in this anime contrasts a player singing karaoke with hi
 <details>
 <summary>Clue-by-clue verification — full URLs</summary>
 
-1. A Christmas Eve montage in this anime contrasts a player singing karaoke with his teammates and another sitting alone with a cake from his coach.
+1. A Christmas Eve montage in this series contrasts a player singing karaoke with his teammates and another sitting alone with a cake from his coach.
 
    Sources: https://www.cartoonbrew.com/recaps/ping-pong-recap-you-love-this-sport-more-than-anyone-ep-6-99709.html ; https://thequietreviewer.wordpress.com/2014/07/10/a-collaborative-ping-pong-review/
 
@@ -682,7 +682,7 @@ A Christmas Eve montage in this anime contrasts a player singing karaoke with hi
 
    Sources: https://en.wikipedia.org/wiki/Ping_Pong_(manga) ; https://thequietreviewer.wordpress.com/2014/07/10/a-collaborative-ping-pong-review/
 
-5. For 10 points, name this anime about table-tennis players nicknamed Smile and Peco.
+5. For 10 points, name this television series about table-tennis players nicknamed Smile and Peco.
 
    Sources: https://en.wikipedia.org/wiki/Ping_Pong_(manga) ; https://thequietreviewer.wordpress.com/2014/07/10/a-collaborative-ping-pong-review/
 
@@ -690,7 +690,7 @@ A Christmas Eve montage in this anime contrasts a player singing karaoke with hi
 
 ### 21. Sasuke Uchiha — difficulty 3
 
-This character's clan was slaughtered in a single night by his own older brother, who spared only him and told him to live in hatred until he was strong enough for revenge. He later left his home village to seek power under the snake-themed criminal Orochimaru, chasing the strength needed for that revenge. After finally killing his brother, he gains that brother's advanced eye technique, the Mangekyo Sharingan, which he later implants into his own eyes to remove its blindness side effect. In the series' own cosmology, he is identified as the reincarnation of the god Indra Otsutsuki. For 10 points, name this rival and eventual ally of the ninja Naruto Uzumaki, the last son of the Uchiha clan.
+This character's clan was slaughtered in a single night by his own older brother, who spared only him and told him to live in hatred until he was strong enough for revenge. He later left his home village to seek power under the snake-themed criminal Orochimaru, chasing the strength needed for that revenge. After finally killing his brother, he gains that brother's advanced eye technique, the Mangekyo Sharingan, which he later implants into his own eyes to remove its blindness side effect. In the series' own cosmology, he is identified as the reincarnation of the god Indra Otsutsuki. For 10 points, name this rival and eventual ally of the ninja Naruto Uzumaki.
 
 **Accepted titles/aliases:** `Sasuke Uchiha`, `Sasuke`.
 

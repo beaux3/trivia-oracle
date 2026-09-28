@@ -169,7 +169,7 @@ text only, because the page itself could not be opened.
 ## 34. aura farming (4)
 - "Aura" (charisma) + "farming" (gaming grind term) definition: https://knowyourmeme.com/memes/aura-farming
 - h.chua_212 TikTok, Jan 28 2024, bowling video caption: https://knowyourmeme.com/memes/aura-farming
-- Rayyan Arkan Dikha, Pacu Jalur boat dance, Riau, Indonesia, mid-2024 viral spread: https://en.wikipedia.org/wiki/Aura_farming ; https://www.cbc.ca/kidsnews/post/watch-meet-the-11-year-old-behind-the-aura-farming-boat-meme
+- Rayyan Arkan Dhika, Pacu Jalur boat dance in Riau, Indonesia; clip filmed in 2024 but went viral in mid-2025: https://www.channelnewsasia.com/asia/indonesia-pacu-jalur-aura-farming-riau-boy-dance-5308951
 - "Aura battles" 2026 trend: https://knowyourmeme.com/memes/aura-battles
 
 ## 35. cooked (2)
@@ -521,7 +521,7 @@ text only, because the page itself could not be opened.
 ## 74. Navy Seal Copypasta
 - Originated on 4chan (~2010), possibly the weapons board; "over 300 confirmed kills," "trained in gorilla warfare"; one of the most parodied/remixed copypastas: https://gonzoworld.substack.com/p/a-history-of-copypasta
 
-## 75. Papa Franku (Filthy Frank)
+## 124. Filthy Frank
 - George Miller's channels DizastaMusic then TVFilthyFrank (moved 2014); "The Filthy Frank Show" ran 5 Aug 2011 - 27 Sep 2017; spinoff characters Pink Guy, Salamander Man; Feb 2012 video credited with starting the Harlem Shake trend; retired the character Dec 2017 for health reasons, became musician Joji: https://en.wikipedia.org/wiki/Joji_(musician) ; https://filthyfrank.fandom.com/wiki/The_Filthy_Frank_Show
 
 ## 76. iDubbbz
@@ -825,9 +825,10 @@ text only, because the page itself could not be opened.
 - Etymology ("two" + "form"), genre narrowing in the 1990s, modern definition: https://www.dictionary.com/culture/pop-culture/futanari
 - Yamai no Sōshi ("Scroll of Afflictions") scroll origin: https://lgbtqia.wiki/wiki/Futanari
 
-## 196. Two Girls One Cup (second, distinct entry — reused answer per standing duplicate-answer policy; new clues not used in #86: Joe Rogan/Kobe Bryant celebrity reactions, the dare mechanic, South Park's parody)
-- Celebrity reaction filmings, dare-based secondary viral loop, South Park parody of the fourth-graders reacting: https://en.wikipedia.org/wiki/2_Girls_1_Cup
-- Corroborating history of the reaction-video dare format and viral spread: https://knowyourmeme.com/videos/260712-2-girls-1-cup
+## 197. Confused Math Lady
+- October 2013 UKMix reaction GIF and July 2016 9GAG four-still edit with overlaid formulas: https://knowyourmeme.com/memes/confused-math-lady
+- TV Globo's later arithmetic segment with Renata Sorrah, who played a villain in Senhora do Destino: https://gshow.globo.com/tv/noticia/renata-sorrah-tenta-resolver-questoes-matematicas-brincando-com-meme-da-nazare-confusa.ghtml
+- Visual reaction format and documented alternate names: https://knowyourmeme.com/memes/confused-math-lady
 
 ## RE-SKIPPED: black salami
 - Re-checked 2026-09-27 per user request to describe it "unoffensively." Still declined: remains crude sexual slang with no documented cultural/meta history (no Know Your Meme page, no reliable secondary coverage of its origin or spread) to build a factual, non-explicit trivia question around, unlike Two Girls One Cup. Not loaded.
@@ -909,9 +910,9 @@ text only, because the page itself could not be opened.
 ## 218. Speech 100
 - Skyrim skill-tree origin and use for exceptional persuasion: https://digitalcultures.net/memes/speech-100/
 
-## 219. What the fuck, Richard?
-- Disc-golf clip origin and reaction usage: https://www.urbandictionary.com/define.php?term=what+the+fuck%2C+richard
-- Clip context and sanitized variants: https://shungolf.com/article/what-the-heck-richard-frisbee-golf
+## 219. Salt Bae
+- Nusret Gökçe's January 2017 "Ottoman steak" clip, carving and seasoning the meat over his bent forearm: https://knowyourmeme.com/memes/salt-bae
+- His Nusr-Et restaurants, vest and sunglasses, and the copycat videos prompted by his finishing gesture: https://www.eater.com/2017/1/10/14223528/saltbae-meme
 
 ## 220. Crab Rave
 - Noisestorm release, animated crabs, and remix usage: https://knowyourmeme.com/memes/crab-rave
@@ -958,8 +959,9 @@ text only, because the page itself could not be opened.
 ## 234. But That's None of My Business
 - Kermit Sipping Tea image-macro origin and usage: https://knowyourmeme.com/memes/kermit-sipping-tea-but-thats-none-of-my-business
 
-## 235. Low Quality Meme
-- Intentional compression and pixelation as a meme aesthetic: https://lowqualitymemes.com/blog/make-low-quality-memes/
+## 235. Crying Jordan
+- Associated Press photographer Stephan Savoia captured the tearful Hall of Fame induction image in Springfield, Massachusetts, in 2009: https://www.si.com/nba/2016/02/05/crying-michael-jordan-meme-original-photographer-viral-social-media
+- An April 2012 Charlotte Bobcats image macro, later pasted-face variants, and its use for sports defeats: https://knowyourmeme.com/memes/crying-michael-jordan
 
 ## 236. Deep Fried Meme
 - Tumblr origin, visual characteristics, and community spread: https://knowyourmeme.com/sensitive/memes/deep-fried-memes
@@ -989,10 +991,12 @@ text only, because the page itself could not be opened.
 - AlliCattt Vine origin and late-night caption format: https://knowyourmeme.com/sensitive/memes/me-at-3am
 
 ## 245. Nobody:
-- Script-style caption format and its use for unprompted behavior: https://www.translateen.com/blog/viral-trends-slang/nobody-meme-format-explained/
+- September 2018 Twitter origin, early Spooktober post, J. K. Rowling variants, May 2019 TikTok effect, and caption structure for unprompted behavior: https://knowyourmeme.com/memes/nobody
 
-## 246. Absolutely Nobody:
-- Script-style caption format and its emphatic second line: https://www.translateen.com/blog/viral-trends-slang/nobody-meme-format-explained/
+## 246. Blinking White Guy
+- Drew Scanlon's 2013 Giant Bomb Starbound reaction to Jeff Gerstmann's farming joke, the 2015 NeoGAF GIF, and the viral 2017 biology-class tweet: https://knowyourmeme.com/memes/blinking-white-guy
+- Scanlon's account of using the GIF's fame to support Bike MS rides for friends living with multiple sclerosis: https://knowyourmeme.com/editorials/interviews/drew-scanlon-shares-the-legend-of-becoming-blinking-white-guy-and-how-he-used-the-power-of-memes-to-help-others
+- The visual expression and reaction-image use: https://www.theguardian.com/technology/2017/feb/23/meet-the-man-behind-the-white-guy-blinking-meme-drew-scanlon
 
 ## 247. Me and the Boys
 - 2019 snowclone spread and 1967 Spider-Man villain variation: https://knowyourmeme.com/memes/me-and-the-boys
