@@ -176,7 +176,9 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
                    optional <set>.sources.md listing each clue's sources; add.py ignores the .md files.
     add.py         `python -m trivia_oracle_backend.custom.add [--check] [files]`: validates
                    submissions and loads each into data/custom_questions.db via local/db.replace_set(custom=True),
-                   which sets is_custom = 1 (so a set can later be moved into questions.db).
+                   which sets is_custom = 1 (so a set can later be moved into questions.db). It also runs every
+                   question through local/answer_judge: --check fails a question that gives its own answer
+                   away (a plain load only warns, so older sets still load), and repeated answers are warnings.
 ```
 
 ---

@@ -3,6 +3,7 @@ import json
 import os
 import tempfile
 import unittest
+from unittest import mock
 
 from trivia_oracle_backend.custom import add
 from trivia_oracle_backend.local.db import connect, connect_readonly
@@ -76,11 +77,51 @@ class ValidateTest(unittest.TestCase):
         self.assertIn("missing", add.validate(incomplete)[0])
 
 
+class AnswerCheckTest(unittest.TestCase):
+    def test_finds_an_answer_given_away_in_the_question(self):
+        # QUESTION mentions "external torques", which the judge accepts for "torque".
+        self.assertEqual(add.leaked_phrase(record(answer="<b><u>torque</u></b>")), "torques")
+
+    def test_finds_a_long_title_with_several_articles(self):
+        title = "Legend of the Swordsmen of the Mountains of Shu"
+        leaky = record(question=f"This novel is {title}. " + QUESTION, answer=f"<b><u>{title}</u></b>")
+        self.assertIsNotNone(add.leaked_phrase(leaky))
+
+    def test_finds_an_answer_split_into_two_words(self):
+        leaky = record(question="Gas Light is the 1944 film behind this term. " + QUESTION,
+                       answer="<b><u>gaslighting</u></b> [or <b><u>gaslight</u></b>]")
+        self.assertEqual(add.leaked_phrase(leaky), "Gas Light")
+
+    def test_prompted_words_are_not_leaks(self):
+        # QUESTION says "linear momentum"; the answerline only prompts on "momentum".
+        self.assertIsNone(add.leaked_phrase(record()))
+
+    def test_a_rejected_near_miss_is_not_a_leak(self):
+        near_miss = record(question="Its operators said official releases made it pointless for the average reader.",
+                           answer="<b><u>Reaper</u></b> Scans")
+        self.assertEqual(add.leaked_phrase(near_miss), "reader")  # typo tolerance: one letter from "Reaper"
+        near_miss["answer"] += " [do not accept “reader”]"
+        self.assertIsNone(add.leaked_phrase(near_miss))
+
+    def test_repeated_answers_within_the_file_and_in_other_files(self):
+        numbered = [(1, record()), (3, record(question=QUESTION + " Extra clue.")), (4, record(answer="<u>torque</u>"))]
+        index = {"angular momentum": [("theirs.jsonl", 7)], "torque": [("mine.jsonl", 9)]}
+        self.assertEqual(add.repeated_answers("mine.jsonl", numbered, index), [
+            (1, "same answer as theirs.jsonl:7"),
+            (3, "same answer as line 1"),
+            (3, "same answer as theirs.jsonl:7"),
+        ])  # mine.jsonl's own entry in the index (torque) is the same set, not a repeat
+
+
 class LoadTest(unittest.TestCase):
     def setUp(self):
         self.dir = tempfile.TemporaryDirectory()
         self.addCleanup(self.dir.cleanup)
         self.db = os.path.join(self.dir.name, "custom.db")
+        # main() indexes every submission file for repeated answers; keep that to this test's own files.
+        patcher = mock.patch.object(add, "SUBMISSIONS_DIR", self.dir.name)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def write(self, name, lines):
         path = os.path.join(self.dir.name, name)
@@ -129,8 +170,23 @@ class LoadTest(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM tossups").fetchone(), (0,))
 
     def test_duplicate_question_is_reported(self):
-        _, errors = add.load_file(self.write("dup.jsonl", [record(), record()]))
+        _, errors, _ = add.load_file(self.write("dup.jsonl", [record(), record()]))
         self.assertTrue(any("duplicate of line 1" in e for e in errors))
+
+    def test_check_fails_a_leaked_answer_but_loading_only_warns(self):
+        path = self.write("leaky.jsonl", [record(answer="<b><u>torque</u></b>")])
+        _, errors, _ = add.load_file(path, strict=True)
+        self.assertEqual(errors, [f"{path}:1: the question gives away its own answer: 'torques'"])
+        records, errors, warnings = add.load_file(path)
+        self.assertEqual((len(records), errors), (1, []))
+        self.assertEqual(warnings, [f"{path}:1: warning: the question gives away its own answer: 'torques'"])
+        self.assertEqual(add.main(["--check", path]), 1)
+
+    def test_repeated_answer_is_only_a_warning(self):
+        path = self.write("repeat.jsonl", [record(), record(question=QUESTION + " Extra clue.")])
+        records, errors, warnings = add.load_file(path, strict=True)
+        self.assertEqual((len(records), errors), (2, []))
+        self.assertEqual(warnings, [f"{path}:2: warning: same answer as line 1"])
 
     def test_check_writes_nothing(self):
         path = self.write("ok.jsonl", [record()])
