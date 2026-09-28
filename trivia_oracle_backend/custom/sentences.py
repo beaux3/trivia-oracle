@@ -1,7 +1,8 @@
 """Split a tossup into the clues that are revealed one at a time.
 
-trivia_oracle_backend/custom/sentences.py is a copy, used to check custom questions clue by clue. Change the
-two together: tests/contract/test_sentence_splitter.py fails when they differ.
+A copy of trivia_oracle_bot/game/sentences.py, which is what the bot uses to reveal a question. add.py
+checks custom questions sentence by sentence, and the backend may not import the bot, so it keeps this
+copy. Change the two together: tests/contract/test_sentence_splitter.py fails when they differ.
 """
 import re
 from typing import List

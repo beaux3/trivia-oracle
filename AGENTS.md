@@ -120,7 +120,8 @@ game/              Game rules and state.
   spelling.py      is_lenient_spelling_match(): local fallback that accepts near-miss
                    spellings the answer judge rejected, unless the judge marked its verdict `final` (local mode).
   sentences.py     split_sentences(): breaks a tossup into the clues revealed one at a time,
-                   without splitting inside abbreviations like "St. Louis" or "U.S.".
+                   without splitting inside abbreviations like "St. Louis" or "U.S.". The backend keeps
+                   an identical copy (trivia_oracle_backend/custom/sentences.py); change both.
   round.py         Round logic. Owns `current_round` state dict and `round_lock`.
                    Knows nothing about Telegram: chat output goes through an
                    `announce(text)` callback and prompts through `on_prompt(text)`.
@@ -179,9 +180,14 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
                    optional <set>.sources.md listing each clue's sources; add.py ignores the .md files.
     add.py         `python -m trivia_oracle_backend.custom.add [--check] [files]`: validates
                    submissions and loads each into data/custom_questions.db via local/db.replace_set(custom=True),
-                   which sets is_custom = 1 (so a set can later be moved into questions.db). It also runs every
-                   question through local/answer_judge: --check fails a question that gives its own answer
-                   away (a plain load only warns, so older sets still load), and repeated answers are warnings.
+                   which sets is_custom = 1 (so a set can later be moved into questions.db). Besides the format it
+                   enforces CONTRIBUTING.md's machine-checkable writing rules (sentence count and length, lead and
+                   giveaway wording, quotes, answerline markup and a <= 30-character typeable answer), and runs every
+                   question and answerline through local/answer_judge (accepted or prompted strings in the question,
+                   alternates the judge does not honour). All of it is an error, --check or not; only repeated
+                   answers are warnings. `--check` just skips the database.
+    sentences.py   Copy of the bot's game/sentences.py, so add.py sees the clues the bot will reveal (the
+                   backend may not import the bot). tests/contract/test_sentence_splitter.py keeps them identical.
 ```
 
 ---
@@ -201,6 +207,8 @@ share the JSON wire format.
 | Scoring mode or point values | `trivia_oracle_bot/config.py`, `game/round.py` (`_points_for_correct`, `_penalty_for_wrong`) | `tests/integration/test_round_flow.py` |
 | Scoreboard format or storage | `trivia_oracle_bot/game/scores.py` | |
 | Lenient answer matching | `trivia_oracle_bot/game/spelling.py` | `tests/game` |
+| How a tossup is split into clues | `trivia_oracle_bot/game/sentences.py` **and** its copy `trivia_oracle_backend/custom/sentences.py` | `tests/contract/test_sentence_splitter.py`; the "Sentence boundaries" section of `custom/CONTRIBUTING.md` |
+| Rules for custom questions (validator) | `trivia_oracle_backend/custom/add.py` **and** `custom/CONTRIBUTING.md` | `tests/backend/test_custom_questions.py`; run `--check` on every submission file |
 | Message shown when `/next` fails | `trivia_oracle_bot/bot/round_handlers.py` | `StartFailureIntegrationTest` |
 | Wire format (request or response fields) | `trivia_oracle_backend/server.py` **and** `trivia_oracle_bot/questions.py` | `tests/backend/test_server.py`, `tests/bot/test_backend_client.py`, `tests/integration/test_backend_http.py` |
 | New endpoint | `trivia_oracle_backend/server.py` | `tests/backend`, `tests/integration` |
