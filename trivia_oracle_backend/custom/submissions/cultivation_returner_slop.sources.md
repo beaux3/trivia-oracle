@@ -116,7 +116,7 @@ publisher pages were opened directly.
 - "Posted on Naver's Challenge League for over 6 months before being offered official serialization; launched June 30, 2010": https://towerofgod.fandom.com/wiki/SIU ; https://en.wikipedia.org/wiki/Tower_of_God
 - "Pen name of the creator of Tower of God (real name Lee Jong-hui / 이종휘; 'Slave In Utero')": https://en.wikipedia.org/wiki/Tower_of_God ; https://ko.wikipedia.org/wiki/SIU_(만화가)
 
-## 14. Park Hyung-seok (Daniel Park)
+## 14. Lookism (protagonist Park Hyung-seok / Daniel Park)
 - "As Workers executive Kitsune he wore a fox mask; founded Allied to bring the Workers down": https://lookism.fandom.com/wiki/Daniel_Park
 - "Sophia Alexander's diet took 50 kg off him": https://lookism.fandom.com/wiki/Daniel_Park ; https://lookism.fandom.com/wiki/Daniel_Park/Abilities_and_Powers
 - "Talent for copying techniques he sees; Ultra-Instinct inverts his eye colors (black sclera, white pupils)": https://lookism.fandom.com/wiki/Daniel_Park/Abilities_and_Powers ; https://lookism.fandom.com/wiki/Daniel_Park
@@ -164,7 +164,7 @@ publisher pages were opened directly.
 - "Founder and principal of Ye Ran High School; served his master for over 820 years; latest addition to the RK-5 as Number 0": https://noblesse.fandom.com/wiki/Frankenstein ; https://en.wikipedia.org/wiki/Noblesse_(manhwa)
 - "Blond hair; the Noblesse's servant; Mary Shelley's 1818 Gothic novel about young scientist Victor Frankenstein": https://noblesse.fandom.com/wiki/Frankenstein ; https://en.wikipedia.org/wiki/Frankenstein
 
-## 20. Kayden
+## 20. Eleceed (clues about Kayden)
 - "Challenge letters read like love confessions; Gestella took hers seriously, confronted him and blocked his Divine Judgment": https://eleceed.fandom.com/wiki/Kayden/History
 - "Epithet Top Ten Slayer; killed Astra and defeated Andrei of Frame to officially join the Top Ten": https://eleceed.fandom.com/wiki/Kayden (infobox epithet "The Top Ten Slayer", Ep. 322; intro paragraph on Astra and Andrei)
 - "Ambushed before the story by Greg, Mioru and Garas; still took one of Mioru's legs": https://eleceed.fandom.com/wiki/Kayden/History ; https://eleceed.fandom.com/wiki/Kayden/Abilities
@@ -240,7 +240,7 @@ publisher pages were opened directly.
 - "YC and Rakhyun (Rakyeon); Yu Ijin; only one year of high school left": https://mercenary-enrollment.fandom.com/wiki/Mercenary_Enrollment_(Series) ; https://en.wikipedia.org/wiki/Teenage_Mercenary
 - Answerline (official English retitle Teenage Mercenary; Korean 입학용병, RR Iphak Yongbyeong): https://en.wikipedia.org/wiki/Teenage_Mercenary
 
-## 29. Lloyd Frontera
+## 29. The Greatest Estate Developer (protagonist Lloyd Frontera)
 - "In the novel Knight of Blood and Iron he is a hooligan who becomes a beggar and dies of his drinking after the family's ruin": https://dragonschef.fandom.com/wiki/Knight_of_Blood_and_Iron
 - "Keeps Queen Alicia from becoming a tyrant by curing her poisoning, saving the arm she cuts off in the original plot": https://dragonschef.fandom.com/wiki/Knight_of_Blood_and_Iron (Prevented Events; original-novel arm and tyrant plot) ; https://dragonschef.fandom.com/wiki/Alicia_Termina_Magentano ("purged poison from her bloodstream")
 - "First summon from the Random Summon Game is Ppodong, a hamster that grows over 30 feet after a red sunflower seed": https://dragonschef.fandom.com/wiki/Ppodong
@@ -249,7 +249,7 @@ publisher pages were opened directly.
 - "Protagonist of The Greatest Estate Developer": https://en.wikipedia.org/wiki/The_Greatest_Estate_Developer ; https://dragonschef.fandom.com/wiki/Lloyd_Frontera
 - Answerline (Suho Kim is the soul in Lloyd's body): https://dragonschef.fandom.com/wiki/Suho_Kim
 
-## 30. Cale Henituse
+## 30. Trash of the Count’s Family (protagonist Cale Henituse)
 - "First ancient power, the Indestructible Shield, from feeding bread to a blackened tree linked to a gluttonous priestess": https://lout-of-counts-family.fandom.com/wiki/Indestructible_Shield ; https://lout-of-counts-family.fandom.com/wiki/Cale_Henituse/Synopsis (chapters 4-13)
 - "Vitality of the Heart from a cave tornado near Puzzle City; Sound of the Wind from blowing up the biggest whirlpool": https://lout-of-counts-family.fandom.com/wiki/Cale_Henituse/Synopsis (chapters 21-25, 50-52)
 - "Coughs up blood after blocking a suicide bomber with the shield during the Plaza of Glory terror attack in the capital": https://lout-of-counts-family.fandom.com/wiki/Cale_Henituse/Synopsis (chapters 8-13, 40-49)
@@ -275,7 +275,7 @@ publisher pages were opened directly.
 - "TurtleMe = Brandon Lee, serialization began 2017; Fuyuki23 illustrated the webtoon": https://en.wikipedia.org/wiki/The_Beginning_After_the_End
 - "King Grey (assassinated) reborn as Arthur Leywin": https://en.wikipedia.org/wiki/The_Beginning_After_the_End ; https://tbate.fandom.com/wiki/Arthur_Leywin ("until he was assassinated one day")
 
-## 33. Hamel (Eugene Lionheart)
+## 33. Damn Reincarnation (protagonist Hamel / Eugene Lionheart)
 - "Gets the Storm Sword Wynnyd from the family vault; later contracts the Wind Spirit King Tempest through it": https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart/History ; https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart/Abilities
 - "Fights his own corpse raised as a Death Knight by Amelia Merwin in his desert tomb": https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart/History (Finding Hamel's Tomb)
 - "Ignition strains heart and cores for power, damaging the body and shortening lifespan": https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart/Abilities (Hamel Style) ; https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart
@@ -283,7 +283,7 @@ publisher pages were opened directly.
 - "Dies in the Demon King of Incarceration's castle; reborn 300 years later in a collateral branch of Vermouth's family": https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart ; https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart/History
 - "Crass mercenary protagonist of Damn Reincarnation": https://damn-reincarnation.fandom.com/wiki/Damn_Reincarnation ; https://damn-reincarnation.fandom.com/wiki/Eugene_Lionheart (personality; "simply a mercenary")
 
-## 34. Grid
+## 34. Overgeared (protagonist Grid)
 - "Pagma's Sword Dance: Wave, Restraint, Link, Kill, Transcend; Pagma was a legendary blacksmith and swordsman": https://overgeared.fandom.com/wiki/Pagma%27s_Sword_Dance_(Skill) ; https://overgeared.fandom.com/wiki/Pagma%27s_Successor_(Class)
 - "Auto-production button disabled; crafts every item manually, at least 6 hours each early on": https://overgeared.fandom.com/wiki/Pagma%27s_Successor_(Class) (Drawbacks)
 - "Bronze statue of Khan, blacksmith of Winston, inscribed by him: teacher, friend, and family": https://overgeared.fandom.com/wiki/Khan
@@ -334,7 +334,7 @@ publisher pages were opened directly.
 - "Returns a century later as a 15-year-old beggar; sect fallen into near ruin / financial decline": https://return-of-the-blossoming-blade.fandom.com/wiki/Cheongmyeong ("comes back to life as a 15-year-old beggar named Chosam"; "Mount Hua Sect had fallen into near ruination"); https://return-of-the-blossoming-blade.fandom.com/wiki/Mount_Hua_Sect ("continued financial decline"); https://en.wikipedia.org/wiki/Return_of_the_Blossoming_Blade ("reincarnated a century later as a 15-year-old boy")
 - "Protagonist of Biga's web novel Return of the Mount Hua Sect; webtoon by Studio LICO": https://en.wikipedia.org/wiki/Return_of_the_Blossoming_Blade (author Biga; English novel title Return of the Mount Hua Sect; webtoon publisher Studio Lico); https://www.webtoons.com/en/action/return-of-the-blossoming-blade/list?title_no=2849 (Artist: LICO)
 
-## 40. Cheon Yeo-woon
+## 40. Nano Machine (protagonist Cheon Yeo-woon)
 - "In the Sealed Demon Cave, the rampaging black Imoogi was an illusion created by twenty-four metal fragments": https://nano-mashine.fandom.com/wiki/Cheon_Yeo_Woon (History, fifth test)
 - "The fragments reassembled into the sword of his ancestor, the cult's founder; a horn of the Imoogi was forged into the white White Dragon Blade": https://nano-mashine.fandom.com/wiki/Cheon_Yeo_Woon ; https://nano-mashine.fandom.com/wiki/Cheon_Yeo_Woon/Items ("clear, pearlash color of white and forged from the horn of an ascending dragon Imugi"); https://namu.wiki/w/%EC%B2%9C%EC%97%AC%EC%9A%B4 (백룡도: "이무기의 뿔을 재료로 만든 백도")
 - "At the Demonic (Mashin) Academy, Right Guardian Seob Meng took him as a disciple and taught him the Butterfly Blade Dance": https://nano-mashine.fandom.com/wiki/Cheon_Yeo_Woon
@@ -473,7 +473,7 @@ publisher pages were opened directly.
 - "Obtained by hunting soul beasts; only the one who deals the killing blow can absorb; needed at each bottleneck (Rank 10, 20, 30...)": https://soulland.fandom.com/wiki/Spirit_Ring
 - "Colours: white 10+, yellow 100+, purple 1,000+, black 10,000+, red 100,000+ years; alias Spirit Ring; Chinese 魂环": https://soulland.fandom.com/wiki/Spirit_Ring
 
-## 57. Han Li
+## 57. A Record of a Mortal’s Journey to Immortality (protagonist Han Li)
 - "Heaven Lightning Bamboo nurtured to ten thousand years, made into his signature weapon, the Bamboo Cloudswarm Swords": https://a-record-of-a-mortal-is-journey-to-immortality.fandom.com/wiki/Han_Li ; "set of 72 flying swords; 青竹蜂云剑": https://a-record-of-a-mortal-is-journey-to-immortality.fandom.com/wiki/Bamboo_Cloudswarm_Swords
 - "Alias/pet name Second Fool (二愣子); entered the Seven Mysteries Sect; master Doctor Mo": https://a-record-of-a-mortal-is-journey-to-immortality.fandom.com/wiki/Han_Li
 - "Doctor Mo secretly poisoned him and tried to take over his body, but failed": https://en.wikipedia.org/wiki/A_Record_of_Mortal%27s_Journey_to_Immortality
@@ -490,7 +490,7 @@ publisher pages were opened directly.
 - "Completed Chinese novel with 6009 chapters by Momo (莫默)": https://martial-peak-mp.fandom.com/wiki/Martial_Peak_Wiki
 - "Lowly sweeper Yang Kai obtains a black book; Trial Disciple of High Heaven Pavilion": https://martial-peak-mp.fandom.com/wiki/Martial_Peak_Wiki ; https://martial-peak-mp.fandom.com/wiki/Yang_Kai ; https://martial-peak-mp.fandom.com/wiki/High_Heaven_Pavilion
 
-## 59. Ye Xiu
+## 59. The King’s Avatar (protagonist Ye Xiu)
 - "Ye Xiu and Su Muqiu created the Myriad Manifestation Umbrella (silver weapon of Lord Grim), bypassing the weapon-switch cooldown; 12 forms": https://the-kings-avatar.fandom.com/wiki/Myriad_Manifestation_Umbrella
 - "Known as the Glory Textbook and one of the Four Master Tacticians; current captain of the Chinese Glory Team": https://the-kings-avatar.fandom.com/wiki/Ye_Xiu ; https://en.wikipedia.org/wiki/The_King%27s_Avatar_(2019_TV_series)
 - "Registered as a pro using his wealthy younger twin brother Ye Qiu's identification": https://en.wikipedia.org/wiki/The_King%27s_Avatar_(2019_TV_series)
@@ -507,7 +507,7 @@ publisher pages were opened directly.
 - "Based on Er Mu's web novel; manhua began 2017; Thundray donghua streamed on Crunchyroll March 2 to April 20, 2026": https://en.wikipedia.org/wiki/Release_that_Witch
 - "Roland, reborn as a prince in Border Town, rescues the witches Anna and Nana Pine from the Church; fuses magic and technology; industrial age plan": https://en.wikipedia.org/wiki/Release_that_Witch ; https://releasethatwitch.fandom.com/wiki/Anna
 
-## 61. Zhang Xuan
+## 61. Library of Heaven’s Path (protagonist Zhang Xuan)
 - "Earnest gratitude of his students can condense a golden page; used to seal beings or raise Soul Depth by 5": https://library-of-heavens-path.fandom.com/wiki/Library_of_Heaven's_Path
 - "At his birth, Kong shi's tablet rose into the air as if acknowledging the arrival of his peer": https://library-of-heavens-path.fandom.com/wiki/Zhang_Xuan ; "Kong Shi established the Master Teacher Pavilion": https://library-of-heavens-path.fandom.com/wiki/Kong_Shi
 - "Combines correct portions of similar books into a flawless manual: Heaven's Path Divine Art, Heaven's Path Sword Art, etc.": https://library-of-heavens-path.fandom.com/wiki/Library_of_Heaven's_Path
@@ -533,7 +533,7 @@ publisher pages were opened directly.
 - "Author of Renegade Immortal and I Shall Seal the Heavens": https://en.wikipedia.org/wiki/Er_Gen ; https://i-shall-seal-the-heavens.fandom.com/wiki/I_Shall_Seal_the_Heavens
 - Answerline (birth name Liu Yong; 耳根): https://en.wikipedia.org/wiki/Er_Gen
 
-## 64. Meng Hao
+## 64. I Shall Seal the Heavens (protagonist Meng Hao)
 - "Bedevilment Pill auctioned anonymously with a square cauldron icon; alias Grandmaster Pill Cauldron": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
 - "Born with a Nirvana Brand; Nirvanic Rebirth twice in childhood (at age seven each time); parents left him; lived in Yunjie County": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
 - "Closest companions: the Meat Jelly and the parrot Lord Fifth, sealed inside the Copper Mirror": https://i-shall-seal-the-heavens.fandom.com/wiki/Lord_Fifth ; https://i-shall-seal-the-heavens.fandom.com/wiki/Copper_Mirror
@@ -542,7 +542,7 @@ publisher pages were opened directly.
 - "Ninth Generation Demon Sealer; protagonist of I Shall Seal the Heavens": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao ; https://i-shall-seal-the-heavens.fandom.com/wiki/I_Shall_Seal_the_Heavens
 - Answerline (birth name Fang Hao): https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
 
-## 65. Linley Baruch
+## 65. Coiling Dragon (protagonist Linley Baruch)
 - "Redding Clan Ancestral Baptism gives a Water-style Demigod Divine Clone and the innate ability Dragon Roar": https://coiling-dragon.fandom.com/wiki/Linley_Baruch
 - "Cleared the Necropolis of the Gods' eleventh floor by himself; three Divine Sparks and many Divine Artifacts": https://coiling-dragon.fandom.com/wiki/Linley_Baruch
 - "At the Ernst Institute met Yale, George and Reynolds and future wife Delia": https://coiling-dragon.fandom.com/wiki/Ernst_Institute ; https://coiling-dragon.fandom.com/wiki/Linley_Baruch
@@ -560,7 +560,7 @@ publisher pages were opened directly.
 - "Author of Coiling Dragon and Swallowed Star": https://en.wikipedia.org/wiki/Chinese_online_literature ; https://en.wikipedia.org/wiki/Swallowed_Star ; https://zh.wikipedia.org/wiki/%E6%9C%B1%E6%B4%AA%E5%BF%97
 - Answerline (pen name 我吃西红柿, real name Zhu Hongzhi, pinyin Wo Chi Xi Hong Shi): https://zh.wikipedia.org/wiki/%E6%9C%B1%E6%B4%AA%E5%BF%97 ; https://stellar-transformations.fandom.com/wiki/Donghua
 
-## 67. Yun Che
+## 67. Against the Gods (protagonist Yun Che)
 - "Silver pendant, the Mirror of Samsara, twice activated its rebirth power without his knowledge": https://ni-tian-xie-shen-against-the-gods.fandom.com/wiki/Mirror_of_Samsara ; https://ni-tian-xie-shen-against-the-gods.fandom.com/wiki/Yun_Che
 - "Swallows a red bead, the Evil God's Fire Seed, turning his profound veins crimson": https://ni-tian-xie-shen-against-the-gods.fandom.com/wiki/Yun_Che
 - "Jasmine, Star God Realm princess, detoxifying the Absolute God Slaying Poison inside the pearl, forces him to kneel as disciple and gives him the Evil God's profound veins": https://ni-tian-xie-shen-against-the-gods.fandom.com/wiki/Yun_Che ; https://ni-tian-xie-shen-against-the-gods.fandom.com/wiki/Jasmine ; https://ni-tian-xie-shen-against-the-gods.fandom.com/wiki/Sky_Poison_Pearl
@@ -694,7 +694,7 @@ publisher pages were opened directly.
 - "Silver-haired Irregular, sobriquet Ray Barracuda, rank 4 High Ranker, Vice Captain of Wolhaiksong, Tower of God": https://towerofgod.fandom.com/wiki/Urek_Mazino (lead paragraph; Sobriquet) ; https://towerofgod.fandom.com/wiki/Template:Urek_infobox (hair colour silver; occupation Wolhaiksong Vice Captain; rank #4) ; https://tog-anime.com/chara/28.html (official anime site: ranked 4th in the Tower, searching for the flower inside Zygaena)
 - Answerline: Korean pronunciation "Urek Majino": https://towerofgod.fandom.com/wiki/Urek_Mazino ; he is referred to simply as "Mazino" (his back tattoo): https://towerofgod.fandom.com/wiki/Urek_Mazino/History
 
-## 83. Bjorn Yandel
+## 83. Surviving the Game as a Barbarian (protagonist Bjorn Yandel)
 - "Fought Vampire Duke Cambormere in the Bloody Citadel; consumed a Vampire essence there whose passive lets him resist death while his heart is intact": https://surviving-the-game-as-a-barbarian.fandom.com/wiki/Bjorn_Yandel (Personality: Bloody Citadel fight with Cambormere; Essences: Vampire, "Essence consumed in The Bloody Citadel", "(P) Source of Darkness — Resist death while the heart is intact")
 - "Helmet with a candle on the front, which he calls 'barbarian candle mode'": https://surviving-the-game-as-a-barbarian.fandom.com/wiki/Bjorn_Yandel (Appearance)
 - "Fooled an evil-spirit hunter by pretending to be ignorant and beating him up; transmigrated players are treated as evil spirits and sent to the guillotine": https://surviving-the-game-as-a-barbarian.fandom.com/wiki/Bjorn_Yandel (Personality) ; https://surviving-the-game-as-a-barbarian.fandom.com/wiki/Evil_Spirits
@@ -703,7 +703,7 @@ publisher pages were opened directly.
 - "6'5 barbarian, class Tank, protagonist of Surviving the Game as a Barbarian": https://surviving-the-game-as-a-barbarian.fandom.com/wiki/Bjorn_Yandel (infobox height 6'5 (198cm); class Tank; "main character of Surviving the Game as a Barbarian")
 - Answerline: "Bjorn, son of Yandel" and his original identity Hansu Lee: https://surviving-the-game-as-a-barbarian.fandom.com/wiki/Bjorn_Yandel ; father Yandel Jarku (why "Yandel" alone is only prompted): same page, infobox
 
-## 84. Seol Jihu
+## 84. The Second Coming of Gluttony (protagonist Seol Jihu)
 - "Gula kept putting 'mana' in his class names (Mana Spearman, Mana Lancer, Mana Pro Lancer); Luxuria dissuaded her from 'High Mana Lancer' and named the class Lance of Nemesis": https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu/Classes ; https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu (Trivia: reprimanded by Gula for complaining about the crude naming of his classes)
 - "In his former life he was a Red Mark indentured to Sinyoung and fell in humanity's last stand; the mortally wounded Teresa Hussey presented the Royal Oath so Gula would grant his wish": https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu/History (Former Life)
 - "Receiving his former self's emotions as a dream, he convinced Kim Hannah to give him the Gold Mark": https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu/History (The Beginning)
@@ -712,7 +712,7 @@ publisher pages were opened directly.
 - "Spear-wielding protagonist of The Second Coming of Gluttony": https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu ("the main protagonist of The Second Coming of Gluttony"; "Seol's weapon of choice was, of course, the spear")
 - Answerline: "also known as just Seol"; relatives Seol Wooseok, Seol Jinhee (why "Seol" is only prompted): https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu
 
-## 85. Ghislain Perdium
+## 85. The Regressed Mercenary Has a Plan (protagonist Ghislain Perdium)
 - "Using a method from a half-burned book of magic, he creates extra mana cores beside his natural one, arranged in a reverse triangle, for explosive force": https://the-regressed-mercenarys-machinations.fandom.com/wiki/Cecil_Perdium/Abilities (Mana Cultivation Techniques)
 - "Seventh of the Continent's Seven Strongest; the Noble Knight Idun (Aiden) sends masses of troops to weaken foes before striking, the tactic that killed him in his past life": https://the-regressed-mercenarys-machinations.fandom.com/wiki/Continent%27s_Seven_Strongest ; https://the-regressed-mercenarys-machinations.fandom.com/wiki/Aiden (the wiki's "Idun" redirects here) ; https://the-regressed-mercenarys-machinations.fandom.com/wiki/Past_Life (killed by Aiden) ; https://the-regressed-mercenarys-machinations.fandom.com/wiki/The_Regressed_Mercenary%27s_Machinations (synopsis: "slain by Idun")
 - "Cured the daughter of Gillion, founder of a mercenary band, who pledged eternal servitude": https://the-regressed-mercenarys-machinations.fandom.com/wiki/Gillion
@@ -721,7 +721,7 @@ publisher pages were opened directly.
 - "The Mercenary King wakes up as his teenage self; The Regressed Mercenary Has a Plan": https://www.webtoons.com/en/action/the-regressed-mercenary-has-a-plan/list?title_no=7261 (official English synopsis) ; https://the-regressed-mercenarys-machinations.fandom.com/wiki/The_Regressed_Mercenary%27s_Machinations
 - Answerline: official English name "Cecil Perdium": https://www.webtoons.com/en/action/the-regressed-mercenary-has-a-plan/list?title_no=7261 ; spelling "Ghislaine": https://the-regressed-mercenarys-machinations.fandom.com/wiki/Continent%27s_Seven_Strongest
 
-## 86. Gu Yangcheon
+## 86. Childhood Friend of the Zenith (protagonist Gu Yangcheon)
 - "An aged White Imoogi guarding the Golden Heaven Yeon Family's secret vault in Sichuan gave him its core": https://cfozenith.fandom.com/wiki/White_Imoogi ("guarding the Golden Heaven Yeon Family's secret vault for centuries"; base Sichuan; "only had a few years of its lifespan left"; "Its final act before disappearing was to give its 'core' to Gu Yangcheon")
 - "…lifting his Infernal Fire Wheel Technique to three stars": https://cfozenith.fandom.com/wiki/Gu_Yang-Cheon/Martial_Arts (Infernal Fire Wheel Technique table, Three Stars: "With the orb of the White Imoogi…"; "not about the fire - it is a Martial Art that must focus on rotation")
 - "Won a Dragons and Phoenixes Tournament by beating Jang Seonyeon in the final; epithet True Dragon": https://cfozenith.fandom.com/wiki/Gu_Yang-Cheon/Chronology ("Won the final by defeating Jang Seonyeon… earned a spot among the Five Dragons and Three Phoenixes… the True Dragon (眞龍)"); https://cfozenith.fandom.com/wiki/Gu_Yang-Cheon (titles: "True Dragon"); https://cfozenith.fandom.com/wiki/Jang_Seonyeon (fight against Gu Yangcheon in the final round)
