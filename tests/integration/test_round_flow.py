@@ -165,14 +165,20 @@ class GameIntegrationTest(unittest.TestCase):
         self.assertEqual(self.start(session={}), StartResult.BUSY)
         self.finish_round()
 
-    def test_a_chat_does_not_get_the_same_tossup_twice(self):
+    def test_a_chat_does_not_get_the_same_tossup_twice_while_a_fresh_one_is_available(self):
         self.assertEqual(self.start(), StartResult.STARTED)
         self.finish_round()
-        # The database holds one tossup, and this chat has already seen it.
-        self.assertEqual(self.start(), StartResult.NO_FRESH_QUESTION)
-        self.assertFalse(rnd.round_lock.locked())
-        # A different chat has not.
+        # A different chat has not seen it yet.
         self.assertEqual(self.start(session={}), StartResult.STARTED)
+        self.finish_round()
+
+    def test_a_chat_gets_a_repeat_rather_than_no_question_once_the_pool_is_exhausted(self):
+        self.assertEqual(self.start(), StartResult.STARTED)
+        self.finish_round()
+        # The database holds one tossup, and this chat has already seen it: getting a question
+        # out still wins over avoiding the repeat, so the round starts again on the same one.
+        self.assertEqual(self.start(), StartResult.STARTED)
+        self.assertEqual(rnd.current_round["answer_sanitized"], "mitosis")
         self.finish_round()
 
 
@@ -233,6 +239,23 @@ class FilterIntegrationTest(unittest.TestCase):
         settings.selected_difficulties = {COLLEGE_8}
         settings.selected_categories = {"Biology"}
         self.assertEqual(self.draw_answers(), {"mitosis"})
+
+    def test_running_out_of_fresh_questions_across_several_categories_keeps_serving_repeats(self):
+        # Two categories selected together (Biology + Astronomy) narrow the pool to 3 questions.
+        # Ordinary draws are plain random with no server-side exclusion, so a session eventually
+        # sees every one of them; from then on, getting a question out matters more than the
+        # uniform-randomness rule, so every further draw still succeeds instead of failing once
+        # nothing "fresh" is left.
+        settings.selected_difficulties = set(rnd.DIFFICULTIES)
+        settings.selected_categories = {"Biology", "Astronomy"}
+        pool = {"mitosis", "enzymes", "orbits"}
+        seen, drawn = set(), set()
+        for _ in range(30):
+            fetched, seen = asyncio.run(rnd._fetch_fresh_tossup(seen))
+            seen.update(rnd._session_keys(fetched))
+            drawn.add(fetched.answer_sanitized)
+            self.assertIn(fetched.answer_sanitized, pool)
+        self.assertEqual(drawn, pool)
 
     @unittest.expectedFailure
     def test_subcategory_and_alternate_subcategory_selections_are_a_union(self):

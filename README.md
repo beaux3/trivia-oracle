@@ -21,7 +21,7 @@ A Telegram group trivia bot built just for fun by **Terence Chew**. It asks quiz
 
 During a round, just type your answer in the chat. The first correct answer wins the points.
 
-- Questions don't repeat in a chat until 30 minutes pass without a round starting. This is kept in memory, so a restart clears it.
+- Questions don't repeat in a chat until 30 minutes pass without a round starting, unless the selected categories run out of fresh ones — then a question repeats rather than `/next` failing. This is kept in memory, so a restart clears it.
 - Custom questions take the selected custom categories in turn, and the least-played question in a category comes first. Once a chat has played every selected custom question, they start over.
 - The scoreboard is saved to disk and survives restarts. Only the admin can reset it.
 

@@ -81,16 +81,38 @@ class FreshTossupTest(unittest.TestCase):
         tossup, _, _ = self.fetch({"First clue."}, _ordinary("First clue."), _ordinary("Second clue."))
         self.assertEqual(tossup.question_sanitized, "Second clue.")
 
-    def test_running_out_of_attempts_returns_nothing_rather_than_a_repeat(self):
+    def test_running_out_of_attempts_accepts_the_last_repeat_rather_than_nothing(self):
+        # Getting a question out matters more than avoiding a repeat: once every attempt has
+        # turned down a reworded repeat, the last one drawn is used anyway.
         first = _custom("Richard throws a disc.", "What the fuck, Richard?!", "1")
         rewordings = [_custom(f"Richard, take {i}.", "What the fuck, Richard?", str(i + 10))
                       for i in range(rnd.QUESTION_FETCH_ATTEMPTS)]
         seen = set(rnd._session_keys(first))
         tossup, after, sent = self.fetch(seen, *rewordings)
-        self.assertIsNone(tossup)
-        self.assertEqual(after, seen)
+        self.assertIs(tossup, rewordings[-1])
         self.assertEqual(len(sent), rnd.QUESTION_FETCH_ATTEMPTS)
         self.assertEqual(sent[-1], sorted(["1"] + [t.id for t in rewordings[:-1]]))
+
+    def test_running_out_of_ordinary_attempts_drops_the_ordinary_seen_keys_but_keeps_custom_ones(self):
+        # A small multi-category selection can exhaust QUESTION_FETCH_ATTEMPTS on ordinary repeats
+        # alone; the repeat is accepted and a new ordinary cycle starts, without touching the
+        # session's custom-question memory.
+        custom = _custom("Clue A.", "Alpha", "a")
+        seen = {"Biology clue.", "History clue.", *rnd._session_keys(custom)}
+        repeats = [_ordinary("Biology clue.") for _ in range(rnd.QUESTION_FETCH_ATTEMPTS)]
+        tossup, after, sent = self.fetch(seen, *repeats)
+        self.assertIs(tossup, repeats[-1])
+        self.assertEqual(after, set(rnd._session_keys(custom)))
+        self.assertEqual(len(sent), rnd.QUESTION_FETCH_ATTEMPTS)
+
+    def test_a_single_matching_question_is_replayed_forever_rather_than_failing(self):
+        # The category pool has exactly one question, already seen: every attempt redraws it, and
+        # it is still returned instead of leaving the chat unable to start a round.
+        only = _ordinary("The only question in this category.")
+        seen = {only.question_sanitized}
+        tossup, after, _ = self.fetch(seen, *([only] * rnd.QUESTION_FETCH_ATTEMPTS))
+        self.assertIs(tossup, only)
+        self.assertEqual(after, set())
 
 
 def _ordinary(question):

@@ -4,7 +4,6 @@ from ..game.round import StartResult
 
 _START_FAILURE_TEXT = {
     StartResult.FETCH_FAILED: "Failed to fetch a question. Try /next again.",
-    StartResult.NO_FRESH_QUESTION: "Could not find a new question. Try /next again.",
 }
 NEEDS_RATING_TEXT = "Please rate the question first /good or /bad"
 

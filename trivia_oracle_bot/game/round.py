@@ -110,14 +110,20 @@ def _is_custom_key(key) -> bool:
 
 async def _fetch_fresh_tossup(seen: set):
     """
-    Draw a question this session has not had; returns (tossup or None, the session's seen keys).
+    Draw a question this session has not had; returns (tossup, the session's seen keys).
 
     Custom repeats are avoided by the backend, which is sent the ids already played; the answer
     check here catches a reworded question with an answer already asked. The backend repeats a
     custom question only once every one it could draw has been played: that starts the custom
     questions over, so the returned keys drop the custom ones.
+
+    Ordinary questions have no such server-side exclusion, so a small category selection can run
+    out of fresh draws before QUESTION_FETCH_ATTEMPTS is reached. When that happens, getting a
+    question out matters more than avoiding a repeat: the last draw is accepted and the ordinary
+    keys are dropped from `seen` (a new cycle), same as the custom ones above.
     """
     rejected = []  # custom ids drawn and turned down during this call
+    tossup = None
     for _ in range(QUESTION_FETCH_ATTEMPTS):
         played = [key[1] for key in seen if _is_custom_key(key) and key[0] == "custom_id"]
         tossup = await _fetch_tossup(played + rejected)
@@ -127,7 +133,7 @@ async def _fetch_fresh_tossup(seen: set):
             return tossup, seen
         if getattr(tossup, "custom", False) and getattr(tossup, "id", None):
             rejected.append(tossup.id)
-    return None, seen
+    return tossup, {key for key in seen if _is_custom_key(key)}
 
 
 def _points_for_correct() -> int:
@@ -235,7 +241,6 @@ class StartResult(enum.Enum):
     STARTED = "started"
     BUSY = "busy"                            # a round is already running; ignore silently
     FETCH_FAILED = "fetch_failed"            # the question source errored or timed out
-    NO_FRESH_QUESTION = "no_fresh_question"  # every draw was already seen this session
     NEEDS_RATING = "needs_rating"            # the last custom question is still unrated within its grace period
 
 
@@ -380,9 +385,6 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
         except Exception as e:
             logging.error("Failed to fetch question: %s", e)
             return StartResult.FETCH_FAILED
-
-        if tossup is None:
-            return StartResult.NO_FRESH_QUESTION
 
         sentences = split_sentences(tossup.question_sanitized)
         with scores_lock:

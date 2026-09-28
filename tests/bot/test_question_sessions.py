@@ -45,17 +45,17 @@ class QuestionSessionTest(unittest.TestCase):
         self.assertEqual(self._next(60 + rnd.SESSION_TIMEOUT, "First clue."), (1, 1))
         self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
 
-    def test_sessions_are_per_chat_and_exhausted_retries_do_not_repeat(self):
+    def test_sessions_are_per_chat_and_exhausted_retries_start_the_round_anyway(self):
         self._next(0, "First clue.")
         other_chat = SimpleNamespace(bot=self.bot, chat_data={})
         self.assertEqual(self._next(10, "First clue.", context=other_chat), (1, 1))
 
+        # Every draw within the attempt budget repeats the only question this category has:
+        # getting a question out wins over avoiding the repeat, so the round still starts.
         attempts = ("First clue.",) * rnd.QUESTION_FETCH_ATTEMPTS
-        self.assertEqual(self._next(20, *attempts), (rnd.QUESTION_FETCH_ATTEMPTS, 0))
-        self.assertEqual(self.chat_data["last_next"], 0)
+        self.assertEqual(self._next(20, *attempts), (rnd.QUESTION_FETCH_ATTEMPTS, 1))
+        self.assertEqual(self.chat_data["last_next"], 20)
         self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
-        self.assertIn("Could not find a new question", self.bot.send_message.call_args.kwargs["text"])
-        self.assertEqual(self._next(rnd.SESSION_TIMEOUT, "First clue."), (1, 1))
 
     def test_next_during_a_round_does_not_refresh_the_session(self):
         self._next(0, "First clue.")
@@ -79,12 +79,13 @@ class QuestionSessionTest(unittest.TestCase):
         self.assertEqual(self.chat_data["seen_tossups"], {"First clue."})
         self.assertEqual(self._next(rnd.SESSION_TIMEOUT + 2, "First clue."), (1, 1))
 
-    def test_failed_duplicate_notice_releases_round_lock(self):
+    def test_failed_fetch_notice_releases_round_lock(self):
         self._next(0, "First clue.")
         self.bot.send_message.side_effect = RuntimeError("Telegram unavailable")
 
-        with self.assertRaises(RuntimeError):
-            self._next(20, *(("First clue.",) * rnd.QUESTION_FETCH_ATTEMPTS))
+        with self.assertRaises(RuntimeError), \
+             mock.patch.object(rnd, "_fetch_tossup", mock.AsyncMock(side_effect=RuntimeError("QBReader unavailable"))):
+            round_handlers.start_round(self.update, self.context)
 
         self.assertFalse(rnd.round_lock.locked())
         self.bot.send_message.side_effect = None

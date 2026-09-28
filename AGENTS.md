@@ -447,7 +447,12 @@ still has an unplayed question, then the question with the lowest `times_played`
 every matching custom question is excluded it ignores the list, so a played one comes back; `round._fetch_fresh_tossup`
 sees an id it already has and drops the session's custom keys (a new cycle). It still retries a custom question whose
 primary answer was already asked in a different wording, sending the turned-down id with the next draw. Ordinary
-questions keep the old rule: redraw (up to `QUESTION_FETCH_ATTEMPTS`) while the question text was already seen.
+questions have no server-side exclusion, so they redraw (up to `QUESTION_FETCH_ATTEMPTS`) while the question text was
+already seen — the whole point being to dodge a repeat when the selected categories still have a fresh one to give.
+When a narrow category selection runs out of those (every draw within the attempt budget lands on something already
+seen), `_fetch_fresh_tossup` stops chasing freshness and accepts the last draw instead: getting a question out matters
+more than the uniform-randomness rule, so `/next` never refuses to start just because the pool is exhausted. That also
+drops the ordinary keys from the session (a new cycle), the same way a played-out custom category does.
 The custom-vs-ordinary choice in "include" mode is still the server's 50/50 coin.
 
 ### Rating custom questions
