@@ -31,13 +31,20 @@ def _stand_in_backend(received):
             return web.json_response({"error": "disk error"}, status=502)
         return web.json_response({"good_votes": 4, "bad_votes": 2})
 
+    async def record_play(request):
+        body = await request.json()
+        received.append(body)
+        if body["id"] == "unknown":
+            return web.json_response({"error": "No custom question with that id"}, status=404)
+        return web.json_response({"times_played": 3, "times_answered": 2, "avg_num_clues_left_when_answered": 1.5})
+
     async def check_answer(request):
         received.append(await request.json())
         return web.json_response({"directive": "prompt", "directed_prompt": "more specific"})
 
     app = web.Application()
     app.add_routes([web.post("/random-tossup", random_tossup), web.post("/check-answer", check_answer),
-                    web.post("/rate-tossup", rate_tossup)])
+                    web.post("/rate-tossup", rate_tossup), web.post("/record-play", record_play)])
     return app
 
 
@@ -56,7 +63,7 @@ class BackendClientTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(tossup, Tossup("Q?", "<b>A</b>", "A"))
         self.assertEqual(self.received, [{
             "subcategories": ["Biology"], "alternate_subcategories": None, "difficulties": ["3"], "custom": "exclude",
-            "custom_subcategories": None,
+            "custom_subcategories": None, "exclude_custom_ids": None,
         }])
 
     async def test_custom_questions_come_back_marked_with_their_category(self):
@@ -83,6 +90,14 @@ class BackendClientTest(unittest.IsolatedAsyncioTestCase):
             await source.rate_tossup("unknown", "good", None)
         with self.assertRaisesRegex(RuntimeError, "502"):
             await source.rate_tossup("broken", "good", None)
+
+    async def test_record_play_sends_the_clues_left_and_returns_the_stats(self):
+        source = BackendQuestionSource(self.url)
+        self.assertEqual(await source.record_play("merlion-id", 2), (3, 2, 1.5))
+        await source.record_play("merlion-id", None)
+        self.assertEqual(self.received, [{"id": "merlion-id", "clues_left": 2}, {"id": "merlion-id", "clues_left": None}])
+        with self.assertRaisesRegex(LookupError, "No custom question"):
+            await source.record_play("unknown", 1)
 
     async def test_404_is_a_lookup_error_and_other_failures_are_runtime_errors(self):
         source = BackendQuestionSource(self.url)

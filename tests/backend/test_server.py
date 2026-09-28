@@ -26,6 +26,13 @@ class FakeCustomSource:
         self.rated = []
         self.error = None
         self.rate_error = None
+        self.plays = []
+
+    async def record_play(self, tossup_id, clues_left):
+        self.plays.append((tossup_id, clues_left))
+        if self.rate_error:
+            raise self.rate_error
+        return (3, 2, 1.5)
 
     async def rate_tossup(self, tossup_id, rating, previous):
         self.rated.append((tossup_id, rating, previous))
@@ -51,6 +58,10 @@ class FakeJudge:
 class ServerWithoutCustomSourceTest(AioHTTPTestCase):
     async def get_application(self):
         return build_app(FakeSource(), FakeJudge(), "local")
+
+    async def test_recording_a_play_without_a_custom_source_is_404(self):
+        response = await self.client.post("/record-play", json={"id": "c", "clues_left": 1})
+        self.assertEqual(response.status, 404)
 
     async def test_rating_without_a_custom_source_is_404(self):
         response = await self.client.post("/rate-tossup", json={"id": "c", "rating": "good"})
@@ -107,7 +118,7 @@ class ServerTest(AioHTTPTestCase):
             "custom": True, "category": "Singapore", "id": "custom-1",
         })
         # Custom questions ignore the category and difficulty filters, and the main source is never asked.
-        self.assertEqual(self.custom.seen, [QuestionFilters(None, None, None)])
+        self.assertEqual(self.custom.seen, [QuestionFilters(None, None, None, exclude_ids=[], balanced=True)])
         self.assertEqual(self.source.seen, [])
 
     async def test_custom_subcategories_narrows_the_custom_source_but_not_the_main_one(self):
@@ -115,13 +126,27 @@ class ServerTest(AioHTTPTestCase):
             "subcategories": ["Biology"], "custom": "only", "custom_subcategories": ["Singapore", "Memes"],
         })
         self.assertEqual(response.status, 200)
-        self.assertEqual(self.custom.seen, [QuestionFilters(["Singapore", "Memes"], None, None)])
+        self.assertEqual(self.custom.seen, [QuestionFilters(["Singapore", "Memes"], None, None, exclude_ids=[], balanced=True)])
         self.assertEqual(self.source.seen, [])
 
     async def test_missing_custom_subcategories_still_draws_from_the_whole_custom_database(self):
         response = await self.client.post("/random-tossup", json={"custom": "only"})
         self.assertEqual(response.status, 200)
-        self.assertEqual(self.custom.seen, [QuestionFilters(None, None, None)])
+        self.assertEqual(self.custom.seen, [QuestionFilters(None, None, None, exclude_ids=[], balanced=True)])
+
+    async def test_played_custom_ids_are_passed_to_the_custom_draw_only(self):
+        for coin in (0.1, 0.9):  # custom source tried first, then second (after the main one fails)
+            self.source.error = LookupError("nothing matches") if coin == 0.9 else None
+            with mock.patch("trivia_oracle_backend.server.random.random", return_value=coin):
+                response = await self.client.post("/random-tossup", json={
+                    "subcategories": ["Biology"], "custom": "include", "exclude_custom_ids": ["custom-1", "custom-2"],
+                })
+            self.assertEqual(response.status, 200)
+        self.assertEqual(len(self.custom.seen), 2)
+        self.assertEqual(self.custom.seen[-1].exclude_ids, ["custom-1", "custom-2"])
+        self.assertTrue(all(f.exclude_ids is None and not f.balanced for f in self.source.seen))
+        response = await self.client.post("/random-tossup", json={"custom": "only", "exclude_custom_ids": "custom-1"})
+        self.assertEqual(response.status, 400)
 
     async def test_custom_exclude_or_missing_never_touches_the_custom_source(self):
         for payload in ({}, {"custom": None}, {"custom": "exclude"}):
@@ -218,6 +243,34 @@ class ServerTest(AioHTTPTestCase):
     async def test_rate_tossup_is_post_only(self):
         response = await self.client.get("/rate-tossup")
         self.assertEqual(response.status, 405)
+
+    async def test_record_play_writes_through_the_custom_source(self):
+        response = await self.client.post("/record-play", json={"id": "custom-1", "clues_left": 2})
+        self.assertEqual((response.status, await response.json()), (200, {
+            "times_played": 3, "times_answered": 2, "avg_num_clues_left_when_answered": 1.5,
+        }))
+        response = await self.client.post("/record-play", json={"id": "custom-1", "clues_left": None})
+        self.assertEqual(response.status, 200)
+        response = await self.client.post("/record-play", json={"id": "custom-1"})
+        self.assertEqual(response.status, 200)
+        self.assertEqual(self.custom.plays, [("custom-1", 2), ("custom-1", None), ("custom-1", None)])
+
+    async def test_record_play_bad_requests_are_400_and_write_nothing(self):
+        for payload in (
+            {}, [], {"clues_left": 1}, {"id": 1}, {"id": ""},
+            {"id": "c", "clues_left": -1}, {"id": "c", "clues_left": 1.5}, {"id": "c", "clues_left": "1"},
+            {"id": "c", "clues_left": True},
+        ):
+            response = await self.client.post("/record-play", json=payload)
+            self.assertEqual(response.status, 400, payload)
+        self.assertEqual(self.custom.plays, [])
+
+    async def test_record_play_errors_follow_the_rating_rules(self):
+        for error, status in ((LookupError("no such question"), 404), (FileNotFoundError("no file"), 404),
+                              (RuntimeError("disk error"), 502)):
+            self.custom.rate_error = error
+            response = await self.client.post("/record-play", json={"id": "c", "clues_left": 1})
+            self.assertEqual(response.status, status, error)
 
     async def test_check_answer(self):
         response = await self.client.post("/check-answer", json={"answerline": "<b>a</b>", "given": "a"})

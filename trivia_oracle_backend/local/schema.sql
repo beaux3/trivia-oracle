@@ -29,7 +29,11 @@ CREATE TABLE IF NOT EXISTS tossups (
     updated_at             TEXT,               -- qbreader updatedAt
     good_votes             INTEGER NOT NULL DEFAULT 0,  -- (added later) player feedback; a score is derived from these
     bad_votes              INTEGER NOT NULL DEFAULT 0,  -- (added later)
-    is_custom              INTEGER NOT NULL DEFAULT 0   -- (added later) 1 for a hand-written question, 0 for qbreader's
+    is_custom              INTEGER NOT NULL DEFAULT 0,  -- (added later) 1 for a hand-written question, 0 for qbreader's
+    times_played           INTEGER NOT NULL DEFAULT 0,  -- (added later) custom rounds played to the end on this question
+    times_answered         INTEGER NOT NULL DEFAULT 0,  -- (added later) of those, rounds someone answered correctly
+    avg_num_clues_left_when_answered REAL          -- (added later) running mean over answered rounds of the clues
+                                                   -- still unrevealed at the first correct answer; NULL until answered
 );
 
 CREATE INDEX IF NOT EXISTS tossups_by_set ON tossups (set_name);

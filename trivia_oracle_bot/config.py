@@ -92,7 +92,7 @@ CATEGORIES = [
 # for picking specific custom categories instead. Keep this in sync with the custom-only
 # categories in trivia_oracle_backend/custom/add.py's SUBCATEGORIES.
 ALL_CUSTOM_LABEL = "All Custom"
-CUSTOM_CATEGORIES = ["Snowsports", "Singapore", "Memes", "Japan", "Cultivation / Returner Slop"]
+CUSTOM_CATEGORIES = ["Snowsports", "Singapore", "Memes", "Japan", "Anime", "Cultivation / Returner Slop"]
 
 # What a player can say about a custom question once its round is over (/good, /bad).
 RATINGS = ("good", "bad")

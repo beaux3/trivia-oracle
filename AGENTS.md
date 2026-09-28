@@ -152,15 +152,18 @@ trivia_oracle_backend/  Question data behind two interfaces (see "Question data 
   __init__.py      Re-exports the interfaces and both sources; reads no config.
   __main__.py      Picks the source from QUESTION_BACKEND and runs the HTTP service.
   config.py        QUESTION_BACKEND, QUESTIONS_DB, CUSTOM_QUESTIONS_DB, HOST, PORT (env vars only).
-  server.py        aiohttp app: GET /health, POST /random-tossup, POST /rate-tossup, POST /check-answer.
+  server.py        aiohttp app: GET /health, POST /random-tossup, POST /rate-tossup, POST /record-play,
+                   POST /check-answer.
   base.py          QuestionFilters, and the Tossup / Judgement / QuestionSource /
                    AnswerJudge protocols.
   api/             qbreader.org backend: QbreaderQuestionSource, QbreaderAnswerJudge.
   local/           Offline backend over data/questions.db:
-    schema.sql     `sets` and `tossups` tables, incl. good_votes / bad_votes / is_custom. db.connect()
-                   adds columns missing from older files; replace_set() keeps votes.
+    schema.sql     `sets` and `tossups` tables, incl. good_votes / bad_votes / is_custom and the play stats
+                   times_played / times_answered / avg_num_clues_left_when_answered. db.connect() (and
+                   record_play) add columns missing from older files; replace_set() keeps votes and play stats.
     db.py          connect(), connect_readonly(), replace_set() (one set per transaction),
-                   record_vote() (the only writer at run time: a custom question's good/bad votes).
+                   record_vote() and record_play() (the only writers at run time: a custom question's
+                   good/bad votes and its play stats).
     question_source.py  LocalQuestionSource; build_where() turns QuestionFilters into SQL.
     sync.py        CLI that copies qbreader into the database
                    (`python -m trivia_oracle_backend.local.sync`).
@@ -203,6 +206,7 @@ share the JSON wire format.
 | New endpoint | `trivia_oracle_backend/server.py` | `tests/backend`, `tests/integration` |
 | Rating custom questions (prompt text, who may vote, when, and the /next gate) | `trivia_oracle_bot/game/round.py` (`submit_rating`, `RATING_PROMPT`, `_rating_still_required`, `RATING_GRACE_PERIOD`); the counting is `local/db.py` (`record_vote`) | `tests/bot/test_ratings.py`, `tests/backend/test_votes.py`, `CustomQuestionsIntegrationTest`, `RateTossupHttpTest` |
 | How local questions are filtered | `trivia_oracle_backend/local/question_source.py` (`build_where`) | `tests/backend/test_local_backend.py`, `FilterIntegrationTest` |
+| Custom question play stats (times played, clues left when answered) | `trivia_oracle_bot/game/round.py` (`_record_play`, `clues_left_when_answered`); the counting is `local/db.py` (`record_play`) | `tests/bot/test_play_stats.py`, `tests/backend/test_votes.py` (`RecordPlayTest`) |
 | Local DB schema | `trivia_oracle_backend/local/schema.sql`, `db.py` | `tests/backend`, `tests/integration/test_sync_pipeline.py` |
 | What the sync downloads | `trivia_oracle_backend/local/sync.py` | `tests/integration/test_sync_pipeline.py` |
 | Calling qbreader (API mode, answer judge) | `trivia_oracle_backend/api/qbreader_api.py` | `tests/backend` |
@@ -425,16 +429,34 @@ the other when it has nothing. Custom draws ignore all three filters. A missing 
 for `only` and is skipped for `include`. In the bot, `settings.custom_questions` + `selected_categories` become
 `custom` in `_build_filters()`: on with categories selected = `include`, on with none = `only`.
 
+### Custom question play stats
+When a custom round with an id ends, `round._record_play` sends `POST /record-play {id, clues_left}` after the
+scoreboard. `clues_left` is the number of clues not yet revealed when the first correct answer was accepted
+(`hourglasses - 1`, so answering on the last clue, or after it, is 0), or null when nobody answered.
+`local/db.record_play` adds 1 to `times_played`, and for an answered round also adds 1 to `times_answered` and
+folds `clues_left` into `avg_num_clues_left_when_answered`, a running mean over answered rounds (NULL until the
+first one). Only `is_custom = 1` rows count (404 otherwise). A failed report is logged and dropped; it never
+affects the round.
+
+### Drawing custom questions
+The bot sends `exclude_custom_ids` on `/random-tossup`: the ids of custom questions the chat has played this session
+(`("custom_id", id)` keys in `chat_data["seen_tossups"]`, which resets after `SESSION_TIMEOUT` without a /next and on
+restart). The custom draw (`question_source._balanced_tossup`, `QuestionFilters.balanced`) skips those ids and takes
+the selected custom categories in turn: it picks, at random among ties, a category with the fewest played ids that
+still has an unplayed question, then the question with the lowest `times_played` in it (random among ties). Once
+every matching custom question is excluded it ignores the list, so a played one comes back; `round._fetch_fresh_tossup`
+sees an id it already has and drops the session's custom keys (a new cycle). It still retries a custom question whose
+primary answer was already asked in a different wording, sending the turned-down id with the next draw. Ordinary
+questions keep the old rule: redraw (up to `QUESTION_FETCH_ATTEMPTS`) while the question text was already seen.
+The custom-vs-ordinary choice in "include" mode is still the server's 50/50 coin.
+
 ### Rating custom questions
 A custom round's end message ends with "Please rate the question /good or /bad" (`round.RATING_PROMPT`).
 `POST /rate-tossup {id, rating: "good"|"bad", previous: "good"|"bad"|null}` adds one vote to that custom
 question's `good_votes` / `bad_votes` (`local/db.record_vote`) and withdraws `previous`, so a changed vote
 moves instead of doubling; counts never go below 0. Only `is_custom = 1` rows can be rated (404 otherwise, and
-when there is no custom database; the file is never created). The backend just counts. Those votes also steer future
-draws: `LocalQuestionSource.random_tossup` orders unrated tossups (`good_votes + bad_votes = 0`) before rated ones,
-random within each group, so a fresh custom question gets seen before an already-rated one repeats. It falls back to
-rated ones once every matching tossup has at least one vote. Every qbreader-synced row stays at 0/0, so this has no
-effect on `QUESTIONS_DB` draws. The one-vote-per-player
+when there is no custom database; the file is never created). The backend just counts. Votes do not steer custom
+draws (see "Drawing custom questions"). The one-vote-per-player
 rule lives in the bot: `round.submit_rating` keeps `{user_id: rating}` for the round, ignores a repeat, sends a
 change with `previous` set, and only records a vote once the backend accepted it. `ratings_lock` is held while a
 vote is in flight, so one player's votes reach the backend in the order they were made. The rating state is
@@ -505,7 +527,7 @@ The backend has its own settings, read from environment variables only (`trivia_
 |------|---------|-------|
 | `QUESTION_BACKEND` | `local` | `local` or `api`. With `local`, the backend refuses to start if `QUESTIONS_DB` is missing. |
 | `QUESTIONS_DB` | `<repo>/data/questions.db` | Written by the sync script, opened read-only per request by the service. |
-| `CUSTOM_QUESTIONS_DB` | `<repo>/data/custom_questions.db` | Written by `custom/add.py` and, for players' votes, by `POST /rate-tossup`; opened per request, so it may appear or change while the service runs. |
+| `CUSTOM_QUESTIONS_DB` | `<repo>/data/custom_questions.db` | Written by `custom/add.py` and, for players' votes and play stats, by `POST /rate-tossup` and `POST /record-play`; opened per request, so it may appear or change while the service runs. |
 | `HOST`, `PORT` | `0.0.0.0`, `8080` | Where the service listens. Compose does not publish it. |
 
 `secrets.example.json` shows the format. To add a new setting, read it in

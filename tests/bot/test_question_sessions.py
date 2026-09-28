@@ -91,7 +91,7 @@ class QuestionSessionTest(unittest.TestCase):
         self.assertEqual(self._next(21, "Second clue."), (1, 1))
 
     def test_slow_fetch_has_total_deadline_and_releases_round_lock(self):
-        async def slow_fetch():
+        async def slow_fetch(*_):
             await asyncio.sleep(1)
 
         with mock.patch.object(rnd, "_fetch_tossup", side_effect=slow_fetch) as fetch, \

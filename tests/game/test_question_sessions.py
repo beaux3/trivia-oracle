@@ -37,9 +37,11 @@ class QuestionSessionTest(unittest.TestCase):
                 rnd.current_round["active"] = False
 
         self.assertEqual(fetch.await_count, 3)
-        self.assertIn(first.question_sanitized, session["seen_tossups"])
-        self.assertIn(fresh.question_sanitized, session["seen_tossups"])
-        self.assertNotIn(repeat.question_sanitized, session["seen_tossups"])
+        self.assertIn(("custom_id", "1"), session["seen_tossups"])
+        self.assertIn(("custom_id", "3"), session["seen_tossups"])
+        self.assertNotIn(("custom_id", "2"), session["seen_tossups"])
+        # The played id goes to the backend, and so does the reworded one turned down for the retry.
+        self.assertEqual([c.args[0] for c in fetch.await_args_list], [[], ["1"], ["1", "2"]])
 
 
 if __name__ == "__main__":

@@ -38,7 +38,7 @@ _in_flight = {"now": 0, "max": 0}
 _in_flight_lock = threading.Lock()
 
 
-async def _fake_fetch_tossup():
+async def _fake_fetch_tossup(*_):
     return SimpleNamespace(
         question_sanitized="First clue. Second clue. Third clue.",
         answer_sanitized="Paris",

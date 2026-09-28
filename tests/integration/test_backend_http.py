@@ -181,6 +181,20 @@ class RateTossupHttpTest(unittest.IsolatedAsyncioTestCase):
             status, _ = await self.post("/rate-tossup", json=payload)
             self.assertEqual(status, 400, payload)
 
+    async def test_a_play_reaches_the_database(self):
+        status, body = await self.post("/record-play", json={"id": "merlion", "clues_left": 3})
+        self.assertEqual(status, 200)
+        conn = sqlite3.connect(self.stack.custom_db_path)
+        try:
+            stored = conn.execute(
+                "SELECT times_played, times_answered, avg_num_clues_left_when_answered FROM tossups WHERE id = 'merlion'"
+            ).fetchone()
+        finally:
+            conn.close()
+        self.assertEqual(stored, (body["times_played"], body["times_answered"], body["avg_num_clues_left_when_answered"]))
+        status, _ = await self.post("/record-play", json={"id": "mitosis", "clues_left": 3})
+        self.assertEqual(status, 404)
+
     async def test_without_a_custom_database_rating_is_404(self):
         stack = LocalStack([tossup("mitosis")])
         self.addCleanup(stack.close)

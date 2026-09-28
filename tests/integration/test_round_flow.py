@@ -251,12 +251,22 @@ class FilterIntegrationTest(unittest.TestCase):
 class CustomQuestionsIntegrationTest(unittest.TestCase):
     """The Custom category, from the settings through the HTTP hop to a played round."""
 
-    TOSSUPS = [tossup("mitosis", "Science", "Biology", difficulty=8)]
+    TOSSUPS = [
+        tossup("mitosis", "Science", "Biology", difficulty=8),
+        tossup("pi", "Science", "Other Science", alt="Math", difficulty=8,
+               question="This constant is the ratio of a circle's circumference to its diameter."),
+        tossup("nile", "Geography", "Geography", difficulty=8,
+               question="This African river is traditionally considered the world's longest."),
+    ]
     CUSTOM = [
         tossup("merlion", "Singapore", "Singapore", difficulty=1,
                question="This creature guards a bay. It has a lion head."),
         tossup("laksa", "Singapore", "Singapore", difficulty=9,
                question="This noodle soup is spicy. It has coconut milk."),
+        tossup("doge", "Memes", "Memes", difficulty=5,
+               question="This meme dog speaks broken English. It says such wow."),
+        tossup("sakura", "Japan", "Japan", difficulty=3,
+               question="This flower's blossoms are celebrated each spring in Japan."),
     ]
 
     @classmethod
@@ -282,6 +292,12 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
             p.start()
             self.addCleanup(p.stop)
         score_store.scores.clear()
+        # The custom database is built once in setUpClass and rating tests leave real votes and
+        # plays on it; reset them so a draw-mix test doesn't depend on what an earlier test did.
+        conn = sqlite3.connect(self.stack.custom_db_path)
+        conn.execute("UPDATE tossups SET good_votes = 0, bad_votes = 0, times_played = 0")
+        conn.commit()
+        conn.close()
 
     def tearDown(self):
         wait_until(lambda: not rnd.round_lock.locked())
@@ -298,22 +314,94 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
     def test_custom_only_draws_every_custom_question_whatever_the_other_filters(self):
         settings.custom_all = True
         settings.selected_categories = set()
-        tossups = self.draw()
-        self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa"})
-        self.assertTrue(all(t.custom and t.category == "Singapore" for t in tossups))
+        tossups = self.draw(60)
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa", "doge", "sakura"})
+        self.assertTrue(all(t.custom for t in tossups))
 
     def test_custom_mixed_with_other_categories_draws_from_both(self):
+        # All qbreader categories are selected by default (settings.selected_categories),
+        # so this also covers "several custom categories mixed with several non-custom ones".
         settings.custom_all = True
-        tossups = self.draw()
-        self.assertEqual({t.answer_sanitized for t in tossups}, {"mitosis", "merlion", "laksa"})
-        self.assertFalse(any(t.custom for t in tossups if t.answer_sanitized == "mitosis"))
+        tossups = self.draw(90)
+        self.assertEqual({t.answer_sanitized for t in tossups},
+                          {"mitosis", "pi", "nile", "merlion", "laksa", "doge", "sakura"})
+        self.assertFalse(any(t.custom for t in tossups if t.answer_sanitized in ("mitosis", "pi", "nile")))
+
+    def test_a_session_plays_every_custom_question_once_taking_the_categories_in_turn(self):
+        settings.custom_all = True
+        settings.selected_categories = set()
+        for _ in range(10):
+            seen, drawn = set(), []
+            for _ in range(4):
+                tossup, seen = asyncio.run(rnd._fetch_fresh_tossup(seen))
+                seen.update(rnd._session_keys(tossup))
+                drawn.append(tossup)
+            self.assertEqual(sorted(t.answer_sanitized for t in drawn), ["doge", "laksa", "merlion", "sakura"])
+            # Singapore, Memes and Japan once each before Singapore's second question.
+            self.assertEqual({t.category for t in drawn[:3]}, {"Singapore", "Memes", "Japan"})
+            # All four played: the next draw repeats one and starts the custom questions over.
+            tossup, seen = asyncio.run(rnd._fetch_fresh_tossup(seen))
+            self.assertIsNotNone(tossup)
+            self.assertFalse(any(rnd._is_custom_key(key) for key in seen))
 
     def test_custom_off_never_draws_a_custom_question(self):
         settings.custom_all = False
-        self.assertEqual({t.answer_sanitized for t in self.draw()}, {"mitosis"})
+        self.assertEqual({t.answer_sanitized for t in self.draw(60)}, {"mitosis", "pi", "nile"})
+
+    def test_several_specific_custom_categories_are_all_drawn_from(self):
+        # Regression: selecting "Custom: Memes" and "Custom: Singapore" together must draw
+        # from both categories, not just one.
+        settings.selected_custom_categories = {"Singapore", "Memes"}
+        settings.selected_categories = set()
+        tossups = self.draw(60)
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa", "doge"})
+        self.assertTrue(all(t.custom for t in tossups))
+
+    def test_a_single_specific_custom_category_excludes_the_others(self):
+        settings.selected_custom_categories = {"Memes"}
+        settings.selected_categories = set()
+        self.assertEqual({t.answer_sanitized for t in self.draw()}, {"doge"})
+
+    def test_a_specific_custom_category_mixed_with_specific_non_custom_categories(self):
+        # Regression: "Custom: Memes" plus non-custom "Biology" must draw from both, not just
+        # the custom one.
+        settings.selected_custom_categories = {"Memes"}
+        settings.selected_categories = {"Biology"}
+        tossups = self.draw(60)
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"mitosis", "doge"})
+        self.assertTrue(any(t.custom for t in tossups))
+        self.assertTrue(any(not t.custom for t in tossups))
+
+    def test_a_specific_custom_category_mixed_with_several_non_custom_categories(self):
+        # The exact combination reported as buggy: "Custom: Memes" plus non-custom
+        # "Math" and "Geography" must draw from all three, not just Memes.
+        settings.selected_custom_categories = {"Memes"}
+        settings.selected_categories = {"Math", "Geography"}
+        tossups = self.draw(60)
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"doge", "pi", "nile"})
+        self.assertTrue(any(t.custom for t in tossups))
+        self.assertTrue(any(not t.custom for t in tossups))
+
+    def test_three_specific_custom_categories_are_all_drawn_from(self):
+        # Selecting more than two specific custom categories together must still draw from
+        # all of them, not just the first two (test_several_..._are_all_drawn_from covers two).
+        settings.selected_custom_categories = {"Singapore", "Memes", "Japan"}
+        settings.selected_categories = set()
+        tossups = self.draw(60)
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa", "doge", "sakura"})
+        self.assertTrue(all(t.custom for t in tossups))
+
+    def test_several_specific_custom_categories_mixed_with_several_non_custom_categories(self):
+        # Two specific custom categories plus two non-custom categories, all at once.
+        settings.selected_custom_categories = {"Singapore", "Memes"}
+        settings.selected_categories = {"Biology", "Math"}
+        tossups = self.draw(90)
+        self.assertEqual({t.answer_sanitized for t in tossups}, {"merlion", "laksa", "doge", "mitosis", "pi"})
+        self.assertTrue(any(t.custom for t in tossups))
+        self.assertTrue(any(not t.custom for t in tossups))
 
     def test_a_custom_round_opens_with_its_label_and_can_be_won(self):
-        settings.custom_all = True
+        settings.selected_custom_categories = {"Singapore"}
         settings.selected_categories = set()
         messages = []
         self.assertEqual(rnd.start_round(messages.append, "", {}), StartResult.STARTED)

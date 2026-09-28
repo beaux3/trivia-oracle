@@ -34,6 +34,7 @@ class _RoundCase(unittest.TestCase):
         settings.answer_wait = 0.01
         self.backend = mock.Mock()
         self.backend.rate_tossup = mock.AsyncMock(return_value=(1, 0))
+        self.backend.record_play = mock.AsyncMock(return_value=(1, 0, None))
         patch = mock.patch.object(rnd, "question_source", self.backend)
         patch.start()
         self.addCleanup(patch.stop)

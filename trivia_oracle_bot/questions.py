@@ -29,6 +29,9 @@ class QuestionFilters:
     # Restricts a custom draw to these custom-only category names (config.CUSTOM_CATEGORIES);
     # None draws from the whole custom database regardless of category.
     custom_subcategories: Optional[Sequence[str]] = None
+    # Custom questions this chat has played this session; the backend draws around them and
+    # evens out the custom categories (see /random-tossup in trivia_oracle_backend/server.py).
+    exclude_custom_ids: Optional[Sequence[str]] = None
 
 
 @dataclass(frozen=True)
@@ -76,6 +79,17 @@ class BackendQuestionSource(BackendClient):
         """
         body = await self._post("/rate-tossup", {"id": tossup_id, "rating": rating, "previous": previous})
         return body["good_votes"], body["bad_votes"]
+
+    async def record_play(self, tossup_id: str, clues_left: Optional[int]) -> tuple:
+        """
+        Count one finished round of a custom question; returns its new
+        (times_played, times_answered, avg_num_clues_left_when_answered).
+
+        `clues_left` is how many clues were unrevealed at the first correct answer, None if nobody answered.
+        Raises LookupError if the question is unknown or not a custom one.
+        """
+        body = await self._post("/record-play", {"id": tossup_id, "clues_left": clues_left})
+        return body["times_played"], body["times_answered"], body["avg_num_clues_left_when_answered"]
 
 
 class BackendAnswerJudge(BackendClient):

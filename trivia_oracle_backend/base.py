@@ -14,6 +14,10 @@ class QuestionFilters:
     subcategories: Optional[Sequence[str]] = None
     alternate_subcategories: Optional[Sequence[str]] = None
     difficulties: Optional[Sequence[str]] = None  # qbreader numeric strings, "0"–"10"
+    # Custom draws only (the local source): ids already played this session. The draw evens out
+    # subcategories (fewest of these first) and skips these ids until every match is one of them.
+    exclude_ids: Optional[Sequence[str]] = None
+    balanced: bool = False
 
 
 class Tossup(Protocol):

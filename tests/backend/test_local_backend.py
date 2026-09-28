@@ -89,6 +89,15 @@ class LocalBackendTest(unittest.TestCase):
         self.assertEqual(self._matching_ids(QuestionFilters(subcategories=["Biology"])), {"bio-easy", "bio-hard"})
         self.assertEqual(self._matching_ids(QuestionFilters(difficulties=["2", "3"])), {t["_id"] for t in TOSSUPS} - {"bio-hard"})
 
+    def test_several_subcategories_are_a_union_not_an_intersection(self):
+        # Two categories in the same filter are OR'd (IN (...)): picking "Biology" and
+        # "European Literature" together must draw from both, not neither.
+        self.assertEqual(self._matching_ids(QuestionFilters(subcategories=["Biology", "European Literature"])),
+                          {"bio-easy", "bio-hard", "lit-plain"})
+        draws = {asyncio.run(self.source.random_tossup(
+            QuestionFilters(subcategories=["Biology", "European Literature"]))).id for _ in range(30)}
+        self.assertEqual(draws, {"bio-easy", "bio-hard", "lit-plain"})
+
     def test_alternate_subcategory_matches_like_qbreader(self):
         # qbreader adds the parent subcategory and also admits untagged tossups.
         self.assertEqual(self._matching_ids(QuestionFilters(alternate_subcategories=["Math"])), {"math"})
@@ -110,6 +119,68 @@ class LocalBackendTest(unittest.TestCase):
         row = self.conn.execute("SELECT id, year, standard, packet_count, tossup_count FROM sets").fetchone()
         self.assertEqual(row, ("set-Test Set", 2024, 1, 2, 2))
         self.assertEqual(synced_set_names(self.conn), {"Test Set"})
+
+
+class BalancedDrawTest(unittest.TestCase):
+    """The custom-question draw: categories in turn, played ids skipped, least-played first."""
+
+    CUSTOM = [
+        _tossup("meme-1", "Memes", "Memes"), _tossup("meme-2", "Memes", "Memes"),
+        _tossup("meme-3", "Memes", "Memes"), _tossup("meme-4", "Memes", "Memes"),
+        _tossup("sg-1", "Singapore", "Singapore"),
+        _tossup("jp-1", "Japan", "Japan"), _tossup("jp-2", "Japan", "Japan"),
+    ]
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.db_path = os.path.join(self.tmp.name, "custom_questions.db")
+        conn = connect(self.db_path)
+        replace_set(conn, "Custom", 1, self.CUSTOM, custom=True)
+        conn.close()
+        self.source = LocalQuestionSource(self.db_path)
+
+    def draw(self, exclude=(), subcategories=None):
+        return asyncio.run(self.source.random_tossup(
+            QuestionFilters(subcategories=subcategories, exclude_ids=list(exclude), balanced=True)))
+
+    def session(self, draws):
+        played = []
+        for _ in range(draws):
+            played.append(self.draw(played).id)
+        return played
+
+    def test_a_session_plays_every_question_before_any_repeats(self):
+        for _ in range(20):
+            self.assertEqual(sorted(self.session(7)), sorted(t["_id"] for t in self.CUSTOM))
+
+    def test_categories_take_turns_until_they_run_out(self):
+        category = lambda id: id.split("-")[0]
+        for _ in range(20):
+            played = [category(id) for id in self.session(7)]
+            self.assertEqual(sorted(played[:3]), ["jp", "meme", "sg"])
+            self.assertEqual(sorted(played[3:5]), ["jp", "meme"])  # Singapore has no second question
+            self.assertEqual(played[5:], ["meme", "meme"])
+
+    def test_the_least_played_question_in_the_category_comes_first(self):
+        conn = sqlite3.connect(self.db_path)
+        conn.execute("UPDATE tossups SET times_played = 3 WHERE id IN ('meme-1', 'meme-2', 'meme-4')")
+        conn.execute("UPDATE tossups SET times_played = 1 WHERE id = 'meme-3'")
+        conn.commit()
+        conn.close()
+        for _ in range(10):
+            self.assertEqual(self.draw(subcategories=["Memes"]).id, "meme-3")
+        # Once it has been played this session, the rest are tied and drawn at random.
+        self.assertIn(self.draw(["meme-3"], subcategories=["Memes"]).id, {"meme-1", "meme-2", "meme-4"})
+
+    def test_once_everything_is_played_it_starts_over(self):
+        everything = [t["_id"] for t in self.CUSTOM]
+        self.assertIn(self.draw(everything).id, everything)
+        self.assertEqual(self.draw(["sg-1"], subcategories=["Singapore"]).id, "sg-1")
+
+    def test_nothing_matching_is_a_lookup_error(self):
+        with self.assertRaises(LookupError):
+            self.draw(subcategories=["Anime"])
 
 
 class AltSubcategoryParentsTest(unittest.TestCase):
@@ -174,6 +245,20 @@ class ColumnsAddedLaterTest(unittest.TestCase):
             conn.execute("SELECT is_custom FROM sets")
             connect(path).close()  # a second connect finds the columns and changes nothing
             conn.close()
+
+    def test_a_migrated_database_can_still_be_drawn_from_read_only(self):
+        # Regression: random_tossup's ORDER BY references good_votes/bad_votes on every query
+        # (LocalBackendTest.test_unrated_tossups_are_drawn_before_rated_ones), so a questions.db
+        # synced before those columns existed fails every single draw until connect() migrates
+        # it — connect_readonly() (used at request time) never alters the schema itself.
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "questions.db")
+            old = sqlite3.connect(path)
+            old.executescript(OLD_SCHEMA)
+            old.close()
+            connect(path).close()
+            tossup = asyncio.run(LocalQuestionSource(path).random_tossup(QuestionFilters()))
+            self.assertEqual(tossup.id, "old")
 
     def test_replace_set_keeps_votes_and_qbreader_sets_are_not_custom(self):
         with tempfile.TemporaryDirectory() as tmp:

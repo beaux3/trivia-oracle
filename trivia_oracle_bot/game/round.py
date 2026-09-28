@@ -33,6 +33,9 @@ current_round: dict = {
     # (question id, {user_id: "good" | "bad"}) once a custom question can be rated, else None. Rounds
     # replace it whole, so a vote still being sent for the last question can't land in the next one's.
     "rating": None,
+    # Clues still unrevealed when the first correct answer was accepted; None until then. Sent to the
+    # backend at the end of a custom round (the question's avg_num_clues_left_when_answered).
+    "clues_left_when_answered": None,
     "ended_at": None,    # time.monotonic() when the round last finished; gates /next while it needs a rating
     "event": threading.Event(),
 }
@@ -53,7 +56,7 @@ QUESTION_FETCH_TIMEOUT = 15.0  # total seconds across all duplicate draws
 
 # ── Internal helpers ──────────────────────────────────────────────────────────
 
-def _build_filters() -> QuestionFilters:
+def _build_filters(exclude_custom_ids=None) -> QuestionFilters:
     """
     Turn the /configure selections into question filters.
 
@@ -73,7 +76,8 @@ def _build_filters() -> QuestionFilters:
         alt_subcategories = [c for c in settings.selected_categories if c in ALL_ALT_SUBCATEGORIES] or None
     if settings.selected_difficulties != set(DIFFICULTIES):
         difficulties = [DIFFICULTIES[d] for d in settings.selected_difficulties]
-    return QuestionFilters(subcategories, alt_subcategories, difficulties, custom, custom_subcategories)
+    return QuestionFilters(subcategories, alt_subcategories, difficulties, custom, custom_subcategories,
+                           exclude_custom_ids)
 
 
 def _round_header(tossup) -> str:
@@ -84,23 +88,46 @@ def _round_header(tossup) -> str:
     return f"📝 Custom question\nCategory: {category}" if category else "📝 Custom question"
 
 
-async def _fetch_tossup():
-    return await question_source.random_tossup(_build_filters())
+async def _fetch_tossup(exclude_custom_ids=None):
+    return await question_source.random_tossup(_build_filters(exclude_custom_ids))
 
 
+# Session keys: an ordinary question is its text; a custom one is a ("custom_...", value) tuple.
 def _session_keys(tossup):
-    yield tossup.question_sanitized
-    if getattr(tossup, "custom", False):
-        primary_answer = tossup.answer_sanitized.partition("[")[0]
-        yield ("custom_answer", "".join(c for c in primary_answer.casefold() if c.isalnum()))
+    if not getattr(tossup, "custom", False):
+        yield tossup.question_sanitized
+        return
+    yield ("custom_question", tossup.question_sanitized)
+    if getattr(tossup, "id", None):
+        yield ("custom_id", tossup.id)
+    primary_answer = tossup.answer_sanitized.partition("[")[0]
+    yield ("custom_answer", "".join(c for c in primary_answer.casefold() if c.isalnum()))
+
+
+def _is_custom_key(key) -> bool:
+    return isinstance(key, tuple) and key[0].startswith("custom_")
 
 
 async def _fetch_fresh_tossup(seen: set):
+    """
+    Draw a question this session has not had; returns (tossup or None, the session's seen keys).
+
+    Custom repeats are avoided by the backend, which is sent the ids already played; the answer
+    check here catches a reworded question with an answer already asked. The backend repeats a
+    custom question only once every one it could draw has been played: that starts the custom
+    questions over, so the returned keys drop the custom ones.
+    """
+    rejected = []  # custom ids drawn and turned down during this call
     for _ in range(QUESTION_FETCH_ATTEMPTS):
-        tossup = await _fetch_tossup()
+        played = [key[1] for key in seen if _is_custom_key(key) and key[0] == "custom_id"]
+        tossup = await _fetch_tossup(played + rejected)
+        if getattr(tossup, "custom", False) and ("custom_id", getattr(tossup, "id", None)) in seen:
+            seen = {key for key in seen if not _is_custom_key(key)}
         if not any(key in seen for key in _session_keys(tossup)):
-            return tossup
-    return None
+            return tossup, seen
+        if getattr(tossup, "custom", False) and getattr(tossup, "id", None):
+            rejected.append(tossup.id)
+    return None, seen
 
 
 def _points_for_correct() -> int:
@@ -164,6 +191,18 @@ def _run_round_body(announce: Callable[[str], None], end_hint: str) -> None:
     current_round["ended_at"] = time.monotonic()
     announce(_round_end_text() + end_hint + (RATING_PROMPT if current_round["rating"] else ""))
     announce(format_scoreboard())
+    _record_play()
+
+
+def _record_play() -> None:
+    """Tell the backend a custom question was played, and how many clues were left when it was answered."""
+    rating = current_round["rating"]
+    if rating is None:
+        return
+    try:
+        asyncio.run(question_source.record_play(rating[0], current_round["clues_left_when_answered"]))
+    except Exception as e:
+        logging.error("Recording the play failed: %s", e)
 
 
 def _round_end_text() -> str:
@@ -261,6 +300,9 @@ def _judge_answer(user_id: int, name: str, given: str) -> Optional[str]:
             if user_id in current_round["winner_ids"]:
                 return
             points = _points_for_correct()
+            if not current_round["winners"]:
+                # hourglasses counts the clue on screen, so the ones still to come are one fewer.
+                current_round["clues_left_when_answered"] = current_round["hourglasses"] - 1
             scores[user_id]["score"] += points
             save_scores()
             current_round["winner_ids"].add(user_id)
@@ -332,7 +374,7 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
         )
 
         try:
-            tossup = asyncio.run(asyncio.wait_for(
+            tossup, seen = asyncio.run(asyncio.wait_for(
                 _fetch_fresh_tossup(seen), timeout=QUESTION_FETCH_TIMEOUT,
             ))
         except Exception as e:
@@ -358,6 +400,7 @@ def start_round(announce: Callable[[str], None], end_hint: str, session: dict) -
             "scoring_modes": frozenset(settings.scoring_modes),
             "medalists": medalists,
             "pending_checks": 0,
+            "clues_left_when_answered": None,
             "rating": (tossup.id, {}) if getattr(tossup, "custom", False) and getattr(tossup, "id", None) else None,
         })
         current_round["event"].clear()

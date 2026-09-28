@@ -2,7 +2,8 @@
 HTTP service in front of a question backend. The Telegram bot is its client.
 
   GET  /health         -> {"backend": "api" | "local"}
-  POST /random-tossup  {subcategories, alternate_subcategories, difficulties, custom}
+  POST /random-tossup  {subcategories, alternate_subcategories, difficulties, custom,
+                        custom_subcategories, exclude_custom_ids}
                        -> {question_sanitized, answer, answer_sanitized}
                           plus {custom: true, category, id} when the question is a custom one
                           404 if nothing matches, 502 if the backend fails
@@ -12,6 +13,11 @@ HTTP service in front of a question backend. The Telegram bot is its client.
                           the vote that same player gave it before, if any: it is withdrawn, so changing a vote
                           moves it. Deciding who may vote, and when, is the client's job; this only counts.
                           404 if there is no custom question with that id, 502 if the write fails
+  POST /record-play    {id, clues_left: int >= 0 | null}
+                       -> {times_played, times_answered, avg_num_clues_left_when_answered}
+                          Counts one finished round of a custom question. `clues_left` is how many clues were
+                          still unrevealed at the first correct answer (null when nobody answered); it is folded
+                          into the running average. Same 404 / 502 rules as /rate-tossup
   POST /check-answer   {answerline, given} -> {directive, directed_prompt, final}
                        final is true when the verdict is exact (the local judge), so the
                        bot does not apply its own lenient spelling pass to a reject
@@ -24,7 +30,11 @@ when the first has nothing. Custom questions ignore subcategories, alternate_sub
 and difficulties. `custom_subcategories` is a separate filter that applies only to a
 custom draw: a list of custom-only category names (e.g. "Singapore", "Memes") restricts
 it to just those, and null (the default) draws from the whole custom database
-unfiltered. This wire format is the only contract with the bot; the two never import
+unfiltered. `exclude_custom_ids` lists the custom questions the chat has already played
+this session. A custom draw takes its categories in turns (the one with the fewest of those
+ids that still has an unplayed question, ties at random), then the least-played question
+(times_played) in it. Once every matching custom question is in the list, the list is ignored
+and a repeat comes back; the client takes that as the start of a new cycle. This wire format is the only contract with the bot; the two never import
 each other.
 """
 import logging
@@ -105,7 +115,8 @@ def build_app(question_source: QuestionSource, answer_judge: AnswerJudge, backen
                 raise web.HTTPBadRequest(text=f"unknown alternate subcategory: {alt}")
         custom_mode = _custom_mode(body)
         custom_subcategories = _string_list(body, "custom_subcategories")
-        custom_filters = QuestionFilters(subcategories=custom_subcategories)
+        exclude_custom_ids = _string_list(body, "exclude_custom_ids") or []
+        custom_filters = QuestionFilters(subcategories=custom_subcategories, exclude_ids=exclude_custom_ids, balanced=True)
 
         # (source, is_custom) in the order they are tried; the first one with a question wins.
         candidates = [(question_source, False)]
@@ -157,6 +168,28 @@ def build_app(question_source: QuestionSource, answer_judge: AnswerJudge, backen
             return web.json_response({"error": str(e)}, status=502)
         return web.json_response({"good_votes": good, "bad_votes": bad})
 
+    async def record_play(request: web.Request) -> web.Response:
+        body = await _json_body(request)
+        tossup_id, clues_left = body.get("id"), body.get("clues_left")
+        if not isinstance(tossup_id, str) or not tossup_id:
+            raise web.HTTPBadRequest(text="id must be a non-empty string")
+        if clues_left is not None and (isinstance(clues_left, bool) or not isinstance(clues_left, int) or clues_left < 0):
+            raise web.HTTPBadRequest(text="clues_left must be a non-negative integer or null")
+        if custom_source is None:
+            return web.json_response({"error": NO_CUSTOM_QUESTIONS}, status=404)
+        try:
+            played, answered, average = await custom_source.record_play(tossup_id, clues_left)
+        except FileNotFoundError:
+            return web.json_response({"error": NO_CUSTOM_QUESTIONS}, status=404)
+        except LookupError as e:
+            return web.json_response({"error": str(e)}, status=404)
+        except Exception as e:
+            logging.exception("record-play failed")
+            return web.json_response({"error": str(e)}, status=502)
+        return web.json_response({
+            "times_played": played, "times_answered": answered, "avg_num_clues_left_when_answered": average,
+        })
+
     async def check_answer(request: web.Request) -> web.Response:
         body = await _json_body(request)
         answerline, given = body.get("answerline"), body.get("given")
@@ -178,6 +211,7 @@ def build_app(question_source: QuestionSource, answer_judge: AnswerJudge, backen
         web.get("/health", health),
         web.post("/random-tossup", random_tossup),
         web.post("/rate-tossup", rate_tossup),
+        web.post("/record-play", record_play),
         web.post("/check-answer", check_answer),
     ])
     return app
