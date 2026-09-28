@@ -110,7 +110,7 @@ a person or an AI agent can follow it end to end to turn a topic request into a 
 submission file, so it's the one link to hand a friend (or their agent) who wants to contribute questions.
 
 In `/configure` → **📚 Categories**, below the qbreader categories are **All Custom** plus one toggle per
-custom-only category (currently Snowsports, Singapore, Memes, Japan):
+custom-only category (currently Snowsports, Singapore, Memes, Japan, Cultivation / Returner Slop):
 
 - **All Custom** on its own plays any custom question, any category.
 - Ticking one or more specific custom categories instead of All Custom limits custom draws to just those.
