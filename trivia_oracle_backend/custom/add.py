@@ -11,6 +11,11 @@ number. Loading a file replaces that set, so the file stays the source of truth
 and running the command twice changes nothing. A file with any invalid line is
 not loaded at all; every problem is printed with its line number.
 
+--check also fails a question whose text gives its own answer away (a phrase the
+answer judge would accept); a normal load only warns about it, so sets written
+before that check keep loading. An answer repeated within the file or already used
+in another submission file is a warning either way.
+
 The database has exactly the schema of the qbreader copy (local/schema.sql), so
 the local backend can read it as it is. Custom sets and questions have is_custom = 1,
 which is what will tell them apart if they are moved into the main database later.
@@ -25,8 +30,10 @@ import os
 import re
 import sys
 from datetime import datetime, timezone
+from typing import Optional
 
 from ..config import CUSTOM_QUESTIONS_DB
+from ..local.answer_judge import judge
 from ..local.answerline import parse_answerline
 from ..local.db import connect, replace_set
 
@@ -66,6 +73,7 @@ REQUIRED = FIELDS - {"alternate_subcategory"}
 MIN_QUESTION_CHARS = 100
 _TAG = re.compile(r"<[^>]*>")
 _HTML_IN_QUESTION = re.compile(r"</?[a-zA-Z][^>]*>")
+_WORD = re.compile(r"[^\s\"“”()\[\]]+")
 
 
 def strip_tags(markup: str) -> str:
@@ -123,9 +131,70 @@ def validate(record) -> list:
     return problems
 
 
-def load_file(path: str):
-    """Read and validate a submission file. Returns (records, errors) with errors as printable lines."""
-    records, errors, seen = [], [], {}
+def leaked_phrase(record: dict):
+    """The shortest run of words in the question that the answer judge would accept as the answer, or None.
+
+    This is CONTRIBUTING.md's "no answer leaks" rule judged the way the bot judges a typed answer, typo
+    tolerance included. Prompts do not count: a prompt only asks the player for more.
+    """
+    answer = record["answer"]
+    # Every word of the longest accepted answer, "the" included, plus one for a word the question splits in two
+    # ("Gas Light" for gaslight).
+    longest = max(len(phrase.literal) for phrase in parse_answerline(answer).accepted) + 1
+    words = _WORD.findall(record["question"])
+    for size in range(1, longest + 1):
+        for start in range(len(words) - size + 1):
+            phrase = " ".join(words[start:start + size]).strip(".,;:!?'’")
+            if phrase and judge(answer, phrase).directive == "accept":
+                return phrase
+    return None
+
+
+def answer_keys(answer: str) -> set:
+    """What a player must type for each accepted answer (its required words), used to spot repeated answers."""
+    return {" ".join(phrase.required or phrase.tokens) for phrase in parse_answerline(answer).accepted}
+
+
+def answer_index(paths) -> dict:
+    """Answer key -> [(file name, line number), ...] for the questions in these submission files."""
+    index = {}
+    for path in paths:
+        try:
+            with open(path, encoding="utf-8") as f:
+                lines = list(f)
+        except (OSError, UnicodeDecodeError):  # an unreadable file is reported when it is checked itself
+            continue
+        for line_number, line in enumerate(lines, 1):
+            try:
+                keys = answer_keys(json.loads(line)["answer"])
+            except Exception:  # likewise a broken line
+                continue
+            for key in keys:
+                index.setdefault(key, []).append((os.path.basename(path), line_number))
+    return index
+
+
+def repeated_answers(path: str, numbered: list, index: dict) -> list:
+    """(line number, problem) for each answer already accepted by an earlier line or by another file in index."""
+    own, first_use, found = os.path.basename(path), {}, []
+    for line_number, record in numbered:
+        keys = answer_keys(record["answer"])
+        places = {f"line {first_use[key]}" for key in keys if key in first_use}
+        places |= {f"{name}:{line}" for key in keys for name, line in index.get(key, ()) if name != own}
+        found += [(line_number, f"same answer as {place}") for place in sorted(places)]
+        for key in keys:
+            first_use.setdefault(key, line_number)
+    return found
+
+
+def load_file(path: str, strict: bool = False, index: Optional[dict] = None):
+    """Read and validate a submission file. Returns (records, errors, warnings) as printable lines.
+
+    A question that gives away its own answer is an error when strict (--check) and a warning otherwise, so
+    sets written before that check still load. A repeated answer, within the file or (given an answer_index)
+    in another submission file, is always a warning.
+    """
+    records, errors, warnings, seen, numbered = [], [], [], {}, []
     with open(path, encoding="utf-8") as f:
         for line_number, line in enumerate(f, 1):
             if not line.strip():
@@ -144,9 +213,19 @@ def load_file(path: str):
             errors += [f"{path}:{line_number}: {p}" for p in problems]
             if not problems:
                 records.append(record)
+                numbered.append((line_number, record))
     if not records and not errors:
         errors.append(f"{path}: no questions found")
-    return records, errors
+    for line_number, record in numbered:
+        if phrase := leaked_phrase(record):
+            leak = f"the question gives away its own answer: {phrase!r}"
+            if strict:
+                errors.append(f"{path}:{line_number}: {leak}")
+            else:
+                warnings.append(f"{path}:{line_number}: warning: {leak}")
+    for line_number, problem in repeated_answers(path, numbered, index or {}):
+        warnings.append(f"{path}:{line_number}: warning: {problem}")
+    return records, errors, warnings
 
 
 def to_tossup(set_name: str, packet_number: int, number: int, record: dict, updated_at: str) -> dict:
@@ -178,18 +257,22 @@ def main(argv=None) -> int:
     parser.add_argument("--db", default=CUSTOM_QUESTIONS_DB, help=f"database file (default: {CUSTOM_QUESTIONS_DB})")
     args = parser.parse_args(argv)
 
-    files = args.files or sorted(
+    submissions = sorted(
         os.path.join(SUBMISSIONS_DIR, name) for name in os.listdir(SUBMISSIONS_DIR) if name.endswith(".jsonl")
     )
+    files = args.files or submissions
     if not files:
         print(f"No .jsonl files in {SUBMISSIONS_DIR}")
         return 1
 
+    index = answer_index(submissions)
     conn = None if args.check else connect(args.db)
     updated_at = datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     failed = 0
     for path in files:
-        records, errors = load_file(path)
+        records, errors, warnings = load_file(path, strict=args.check, index=index)
+        if warnings:
+            print("\n".join(warnings))
         if errors:
             failed += 1
             print("\n".join(errors))

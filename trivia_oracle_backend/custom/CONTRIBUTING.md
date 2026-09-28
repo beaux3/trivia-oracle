@@ -85,8 +85,11 @@ tool. (If they ask you to write them anyway, write the file, tell them plainly t
    python -m trivia_oracle_backend.custom.add --check trivia_oracle_backend/custom/submissions/<set_name>.jsonl
    ```
    Fix every reported problem (each has a line number) and run it again until it says the
-   questions are valid. A file with any invalid line is rejected as a whole. The validator only
-   checks format, not facts, so do the self-check below yourself.
+   questions are valid. A file with any invalid line is rejected as a whole. Besides the format,
+   it fails any question that gives its own answer away (see "No answer leaks"), and it warns
+   about an answer already used on another line or in another submission file: change that
+   answer unless the requester wants the repeat. It does not check facts, so do the self-check
+   below yourself.
 4. Load it (only if the requester asked, and only if every clue was verified in stage 2):
    ```
    python -m trivia_oracle_backend.custom.add trivia_oracle_backend/custom/submissions/<set_name>.jsonl
@@ -238,6 +241,13 @@ Allowed:
 If the noun you want for "this ___" is something you would prompt on ("this organelle"), do not
 prompt on it: the question has already told players that much.
 
+`--check` tests accepted answers with the local answer checker (the one the bot uses unless it is
+set to judge with qbreader.org): it fails a question if any
+run of its words would be accepted as the answer. That includes the checker's typo tolerance,
+so a different word one letter away from a long answer word ("reader" for Reaper) counts too.
+Reword the clue, or, if the word is genuinely different, reject it in the answerline
+(`[do not accept “reader”]`). Prompted strings are not checked for you; keep them out yourself.
+
 **Unique answer.** Every clue must be true of the answer and, taken together, the question must
 point to exactly one answer. Clues that also fit a more famous alternative belong later, or need
 an extra distinguishing detail.
@@ -281,6 +291,10 @@ Eliot", "c. 1850", "No. 5" and decimals like "3.5" stay within one sentence. It 
 **Variety.** Within one file, vary categories, subcategories and answer types (people, works,
 places, concepts), do not repeat an answer, do not reuse the same clue twice, and do not let one
 question name another question's answer.
+
+**Fiction.** For novels, comics, anime, games and shows, avoid clues that spoil how the story
+ends, and keep to the version the question asks about: a detail that only happens in a TV
+adaptation does not belong in a question about the original comic, or the reverse.
 
 ## Writing the answerline
 
@@ -349,7 +363,8 @@ Bad:
 - [ ] Every `answer` underlines its required part and its alternates with `<b><u>`, and prompts
       only on partial answers.
 - [ ] No duplicate questions or answers within the file; nothing copied from qbreader.
-- [ ] `python -m trivia_oracle_backend.custom.add --check <file>` passes.
+- [ ] `python -m trivia_oracle_backend.custom.add --check <file>` passes, and every repeated-answer
+      warning it prints is either fixed or a repeat the requester asked for.
 
 ## Do not
 
