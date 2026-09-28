@@ -44,6 +44,7 @@ RATING_PROMPT = "\n\nPlease rate the question /good or /bad"
 # answer sent before the buzzer has been judged. Shares scores_lock.
 checks_settled = threading.Condition(scores_lock)
 PENDING_CHECK_TIMEOUT = 15.0  # seconds; don't hold the round open forever if the backend hangs
+SIMULTANEOUS_ANSWER_GRACE = 0.5  # let queued replies register after a fast first verdict
 RATING_GRACE_PERIOD = 10.0  # seconds /next is blocked after an unrated custom round, before it opens up anyway
 SESSION_TIMEOUT = 30 * 60  # seconds since the last successful /next
 QUESTION_FETCH_ATTEMPTS = 5
@@ -143,6 +144,9 @@ def _run_round_body(announce: Callable[[str], None], end_hint: str) -> None:
 
     if not current_round["event"].is_set():
         current_round["event"].wait(settings.answer_wait)
+
+    if current_round["winners"]:
+        time.sleep(SIMULTANEOUS_ANSWER_GRACE)
 
     with checks_settled:
         current_round["active"] = False
