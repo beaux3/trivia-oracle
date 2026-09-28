@@ -344,6 +344,26 @@ class CustomQuestionsIntegrationTest(unittest.TestCase):
             self.assertIsNotNone(tossup)
             self.assertFalse(any(rnd._is_custom_key(key) for key in seen))
 
+    def play_round(self, session):
+        self.assertEqual(rnd.start_round(lambda _: None, "", session), StartResult.STARTED)
+        answer = rnd.current_round["answer_sanitized"]  # the test data's answer is the question's id
+        self.assertTrue(wait_until(lambda: not rnd.round_lock.locked()), "round did not end")
+        rnd.submit_rating(1, "good")  # clears the /next rating gate
+        return answer
+
+    def test_rounds_in_one_chat_never_repeat_a_custom_question_until_all_are_played(self):
+        settings.custom_all = True
+        settings.selected_categories = set()
+        session = {}
+        played = [self.play_round(session) for _ in range(4)]
+        self.assertEqual(sorted(played), ["doge", "laksa", "merlion", "sakura"])
+        # Another chat's session is its own: it can still get the question this chat just had.
+        self.assertIn(self.play_round({}), played)
+        # A fifth round in the first chat starts the custom questions over instead of failing.
+        self.assertIn(self.play_round(session), played)
+        custom_ids = [key for key in session["seen_tossups"] if rnd._is_custom_key(key) and key[0] == "custom_id"]
+        self.assertEqual(len(custom_ids), 1)
+
     def test_custom_off_never_draws_a_custom_question(self):
         settings.custom_all = False
         self.assertEqual({t.answer_sanitized for t in self.draw(60)}, {"mitosis", "pi", "nile"})
