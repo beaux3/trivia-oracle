@@ -1,4 +1,4 @@
-# Cultivator / Returner Slop — sources
+# Cultivation / Returner Slop — sources
 
 100 tossups on Korean manhwa, webtoons and web novels, Chinese web novels, their shared tropes and
 mechanics, and the reading ecosystem (platforms, translation and piracy sites, industry drama). Every

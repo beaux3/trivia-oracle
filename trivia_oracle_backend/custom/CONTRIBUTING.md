@@ -136,7 +136,7 @@ Example (each object is really one line):
 | Science | Biology, Chemistry, Physics, Other Science |
 | Fine Arts | Visual Fine Arts, Auditory Fine Arts, Other Fine Arts |
 | Pop Culture | Movies, Music, Sports, Television, Video Games, Other Pop Culture |
-| Religion, Mythology, Philosophy, Social Science, Current Events, Geography, Other Academic, Singapore, Snowsports, Memes, Japan, Anime, Cultivator / Returner Slop | the same word as the category (e.g. category `Mythology`, subcategory `Mythology`) |
+| Religion, Mythology, Philosophy, Social Science, Current Events, Geography, Other Academic, Singapore, Snowsports, Memes, Japan, Anime, Cultivation / Returner Slop | the same word as the category (e.g. category `Mythology`, subcategory `Mythology`) |
 
 `alternate_subcategory` is optional; use `null` when none fits. Allowed only with these parents:
 
@@ -162,7 +162,7 @@ toggle; this label is not a separate qbreader filter or a new settings button. F
 requester's scope for the answers and clues (for example, anime titles only, with no
 manga-only details).
 
-`Cultivator / Returner Slop` is custom-only in the same way: Korean manhwa, webtoons and web novels,
+`Cultivation / Returner Slop` is custom-only in the same way: Korean manhwa, webtoons and web novels,
 Chinese web novels (cultivation and otherwise), their shared tropes and in-world mechanics (murim,
 cultivation realms, regression, system screens), and the reading ecosystem around them (platforms,
 translation and piracy sites, industry news). Use the full name, slash included, as both `category`

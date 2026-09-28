@@ -64,8 +64,8 @@ class ValidateTest(unittest.TestCase):
         self.assertTrue(add.validate(record(category="Anime", subcategory="Television")))
         self.assertTrue(add.validate(record(category="Anime", subcategory="Anime", alternate_subcategory="Film")))
 
-    def test_cultivator_returner_slop_is_a_custom_category_of_its_own(self):
-        genre = "Cultivator / Returner Slop"
+    def test_cultivation_returner_slop_is_a_custom_category_of_its_own(self):
+        genre = "Cultivation / Returner Slop"
         self.assertEqual(add.validate(record(category=genre, subcategory=genre)), [])
         self.assertTrue(add.validate(record(category=genre, subcategory="Anime")))
         self.assertTrue(add.validate(record(category="Anime", subcategory=genre)))
