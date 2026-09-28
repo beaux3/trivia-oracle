@@ -85,11 +85,12 @@ tool. (If they ask you to write them anyway, write the file, tell them plainly t
    python -m trivia_oracle_backend.custom.add --check trivia_oracle_backend/custom/submissions/<set_name>.jsonl
    ```
    Fix every reported problem (each has a line number) and run it again until it says the
-   questions are valid. A file with any invalid line is rejected as a whole. Besides the format,
-   it fails any question that gives its own answer away (see "No answer leaks"), and it warns
-   about an answer already used on another line or in another submission file: change that
-   answer unless the requester wants the repeat. It does not check facts, so do the self-check
-   below yourself.
+   questions are valid. A file with any invalid line is rejected as a whole, with or without
+   `--check`. Besides the format, it checks the rules in this file that a program can see (see
+   "What the validator checks" below), including any question that gives its own answer away. It
+   only warns about an answer already used on another line or in another submission file: change
+   that answer unless the requester wants the repeat. It does not check facts, so do the
+   self-check below yourself.
 4. Load it (only if the requester asked, and only if every clue was verified in stage 2):
    ```
    python -m trivia_oracle_backend.custom.add trivia_oracle_backend/custom/submissions/<set_name>.jsonl
@@ -199,14 +200,21 @@ answer and the *first* clues are; the last clue should always be easier. Do not 
 ## How to write a good tossup
 
 **Structure (pyramidal).** 4–7 sentences of about 15–30 words each, roughly 80–180 words in all.
+The validator counts sentences the way the bot splits them and rejects fewer than 4 or more
+than 7, any sentence under 5 or over 40 words, and a question under 60 or over 200 words.
 - Sentence 1 (the "lead"): the hardest clue, and one that **an expert in the subject could
   answer from that sentence alone**. Being unique is not enough. An exact attendance figure, a
   catalogue number or a minor relative's name may fit only one answer, but nobody would buzz on
   it. If you cannot picture a specialist recognising the clue, it is too obscure for a lead.
+  The lead must also point at the answer: say "this novel", "this man" and so on (or begin
+  with "Its", "His", "Her" or "Their", or say "here" for a place). A lead that only talks about
+  something related ("The original photograph first circulated ...", "Later in the same
+  ceremony ...") leaves players guessing what is being asked, and the validator rejects it.
 - Middle sentences: progressively better-known clues (see "Ordering clues by difficulty").
-- Last sentence ("giveaway"): a clue almost anyone who knows the answer gets, ending with
-  **"For 10 points, name this ..."** (or "identify", "give this ..."). The giveaway must not
-  contain the answer either (see "No answer leaks").
+- Last sentence ("giveaway"): a clue almost anyone who knows the answer gets, starting with
+  **"For 10 points, name this ..."** (or "identify this", "give the ..."). "For 10 points" appears
+  in this sentence and nowhere else. The giveaway must not contain the answer either (see "No
+  answer leaks").
 - One clue per sentence, or at most two closely linked facts (a work and its year, an event and
   where it happened). The bot shows each sentence and then waits the same time before the next,
   so a long sentence full of clues reveals easy and hard information at once and flattens the
@@ -249,12 +257,11 @@ Allowed:
 If the noun you want for "this ___" is something you would prompt on ("this organelle"), do not
 prompt on it: the question has already told players that much.
 
-`--check` tests accepted answers with the local answer checker (the one the bot uses unless it is
-set to judge with qbreader.org): it fails a question if any
-run of its words would be accepted as the answer. That includes the checker's typo tolerance,
-so a different word one letter away from a long answer word ("reader" for Reaper) counts too.
-Reword the clue, or, if the word is genuinely different, reject it in the answerline
-(`[do not accept “reader”]`). Prompted strings are not checked for you; keep them out yourself.
+The validator tests this with the local answer checker (the one the bot uses unless it is set to
+judge with qbreader.org): it fails a question if any run of its words would be accepted as the
+answer, or would be prompted on. That includes the checker's typo tolerance, so a different word
+one letter away from a long answer word ("reader" for Reaper) counts too. Reword the clue, or, if
+the word is genuinely different, reject it in the answerline (`[do not accept “reader”]`).
 
 **Unique answer.** Every clue must be true of the answer and, taken together, the question must
 point to exactly one answer. Clues that also fit a more famous alternative belong later, or need
@@ -270,31 +277,39 @@ not write a clue just because it "sounds right".
 qbreader, packets, or other question sets, and do not reproduce copyrighted passages. Facts
 are free to use; wording is not.
 
-**Plain text question.** No HTML, no markdown, no numbering, no "TOSSUP:" prefix. Spell out
-enough of the context that the sentence works when read on its own.
+**Plain text question.** No HTML, no markdown, no links, no numbering, no "TOSSUP:" prefix, no
+tabs, line breaks, invisible characters or double spaces, and it ends with `.`, `?` or `!`.
+Spell out enough of the context that the sentence works when read on its own. A
+fill-in-the-blank clue may write the blank as `___`.
 
 **Quotes.** The same rule applies to `question` and `answer`: use double quotes, either curly
 (“...”, no escaping needed) or straight (written `\"` inside JSON), and do not open with a
 straight `"` and close with a curly `”`. Never use single quotes (`'...'` or `‘...’`) as
-quotation marks in `answer`: the parser does not treat them as quotes, so a comma, "or" or
-directive word inside them splits the text (`do not accept 'Romeo, Juliet'` rejects "Romeo"
-and "Juliet" separately). Quote marks never affect whether a typed answer matches; they are
-ignored in the comparison.
+quotation marks; apostrophes ("Kepler's") are fine. In `answer` the parser does not treat
+single quotes as quotes, so a comma, "or" or directive word inside them splits the text
+(`do not accept 'Romeo, Juliet'` rejects "Romeo" and "Juliet" separately). Quote marks never
+affect whether a typed answer matches; they are ignored in the comparison. The validator
+rejects single-quoted quotations, mismatched pairs and unclosed quotes.
 
-**Sentence boundaries.** The bot splits the question after `.`, `!` or `?` followed by a space.
-It recognises common abbreviations, so "Dr. Livingstone", "St. Louis", "the U.S. Army", "T. S.
-Eliot", "c. 1850", "No. 5" and decimals like "3.5" stay within one sentence. It gets these wrong:
-- **A sentence that ends inside a quote or bracket** (`He called it "the Rock." Name ...`) is
-  not split. Put the period outside (`"the Rock". Name ...`) or rephrase.
+**Sentence boundaries.** The bot splits the question after `.`, `!` or `?` followed by a space
+(and any closing quote or bracket) when the next word starts with a capital letter. It
+recognises common abbreviations, so "Dr. Livingstone", "St. Louis", "the U.S. Army", "T. S.
+Eliot", "c. 1850", "No. 5", "Sept. 11" and decimals like "3.5" stay within one sentence, and a
+sentence ending inside a quote (`He called it "the Rock." Name ...`) is split correctly. It
+gets these wrong:
 - **A sentence that ends with a single capital letter** ("vitamin C.", "World War I.", "Plan
-  B.") is taken for an initial and joined to the next one. Rephrase.
-- **A `?` or `!` inside a sentence** ("Oklahoma! premiered in 1943", "Who's Afraid of Virginia
-  Woolf? was first staged ...") ends the sentence there. Put the title at the end of its
-  sentence, or rephrase.
-- **Abbreviations it does not know**, notably months ("Sept. 11", "Jan. 1901"), end the
-  sentence. Write them in full.
+  B.") is taken for an initial and joined to the next one, unless that one starts with a
+  common word like "The" or "This". Rephrase.
+- **A `?` or `!` followed by a capitalised word inside a sentence** ("the musical Oklahoma!
+  Rodgers wrote ...", a quotation like `"Boo! Boo to the party!"`) ends the sentence there.
+  Put the title at the end of its sentence, or rephrase. With a lowercase word next
+  ("Oklahoma! premiered in 1943") there is no problem.
 - **An abbreviation at the end of a sentence followed by a name** ("... across the U.S. Lincoln
   then ...") is not split. Write "United States" at a sentence end.
+
+The validator shows you the result: a clue under 5 or over 40 words usually means one of these
+went wrong, and it names the sentence. It also rejects a quotation split across two clues and a
+single capital letter after words like "vitamin", "war" or "plan".
 
 **Variety.** Within one file, vary categories, subcategories and answer types (people, works,
 places, concepts), do not repeat an answer, do not reuse the same clue twice, and do not let one
@@ -337,7 +352,29 @@ the qbreader style. Small typos are forgiven in words of 6 or more letters, and
 6. For titles, underline the part that identifies the work (`<u>The Great Gatsby</u>`, or
    `<u>Lord of the Rings</u>` when a leading "The" is not needed).
 7. Quote with double quotes (see "Quotes" above), never single quotes.
-8. Never put the question text, explanations, or citations in `answer`.
+8. Never put the question text, explanations, or citations in `answer`. The validator rejects an
+   answerline over 400 characters.
+9. **Keep it typeable.** Players type their answers, so at least one accepted answer (the main
+   one or an alternate) must need at most **30 characters** of typing: its underlined words (all
+   its words if nothing is underlined), not counting punctuation or "the". For a long quotation
+   or title, underline the part everyone remembers
+   (`I know what I have to do, but I don't know if I have the <b><u>strength to do it</u></b>`)
+   or accept a short form (`[or <b><u>The Ultimate Showdown</u></b>]`). At least one accepted
+   answer must also be in the Latin alphabet: add a romanised form next to one in Japanese,
+   Chinese or Korean script.
+10. **Only answers inside the brackets.** The bot's checker reads every item after `or`,
+    `accept`, `prompt on` and `do not accept` as an answer to match. Instructions meant for a
+    human reader ("prompt on partial answer", "accept equivalents", "accept any similar
+    description") become strings nobody will ever type, so the validator rejects them. List the
+    actual partial answers and equivalents instead. The checker does understand "accept word
+    forms", "accept either underlined portion" and "prompt on X by asking “...”".
+11. Only `<b>`, `<u>`, `<i>`, `<em>` and `<strong>` tags, each closed in order, with every `[`
+    and `(` closed too.
+
+The validator also runs each listed answer through the checker: every alternate must be accepted
+and every prompt must be prompted on. A prompt that the checker accepts outright never happens,
+for example `<b><u>Amogus</u></b> [prompt on <u>Among Us</u>]`, where "Among Us" is within
+typo tolerance of the answer. Drop such a prompt, or accept it if it really is correct.
 
 Good:
 - `<b><u>Vincent van Gogh</u></b> [or <b><u>Van Gogh</u></b>; prompt on <u>Vincent</u>]`.
@@ -353,9 +390,37 @@ Bad:
 - `<b><u>photosynthesis</u></b> [prompt on <u>respiration</u>]` (respiration is a wrong answer,
   not a partial one).
 
+## What the validator checks
+
+`python -m trivia_oracle_backend.custom.add` (with or without `--check`) rejects a file if any
+line breaks one of these. Each is explained in the sections above.
+
+- **Format:** the six fields, the category tables, difficulty 1–10, no duplicate question.
+- **Shape**, with sentences split as the bot splits them: 4–7 sentences, each 5–40 words, 60–200
+  words in all; "For 10 points" only in the last sentence, which says "name this ..." or "give
+  the ..."; a lead that points at the answer.
+- **Text:** plain text ending in `.`, `?` or `!`; double quotes in matching pairs, never single
+  quotes as quotation marks; no quotation split across sentences; no single capital letter
+  ending a sentence after "vitamin", "war", "plan" and the like; no tabs, line breaks, invisible
+  characters or double spaces.
+- **Leaks:** no run of words in the question that the answer checker accepts or prompts on.
+- **Answerline:** at most 400 characters; only `<b>`, `<u>`, `<i>`, `<em>`, `<strong>`, closed in
+  order; balanced brackets; no instructions for a human reader inside them; an accepted answer
+  of at most 30 characters of typing and one in the Latin alphabet; the checker accepts every
+  alternate and prompts on every prompt.
+- **Warning only:** an answer already used on another line or in another submission file.
+
+It cannot check facts, whether clues get easier, or whether the lead is fair; that is the
+self-check below.
+
 ## Self-check before you finish
 
 - [ ] Valid JSON on every line, exactly the six allowed fields, saved as `.jsonl`.
+- [ ] 4–7 sentences as the bot splits them, each 5–40 words (aim for 15–30), 60–200 words in all
+      (aim for 80–180).
+- [ ] The lead says "this ..." (or begins with its/his/her/their); the giveaway is the only
+      sentence with "For 10 points" and says "name this ..." or "give the ...".
+- [ ] Double quotes only, in matching pairs; no quotation split across two sentences.
 - [ ] The requester approved the answer list (stage 1).
 - [ ] Every clue was checked against a source you actually opened (stage 2), and it is listed in
       the `.sources.md` file.
@@ -370,6 +435,9 @@ Bad:
 - [ ] Difficulty roughly matches how obscure the *first* clue is.
 - [ ] Every `answer` underlines its required part and its alternates with `<b><u>`, and prompts
       only on partial answers.
+- [ ] Every `answer` has an accepted form of at most 30 characters of typing, in the Latin
+      alphabet, lists actual answers rather than instructions ("partial answer", "equivalents"),
+      and is at most 400 characters.
 - [ ] No duplicate questions or answers within the file; nothing copied from qbreader.
 - [ ] `python -m trivia_oracle_backend.custom.add --check <file>` passes, and every repeated-answer
       warning it prints is either fixed or a repeat the requester asked for.
