@@ -2,7 +2,9 @@
 import re
 from typing import List
 
-_BOUNDARY = re.compile(r"(?<=[.!?])\s+")
+# A sentence ends at . ! or ?, possibly followed by closing quotes or brackets ("the Rock." Name ...).
+_CLOSERS = "\"'”’)]"
+_BOUNDARY = re.compile(r"(?<=[.!?\"'”’)\]])\s+")
 
 # Never end a sentence: they are always followed by a name or number.
 _HARD_ABBREVIATIONS = frozenset({
@@ -13,7 +15,10 @@ _HARD_ABBREVIATIONS = frozenset({
 })
 
 # Usually mid-sentence, but can also close one ("...coins, etc. The collection...").
-_SOFT_ABBREVIATIONS = frozenset({"etc", "jr", "sr", "inc", "ltd", "co", "corp", "no", "al"})
+_SOFT_ABBREVIATIONS = frozenset({
+    "etc", "jr", "sr", "inc", "ltd", "co", "corp", "no", "al",
+    "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "sept", "oct", "nov", "dec",
+})
 
 # Words that begin a new sentence, so an abbreviation right before one ends the sentence.
 _SENTENCE_STARTERS = frozenset({
@@ -25,22 +30,27 @@ _SENTENCE_STARTERS = frozenset({
 })
 
 _DOTTED_ACRONYM = re.compile(r"(?:[A-Za-z]{1,2}\.){2,}")
+_INITIAL = re.compile(r"[A-Za-z]\.")
 _LEADING_PUNCTUATION = "\"'“”‘’([{"
 
 
 def _is_false_boundary(before: str, after: str) -> bool:
     """Whether the whitespace between `before` and `after` sits inside a sentence."""
-    if not before.endswith("."):
-        return False
+    before = before.rstrip(_CLOSERS)
+    if not before.endswith((".", "!", "?")):
+        return True  # a closing quote or bracket with no sentence end before it
 
     next_word = after.split(None, 1)[0].lstrip(_LEADING_PUNCTUATION)
     if next_word[:1].islower():
-        return True  # sentences start with a capital, so this period belonged to an abbreviation
+        return True  # sentences start with a capital, so this belonged to an abbreviation or a title ("Oklahoma! premiered")
+    if not before.endswith("."):
+        return False
 
     token = before.split()[-1].lstrip(_LEADING_PUNCTUATION)
     word = token.rstrip(".").lower()
-    if re.fullmatch(r"[A-Za-z]\.", token):
-        return True  # an initial, as in "J. R. R. Tolkien"
+    if _INITIAL.fullmatch(token):
+        # An initial, as in "J. R. R. Tolkien" or "A. A. Milne", unless a sentence starts next ("vitamin C. This").
+        return _INITIAL.fullmatch(next_word) is not None or next_word.lower() not in _SENTENCE_STARTERS
     if word in _HARD_ABBREVIATIONS:
         return True
     if word in _SOFT_ABBREVIATIONS or _DOTTED_ACRONYM.fullmatch(token):
