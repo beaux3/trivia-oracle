@@ -1,15 +1,25 @@
 # Cultivation / Returner Slop — sources
 
-300 tossups on Korean manhwa, webtoons and web novels, Chinese web novels, their shared tropes and
+400 tossups on Korean manhwa, webtoons and web novels, Chinese web novels, their shared tropes and
 mechanics, and the reading ecosystem (platforms, translation and piracy sites, industry drama). Every
 sentence of every question is listed below with at least one source that was opened during research
-(September 2026).
+(September–October 2026).
 
 How pages were read: fandom.com and some Wikipedia pages return a Cloudflare challenge to automated fetches,
 so those pages were read through the same wiki's MediaWiki API (`api.php?action=parse` / `action=raw` /
 `prop=extracts`) for the exact page listed; the canonical page URL is given. NovelUpdates, Namu Wiki and a few
 Korean news pages were read through Wayback Machine copies where the live site blocked fetching. News and
 publisher pages were opened directly.
+
+Questions 301–400 were added in October 2026. Their clue sources were read directly, including
+publisher pages, novel chapters and full wiki articles; Fandom pages were read in the browser
+when automated fetches were blocked. Answer selection compared established and recent interest
+on Comix and NovelUpdates, alongside the requesting group's reading preferences and unused clues:
+- Comix all-time views: https://comix.to/browse?sort=views_total%3Adesc&types=manhwa%2Cmanhua
+- Comix recent views: https://comix.to/browse?sort=views_7d%3Adesc&types=manhwa%2Cmanhua
+- Comix follows: https://comix.to/browse?sort=follows_total%3Adesc&types=manhwa%2Cmanhua
+- NovelUpdates Popular (All): https://www.novelupdates.com/series-ranking/?rank=popular
+- NovelUpdates Popular (Month): https://www.novelupdates.com/series-ranking/?rank=popmonth
 
 ## 1. Beru
 - "Guarding Jinwoo's traumatized sister Jinah, got bored, watched Korean period dramas, developed a historic manner of speech": https://solo-leveling.fandom.com/wiki/Beru
@@ -2864,3 +2874,852 @@ Source series: Raising Villains the Right Way (Asura rank 30) — Asura page: ht
 - "Its leader turned out to be the archangel Gabriel, who eventually became a true dragon.": https://everyone-else-is-a-returnee.fandom.com/api.php?action=parse&page=The%20Garden%20of%20Sunset&prop=wikitext&format=json&redirects=1
 - "For 10 points, name this secretive faction whose leader was revealed as the archangel Gabriel.": https://everyone-else-is-a-returnee.fandom.com/api.php?action=parse&page=The%20Garden%20of%20Sunset&prop=wikitext&format=json&redirects=1
 - Series carried by Asura Scans: https://asurascans.com/comics/everyone-else-is-a-returnee-3ec3b16f
+
+## 301. Eleceed
+- "In this series, Jiyoung leads the Shinhwa Association and uses her command of wind to protect those within her jurisdiction.": https://en.wikipedia.org/wiki/Eleceed
+- "A healer named Kartein frequently turns away prospective patients, even when they offer him luxurious rewards for his services.": https://en.wikipedia.org/wiki/Eleceed
+- "Its teenage protagonist lives alone in Seoul while his mother works overseas as a scientist, and he is fond of stray cats.": https://en.wikipedia.org/wiki/Eleceed
+- "An injured animal he brings home can speak, revealing a hidden society of people who possess supernatural abilities.": https://en.wikipedia.org/wiki/Eleceed
+- "For 10 points, name this manhwa in which an electrically gifted mentor becomes a fat cat and trains a boy with super speed.": https://en.wikipedia.org/wiki/Eleceed
+
+## 302. Lookism
+- "In this series, a quiet and wealthy student named Jay practices systema and kali, while an aspiring rapper named Duke suffers bullying.": https://en.wikipedia.org/wiki/Lookism_(manhwa)
+- "Vasco leads the Burn Knuckles, a group that punishes bullies, despite his intimidating appearance and friendly disposition toward good people.": https://en.wikipedia.org/wiki/Lookism_(manhwa)
+- "After suffering harassment from Logan Lee, its protagonist moves to Seoul and transfers to Jae Won High School.": https://en.wikipedia.org/wiki/Lookism_(manhwa)
+- "He uses an attractive new body during the day and his original body at night, observing how differently people treat each appearance.": https://en.wikipedia.org/wiki/Lookism_(manhwa)
+- "For 10 points, name this Taejun Pak webtoon about Daniel Park living through two bodies and confronting prejudice based on physical appearance.": https://en.wikipedia.org/wiki/Lookism_(manhwa)
+
+## 303. Magic Emperor
+- "In this manhua, Kunpeng gives the protagonist an azure flame that protects his soul while also allowing him to be monitored.": https://demonic-emperor.fandom.com/wiki/Zhuo_Fan
+- "That protagonist refines the wings of a Thunder Skylark into his own body, producing a flying treasure called Lightning Wings.": https://demonic-emperor.fandom.com/wiki/Zhuo_Fan
+- "Once immensely powerful, he is betrayed and uses his final breath to reincarnate into the body of a weak young servant.": https://tapas.io/series/the-servant-is-the-demon-king/info
+- "The servant's spirit bond to Lady Luo ties his fate to her family and complicates his ambition to recover his former position.": https://tapas.io/series/the-servant-is-the-demon-king/info
+- "For 10 points, name this cultivation manhua about Zhuo Fan rebuilding his strength while serving the declining Luo household.": https://tapas.io/series/the-servant-is-the-demon-king/info
+
+## 304. All Hail the Sect Leader
+- "In this series, the death of Founder Wang leaves a ninth-rate martial school under the leadership of his former disciple.": https://the-strongest-sect-of-all-times.fandom.com/wiki/Jun_Changxiao
+- "Lu Qianqian, Li Qingyang, Ye Xingchen, and Xiao Zuiji are among the recruits taught by its opportunistic but protective protagonist.": https://the-strongest-sect-of-all-times.fandom.com/wiki/Jun_Changxiao
+- "The setting is the Xing Yun Continent, where the hero becomes the second master of the Iron-bone school after arriving from Earth.": https://the-strongest-sect-of-all-times.fandom.com/wiki/Jun_Changxiao
+- "A supernatural system assists him in turning an insignificant institution into the strongest martial organization in that world.": https://the-strongest-sect-of-all-times.fandom.com/wiki/Jun_Changxiao
+- "For 10 points, name this cultivation comedy about Jun Changxiao recruiting disciples and developing his powerful Ironbone institution.": https://the-strongest-sect-of-all-times.fandom.com/wiki/Jun_Changxiao
+
+## 305. Disastrous Necromancer
+- "In this series, a passive ability transfers incoming damage to summoned allies, making its owner almost impossible to kill while his army survives.": https://disastrousnecromancer.fandom.com/wiki/Disastrous_Necromancer_Wiki
+- "A talent obtained at the first level increases the effectiveness of his skills tenfold, giving an unusual advantage to his new profession.": https://disastrousnecromancer.fandom.com/wiki/Disastrous_Necromancer_Wiki
+- "His expanding forces include skeletal warriors, skeletal mages, and lich generals, while another attack causes corpses to explode.": https://disastrousnecromancer.fandom.com/wiki/Disastrous_Necromancer_Wiki
+- "The setting combines everyday life with dungeons and secret realms, and people acquire specialized professions through an awakening ceremony.": https://disastrousnecromancer.fandom.com/wiki/Disastrous_Necromancer_Wiki
+- "For 10 points, name this manhua about Lin Moyu receiving a unique hidden profession that lets him command an army of the dead.": https://disastrousnecromancer.fandom.com/wiki/Disastrous_Necromancer_Wiki
+
+## 306. Top Tier Providence: Secretly Cultivate for a Thousand Years
+- "In this series, Elder Iron's young servant is left behind when the parents who planted medicinal herbs for that alchemist flee on their own.": https://secretly-cultivate-for-a-thousand-years.fandom.com/wiki/Han_Jue
+- "A desired inheritance eventually provides the Six Paths of Reincarnation Technique, alongside exceptional sword aptitude and extraordinary physical charm.": https://secretly-cultivate-for-a-thousand-years.fandom.com/wiki/Han_Jue
+- "The protagonist repeatedly rerolls his starting cultivation potential, refusing to begin training with the mediocre attributes he usually receives.": https://secretly-cultivate-for-a-thousand-years.fandom.com/wiki/Han_Jue
+- "His fear of death makes him avoid adventures and cultivate in seclusion, since achieving eternal life matters more to him than a glorious reputation.": https://secretly-cultivate-for-a-thousand-years.fandom.com/wiki/Han_Jue
+- "For 10 points, name this cultivation comedy about the cautious Han Jue using a supernatural system to pursue immortality while staying hidden.": https://secretly-cultivate-for-a-thousand-years.fandom.com/wiki/Han_Jue
+
+## 307. Starting Over as a Tree
+- "In this series, the protagonist's new home is a canyon between two mountains, where his inability to move makes survival particularly difficult.": https://www.tappytoon.com/en/book/starting-over-as-a-tree
+- "Humans and strange mutant creatures threaten him, while encounters with those monsters complicate his assumptions about which beings are truly monstrous.": https://www.tappytoon.com/en/book/starting-over-as-a-tree
+- "An evolutionary gift supplies helpful mutations, allowing an initially helpless organism to develop the abilities necessary to withstand those dangers.": https://www.tappytoon.com/en/book/starting-over-as-a-tree
+- "A man called Yu has unexpectedly reincarnated into a rooted form instead of receiving an ordinary human body in his new environment.": https://www.tappytoon.com/en/book/starting-over-as-a-tree
+- "For 10 points, name this action manhua about a man beginning a second life as a mutant willow and using evolution to survive.": https://www.tappytoon.com/en/book/starting-over-as-a-tree
+
+## 308. Survival Story of a Sword King in a Fantasy World
+- "In this series, two traveling companions are Atisse, a dragon who can assume human form, and Ephyr, a wyvern with a similar ability.": https://en.wikipedia.org/wiki/Latna_Saga:_Survival_of_a_Sword_King
+- "The protagonist spends more than twenty years trapped in Selha Latna, a training area intended to prepare arrivals for the world beyond it.": https://en.wikipedia.org/wiki/Latna_Saga:_Survival_of_a_Sword_King
+- "A broken leveling mechanism repeatedly resets his progress, leaving him with extraordinary strength that does not match his apparent level.": https://en.wikipedia.org/wiki/Latna_Saga:_Survival_of_a_Sword_King
+- "After recently completing military service, Hanbin Ryu is transported to another world and eventually reaches a society that hates outsiders like him.": https://tapas.io/series/latna-saga-survival-of-a-sword-king/info
+- "For 10 points, name this fantasy manhwa about a powerful swordsman surviving a hostile world after spending decades in its malfunctioning tutorial.": https://tapas.io/series/latna-saga-survival-of-a-sword-king/info
+
+## 309. DICE
+- "In this series, X supplies quests to a boy who eventually refuses assignments that would harm other people, preferring pranks and practical jokes.": https://dicemanhwa.fandom.com/wiki/Dongtae
+- "The boy's advanced powers include Time Pause, teleportation, and psychokinesis, while investing points in agility lets him run up a wall.": https://dicemanhwa.fandom.com/wiki/Dongtae
+- "He envies the popular transfer student Taebin, partly because his longtime crush Eunju finds the newcomer attractive and spends time with him.": https://dicemanhwa.fandom.com/wiki/Dongtae
+- "Completing supernatural tasks lets him improve his appearance, academic performance, and physical abilities by rolling mysterious cubes that alter personal statistics.": https://dicemanhwa.fandom.com/wiki/Dongtae
+- "For 10 points, name this Hyunseok Yun webtoon about bullied student Dongtae changing his life through enchanted gaming cubes.": https://www.webtoons.com/en/fantasy/dice/list?title_no=64
+
+## 310. Reality Quest
+- "In this series, a demand for an exceptionally rare digital item comes with the threat of humiliation before the prettiest girl at school.": https://www.webtoons.com/en/action/reality-quest/list?title_no=4697
+- "Its protagonist is forced to obtain virtual possessions for classmates who bully him, turning his hobby into an exhausting obligation.": https://www.webtoons.com/en/action/reality-quest/list?title_no=4697
+- "After spending an entire week gaming without proper rest, he dies of exhaustion and suddenly returns to his classroom.": https://www.webtoons.com/en/action/reality-quest/list?title_no=4697
+- "That classroom is one week in the past, and the abilities he earned in video games now function in his everyday life.": https://www.webtoons.com/en/action/reality-quest/list?title_no=4697
+- "For 10 points, name this school action webtoon in which Dowan Ha uses supernatural game skills to confront his tormentors.": https://www.webtoons.com/en/action/reality-quest/list?title_no=4697
+
+## 311. Player
+- "In this series, the Forest Teacher forbids a pupil from using Instant Recovery because the workings of that healing skill remain poorly understood.": https://player-manhwa.fandom.com/wiki/Heo_Seol-Jin
+- "That pupil can imitate Asaryun's Sword Flurry and a weaker version of Nagi's Combustion Sword with the help of an intelligent weapon.": https://player-manhwa.fandom.com/wiki/Heo_Seol-Jin
+- "The weapon Excalibur accompanies a bullied teenager whose low self-esteem gradually gives way to greater confidence and a desire to grow stronger.": https://player-manhwa.fandom.com/wiki/Heo_Seol-Jin
+- "A bold comment beneath a webtoon attracts the attention of its godlike author, who makes the reader experience that fictional world himself.": https://player-manhwa.fandom.com/wiki/Player
+- "For 10 points, name this Park Jong-Seok and Oh Hyeon-Jun manhwa about Heo Seol-Jin being transported into a comic he reads.": https://player-manhwa.fandom.com/wiki/Player
+
+## 312. Tyrant of the Tower Defense Game
+- "In this series, a commander vows to keep his entire team alive after realizing that the sacrifices he ordered have cost actual people their lives.": https://www.tappytoon.com/en/book/tyrant-of-the-tower-defense-game
+- "Before entering that world, he is a celebrated streamer who completes a challenge long regarded as unbeatable on its hardest setting.": https://www.tappytoon.com/en/book/tyrant-of-the-tower-defense-game
+- "An unidentified figure transports him into the body of Prince Ash, forcing him to rely on his knowledge during repeated monster attacks.": https://www.tappytoon.com/en/book/tyrant-of-the-tower-defense-game
+- "The fictional world comes from Protect the Empire, a strategy game whose commands now carry consequences that cannot be dismissed as entertainment.": https://www.tappytoon.com/en/book/tyrant-of-the-tower-defense-game
+- "For 10 points, name this RyuMo manhwa about a streamer becoming a prince and defending his soldiers against a brutal siege.": https://www.tappytoon.com/en/book/tyrant-of-the-tower-defense-game
+
+## 313. The Otherworldly Genius Method Actor
+- "In this series, the protagonist begins as an employee of a small Korean design firm, then hands in a resignation letter to leave that job.": https://www.webtoons.com/en/fantasy/the-otherworldly-genius-method-actor/prologue/viewer?title_no=9660&episode_no=1
+- "Reading a script becomes an entrance to a mysterious dimension rather than merely a way to learn lines for a performance.": https://www.webtoons.com/en/fantasy/the-otherworldly-genius-method-actor/list?title_no=9660
+- "Within that space, the protagonist can experience a fictional role's life, giving him material for performances that astonish observers.": https://www.webtoons.com/en/fantasy/the-otherworldly-genius-method-actor/list?title_no=9660
+- "His unusually convincing work creates a widespread misunderstanding that he is an exceptional talent who appears only once in a generation.": https://www.webtoons.com/en/fantasy/the-otherworldly-genius-method-actor/list?title_no=9660
+- "For 10 points, name this fantasy manhwa about Ujin Kang gaining supernatural acting ability by living through characters from screenplays.": https://www.webtoons.com/en/fantasy/the-otherworldly-genius-method-actor/list?title_no=9660
+
+## 314. Tales of Demons and Gods
+- "In this series, the protagonist's Shadow Devil grants a concealment ability called Blur in the comic, making him undetectable but unable to affect his surroundings.": https://tales-of-demons-and-gods.fandom.com/wiki/Nie_Li
+- "His Fanged Panda spirit uses Yin Yang Blast, a powerful but slow attack that launches two energy balls whose explosion covers a wide area.": https://tales-of-demons-and-gods.fandom.com/wiki/Nie_Li
+- "He belongs to the declining Heavenly Marks Family and is considered poorly gifted, but retains the extensive knowledge accumulated in his previous life.": https://tales-of-demons-and-gods.fandom.com/wiki/Nie_Li
+- "Killed by the Sage Emperor, he awakens in his thirteen-year-old body and hopes to avert the catastrophe that destroyed his home and loved ones.": https://tales-of-demons-and-gods.fandom.com/wiki/Nie_Li
+- "For 10 points, name this Mad Snail manhua about Nie Li using knowledge from his former life to protect his friends and city.": https://www.webtoons.com/fr/fantasy/tales-of-demons/list?title_no=5474
+
+## 315. Tomb Raider King
+- "In this series, a living rope associated with the Korean folktale about a brother and sister becoming the sun and moon loyally assists the protagonist.": https://tomb-raider-king.fandom.com/wiki/Heavenly_Rope_that_has_Begun_to_Grasp_the_Power_of_the_Gods
+- "That unusual companion can restrain enemies, help with climbing, and even clean a room, rather than serving only as an ordinary piece of equipment.": https://tomb-raider-king.fandom.com/wiki/Heavenly_Rope_that_has_Begun_to_Grasp_the_Power_of_the_Gods
+- "Supernatural relics appear around the world and grant their owners powers, attracting expeditions organized to obtain those coveted treasures.": https://tapas.io/series/tomb-raider-king/info
+- "An employer's betrayal kills Jooheon Suh during one such expedition, but he returns fifteen years into the past before the mysterious sites emerge.": https://tapas.io/series/tomb-raider-king/info
+- "For 10 points, name this fantasy manhwa about a betrayed explorer using future knowledge to seize ancient relics before his rivals.": https://tapas.io/series/tomb-raider-king/info
+
+## 316. The Legendary Hero Is an Academy Honors Student
+- "In this series, celebrated champions include the divine blacksmith Dweno, the star poet Luna, the brave Aron, and the wise Lysinias.": https://the-legendary-hero-is-an-academy-honor-student.fandom.com/wiki/The_Legendary_Hero_is_an_Academy_Honor_Student_Wiki
+- "Those champions fought Erebos, a primordial evil that threatened the world, alongside a fifth companion called the Hero of Beginning.": https://the-legendary-hero-is-an-academy-honor-student.fandom.com/wiki/The_Legendary_Hero_is_an_Academy_Honor_Student_Wiki
+- "Divine gifts called Hero Records preserve great achievements, yet the returning fifth champion finds that his own contribution has vanished from history.": https://the-legendary-hero-is-an-academy-honor-student.fandom.com/wiki/The_Legendary_Hero_is_an_Academy_Honor_Student_Wiki
+- "Reborn as Leo Plov, the forgotten warrior enters the Lumerne military academy to discover why everyone remembers his companions but disregards him.": https://tapas.io/series/the-legendary-hero-is-an-academy-honors-student/info
+- "For 10 points, name this fantasy manhwa about an erased ancient hero reincarnating and joining a school devoted to training new champions.": https://tapas.io/series/the-legendary-hero-is-an-academy-honors-student/info
+
+## 317. Return of the Frozen Player
+- "In this series, the key to a newly opened floor belongs to a warrior whose companions remain trapped in suspended animation after their greatest battle.": https://tapas.io/series/the-frozen-player-returns/info
+- "His group defeats the Frost Queen, but the victory freezes its members instead of allowing them to enjoy the peace they secured.": https://tapas.io/series/the-frozen-player-returns/info
+- "After thawing twenty-five years later, he discovers that nine more floors have appeared beyond the one he helped clear.": https://tapas.io/series/the-frozen-player-returns/info
+- "Seo Junho returns to adventuring so that he can confront these new dangers and rescue the friends still encased in ice.": https://tapas.io/series/the-frozen-player-returns/info
+- "For 10 points, name this JerryM manhwa about an icebound champion awakening decades after defeating the Frost Queen.": https://tapas.io/series/the-frozen-player-returns/info
+
+## 318. My Life as a Loser
+- "In this series, repairing a victim's ruined life also requires the protagonist to reform an earlier version of himself who remains a cruel bully.": https://m.webtoons.com/fr/action/my-life-as-a-loser/list?title_no=8454
+- "Its artist is SW Jeon, while Taejun Pak supplies the story of a successful tormentor forced to experience the suffering he once inflicted.": https://www.webtoons.com/en/drama/my-life-as-a-loser/list?title_no=3114
+- "A curse sends Ancheol back to the time when the trouble began, trapping him inside the body of the boy he used to torment.": https://m.webtoons.com/fr/action/my-life-as-a-loser/list?title_no=8454
+- "He can regain his own body only by confronting the ordeals he created and preventing the events that destroyed the other boy's future.": https://m.webtoons.com/fr/action/my-life-as-a-loser/list?title_no=8454
+- "For 10 points, name this school comedy webtoon about a bully traveling into the past to live through his victim's experiences.": https://m.webtoons.com/fr/action/my-life-as-a-loser/list?title_no=8454
+
+## 319. Study Group
+- "In this series, Hankyeong returns to her former pupil's school hoping to obtain the teaching certification she needs for her own career.": https://www.webtoons.com/en/action/study-group/list?title_no=3595
+- "The pupil works hard but still receives poor grades, and violence around him eventually exposes the impressive fighting ability he has kept hidden.": https://www.webtoons.com/fr/action/study-group/list?title_no=4876
+- "His school is Yusung Technical High, an institution notorious for producing future criminals rather than providing a productive learning environment.": https://www.webtoons.com/en/action/study-group/list?title_no=3595
+- "Rejected by classmates' academic clubs, Gamin decides to form one himself because his overriding ambition is to enter a university.": https://www.webtoons.com/en/action/study-group/list?title_no=3595
+- "For 10 points, name this Hyungwuk Shin and Seungyeon Ryu webtoon about a gifted fighter trying to study with friends at a violent school.": https://www.webtoons.com/en/action/study-group/list?title_no=3595
+
+## 320. My Wife Is from a Thousand Years Ago
+- "In this series, a woman remembers the Second Miss of the Salt Gang as a caretaker who fed her, repaired her clothes, and provided emergency money.": https://my-wife-is-from-a-thousand-years-ago.fandom.com/wiki/Jiang_He
+- "Her first borrowed modern outfit includes a red shirt bearing the words New Century Single Warrior, and the household's cat is named Wintermelon.": https://my-wife-is-from-a-thousand-years-ago.fandom.com/wiki/Jiang_He
+- "The heroine is a skilled warrioress who initially finds modern conveniences bewildering, although she gradually learns to use them and support herself.": https://my-wife-is-from-a-thousand-years-ago.fandom.com/wiki/Jiang_He
+- "Jiang He arrives from the Tang Dynasty, finding that the people she once knew have been dead for roughly twelve centuries.": https://www.webnovel.com/comic/my-wife-is-from-a-thousand-years-ago_26443464305126801
+- "For 10 points, name this manhua about Xu Qing helping a woman from ancient China adapt to modern life as the two develop a romance.": https://www.webnovel.com/comic/my-wife-is-from-a-thousand-years-ago_26443464305126801
+
+## 321. The Superhuman Era
+- "In this series, Jane Sonata's Cradle Tower creates seven stone fighters and heals people in its range, although it cannot heal its creator.": https://superhuman-era-manhwa.fandom.com/wiki/Jane_Sonata
+- "People granted extraordinary abilities respond differently to the crisis, since some protect humanity while others pursue sinister goals.": https://www.webtoons.com/en/super-hero/the-superhuman-era/list?title_no=6668
+- "A high school student named Kang Lim keeps his involvement in the battle secret from the world around him.": https://www.webtoons.com/en/super-hero/the-superhuman-era/list?title_no=6668
+- "He fights the xenoterran creatures as a masked vigilante called the White Cap, intervening whenever he can against the invasion.": https://www.webtoons.com/en/super-hero/the-superhuman-era/list?title_no=6668
+- "For 10 points, name this superhero manhwa by Supp about powerful humans resisting the monstrous xenoterran invasion of Earth.": https://www.webtoons.com/en/super-hero/the-superhuman-era/list?title_no=6668
+
+## 322. The Ember Knight
+- "In this series, a revenge plan depends on concealing an identity, even though the impostor lacks the combat ability others expect from him.": https://www.webtoons.com/en/fantasy/the-ember-knight/list?title_no=2886
+- "The two young men involved look alike, but one possesses exceptional fighting talent and is training for a martial vocation.": https://www.webtoons.com/en/fantasy/the-ember-knight/list?title_no=2886
+- "After witnessing that gifted youth's murder, his surviving twin resolves to take his place and pursue the people responsible.": https://www.webtoons.com/en/fantasy/the-ember-knight/list?title_no=2886
+- "Nagyunn therefore assumes Najin's identity and attempts to train himself to match the prodigious abilities of his dead brother.": https://www.webtoons.com/en/fantasy/the-ember-knight/list?title_no=2886
+- "For 10 points, name this Hwandaeng fantasy webtoon about an unskilled twin impersonating his murdered brother to seek revenge.": https://www.webtoons.com/en/fantasy/the-ember-knight/list?title_no=2886
+
+## 323. Doom Breaker
+- "In this series, divine spectators offer a defeated fighter another chance because they regard his desperate battles as entertaining.": https://www.webtoons.com/en/action/doom-breaker/list?title_no=3197
+- "Their gift returns him to a period when he was enslaved, long before he became the strongest remaining human.": https://www.webtoons.com/en/action/doom-breaker/list?title_no=3197
+- "He plans to use the opportunity both to save the woman he loves and to retaliate against his ultimate enemy.": https://www.webtoons.com/en/action/doom-breaker/list?title_no=3197
+- "The return sends Zephyr ten years into the past after Tartarus, the deity of destruction, kills him in battle.": https://www.webtoons.com/en/action/doom-breaker/list?title_no=3197
+- "For 10 points, name this Blue-Deep manhwa about humanity's last warrior receiving a second chance in a world abandoned by its gods.": https://www.webtoons.com/en/action/doom-breaker/list?title_no=3197
+
+## 324. Second Life Ranker
+- "In this series, a bereaved man receives a pocket watch that reveals an unexpected explanation for the death of his missing sibling.": https://tapas.io/series/second-life-ranker/info
+- "That sibling had disappeared years earlier and was betrayed while competing inside a structure called the Tower of the Sun God.": https://tapas.io/series/second-life-ranker/info
+- "The knowledge left behind becomes a resource for the surviving brother as he confronts the people responsible for that betrayal.": https://tapas.io/series/second-life-ranker/info
+- "Using the call sign Cain, Yeonwoo enters the same world and seeks the strength and experience necessary to reach its summit.": https://tapas.io/series/second-life-ranker/info
+- "For 10 points, name this fantasy manhwa about Yeonwoo climbing a dangerous tower to avenge his brother's death.": https://tapas.io/series/second-life-ranker/info
+
+## 325. Leveling with the Gods
+- "In this series, deliberately fighting a fire demon changes the protagonist's Monkey Eyes into Cinder Eyes and rewards him with a Giant's Heart.": https://leveling-with-the-gods.fandom.com/wiki/Kim_Yuwon/Plot
+- "He buys a Basic Arcane Sword during the tutorial and obtains Master of Mana after confronting a suspicious sponsorship offer from Olympus.": https://leveling-with-the-gods.fandom.com/wiki/Kim_Yuwon/Plot
+- "Earlier, he arrives in Hongdae carrying weapons and salt, then uses his knowledge to slaughter the zombies that appear when the trial begins.": https://leveling-with-the-gods.fandom.com/wiki/Kim_Yuwon/Plot
+- "Chronos sends Kim Yuwon into the past after he and allies such as Hercules and Sun Wukong fail to defeat the Outer Gods.": https://leveling-with-the-gods.fandom.com/wiki/Kim_Yuwon/Plot
+- "For 10 points, name this manhwa about a powerful tower climber returning to his starting point to prepare for a war against otherworldly deities.": https://tapas.io/series/level-up-with-the-gods/info
+
+## 326. Dungeon Reset
+- "In this series, an adventurer's unlikely traveling companions include a bloodthirsty assistant and an adorable ground squirrel as he explores the tunnels below.": https://www.tappytoon.com/en/book/dungeon-reset
+- "His crafting specialization initially gives him no combat skills, making a deadly environment of monsters and traps especially difficult to survive.": https://www.tappytoon.com/en/book/dungeon-reset
+- "He falls into a trap but survives when a malfunction in the world's renewal process produces unexpected and oddly useful abilities.": https://www.tappytoon.com/en/book/dungeon-reset
+- "The usual rules cease to apply to Dawoon, who must use creativity and his new skills to clear the challenge and return home.": https://www.tappytoon.com/en/book/dungeon-reset
+- "For 10 points, name this Antstudio and Daul manhwa about a crafter exploiting a glitch in a lethal underground game.": https://www.tappytoon.com/en/book/dungeon-reset
+
+## 327. Damn Reincarnation
+- "In this series, Gordon escorts a boy to a great family's estate by carriage because they have not been allowed to use its warpgate.": https://damn-reincarnation.fandom.com/wiki/Manhwa_Chapter_2
+- "The boy's father Gerhard is astonished when he destroys a training pell with a wooden sword and displays strength far beyond an ordinary child.": https://damn-reincarnation.fandom.com/wiki/Manhwa_Chapter_2
+- "Collateral descendants cannot train mana or use advanced swords until a ceremony in which children gather to demonstrate their potential before the main family.": https://damn-reincarnation.fandom.com/wiki/Manhwa_Chapter_2
+- "Hamel once died protecting his rival Bermut Lionhart, but he awakens three hundred years later as that warrior's descendant Eugene.": https://tapas.io/series/my-blasted-reincarnated-life/info
+- "For 10 points, name this manhwa about a fallen champion reincarnating into his former companion's bloodline and discovering that the demon kings remain alive.": https://tapas.io/series/my-blasted-reincarnated-life/info
+
+## 328. A Returner's Magic Should Be Special
+- "In this series, Romantica's family has purchased its noble title, so she is placed in the beta class despite her considerable talent with wind spells.": https://en.wikipedia.org/wiki/A_Returner's_Magic_Should_Be_Special
+- "Pram initially refuses to use a rapier because of his resentment toward the noble father he never met, until a friend persuades him to reconsider.": https://en.wikipedia.org/wiki/A_Returner's_Magic_Should_Be_Special
+- "Alternate dimensions called shadow worlds erode reality unless adventurers conquer them, eventually leaving only a small group of survivors in humanity's final challenge.": https://en.wikipedia.org/wiki/A_Returner's_Magic_Should_Be_Special
+- "After that challenge kills his companions, Desir returns thirteen years into the past and reunites with friends who do not remember their future deaths.": https://tapas.io/series/a-returners-magic-should-be-special/info
+- "For 10 points, name this fantasy manhwa about Desir training his old comrades at a magic academy to prevent the world's destruction.": https://tapas.io/series/a-returners-magic-should-be-special/info
+
+## 329. The Academy's Undercover Professor
+- "In this series, names previously used by the protagonist include Machiavelli and Gerrard, but his latest false identity comes with an unexpected teaching position.": https://www.webtoons.com/en/fantasy/the-academys-undercover-professor/list?title_no=4636
+- "A terrorist attack kills the real holder of that identity aboard a train, providing an opportunity to take his place.": https://www.webtoons.com/en/fantasy/the-academys-undercover-professor/list?title_no=4636
+- "The dead man also has dangerous secrets and connections to a society that makes the impersonation considerably more complicated than it first appears.": https://www.webtoons.com/en/fantasy/the-academys-undercover-professor/list?title_no=4636
+- "Now known as Ludger Cherish, the impostor must conceal his own past while serving on the faculty of the prestigious Ceoren Academy.": https://www.webtoons.com/en/fantasy/the-academys-undercover-professor/list?title_no=4636
+- "For 10 points, name this fantasy manhwa about a man using another person's identity to teach at a prestigious school while hiding from his pursuers.": https://www.webtoons.com/en/fantasy/the-academys-undercover-professor/list?title_no=4636
+
+## 330. The Lone Necromancer
+- "In this series, a sudden message asks a returning college student to select a role that will grant him a particular set of abilities.": https://www.webtoons.com/en/fantasy/the-lone-necromancer/list?title_no=3690
+- "His past service in the Special Forces gives him experience beyond that of many classmates, even before the extraordinary transformation begins.": https://www.webtoons.com/en/fantasy/the-lone-necromancer/list?title_no=3690
+- "Rather than choose a conventional combat specialization, he selects a rare option that allows him to command the undead.": https://www.webtoons.com/en/fantasy/the-lone-necromancer/list?title_no=3690
+- "Monsters then overrun the campus, and Seongwu must use his new powers to help his fellow students escape the resulting dangers.": https://www.webtoons.com/en/fantasy/the-lone-necromancer/list?title_no=3690
+- "For 10 points, name this fantasy webtoon about a former soldier protecting college classmates by raising and controlling the dead.": https://www.webtoons.com/en/fantasy/the-lone-necromancer/list?title_no=3690
+
+## 331. Seoul Station's Necromancer
+- "In this series, a former ruler of the planet Alphen returns to his home world after spending years fighting for survival in another realm.": https://tapas.io/series/seoul-stations-necromancer/info
+- "Despite that experience, his return leaves him at a low level, and he clears dungeons in search of cash and restored strength.": https://tapas.io/series/seoul-stations-necromancer/info
+- "His successes attract major guilds that compete for his attention as they realize the value of his extraordinary abilities.": https://tapas.io/series/seoul-stations-necromancer/info
+- "An old enemy's planned invasion threatens Earth, making the recovery of his former power a matter of survival rather than merely personal wealth.": https://tapas.io/series/seoul-stations-necromancer/info
+- "For 10 points, name this fantasy manhwa about Kang Woojin coming home and rebuilding the powers he gained while ruling Alphen.": https://tapas.io/series/seoul-stations-necromancer/info
+
+## 332. Tower of God
+- "In this series, each enormous floor contains a residential outer region, a testing area within it, and a middle region connecting the two.": https://en.wikipedia.org/wiki/Tower_of_God
+- "Headon selects ordinary residents for the trials, while rare outsiders who enter through the sealed doors on their own are called Irregulars.": https://en.wikipedia.org/wiki/Tower_of_God
+- "The magical substance Shinsu becomes denser on higher floors, and a climber normally needs a contract with the local guardian to manipulate it.": https://en.wikipedia.org/wiki/Tower_of_God
+- "Twenty-Fifth Bam enters the structure after Rachel leaves him, gathering allies as he attempts to follow the only friend he knew underground.": https://en.wikipedia.org/wiki/Tower_of_God
+- "For 10 points, name this SIU manhwa about a boy climbing a mysterious structure whose summit promises whatever its visitors desire.": https://en.wikipedia.org/wiki/Tower_of_God
+
+## 333. The God of High School
+- "In this series, Daewi enters a fighting contest to obtain a cure for his hospitalized friend, while Ilpyo wants his injured cousin to recover.": https://en.wikipedia.org/wiki/The_God_of_High_School
+- "Mira practices the Moonlight Sword style, and Seungchul fights with a metal baseball bat rather than relying on a conventional martial art.": https://en.wikipedia.org/wiki/The_God_of_High_School
+- "Competitors can draw on supernatural beings through Charyeok, while the organizers promise to grant the ultimate winner's wish without questions.": https://en.wikipedia.org/wiki/The_God_of_High_School
+- "The friendly Mori Jin practices Renewal Taekwondo and teams up with the karate expert Daewi Han and swordswoman Mira Yoo.": https://en.wikipedia.org/wiki/The_God_of_High_School
+- "For 10 points, name this Yongje Park webtoon about a national martial arts competition for Korean teenage fighters.": https://en.wikipedia.org/wiki/The_God_of_High_School
+
+## 334. Noblesse
+- "In this series, Ikhan excels at computers and hacking, while his friend Shinwoo is an athletic student with considerable martial arts talent.": https://en.wikipedia.org/wiki/Noblesse_(manhwa)
+- "Frankenstein's abandoned scientific notes help advance the Union's technology, although he also serves as the principal of Ye Ran High School.": https://en.wikipedia.org/wiki/Noblesse_(manhwa)
+- "His ancient master comes from Lukedonia and acts as a hidden protector, judge, and potential executioner for others of his kind.": https://en.wikipedia.org/wiki/Noblesse_(manhwa)
+- "That master awakens in an abandoned South Korean building after an eight-hundred-and-twenty-year sleep, then enrolls at his servant's school.": https://en.wikipedia.org/wiki/Noblesse_(manhwa)
+- "For 10 points, name this Jeho Son and Kwangsu Lee manhwa about Cadis Etrama Di Raizel, usually called Rai, adjusting to modern life.": https://en.wikipedia.org/wiki/Noblesse_(manhwa)
+
+## 335. The Gamer
+- "In this series, Hwan Seong-Ah suffers from a strange illness that the protagonist tries to treat using a newly learned healing ability.": https://en.wikipedia.org/wiki/The_Gamer
+- "Shin Seon-Il introduces his childhood friend to the Cheonnbumoon clan, while Kwon Si-Yeon belongs to its sometimes allied rival organization.": https://en.wikipedia.org/wiki/The_Gamer
+- "An accidental encounter with zombies reveals a hidden supernatural world called the Abyss, where the hero must train to protect himself.": https://en.wikipedia.org/wiki/The_Gamer
+- "Studying increases his Intelligence, ordinary practice raises other statistics, and visible levels reveal that his friend is unusually powerful.": https://en.wikipedia.org/wiki/The_Gamer
+- "For 10 points, name this manhwa about Han Ji-Han developing an ability that makes everyday life operate like a role-playing game.": https://en.wikipedia.org/wiki/The_Gamer
+
+## 336. Unholy Blood
+- "In this series, Father Michael raises the protagonist alongside her adoptive siblings Yerim and Yunsu, encouraging her to live without exposing her powers.": https://unholyblood.fandom.com/wiki/Hayan_Park
+- "Her ordinary appearance has brown hair and brown eyes, but her supernatural form changes those colors to white and blue.": https://unholyblood.fandom.com/wiki/Hayan_Park
+- "After her adoptive father's death, the young university student stops suppressing her abilities and begins hunting the empire's Angels of Death.": https://unholyblood.fandom.com/wiki/Hayan_Park
+- "Hayan receives help from a promising police officer while confronting the vampires that have threatened ordinary life for the past ten years.": https://www.webtoons.com/en/supernatural/unholy-blood/list?title_no=1262
+- "For 10 points, name this Lina Im manhwa about a powerful young vampire seeking revenge while trying to protect the people she loves.": https://www.webtoons.com/en/supernatural/unholy-blood/list?title_no=1262
+
+## 337. Shotgun Boy
+- "In this series, the protagonist develops an attachment to the mysterious Zero and wants to help him despite warnings and attacks on his companions.": https://hero.fandom.com/wiki/Gyuhwan_Han
+- "At Yeongchan High, he endures daily torment from Seongbin and resents classmates who refuse to intervene on his behalf.": https://hero.fandom.com/wiki/Gyuhwan_Han
+- "While fleeing through the woods, the bullied teenager finds a firearm and enough ammunition to exact revenge on the people who mistreated him.": https://www.webtoons.com/en/thriller/shotgun-boy/list?title_no=2534
+- "Instead, he returns to discover brain-eating creatures attacking those classmates, making his newly acquired weapon essential to their survival.": https://www.webtoons.com/en/thriller/shotgun-boy/list?title_no=2534
+- "For 10 points, name this Carnby Kim and Hongpil horror webtoon about Gyuhwan defending his classmates from monsters with a found hunting gun.": https://www.webtoons.com/en/thriller/shotgun-boy/list?title_no=2534
+
+## 338. PIGPEN
+- "This thriller is illustrated by SICK, who also draws Pieces of Humans and runs a video channel called deadline-insane.": https://www.webtoons.com/en/thriller/pigpen/list?title_no=2275
+- "Its writer Carnby Kim also created Bastard and Sweet Home, but collaborates here with a different artist than the one who drew those two works.": https://www.webtoons.com/en/thriller/pigpen/list?title_no=2275
+- "The central character awakens on a beautiful beach without remembering his own identity or how he arrived at that unfamiliar place.": https://www.webtoons.com/en/thriller/pigpen/list?title_no=2275
+- "A family welcomes him into its home, but its members conceal unsettling truths as his attempts to reconstruct his past raise more questions.": https://www.webtoons.com/en/thriller/pigpen/list?title_no=2275
+- "For 10 points, name this horror webtoon about an amnesiac young man whose apparently idyllic refuge becomes a frightening mystery.": https://www.webtoons.com/en/thriller/pigpen/list?title_no=2275
+
+## 339. A Man's Man
+- "In this series, Hansung is a successful electronics company whose harsh internal culture helps its ambitious protagonist reach the highest executive position.": https://www.webtoons.com/en/drama/a-mans-man/list?title_no=2876
+- "Becoming the company's youngest chief executive leaves him without the people he cares about, who are absent from his celebration.": https://www.webtoons.com/en/drama/a-mans-man/list?title_no=2876
+- "After a night of drinking and regretting the past, he awakens twenty years younger at the beginning of his career.": https://www.webtoons.com/en/drama/a-mans-man/list?title_no=2876
+- "Yuhyeon retains his professional knowledge but now tries to rebuild damaged relationships and confront the people responsible for the company's toxic environment.": https://www.webtoons.com/en/drama/a-mans-man/list?title_no=2876
+- "For 10 points, name this Lucas workplace manhwa about a corporate executive receiving a second chance to change his career and personal life.": https://www.webtoons.com/en/drama/a-mans-man/list?title_no=2876
+
+## 340. Hero Killer
+- "In this series, a power taken from Grayman allows its new owner to create metal blades from her body, although her earliest attempts are limited.": https://herokiller.fandom.com/wiki/Ihwa/Powers_and_Abilities
+- "Her first stolen ability comes from Jade, the Mad Dog, whose electricity increases both speed and strength before exhausting her energy reserves.": https://herokiller.fandom.com/wiki/Ihwa/Powers_and_Abilities
+- "After attracting the Nameless organization, she also borrows Engen's darkness-producing power during their initial collaboration and escape from Victoria.": https://herokiller.fandom.com/wiki/Ihwa/Powers_and_Abilities
+- "Ihwa's gift lets her absorb or temporarily borrow other people's powers, supporting her bloody revenge in a world of constant superhero conflicts.": https://herokiller.fandom.com/wiki/Ihwa/Powers_and_Abilities
+- "For 10 points, name this manhwa about a superpowered girl hunting corrupt champions while questioning whether their enemies are truly the villains.": https://www.webtoons.com/en/action/hero-killer/list?title_no=2745
+
+## 341. Gosu
+- "This series shares its martial arts world with Yongbi the Invincible, an earlier collaboration between the writer Ryu Ki-woon and artist Moon Jung-hoo.": https://en.wikipedia.org/wiki/Gosu_(manhwa)
+- "Its protagonist tries to lead an inconspicuous life working at a small inn, concealing his exceptional techniques from the people around him.": https://en.wikipedia.org/wiki/Gosu_(manhwa)
+- "Those techniques came from Dokgo Ryong, whose betrayal inspires his disciple to leave seclusion and fulfill a final request for vengeance.": https://en.wikipedia.org/wiki/Gosu_(manhwa)
+- "When Gang Yong finally reaches town, he learns that the traitors he intended to punish have already died, undermining his original purpose.": https://www.webtoons.com/en/action/gosu/list?title_no=1099
+- "For 10 points, name this murim webtoon about a powerful disciple seeking revenge for his teacher and discovering an unexpected obstacle to that mission.": https://www.webtoons.com/en/action/gosu/list?title_no=1099
+
+## 342. Javier Asrahan
+- "This knight abandons his post in Cremo when his lord plans to flee, choosing instead to protect the city's civilians.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "As an orphan, he was adopted by Arcos Frontera, who encouraged his childhood ambition by carving him a wooden sword.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "He enjoys tending plants and teasing his lord, sometimes saving an insult for months before finally delivering it.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "In a fight against Sir Kyle, he awakens sword aura and can project it from even a broken weapon.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "He politely addresses his lord's summoned creatures as Sir or Lady, treating them as fellow servants rather than mere tools.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "For 10 points, name this mint-haired knight who guards Lloyd Frontera and was originally the hero of Knight of Blood and Iron.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+
+Research note: Opened full browser DOM. Appearance explicitly distinguishes comic mint hair from novel silver hair. Avoided later marriages/ending.
+
+## 343. Asrahan Core Technique
+- "This training method can power a high-frequency rotation of mana that cuts like a chainsaw instead of releasing a single explosion.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "One of its attacks concentrates explosive energy around a blade, producing an empowered slash rather than an uncontrolled blast.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "Its mint-haired practitioner forms three circles on his first attempt and later trains himself to maintain more than five.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "Colliding those circles creates a destructive discharge, while reserving one of them protects the user's heart from the impact.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+- "For 10 points, name this method used by Lloyd Frontera's knight to absorb surrounding mana and store it in rings around his manaheart.": https://dragonschef.fandom.com/wiki/Javier_Asrahan
+
+Research note: Opened full browser DOM Skills section; stated mana blast, blast slice, chainsaw, circles, and absorption. All comic-centered skills; no speculative founder attribution.
+
+## 344. Jiwoo Seo [or Seo Jiwoo; accept Jiwoo or Seo Ji-u; do not accept or prompt on "Jinwoo" or "Sung Jinwoo"]
+- "This boy's mother searches for a cure for his unusual body, reinforcing his belief that his abilities are something to hide.": https://eleceed.fandom.com/wiki/Jiwoo_Seo
+- "Kartein becomes his physician after a brutal attack damages his energy center, while Pluton later offers him protection and defensive training.": https://eleceed.fandom.com/wiki/Jiwoo_Seo
+- "He attends the Korean Awakened Academy as an independent student sponsored by the Shinhwa Association, rather than joining an organization.": https://eleceed.fandom.com/wiki/Jiwoo_Seo
+- "His first friend was a stray cat, and he regularly feeds neighborhood strays while sheltering an animal experimented on by Dr. Delein.": https://eleceed.fandom.com/wiki/Jiwoo_Seo
+- "For 10 points, name this kindhearted speedster who rescues a talking cat and becomes Kayden Break's only apprentice.": https://eleceed.fandom.com/wiki/Jiwoo_Seo
+
+Research note: Opened full character main article; selected Background and opening comic facts, avoided late world-rank claims. Canonical spelling table supports both ordering forms and Seo Ji-u.
+
+## 345. Force Control
+- "This training system is distributed according to organizational hierarchy, so lower-ranking members may receive less effective versions than their superiors.": https://eleceed.fandom.com/wiki/Force_Control
+- "Its instructors transmit power into a student's body, and the student must remember and reproduce the specific route that energy follows.": https://eleceed.fandom.com/wiki/Force_Control
+- "The Korean Awakened Academy teaches a basic version to independent students to give them opportunities comparable to those from powerful organizations.": https://eleceed.fandom.com/wiki/Force_Control
+- "Some versions impart new properties, such as wind from the Shinhwa Association, even though practitioners must already possess an awakened ability.": https://eleceed.fandom.com/wiki/Force_Control
+- "For 10 points, name this energy-training system that begins at the heart, including the secret electrical method developed by Kayden Break.": https://eleceed.fandom.com/wiki/Force_Control
+
+Research note: Opened full main article; organization hierarchy cites episode65, academy/basic version and energy development episodes64–75. Avoided naming new Jiwoo answer.
+
+## 346. Han Sooyoung [or Han Su-Yeong; accept Sooyoung]
+- "This writer initially appears as the First Apostle and can change the appearances of her Avatar clones to adopt different identities.": https://omniscient-readers-viewpoint.fandom.com/wiki/Han_Sooyoung
+- "Her attempt to take over Chungmuro station initially puts her at odds with Kim Dokja and his companions.": https://omniscient-readers-viewpoint.fandom.com/wiki/Han_Sooyoung
+- "Her constellation sponsor is the Abyssal Black Flame Dragon, which provides her with the Black Flames stigma.": https://omniscient-readers-viewpoint.fandom.com/wiki/Han_Sooyoung
+- "Before the apocalypse, she had already amassed considerable wealth through popular novels and confidently regarded herself as a genius writer.": https://omniscient-readers-viewpoint.fandom.com/wiki/Han_Sooyoung
+- "For 10 points, name this sharp-tongued author of SSSSS-grade Infinite Regressor who eventually becomes one of Kim Dokja's trusted allies.": https://omniscient-readers-viewpoint.fandom.com/wiki/Han_Sooyoung
+
+Research note: Opened full main article. Used early story facts and original sponsor rather than epilogue, 1863rd-round, or author-identity spoilers. Alternate spelling directly listed.
+
+## 347. Absolute Throne
+- "This item appears to be made of gold, but becomes an ordinary wooden object once its connection to an Outer God is severed.": https://omniscient-readers-viewpoint.fandom.com/wiki/Absolute_Throne
+- "Its destruction triggers a probability storm that constellations from the Korean peninsula help offset after Kim Dokja attacks it.": https://omniscient-readers-viewpoint.fandom.com/wiki/Absolute_Throne
+- "The Four Tiger Evil Cutting Sword is used to break the link that supplies this object's supernatural authority.": https://omniscient-readers-viewpoint.fandom.com/wiki/Absolute_Throne
+- "Claiming it lets an incarnation command others from the same country and become the ruler of a scenario dome.": https://omniscient-readers-viewpoint.fandom.com/wiki/Absolute_Throne
+- "For 10 points, name this royal seat offered during the fourth main scenario, which Kim Dokja chooses to destroy rather than occupy.": https://omniscient-readers-viewpoint.fandom.com/wiki/Absolute_Throne
+
+Research note: Opened the full article in browser; item appearance, Outer God link, Main Scenario 4 and sword destruction are supported. The page illustrates webtoon chapters 65–66. Avoided later regression/end-scenario restrictions.
+
+## 348. Peace Land
+- "This world's forests transform after sunset into labyrinths resembling a creature's intestines, trapping Japanese visitors during the sixth main scenario.": https://omniscient-readers-viewpoint.fandom.com/wiki/Peace_Land
+- "Its unusually heavy ore is made into training bands that Kyrgios Rodgraim uses to train Kim Dokja.": https://omniscient-readers-viewpoint.fandom.com/wiki/Peace_Land
+- "The northern Kingdom of Veronica contains its namesake castle, while the planet's tiny inhabitants wear armor and ride horses.": https://omniscient-readers-viewpoint.fandom.com/wiki/Peace_Land
+- "Three days pass here for every day on Earth, and the transcendent Kyrgios originally came from this world.": https://omniscient-readers-viewpoint.fandom.com/wiki/Peace_Land
+- "For 10 points, name this miniature fantasy world from Asuka Ren's unfinished manga, which becomes real when the apocalypse's scenarios begin.": https://omniscient-readers-viewpoint.fandom.com/wiki/Peace_Land
+
+Research note: Opened full article; forest behavior explicitly appears in webtoon chapter 133. Ore, time ratio, Veronica and origin in Asuka Ren's manga verified. Avoided naming the separate new throne answer.
+
+## 349. Sung Jinwoo [do not accept or prompt on "Jiwoo" or "Jiwoo Seo" or "Seo Jiwoo" or "Seo Ji-u"]
+- "This hunter's automatic detoxification treats alcohol as poison, preventing him from becoming drunk even when he would like to.": https://solo-leveling.fandom.com/wiki/Sung_Jinwoo
+- "His Tenacity skill reduces incoming damage when his health becomes critically low, while his preferred weapons are daggers.": https://solo-leveling.fandom.com/wiki/Sung_Jinwoo
+- "Originally timid and frequently injured, he keeps taking dangerous jobs to support his hospitalized mother and younger sister.": https://solo-leveling.fandom.com/wiki/Sung_Jinwoo ; https://solo-leveling.fandom.com/wiki/Park_Kyung-Hye
+- "A near-fatal encounter in a double dungeon gives him access to a System that lets him grow stronger through quests.": https://solo-leveling.fandom.com/wiki/Sung_Jinwoo
+- "For 10 points, name this protagonist of Solo Leveling, an initially weak E-Rank hunter who raises defeated enemies into an army of shadows.": https://solo-leveling.fandom.com/wiki/Sung_Jinwoo
+
+Research note: Full article opened; detoxification, Tenacity, dagger techniques and original family circumstances verified, with webtoon references. Avoided novel/Ragnarok-only powers and ending timeline. Mother page separately opened to confirm hospitalization and Eternal Slumber.
+
+## 350. Red Gate
+- "This kind of portal stops emitting mana after closing, making its danger impossible to measure accurately from outside.": https://solo-leveling.fandom.com/wiki/Red_Gate
+- "Time runs differently within it, so an entire day for trapped hunters corresponds to only an hour in the human world.": https://solo-leveling.fandom.com/wiki/Red_Gate
+- "Its hostile environments can cause frostbite, heatstroke, or starvation, and its lowest possible dungeon difficulty is B-Rank.": https://solo-leveling.fandom.com/wiki/Red_Gate
+- "It initially resembles an ordinary blue entrance and reveals its nature only after humans have already passed through.": https://solo-leveling.fandom.com/wiki/Red_Gate
+- "For 10 points, name this special portal in Solo Leveling that seals hunters inside until the boss dies, the party perishes, or a dungeon break occurs.": https://solo-leveling.fandom.com/wiki/Red_Gate
+
+Research note: Full mechanics article opened in browser: mana measurement, time ratio, environment, B-Rank minimum, initial color and three reopening conditions verified. Avoided naming other new raid and protagonist answers.
+
+## 351. Jeju Island Raid
+- "This operation sends Japanese hunters to act as decoys while their Korean counterparts enter an unguarded nest to kill its queen.": https://solo-leveling.fandom.com/wiki/Jeju_Island_S-Rank_Gate ; https://solo-leveling.fandom.com/wiki/Jeju_Island_Raid_Party
+- "Three earlier attempts failed, and the loss of the S-Rank hunter Eunseok led the government to abandon efforts to reclaim the territory.": https://solo-leveling.fandom.com/wiki/Jeju_Island_S-Rank_Gate ; https://solo-leveling.fandom.com/wiki/Jeju_Island_Raid_Party
+- "The monsters later evolved wings and began threatening nearby communities, forcing the authorities to try again with foreign help.": https://solo-leveling.fandom.com/wiki/Jeju_Island_S-Rank_Gate ; https://solo-leveling.fandom.com/wiki/Jeju_Island_Raid_Party
+- "Six Korean and ten Japanese S-Rank hunters participate, but the appearance of the Ant King turns their apparent success into a disaster.": https://solo-leveling.fandom.com/wiki/Jeju_Island_S-Rank_Gate ; https://solo-leveling.fandom.com/wiki/Jeju_Island_Raid_Party
+- "For 10 points, name this joint offensive in Solo Leveling against giant ants occupying an evacuated Korean territory.": https://solo-leveling.fandom.com/wiki/Jeju_Island_S-Rank_Gate ; https://solo-leveling.fandom.com/wiki/Jeju_Island_Raid_Party
+
+Research note: Both full pages opened. Plan, earlier failures/Eunseok, wing evolution and surprise Ant King verified from gate history; squad counts from raid-party table. Answer accepts the raid rather than only the broader arc.
+
+## 352. Demon Castle
+- "This dungeon contains Vulcan on its fiftieth floor and Metus on its seventy-fifth, with Cerberus guarding the entrance.": https://solo-leveling.fandom.com/wiki/Demon_Castle ; https://solo-leveling.fandom.com/wiki/Return_to_Demon_Castle_Arc
+- "A visitor returns here seeking the final ingredient for the Holy Water of Life, which can cure his mother's condition.": https://solo-leveling.fandom.com/wiki/Return_to_Demon_Castle_Arc ; https://solo-leveling.fandom.com/wiki/Park_Kyung-Hye
+- "Esil Radiru agrees to guide that visitor in exchange for sparing her clan, helping him reach its final opponent.": https://solo-leveling.fandom.com/wiki/Demon_Castle ; https://solo-leveling.fandom.com/wiki/Return_to_Demon_Castle_Arc
+- "Its highest floor is occupied by Baran and his mount Kaisellin, and the entire setting resembles a burning, ruined Seoul.": https://solo-leveling.fandom.com/wiki/Demon_Castle ; https://solo-leveling.fandom.com/wiki/Return_to_Demon_Castle_Arc
+- "For 10 points, name this hundred-floor S-Rank instant dungeon created by Kandiaru in Solo Leveling.": https://solo-leveling.fandom.com/wiki/Demon_Castle ; https://solo-leveling.fandom.com/wiki/Return_to_Demon_Castle_Arc
+
+Research note: Both full pages opened; floor bosses and ruined Seoul from location article, Esil bargain and Holy Water quest from webtoon arc synopsis. Final ingredient as mother's cure also protagonist/arc premise context; avoid alternate-timeline ending explanation. Mother page separately opened to verify that Holy Water of Life cures her Eternal Slumber.
+
+## 353. Heavenly Demonic Cult [or Heavenly Demon Divine Cult; accept Sky Demon Order]
+- "This faction's Battle of the Heirs pits the ruler's children from six competing clans against one another for the succession.": https://nano-mashine.fandom.com/wiki/Heavenly_Demon_Divine_Cult
+- "Its Great, Right, and Left Guardian families possess high authority, including the privilege of carrying their weapons into the Great Hall.": https://nano-mashine.fandom.com/wiki/Heavenly_Demon_Divine_Cult
+- "Based in the Ten Thousand Mountains, it traces its religious origins to a Zoroastrian community in Xinjiang.": https://nano-mashine.fandom.com/wiki/Heavenly_Demon_Divine_Cult
+- "Its devotion to strength makes it a major rival of the Forces of Justice and the Forces of Evil.": https://nano-mashine.fandom.com/wiki/Heavenly_Demon_Divine_Cult
+- "For 10 points, name this martial religious organization founded by Cheon Ma, whose heir Cheon Yeo Woon rises through its ranks in Nano Machine.": https://nano-mashine.fandom.com/wiki/Heavenly_Demon_Divine_Cult
+
+Research note: Full faction article opened; succession, guardian structure, location, Zoroastrian origin and three-way murim balance verified. Origin specifically cited to manhwa chapter 82. Three accepted English faction names listed on the page; avoided late leader reforms and sequel lore.
+
+## 354. Indestructible Shield
+- "This power's visible manifestation gains a heart motif after its owner acquires the separate ability called Vitality of the Heart.": https://lout-of-counts-family.fandom.com/wiki/Indestructible_Shield
+- "Its strength comes from the user's heart, and even a shattered manifestation eventually recovers enough to be summoned again.": https://lout-of-counts-family.fandom.com/wiki/Indestructible_Shield
+- "Its previous owner is remembered as the Glutton Priestess, whose hunger is associated with a blackened tree.": https://lout-of-counts-family.fandom.com/wiki/Indestructible_Shield
+- "Cale Henituse acquires it by feeding that tree a large amount of bread, making it his first Ancient Power.": https://lout-of-counts-family.fandom.com/wiki/Indestructible_Shield
+- "For 10 points, name this defensive ability in Trash of the Count's Family that creates an adjustable silver barrier with two wings.": https://lout-of-counts-family.fandom.com/wiki/Indestructible_Shield
+
+Research note: Opened full ancient-power article. Appearance section expressly confirms heart-pattern changes in manhwa, while warning the novel's tattoo is not shown; tattoo deliberately omitted. Recovery, bread acquisition, prior owner and adjustable two-wing manifestation verified.
+
+## 355. Guideline
+- "This system labels angels as opponents that cannot be attacked, reducing a user's blows against them to harmless taps.": https://survival-story-of-a-sword-king-in-a-fantasy-world.fandom.com/wiki/Guideline
+- "It allows its users to acquire techniques instantly and choose among classes such as Warrior, Magician, Magic Swordsman, and Spiritualist.": https://survival-story-of-a-sword-king-in-a-fantasy-world.fandom.com/wiki/Guideline
+- "Its information display identifies objects and enemies, while its translation function lets otherworlders communicate with the people of Rathnia.": https://survival-story-of-a-sword-king-in-a-fantasy-world.fandom.com/wiki/Guideline
+- "A malfunction repeatedly resets Ryu Han-Bin's progress while preserving his increased physical statistics, leaving observers convinced he is merely level five.": https://survival-story-of-a-sword-king-in-a-fantasy-world.fandom.com/wiki/Guideline
+- "For 10 points, name this game-like interface implanted in the people Ormphlaus sends to another world, which traps Han-Bin in his training area.": https://survival-story-of-a-sword-king-in-a-fantasy-world.fandom.com/wiki/Guideline
+
+Research note: Full mechanics article opened. Angel restriction, instant skills/classes, information/translation and Han-Bin error verified, with comic chapter references. Omitted conditioning and self-harm functions. Avoided the newly selected series-title aliases.
+
+## 356. Four Major Crews
+- "This system uses minors to generate money for a corporation, allowing their patron to sever ties if authorities discover illegal activity.": https://lookism.fandom.com/wiki/Four_Major_Crews
+- "Gun Park and Goo Kim eliminate smaller gangs while scouting young leaders to divide control of Seoul's underworld.": https://lookism.fandom.com/wiki/Four_Major_Crews
+- "Charles Choi creates the arrangement to fund HNH Company, with participants expected to supply roughly one hundred million won each month.": https://lookism.fandom.com/wiki/Four_Major_Crews
+- "Its territories lie east, west, north, and south of the Han River, while Central Seoul remains contested by rival groups.": https://lookism.fandom.com/wiki/Four_Major_Crews
+- "For 10 points, name this network including God Dog and Hostel, which Daniel Park seeks to dismantle to learn about his second body.": https://lookism.fandom.com/wiki/Four_Major_Crews
+
+Research note: Full article opened: minors as disposable funding agents, Gun/Goo recruitment, monthly funds, Han River distribution and Daniel's stated objective. Avoided naming the two separately selected member gangs and the newly selected series title.
+
+## 357. Big Deal
+- "This gang's former leader sells his own freedom to protect its street, prompting his successor to work toward buying him back.": https://lookism.fandom.com/wiki/Big_Deal
+- "Its romantic code rejects members who fight dirty, even though financial pressure later leads it into illegal online gambling.": https://lookism.fandom.com/wiki/Big_Deal
+- "Sinu Han changes its principles while still a child to make life easier for the girls living on the street it protects.": https://lookism.fandom.com/wiki/Big_Deal
+- "After becoming its leader, Jake Kim is imprisoned over a gambling operation, but his subordinates remain loyal while he is behind bars.": https://lookism.fandom.com/wiki/Big_Deal
+- "For 10 points, name this Gangseo organization in western Seoul led by Jake Kim, whose second-in-command is Jerry Kwon.": https://lookism.fandom.com/wiki/Big_Deal
+
+Research note: Full gang article opened. Sinu's sacrifice, no-dirty-fighting rule (episode 264), street protection, gambling/imprisonment and member table verified. Avoided naming the larger gang network, corporate rival and series title.
+
+## 358. Workers [or Ilhaehoe]
+- "This organization's black badges give its VVIP holders unlimited credit and outrank even the presidents of its business affiliates.": https://lookism.fandom.com/wiki/Workers
+- "One affiliate operates ONE MCN, where fraudulent contracts trap streamers in glass basement rooms and force them to broadcast without pay.": https://lookism.fandom.com/wiki/Workers
+- "Another runs Club Vivi as a front for distributing drugs, while a different branch stages dangerous contests at a casino.": https://lookism.fandom.com/wiki/Workers
+- "It resembles a corporation more than a street gang, with presidents, directors, and executives beneath its chairman.": https://lookism.fandom.com/wiki/Workers
+- "For 10 points, name this wealthy Gangnam organization led by Eugene, whose affiliates include a plastic surgery hospital.": https://lookism.fandom.com/wiki/Workers
+
+Research note: Full organization article opened; VVIP badge, ONE MCN confinement, Vivi and casino fronts, hierarchy and Eugene/Gangnam verified. Ilhaehoe romanization listed in infobox. Omitted current arc casualties and hospital plot spoilers.
+
+## 359. Ultra Instinct [or Black Eyes]
+- "This combat state's uncontrolled form can be exploited by hiding one's strength, letting the opponent match a falsely low level of power.": https://lookism.fandom.com/wiki/Ultra_Instinct
+- "Gun Park describes its ordinary effect as improving concentration and dynamic visual acuity rather than teaching unfamiliar techniques.": https://lookism.fandom.com/wiki/Ultra_Instinct
+- "An uncontrolled user attacks anyone nearby without distinguishing friends from enemies, then remembers nothing after regaining awareness.": https://lookism.fandom.com/wiki/Ultra_Instinct
+- "It draws on movements already stored in the body, making Daniel Park's perfectly trained second body particularly dangerous when it activates.": https://lookism.fandom.com/wiki/Ultra_Instinct
+- "For 10 points, name this state in which an unconscious Daniel continues fighting automatically, which Gun can also maintain under conscious control.": https://lookism.fandom.com/wiki/Ultra_Instinct
+
+Research note: Opened full article. Weakness and Gun explanation cited to comic episodes 467 and 301. Restricted concentration/acuity claim to ordinary form because page distinguishes Yamazaki inherited variant. Black Eyes equivalent explicitly listed. Avoided unverified UI abbreviation.
+
+## 360. Synthesis
+- "This mechanic's tutorial sacrifices a four-star hero to a one-star novice, reversing the apparently obvious choice of who should survive.": https://pick-me-up.fandom.com/wiki/Pick_Me_Up%21 ; https://pick-me-up.fandom.com/wiki/Han_Isratte ; https://pick-me-up.fandom.com/wiki/Han_Isratte/Abilities
+- "Eselle forces Han into the chamber despite learning that he originally came from Earth and wants to return there.": https://pick-me-up.fandom.com/wiki/Pick_Me_Up%21 ; https://pick-me-up.fandom.com/wiki/Han_Isratte ; https://pick-me-up.fandom.com/wiki/Han_Isratte/Abilities
+- "Later uses include consuming a three-star hero who loses a duel and disposing of another who rebels against the master.": https://pick-me-up.fandom.com/wiki/Pick_Me_Up%21 ; https://pick-me-up.fandom.com/wiki/Han_Isratte ; https://pick-me-up.fandom.com/wiki/Han_Isratte/Abilities
+- "Before becoming a summoned hero himself, Loki avoids this shortcut and instead nurtures promising characters with low rarity.": https://pick-me-up.fandom.com/wiki/Pick_Me_Up%21 ; https://pick-me-up.fandom.com/wiki/Han_Isratte ; https://pick-me-up.fandom.com/wiki/Han_Isratte/Abilities
+- "For 10 points, name this enhancement process in Pick Me Up that sacrifices one hero to transfer some knowledge and abilities into another.": https://pick-me-up.fandom.com/wiki/Pick_Me_Up%21 ; https://pick-me-up.fandom.com/wiki/Han_Isratte ; https://pick-me-up.fandom.com/wiki/Han_Isratte/Abilities
+
+Research note: All three full pages opened. Game mechanic transfer definition, Han/Shay tutorial (comic chapter 2), Avant duel (chapter 16), Sitan rebellion (58) and Loki's original refusal verified. Avoided promotion/recovered-memory ending revelations.
+
+## 361. Raviel Ivansia
+- "This noblewoman's EX-rank ability, A Regressor's Love, lets her share a timeline with her beloved when either of them returns to the past.": https://sss-class-suicide-hunter.fandom.com/wiki/Raviel_Ivansia
+- "A relic inherited from Lefanta Aegim turns her into a half-constellation, leaving her trapped in a repeating ten-day period.": https://sss-class-suicide-hunter.fandom.com/wiki/Raviel_Ivansia
+- "Her former fiance is a crown prince who abandons her for the Lady of the Golden Silk, her romantic rival.": https://sss-class-suicide-hunter.fandom.com/wiki/Raviel_Ivansia
+- "She initially plays the villainess in The Tale of Sormwyn Academy, the romance story encountered on the Tower's twenty-fifth floor.": https://sss-class-suicide-hunter.fandom.com/wiki/Raviel_Ivansia
+- "For 10 points, name this silver-haired, red-eyed Lady of the Silver Lily in SSS-Class Revival Hunter, who teaches Kim Gong-ja about love.": https://sss-class-suicide-hunter.fandom.com/wiki/Raviel_Ivansia
+
+Research note: Full character page opened, distinguishes webtoon appearances and love lessons. Timeline-sharing, early ten-day loop, prince/rival and floor-25 story verified. Avoided graphic self-injury, adopted children, ending fate and wedding resolution.
+
+## 362. Northern Heavenly Sect
+- "This martial order bans the Fist of One Hundred Days because its rapid training damages practitioners' nerves and shortens their lives.": https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "Created as a frontier defense force, it receives martial arts and elixirs from the Central Heavenly Alliance to strengthen its fighters.": https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "That alliance later fears its growing power and conspires with the Great Four to frame Jin Kwan-Ho as a traitor.": https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "His son remains in its ruined fortress as a captive, practicing blacksmithing while secretly learning the family's hidden martial art.": https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "For 10 points, name this order founded by Buk Jin-Hu that Jin Mu-Won seeks to restore after his father's betrayal.": https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+
+Research note: Full sect article opened; banned training method, frontier founding resources, alliance conspiracy and early captivity all verified. Avoided naming its separately selected enemy or hidden martial art, and avoided graphic death details.
+
+## 363. Silent Night
+- "This faction's four greatest champions include the Ghost Spear and the Axe of Total Destruction, alongside two other formidable demon lords.": https://legend-of-the-northern-blade.fandom.com/wiki/Silent_Night ; https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "The elder Yoon Cheon-Hak carries the title Thousand Sounds of Death, while Deung Yoo Myeong serves as the group's leader.": https://legend-of-the-northern-blade.fandom.com/wiki/Silent_Night ; https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "It operates from the northern wastelands, and its devastating arrival throws the martial world into prolonged warfare.": https://legend-of-the-northern-blade.fandom.com/wiki/Silent_Night ; https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "The threat it poses leads martial artists to form the Central Heavenly Alliance and establish a separate frontier force to contain it.": https://legend-of-the-northern-blade.fandom.com/wiki/Silent_Night ; https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+- "For 10 points, name this invading faction opposed by Jin Kwan-Ho's warriors in Legend of the Northern Blade.": https://legend-of-the-northern-blade.fandom.com/wiki/Silent_Night ; https://legend-of-the-northern-blade.fandom.com/wiki/Northern_Heavenly_Sect
+
+Research note: Both full faction pages opened. Demon lords, elder/leader, base and alliance founding supported. Northern sect history verifies Jin Kwan-Ho's opposing army. Omitted the late creator/control revelation and all other selected faction names.
+
+## 364. Snow Flower [or Seol-Hwa]
+- "This weapon can possess an opponent who touches it, making that person susceptible to its owner's demands until an outside impact breaks the effect.": https://legend-of-the-northern-blade.fandom.com/wiki/Snow_Flower
+- "The spirit within it can appear to defend its wielder when he is incapacitated and restrain enemies during combat.": https://legend-of-the-northern-blade.fandom.com/wiki/Snow_Flower
+- "Its material comes from a meteorite worshipped as the Sacred Rock, recovered by Hwang-Cheol after a village's destruction.": https://legend-of-the-northern-blade.fandom.com/wiki/Snow_Flower
+- "Jin Mu-Won spends two years forging it, and its double-edged blade has a violet hue inside a simple black scabbard.": https://legend-of-the-northern-blade.fandom.com/wiki/Snow_Flower
+- "For 10 points, name this bewitched sword in Legend of the Northern Blade, named by Mu-Won in remembrance of Eun Ha-Seol's beauty.": https://legend-of-the-northern-blade.fandom.com/wiki/Snow_Flower
+
+Research note: Full weapon article opened. Possession/impact release, defensive spirit, recovered meteorite, forging duration, color and Ha-Seol etymology verified. Seol-Hwa romanization appears in opening definition. Omitted graphic village massacre and later repair spoiler.
+
+## 365. Gathering of Ten Thousand Shadows [or Art of Ten Thousand Shadows]
+- "This martial art remains hidden in courtyard walls, with its teachings revealed by the patterns those walls cast at sunset.": https://legend-of-the-northern-blade.fandom.com/wiki/Gathering_of_Ten_Thousand_Shadows
+- "Its inscriptions use a forgotten language from the Lower Moon Kingdom, and successive leaders add refinements to the incomplete system.": https://legend-of-the-northern-blade.fandom.com/wiki/Gathering_of_Ten_Thousand_Shadows
+- "Rather than ordinary qi, it cultivates an opposing energy that makes its practitioner's strength difficult for other martial artists to detect.": https://legend-of-the-northern-blade.fandom.com/wiki/Gathering_of_Ten_Thousand_Shadows
+- "Its sensory techniques can locate nearby people and identify someone using transformation arts, although sufficiently skilled masters can conceal themselves.": https://legend-of-the-northern-blade.fandom.com/wiki/Gathering_of_Ten_Thousand_Shadows
+- "For 10 points, name this secret art developed by Buk Jin-Hu and inherited by Jin Mu-Won, whose movements seem to vanish into darkness.": https://legend-of-the-northern-blade.fandom.com/wiki/Gathering_of_Ten_Thousand_Shadows
+
+Research note: Full martial-art article opened. Sunset walls, Lower Moon language, cumulative development, anti-qi, sensory limitations and movements verified. Main required core fits typing limit; Art of Ten Thousand Shadows explicitly used as equivalent on page. Omitted late history detail and separately selected sect/sword names.
+
+## 366. Mount Hua Sect [or Hwasanpa]
+- "This order is replaced by Hainan among the Ten Great Sects, while its longtime rival Zhongnan takes advantage of its decline.": https://return-of-the-blossoming-blade.fandom.com/wiki/Mount_Hua_Sect
+- "Financial difficulties eventually force it to accept new disciples prematurely from the families of its remaining patrons.": https://return-of-the-blossoming-blade.fandom.com/wiki/Mount_Hua_Sect
+- "Its third-class disciples belong to the Cheong line, while second-class disciples use the Baek line in a repeating generational naming cycle.": https://return-of-the-blossoming-blade.fandom.com/wiki/Mount_Hua_Sect
+- "Its swordsmanship aims to express new life through flowering, requiring physical conditioning despite outsiders mistaking its graceful movements for mere decoration.": https://return-of-the-blossoming-blade.fandom.com/wiki/Mount_Hua_Sect
+- "For 10 points, name this Taoist martial order whose plum-blossom tradition is restored by the reincarnated Cheongmyeong.": https://return-of-the-blossoming-blade.fandom.com/wiki/Mount_Hua_Sect
+
+Research note: Opened full sect article, with manhwa references for Hainan/Zhongnan, finances, disciple lines and flowering philosophy/physical training. Hwasanpa romanization verified in etymology. Avoided newly selected signature technique and newly selected demonic-faction name.
+
+## 367. Twenty-Four Plum Blossoms Sword Technique [or 24-strike Blossom Technique]
+- "This martial art cannot be reconstructed from a secret manual alone, because its transmission depends on guidance from someone who already knows it.": https://return-of-the-blossoming-blade.fandom.com/wiki/Twenty-Four_Plum_Blossoms_Sword_Technique
+- "Only selected disciples and elders were permitted to study it before wartime deaths caused it to disappear for a century.": https://return-of-the-blossoming-blade.fandom.com/wiki/Twenty-Four_Plum_Blossoms_Sword_Technique
+- "Zhongnan steals part of it and presents the stolen material as a separate twelve-movement form named for wintry flowers.": https://return-of-the-blossoming-blade.fandom.com/wiki/Twenty-Four_Plum_Blossoms_Sword_Technique
+- "Cheongmyeong develops a modified version during the war that is easier to teach and more practical against rival martial artists.": https://return-of-the-blossoming-blade.fandom.com/wiki/Twenty-Four_Plum_Blossoms_Sword_Technique
+- "For 10 points, name this advanced form restored by Cheongmyeong, whose illusory fluttering petals distract an opponent before becoming swift cutting attacks.": https://return-of-the-blossoming-blade.fandom.com/wiki/Twenty-Four_Plum_Blossoms_Sword_Technique
+
+Research note: Full technique article opened. Oral teaching, restricted past access, century loss, Zhongnan theft, combat modification and visual attack behavior verified. Short accepted form 24-strike Blossom Technique explicitly listed in nomenclature; no unsupported abbreviation. Avoided separately selected sect name.
+
+## 368. Arthur Leywin
+- "This adventurer conceals his identity with a white mask bearing a blue musical symbol, using the alias Note while taking guild missions.": https://tbate.fandom.com/wiki/Arthur_Leywin
+- "He describes himself as a quadra-elemental augmenter, capable of using fire, water, earth, and wind as well as ice and lightning.": https://tbate.fandom.com/wiki/Arthur_Leywin
+- "When he activates Realmheart, his hair turns white and golden markings appear across his body, changing his usual auburn-haired appearance.": https://tbate.fandom.com/wiki/Arthur_Leywin
+- "Adult memories give him unusual maturity as a child, but his new family's affection challenges the emotional isolation of his former life.": https://tbate.fandom.com/wiki/Arthur_Leywin
+- "For 10 points, name this protagonist of The Beginning After the End, born to Alice and Reynolds after his previous life as King Grey.": https://tbate.fandom.com/wiki/Arthur_Leywin
+
+Research note: Full character article opened. Note mask supported by webcomic episode 48; quadra-elemental powers, Realmheart appearance, reincarnation/personality and family verified. Avoided newly selected dragon, magic reservoirs, inherited ability, continents, academy and sword names; no later novel transformations.
+
+## 369. Sylvie Leywin [accept Sylv; do not accept or prompt on "Sylvia" or "Sylvia Indrath"]
+- "This companion trains with her maternal grandparents, Kezess Indrath and Myre, after accompanying her partner to the realm of Epheotus.": https://tbate.fandom.com/wiki/Sylvie_Leywin
+- "She begins calling Tessia Eralith her mother while traveling with her partner to school, treating his friends as her own family.": https://tbate.fandom.com/wiki/Sylvie_Leywin
+- "Her newborn form resembles a small black kitten with scales, curved horns, and red spikes along a reptilian tail.": https://tbate.fandom.com/wiki/Sylvie_Leywin
+- "She later grows into a winged dragon with obsidian scales, while her own mother has entrusted her to the reincarnated King Grey.": https://tbate.fandom.com/wiki/Sylvie_Leywin
+- "For 10 points, name this dragon companion in The Beginning After the End, the daughter of Sylvia who forms a close bond with the hero.": https://tbate.fandom.com/wiki/Sylvie_Leywin
+
+Research note: Opened full page and DOM snapshot with early Newborn/Draconic Form descriptions. Grandparent training, Tessia's maternal nickname, appearance and Sylvia entrustment verified. Sylv listed alias; explicitly rejects mother Sylvia to prevent typo-tolerance false acceptance. No sacrifice, resurrection, adult fate or paternal revelation.
+
+## 370. Mana Core
+- "Overfilling this reservoir causes a conjurer's backlash, while exhausting it produces painful backlash in an augmenter who depends on its supply.": https://tbate.fandom.com/wiki/Magic_and_Objects
+- "When it first develops, a translucent barrier briefly forms around the awakened person, with different effects according to their magical specialization.": https://tbate.fandom.com/wiki/Magic_and_Objects
+- "Blood and other impurities initially give it a black appearance, and cultivation gradually filters those impurities out to improve its power.": https://tbate.fandom.com/wiki/Magic_and_Objects
+- "The red, orange, and yellow levels each progress through dark, solid, and light shades before the practitioner reaches the higher silver level.": https://tbate.fandom.com/wiki/Magic_and_Objects
+- "For 10 points, name this internal reservoir in The Beginning After the End that stores and purifies the magical energy a mage uses.": https://tbate.fandom.com/wiki/Magic_and_Objects
+
+Research note: Opened full magic overview. Backlash distinction, awakening barrier, initial blood impurities, purification and early colored stages verified. Avoided article's contradictory claims about white-stage subdivisions, novel aether replacement and all selected character names. Original300 title clue has color sequence; these new clues emphasize functions and drawbacks.
+
+## 371. Beast Will
+- "This inherited power first grants borrowed strengths in the Acquire Phase, then produces a more complete physical transformation in the Integrate Phase.": https://tbate.fandom.com/wiki/Beast_Will ; https://tbate.fandom.com/wiki/Magic_and_Objects
+- "Tessia Eralith must train to control the corrupted Elderwood Guardian's abilities so that the power does not overwhelm her.": https://tbate.fandom.com/wiki/Beast_Will ; https://tbate.fandom.com/wiki/Magic_and_Objects
+- "Its original possessors usually pass it to their own offspring rather than members of the human, elven, or dwarven races.": https://tbate.fandom.com/wiki/Beast_Will ; https://tbate.fandom.com/wiki/Magic_and_Objects
+- "Only creatures reaching at least A-Class can transfer it, and their deaths usually destroy the ability rather than leave it available.": https://tbate.fandom.com/wiki/Beast_Will ; https://tbate.fandom.com/wiki/Magic_and_Objects
+- "For 10 points, name this inherited ability in The Beginning After the End that lets a tamer use powers originally belonging to a magical creature.": https://tbate.fandom.com/wiki/Beast_Will ; https://tbate.fandom.com/wiki/Magic_and_Objects
+
+Research note: Both full mechanics pages opened. Acquire/Integrate, Tessia example, typical inheritance, A-Class threshold, death loss and tamer ability verified; core sourcing cites comic episode 28. Avoided selected hero, dragon and magic-reservoir names.
+
+## 372. Dicathen
+- "This continent celebrates the Aurora Constellate when magical energy reaches a peak for a week, helping mages make breakthroughs and ordinary people sense it.": https://tbate.fandom.com/wiki/Dicathen
+- "Its cities develop around transportation portals left behind by ancient mages, and residents continue relying on those inherited gates.": https://tbate.fandom.com/wiki/Dicathen
+- "The Forest of Elshire and the Grand Mountains are notable landmarks within its territory, which also includes the dangerous, largely unexplored Beast Glades.": https://tbate.fandom.com/wiki/Dicathen
+- "Sapin is principally inhabited by humans, Elenoir by elves, and Darv by dwarves, forming its three main kingdoms.": https://tbate.fandom.com/wiki/Dicathen
+- "For 10 points, name this home continent of the protagonists in The Beginning After the End.": https://tbate.fandom.com/wiki/Dicathen
+
+Research note: Full continent article opened. Early Aurora festival, inherited portals, landmark geography and three kingdoms verified; used early setting and academy-era material rather than later war outcomes. Did not name the separate academy, protagonist, dragon or rival-continent answer.
+
+## 373. Xyrus Academy [accept Xyrus]
+- "This school's eight-member disciplinary committee includes Claire Bladeheart and the Glayder siblings, who enforce its rules and protect fellow students.": https://tbate.fandom.com/wiki/Xyrus_Academy
+- "Its student council is led by Tessia Eralith, with Clive Graves as vice president and Lilia Helstea serving as secretary.": https://tbate.fandom.com/wiki/Xyrus_Academy
+- "Graduates are considered elites even among nobles, with the best reputedly able to become royal guards, instructors, or military leaders.": https://tbate.fandom.com/wiki/Xyrus_Academy
+- "Situated in a floating city in Sapin, it admits aspiring mages with both the social background and magical talent to qualify.": https://tbate.fandom.com/wiki/Xyrus_Academy
+- "For 10 points, name this prestigious school of magic in The Beginning After the End directed by Cynthia Goodsky.": https://tbate.fandom.com/wiki/Xyrus_Academy
+
+Research note: Full school article opened. Committee and council rosters, elite-graduate reputation, floating location, admission description and director verified. Xyrus is used as school shorthand in Description. Avoided later invasion and director history sourced solely to novel flashback, plus all other selected answer names.
+
+## 374. Dawn's Ballad
+- "This weapon is considered a failure by its creator, Wren Kain the Fourth, who abandons it during an expedition to find minerals.": https://tbate.fandom.com/wiki/Dawn%27s_Ballad
+- "Its binding ritual shocks the person touching it and absorbs their blood, after which only that person or its creator can unsheathe it.": https://tbate.fandom.com/wiki/Dawn%27s_Ballad
+- "It is discovered under a covering in Vincent Helstea's warehouse, initially resembling a plain black stick because its handle matches its sheath.": https://tbate.fandom.com/wiki/Dawn%27s_Ballad
+- "The blade has a translucent teal hue, a narrow double edge, and a sharp curved tip, contrasting with its matte-black furnishings.": https://tbate.fandom.com/wiki/Dawn%27s_Ballad
+- "For 10 points, name this sword in The Beginning After the End that adjusts its size and balance to grow alongside its wielder.": https://tbate.fandom.com/wiki/Dawn%27s_Ballad
+
+Research note: Full weapon article opened. Failed experiment, abandonment, blood binding, Helstea discovery, blade appearance and adaptive balance/size verified from early comic story. Replaces Alacrya because that target's distinctive article details were chiefly later novel material. Omitted later damage/destruction and selected hero/dragon names.
+
+## 375. Everyone Else is a Returnee
+
+- "This novel's protagonist builds Vanguard into a workshop whose weapons and armor overwhelm competing businesses.": https://everyone-else-is-a-returnee.fandom.com/wiki/Yu_IlHan
+- "During a long isolation, he studies Earth's books and languages while honing martial arts and metalworking instead of gaining experience abroad.": https://everyone-else-is-a-returnee.fandom.com/wiki/Yu_IlHan
+- "An angel named Lita is assigned to supervise ten years of preparation, but their time together stretches into a millennium.": https://everyone-else-is-a-returnee.fandom.com/wiki/Yu_IlHan
+- "He is overlooked because an innate concealment ability can hide him even from divine observation as humanity is sent away before the Great Cataclysm.": https://everyone-else-is-a-returnee.fandom.com/wiki/Yu_IlHan
+- "For 10 points, name this Toika novel about Yu IlHan, the sole human accidentally left on Earth.": https://everyone-else-is-a-returnee.fandom.com/wiki/Yu_IlHan ; https://www.novelupdates.com/series/everyone-else-is-a-returnee/
+
+Verified notes: Opened full character article in browser. Used workshop and opening training/setup; omitted later identity, family and ending spoilers. Answer title verified on same article and NU overview.
+
+## 376. Dungeon Defense
+
+- "This novel's protagonist tries to monopolize a cure for the Black Death, using advance knowledge of the plague to repay his debts.": https://dungeondefensenovel.fandom.com/wiki/Dantalian
+- "His creditor is the Keuncuska Firm, whose consultant Lapis Lazuli repeatedly visits to demand payment.": https://dungeondefensenovel.fandom.com/wiki/Dantalian
+- "Ranked seventy-first in an order of seventy-two rulers, he compensates for an F rating in might with exceptional politics and eloquence.": https://dungeondefensenovel.fandom.com/wiki/Dantalian
+- "A Korean game enthusiast is sent into the strategy game Dungeon Attack after answering a suspicious survey.": https://www.novelupdates.com/series/dungeon-defense/
+- "For 10 points, name this Korean light novel in which that newcomer occupies the body of the weak demon ruler Dantalian.": https://www.novelupdates.com/series/dungeon-defense/ ; https://dungeondefensenovel.fandom.com/wiki/Dantalian
+
+Verified notes: Specified light novel version. Browser article's original Volume 1 section confirms Black Death stockpiling and debt; infobox/stats confirm rank and ratings. Avoided later wiki chronology, which appears inconsistent.
+
+## 377. The Second Coming of Gluttony
+
+- "This novel's threatened planet is aided by seven goddesses whose names come from the Latin terms for the deadly sins.": https://the-second-coming-of-gluttony.fandom.com/wiki/Seven_Gods
+- "Those deities rise in importance after the Parasite Queen defeats the Chief Deity and the opposing Seven Virtues.": https://the-second-coming-of-gluttony.fandom.com/wiki/Seven_Gods
+- "They establish an Oath that lets people from Earth enter Paradise and gain strength through a divine system.": https://the-second-coming-of-gluttony.fandom.com/wiki/Seven_Gods
+- "One goddess governs healing and support priests, while another governs priests who dispel curses and use holy power against enemies.": https://the-second-coming-of-gluttony.fandom.com/wiki/Seven_Gods
+- "For 10 points, name this Ro Yu Jin novel about the former gambling addict Seol Jihu's second chance in a besieged fantasy realm.": https://www.wuxiaworld.com/novel/the-second-coming-of-gluttony ; https://the-second-coming-of-gluttony.fandom.com/wiki/Seven_Gods ; https://the-second-coming-of-gluttony.fandom.com/wiki/Seol_Jihu
+
+Verified notes: Full Seven Gods and Seol Jihu articles opened; all four world-system clues verified. Publisher verifies author and gambling setup. No late identity or ending spoilers.
+
+## 378. My House of Horrors
+
+- "This novel's lead carries a comic book that can hold specters in its remaining pages, allowing him to bring supernatural allies on expeditions.": https://myhouseofhorrors.fandom.com/wiki/Chen_Ge
+- "A crying tape houses Xu Yin, while the prop called Doctor Skull-cracker becomes another part of his equipment.": https://myhouseofhorrors.fandom.com/wiki/Chen_Ge
+- "Mission rewards grant abilities such as Mortician's Make-up and Yin Yang Vision, helping him deal with the dead.": https://myhouseofhorrors.fandom.com/wiki/Chen_Ge
+- "He takes over an attraction at New Century Park after his parents vanish and discovers a black phone that issues daily tasks.": https://myhouseofhorrors.fandom.com/wiki/Chen_Ge
+- "For 10 points, name this novel about Chen Ge rebuilding a failing haunted attraction with help from actual ghosts.": https://myhouseofhorrors.fandom.com/wiki/Chen_Ge
+
+Verified notes: Full character article opened. Used equipment, early rewards, affiliation and initial setup; avoided hospital origin and late identity spoilers. Title and Chen Ge confirmed on official publisher overview.
+
+## 379. Warlock of the Magus World
+
+- "This novel's young noble inherits a ring that promises free academy admission, earned when his ancestor helped an injured practitioner.": https://warlock-of-the-magus-world.fandom.com/wiki/Leylin_Farlier
+- "He begins with third-grade spiritual aptitude and a stronger affinity for darkness than for fire or plants.": https://warlock-of-the-magus-world.fandom.com/wiki/Leylin_Farlier
+- "At Abyssal Bone Forest Academy, Kroft becomes his mentor in potioneering and spell models.": https://warlock-of-the-magus-world.fandom.com/wiki/Arc_1
+- "The mind occupying his body belonged to the scientist Fang Ming, killed by an energy-reactor explosion in a futuristic society.": https://warlock-of-the-magus-world.fandom.com/wiki/Leylin_Farlier
+- "For 10 points, name this novel by The Plagiarist in which Leylin Farlier explores magic with an AI chip carried over inside his soul.": https://www.wuxiaworld.com/novel/warlock-of-the-magus-world ; https://warlock-of-the-magus-world.fandom.com/wiki/Leylin_Farlier
+
+Verified notes: Full Leylin article and Arc1 page opened, plus official publisher. Used opening aptitude, ring and science premise; no late bloodlines or finale. Mentor clue limited to Kroft, avoiding inconsistent Dorotte wording in arc summary.
+
+## 380. Lord of the Mysteries
+
+- "This novel's industrial pioneer complains that his adopted world has no crude oil, then plans public sewers and a campaign for better hygiene.": https://lordofthemysteries.fandom.com/wiki/Roselle%27s_Diary
+- "A mysterious slate records twenty-two supernatural pathways, and the churches hoard dangerous artifacts as part of their strength.": https://lordofthemysteries.fandom.com/wiki/Roselle%27s_Diary
+- "Emperor Roselle gains scientific knowledge from the Savant potion, recalling physics and chemistry from his previous life.": https://lordofthemysteries.fandom.com/wiki/Roselle%27s_Diary
+- "He writes a private diary in Simplified Chinese, which local scholars mistake for mystical symbols but another newcomer can read.": https://lordofthemysteries.fandom.com/wiki/Roselle%27s_Diary
+- "For 10 points, name this novel by Cuttlefish That Loves Diving in which Klein Moretti investigates occult dangers amid steam engines and firearms.": https://lordofthemysteries.fandom.com/wiki/Lord_of_Mysteries_(Novel)
+
+Verified notes: Full diary and novel articles opened in browser. Used early diary material from chapters 59, 93 and 113–114; no late revelations. Both historical and renamed English titles explicitly verified.
+
+Answerline abbreviation LOTM is used for the book in the wiki's Qidian portfolio references: https://lordofthemysteries.fandom.com/wiki/Amon
+
+## 381. A Record of a Mortal's Journey to Immortality
+
+- "This novel's Azure Essence Sword Art can create three sword shadows, each reaching one-third of the original weapon's strength.": https://www.wuxiaworld.com/novel/rmji/rmji-chapter-217
+- "Its lead eagerly chooses the difficult Hundred Medicine Garden assignment, which requires annual deliveries of rare medicinal ingredients.": https://www.wuxiaworld.com/novel/rmji/rmji-chapter-150
+- "A Writ of Immortal Ascension brings him to Yellow Maple Valley, where Martial Uncle Ye tries to buy away his right to a Foundation Establishment Pill.": https://www.wuxiaworld.com/novel/rmji/rmji-chapter-145
+- "Li Huayuan is among his teachers, and a Face Setting Pill keeps his appearance close to that of a young man in his twenties.": https://rmji.fandom.com/wiki/Han_Li
+- "For 10 points, name this Wang Yu novel about the cautious cultivator Han Li.": https://www.wuxiaworld.com/novel/rmji
+
+Verified notes: Publisher chapter previews directly support sword shadows, gardening duty and writ/pill negotiation. Full Han Li article supports Li Huayuan and Face Setting Pill; its references use RMJI explicitly. Publisher overview verifies author and title. Avoided green bottle, roots and Doctor Mo clues already in bank.
+
+## 382. I Shall Seal the Heavens
+
+- "This novel's Righteous Bestowal practice uses Black Lands soil that Lord Fifth identifies as ashes of an ancient planet-sealing talisman.": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
+- "Its lead learns Flame Serpent Art after reaching the second level of Qi Condensation and tests his progress against a bear-shaped demonic beast.": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
+- "He gives his promotion reward, a Dry Spirit Pill, to Elder Sister Xu and receives the use of her old cave in return.": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
+- "His early business is a Pill Cultivation Workshop Outlet, and he befriends a chubby fellow servant over fried chicken.": https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
+- "For 10 points, name this Er Gen novel following the scholar-turned-cultivator Meng Hao.": https://www.wuxiaworld.com/novel/i-shall-seal-the-heavens ; https://i-shall-seal-the-heavens.fandom.com/wiki/Meng_Hao
+
+Verified notes: Full Meng Hao article opened in browser; first clue from early Black Lands arc, remaining clues from initial sect days. Avoided existing bank's copper mirror duplication, exam failure, Ninth Demon Sealer, Nirvana Brand, and Pill Cauldron origin.
+
+Answerline abbreviation ISSTH is used on the publisher's book page for its art gallery: https://www.wuxiaworld.com/novel/i-shall-seal-the-heavens
+
+## 383. The Desolate Era
+
+- "This novel's newcomer gains an early advantage by studying a painting of Nuwa in the office of the First Judge of the Dead.": https://www.wuxiaworld.com/novel/desolate-era/de-book-1-chapter-1
+- "That judge, Lord Cui, takes an interest because they share Earth as a birthplace, although he lived during the Sui and Tang era.": https://www.wuxiaworld.com/novel/desolate-era/de-book-1-chapter-1
+- "An attack by enormous black dragons lets the newcomer enter a reincarnation tunnel without drinking Grandma Meng's memory-erasing elixir.": https://www.wuxiaworld.com/novel/desolate-era/de-book-1-chapter-2
+- "In his new life, he joins the Black-White College and inherits the Starseizing Manor, whose legacy comes from Daoist Threelives.": https://desolate-era.fandom.com/wiki/Ji_Ning
+- "For 10 points, name this I Eat Tomatoes novel about the reincarnated swordsman Ji Ning.": https://www.wuxiaworld.com/novel/desolate-era ; https://desolate-era.fandom.com/wiki/Ji_Ning
+
+Verified notes: Full official opening chapters read, supporting Nuwa, Lord Cui's origin, and skipped forgetting elixir. Full Ji Ning article verifies Black-White College, Starseizing Manor and legacy mentor. No final power levels or ending outcomes used.
+
+## 384. The Book Eating Magician
+
+- "This novel's struggling student bargains with the slum trader Canis, offering to appraise artifacts in exchange for some of the objects.": https://thebookeatingmagician.fandom.com/wiki/Theodore_Miller/History
+- "Professor Vince encourages him to pursue scholarship because his command of theory outstrips his practical ability.": https://thebookeatingmagician.fandom.com/wiki/Theodore_Miller/History
+- "Despite five years at Bergen Academy, his poor sensitivity to mana prevents him from reaching the third circle needed to graduate.": https://thebookeatingmagician.fandom.com/wiki/Theodore_Miller/History
+- "His fortunes change when the grimoire Gluttony enters his hand and grants skills from spell manuals, while consuming artifacts can increase his magical power.": https://thebookeatingmagician.fandom.com/wiki/Theodore_Miller/History
+- "For 10 points, name this Korean novel about Theodore Miller's rise through knowledge absorbed from an unusual hungry tome.": https://thebookeatingmagician.fandom.com/wiki/Theodore_Miller/History
+
+Verified notes: Opened full History article and Gluttony article. All clues restricted to Bergen Academy Arc; no ending spoilers. Title page cross-reference verified on NU overview.
+
+## 385. A Will Eternal
+
+- "This novel's alchemical mishaps produce a rabbit that repeats embarrassing secrets and a rain capable of dissolving people's clothes.": https://a-will-eternal.fandom.com/wiki/Bai_Xiaochun
+- "Its lead and two kitchen companions repeatedly win the top three trial places, then sell those places to people seeking outer-sect admission.": https://a-will-eternal.fandom.com/wiki/Bai_Xiaochun
+- "Its lead becomes known as Little Turtle for his record-setting knowledge of plants and gains another reputation for stealing Spirit Tail Chickens.": https://a-will-eternal.fandom.com/wiki/Bai_Xiaochun
+- "A mysterious wok allows spirit enhancements with colored flames, although an early use drains the young owner's lifespan.": https://a-will-eternal.fandom.com/wiki/Bai_Xiaochun
+- "For 10 points, name this Er Gen novel about the troublesome immortal aspirant Bai Xiaochun.": https://www.wuxiaworld.com/novel/a-will-eternal ; https://a-will-eternal.fandom.com/wiki/Bai_Xiaochun
+
+Verified notes: Full Bai Xiaochun article opened. All clues from early Book 1: alchemy disasters, sold trial places, Little Turtle and chicken thief identities, and enhancement wok. Last answer's Er Gen publisher overview previously opened. Avoided late identities and endings.
+
+## 386. The King's Avatar
+
+- "This novel's newcomer team recruits An Wenyi after its captain notices him while infiltrating the guild Tyrannical Ambition.": https://the-kings-avatar.fandom.com/wiki/Happy
+- "Qiao Yifan joins after his contract expires and switches from an Assassin account to the Ghostblade One Inch Ash.": https://the-kings-avatar.fandom.com/wiki/Happy
+- "The roster also includes Tang Rou's Battle Mage Soft Mist and Bao Rongxing's Brawler Steamed Bun Invasion.": https://the-kings-avatar.fandom.com/wiki/Happy
+- "Chen Guo owns the Happy team, whose returning veterans include former Blue Rain captain Wei Chen on the Warlock Windward Formation.": https://the-kings-avatar.fandom.com/wiki/Happy
+- "For 10 points, name this Butterfly Blue esports novel about Ye Xiu rebuilding a professional career after leaving Excellent Era.": https://www.webnovel.com/book/the-king's-avatar_7176992105000305 ; https://the-kings-avatar.fandom.com/wiki/Happy
+
+Verified notes: Full Happy article opened in browser. Early recruitment, role/account transitions, roster and owner verified. Avoided championship outcome, retired ending roster and live-action-only plot. The new fictional-game answer and 'player' do not occur.
+
+## 387. Library of Heaven's Path
+
+- "This novel's real-estate vendor Sun Qiang becomes a steward after trying to overcharge the disguised teacher Yang Xuan for a mansion.": https://library-of-heavens-path.fandom.com/wiki/Sun_Qiang
+- "An orphaned student named Yuan Tao awakens his defensive Emperor Bloodline by coating himself with Colossus Rhinoceros blood.": https://library-of-heavens-path.fandom.com/wiki/Yuan_Tao
+- "Another student, Zhao Ya, needs an Unravel Yin Pill to awaken her Pure Yin Body, which her old training method had aggravated.": https://library-of-heavens-path.fandom.com/wiki/Zhao_Ya
+- "Those pupils join Wang Ying, Liu Yang and Zheng Yang under an instructor who can diagnose hidden faults in people and techniques.": https://library-of-heavens-path.fandom.com/wiki/Zhang_Xuan
+- "For 10 points, name this novel in which Zhang Xuan becomes a celebrated Master Teacher with help from an extraordinary mental collection of books.": https://library-of-heavens-path.fandom.com/wiki/Zhang_Xuan
+
+Verified notes: Full articles for teacher, steward and two disciples opened. Used early tenant disguise, pupil awakening treatments, and five initial students; gave core book power only near end. No LOHP alias added without independent verification.
+
+## 388. Cultivation Chat Group
+
+- "This novel's supernatural acquaintances make Dharma-Ending Battle, a film first proposed to explain a collection of luxury cars to someone's father.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "Venerable White invents a tractor race after enjoying a hand-guided vehicle supplied by Yellow Mountain.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "Their musical gatherings feature Dharma King Good Fortune, whose terrible singing makes listeners suffer.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "A mechanical-engineering student at Jiangnan University initially mistakes his new online contacts for people pretending to possess magical powers.": https://cultivation-chat-group.fandom.com/wiki/Song_Shuhang
+- "For 10 points, name this modern fantasy comedy in which Song Shuhang discovers that the Daoist seniors messaging him are real immortal seekers.": https://cultivation-chat-group.fandom.com/wiki/Song_Shuhang
+
+Verified notes: Full fellowship and protagonist articles opened in browser. Early film, tractor race, bad singing, Jiangnan engineering affiliation and initial mistaken roleplay assumption verified. Does not name the separate new fellowship answer. Avoided ending ranks.
+
+## 389. World of Cultivation
+
+- "This novel's protagonist angers his sword sect by excelling at formations, prompting his elders to imprison him in a sword-essence array for training.": https://world-of-cultivation.fandom.com/wiki/Zuo_Mo
+- "A five-element glass bead embedded in his body provides a clue to a past erased along with his original face.": https://world-of-cultivation.fandom.com/wiki/Zuo_Mo
+- "Pu Yao enters his consciousness as a black dandelion seed after an infestation attacks the spiritual grain fields.": https://world-of-cultivation.fandom.com/wiki/Zuo_Mo
+- "At Wu Kong Sword Sect, the expressionless outer disciple begins as a farmer whose chief ambition is earning more jingshi.": https://world-of-cultivation.fandom.com/wiki/Zuo_Mo
+- "For 10 points, name this Fang Xiang novel about the money-loving Zuo Mo, nicknamed the Scalping Zombie.": https://world-of-cultivation.fandom.com/wiki/Zuo_Mo
+
+Verified notes: Full Zuo Mo article opened in browser. Only first two volumes used: forced sword training, body bead and erased identity, Pu Yao's arrival, and ling farming/currency. No late recovered identity or war outcomes.
+
+## 390. Losing Money to Be a Tycoon
+
+- "This novel's supernatural sponsor forbids its beneficiary from paying himself a salary through his company's accounts.": https://www.webnovel.com/book/losing-money-to-be-a-tycoon_15705498105694305/wealth-conversion-system_42346079814993709
+- "Its rules also ban charitable giveaways, speculative schemes and unreasonable business expenses, closing the simplest ways to empty the treasury.": https://www.webnovel.com/book/losing-money-to-be-a-tycoon_15705498105694305/wealth-conversion-system_42346079814993709
+- "An organization called ESRO supplies a shared marketplace of game art, development templates and an accessible editor.": https://www.webnovel.com/book/losing-money-to-be-a-tycoon_15705498105694305/wealth-conversion-system_42346079814993709
+- "Reborn in 2009, the protagonist establishes Tengda Network Technology and decides that deliberately bad games should squander his investment.": https://www.webnovel.com/book/losing-money-to-be-a-tycoon_15705498105694305/wealth-conversion-system_42346079814993709
+- "For 10 points, name this business comedy in which Pei Qian receives only one percent of profits as personal wealth, but keeps the value of every yuan his company loses.": https://www.webnovel.com/book/losing-money-to-be-a-tycoon_15705498105694305/wealth-conversion-system_42346079814993709
+
+Verified notes: Official refined global first chapter opened in full. Confirms salary ban, detailed restrictions, ESRO,2009,Tengda and100:1versus1:1ratios. No ending material used.
+
+## 391. Swallowed Star
+
+- "This novel's AI companion is astonished that Hong and Thunder God both develop domains while still only Star Traveller warriors.": https://www.webnovel.com/book/7213811205000505/19364427883070071
+- "Its lead joins his sworn brothers in the Pinnacle Genius Battle, taking his competition beyond the limits of his home planet.": https://swallowed-star.fandom.com/wiki/Luo_Feng
+- "Babata becomes his mentor after the death of Hu Yan Bo and survives that master's enemies because artificial intelligence is immune to soul attacks.": https://swallowed-star.fandom.com/wiki/Babata
+- "His awakening psychic powers accompany fainting spells, including one that interrupts the college entrance examination and derails his plans to join the army.": https://swallowed-star.fandom.com/wiki/Luo_Feng
+- "For 10 points, name this I Eat Tomatoes novel following Luo Feng from Earth into the wider universe.": https://www.webnovel.com/book/swallowed-star_7213811205000505 ; https://swallowed-star.fandom.com/wiki/Luo_Feng
+
+Verified notes: Opened full Luo Feng and Babata articles in own browser, publisher chapter 253 preview and publisher overview. Avoided wiki's inconsistent age/faint counts, sequel and ending identities, and existing bank's RR virus and Fire Hammer clues. Domain surprise is directly stated in original chapter; AI immunity and mentorship are explicit Babata lore.
+
+## 392. Debut or Die
+
+- "This novel's aspiring singer shuts himself in a karaoke booth, hoping a television casting writer will discover him there.": https://debutordie.fandom.com/wiki/Park_Moondae/Story
+- "He chooses a vocal position on Idol Inc. because strong singers seem rarer than dancers or rappers, and a status interface lets him improve his skills.": https://debutordie.fandom.com/wiki/Park_Moondae/Story
+- "His earlier hobby of recording idol fancams gives him useful knowledge of the entertainment industry.": https://debutordie.fandom.com/wiki/Park_Moondae/Story
+- "Ryu Gunwoo wakes three years in the past in a stranger's body six years younger than his own.": https://debutordie.fandom.com/wiki/Park_Moondae/Story
+- "For 10 points, name this Korean novel in which Gunwoo, now called Park Moondae, must launch an idol career within a year to avoid death.": https://debutordie.fandom.com/wiki/Park_Moondae/Story
+
+Verified notes: Full Story article opened. Clues use disclosed opening casting,skills,prior hobby and initial mission only; omitted later truths about body swap,system origin and family. Actual title words absent from question.
+
+## 393. I'm Really Not the Demon God's Lackey
+
+- "This novel's Truth Union classifies supernatural beings as Abnormal, Pandemonium, Destructive, or Supreme under its APDS system.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-4
+- "One regular borrower sees the book Void Extinguishing where the shopkeeper sees One Hundred Years of Solitude.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-4
+- "Wilde also reads Corpse Devouring Sect, Rites and Ceremonies where its author intended an academic book about ceremonies and customs.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-5 ; https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-6
+- "A collector's ritual grants access to every book at the price of leaving Earth permanently, placing him in a shop in Norzin.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-5
+- "For 10 points, name this novel about Lin Jie, whose helpful bookstore recommendations seem far more sinister to his supernatural customers.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey ; https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-6
+
+Verified notes: Opened licensed Hosted Novel overview and full chapters 4–6; publisher explicitly states license from Ciweimao. Chapter 4 juxtaposes Void Extinguishing with 100 Years Of Solitude. Chapters 5–6 juxtapose Lin Jie's self-authored Ceremonies And Customs with Wilde's perceived title. No fan reposts used. Short accepted core is Demon God's Lackey.
+
+## 394. Experimental Log of the Crazy Lich
+
+- "This novel's former judge runs a private prison for criminals whom Sulfur Mountain City's courts cannot successfully convict.": https://www.webnovel.com/book/7979375206002305/22025750413988334
+- "A dark elf officer fines him after his pet Ah Bao, a two-headed hellhound, takes a neighboring skeleton child's tibia.": https://www.webnovel.com/book/7979375206002305/22025750413988334
+- "His interface extracts power from suffering and misfortune, and he needs a hundred thousand Evil Points to restore a living body.": https://www.webnovel.com/book/7979375206002305/22025750413988334
+- "One daily quest offers a choice between destroying a town of thirty thousand people and stealing lollipops from three children.": https://www.webnovel.com/book/7979375206002305
+- "For 10 points, name this Angry Squirrel novel about the undead Roland Mist, who insists that he is a good person.": https://www.webnovel.com/book/7979375206002305 ; https://www.webnovel.com/book/7979375206002305/22025750413988334
+
+Verified notes: Opened full official Webnovel chapter 1 and official overview. Former judge, private prison, pet incident, Evil Point resurrection goal and pain/misfortune extraction are explicitly in chapter 1; daily-quest alternatives are official synopsis. Avoided sexual torture passage, later rebirths and ending spoilers. Short accepted core is Crazy Lich.
+
+## 395. Nine Provinces Number One Group
+
+- "This group's trading rules forbid seniors from seizing juniors' possessions and require both sides to consent to an exchange.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "Its members sometimes steal one another's vegetables in an online farming game to build friendships.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "Experienced members post missions for juniors, offering techniques and medicines as well as supplementary spirit stones.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "Yellow Mountain, Rain Moon and Seventh Path founded it to guide younger practitioners, and its early conversations take place through WeChat.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+- "For 10 points, name this online fellowship that accidentally admits the ordinary college student Song Shuhang among immortal seekers.": https://cultivation-chat-group.fandom.com/wiki/Nine_Provinces_(1)_Group
+
+Verified notes: Full article opened in browser, redirect from spelled-out Number One URL. Equal exchange, farming games, junior quests, three founders, early WeChat use, and mortal Song Shuhang's accidental addition verified. Later platform, ranks and ending succession avoided.
+
+## 396. Acting Method
+
+- "This technique is kept secret from ordinary church members, while senior clergy must swear not to disclose its details.": https://lordofthemysteries.fandom.com/wiki/Acting_Method
+- "Klein compares its operation to entering a guarded castle while disguised as an invited guest, rather than breaking through its defenses.": https://lordofthemysteries.fandom.com/wiki/Acting_Method
+- "It is taught openly in the City of Silver, where students are warned to preserve their identity instead of becoming their adopted persona.": https://lordofthemysteries.fandom.com/wiki/Acting_Method
+- "Using it improves command of supernatural abilities and lowers the danger of losing control when advancing to the next Sequence.": https://lordofthemysteries.fandom.com/wiki/Acting_Method
+- "For 10 points, name this Beyonder practice of digesting a potion by performing the role suggested by that potion's name.": https://lordofthemysteries.fandom.com/wiki/Acting_Method
+
+Verified notes: Full article opened. Used Book I principles, castle analogy and church secrecy; omitted advanced Sequence0 and Book II material. Title/Chinese term verify standard answer. No parent novel title named.
+
+## 397. Creeping Hunger
+
+- "This artifact initially takes a full second to change between the souls it holds, making it slower than a genuine Shepherd.": https://lordofthemysteries.fandom.com/wiki/Creeping_Hunger
+- "Its original capacity is five souls, one for each finger, and each captive supplies a random selection of supernatural abilities.": https://lordofthemysteries.fandom.com/wiki/Creeping_Hunger
+- "Azik takes it after Qilangos's death and seals it so its demand for flesh and souls applies only when it is used.": https://lordofthemysteries.fandom.com/wiki/Creeping_Hunger
+- "It can camouflage itself as ordinary skin, leaving its owner's hand apparently bare.": https://lordofthemysteries.fandom.com/wiki/Creeping_Hunger
+- "For 10 points, name this sinister human-skin glove that lets Klein use powers taken from the souls it grazes.": https://lordofthemysteries.fandom.com/wiki/Creeping_Hunger
+
+Verified notes: Full article opened. Explicitly initial capacity/speed and first Azik seal; avoided post-fusion rules, late ownership changes and ending spoilers. Glove description standard answer confirmed on article and publisher chapter preview.
+
+## 398. Spring Autumn Cicada
+
+- "This Gu's growing pressure can rupture a mortal aperture as it recovers, making its owner's own advancement a matter of survival.": https://reverend-insanity.fandom.com/wiki/Spring_Autumn_Cicada
+- "Its brownish body bears patterns like tree rings, while two broad translucent wings resemble fresh green leaves.": https://reverend-insanity.fandom.com/wiki/Spring_Autumn_Cicada
+- "The insect feeds on the River of Time and becomes its user's vital Gu after a successful journey.": https://reverend-insanity.fandom.com/wiki/Spring_Autumn_Cicada
+- "Activating it requires self-detonation, and the attempt can fail outright or strand a collapsing will in the current.": https://reverend-insanity.fandom.com/wiki/Spring_Autumn_Cicada
+- "For 10 points, name this time-path Gu that lets Fang Yuan send his memories upstream and return to his younger self.": https://reverend-insanity.fandom.com/wiki/Spring_Autumn_Cicada
+
+Verified notes: Full article opened in browser. Appearance, aperture pressure, feeding, vital Gu, self-detonation, and will-only upstream travel verified. Avoided later uses and identity reveals.
+
+## 399. The Legends of Ren Zu
+
+- "This book describes a prisoner of Ordinary Abyss who must carve his own road through thorns and blades instead of following other people's shallow tracks.": https://reverend-insanity.fandom.com/wiki/Ren_Zu
+- "In another episode, Rules and Regulation Gu capture Longevity Gu to restore youth, but refuse to catch the same insect twice.": https://reverend-insanity.fandom.com/wiki/Ren_Zu
+- "Its early stories personify hardship as beasts called Predicaments and have Strength and Wisdom demand years of life in payment.": https://reverend-insanity.fandom.com/wiki/Ren_Zu
+- "The central figure has ten children, including Verdant Great Sun and Desolate Ancient Moon, whose constitutions inspire the Ten Extreme Physiques.": https://reverend-insanity.fandom.com/wiki/Ren_Zu
+- "For 10 points, name this recurring collection of fables about the human ancestor in Fang Yuan's world.": https://reverend-insanity.fandom.com/wiki/Ren_Zu
+
+Verified notes: Full Ren Zu article opened in browser. Ordinary Abyss road, Rules/Regulation/Longevity bargain, Predicaments and life trades, and ten children/physiques verified. No terminal fates included.
+
+## 400. Glory
+
+- "This game's voice chat changes with the distance between characters, allowing headphones to reproduce their positions in its world.": https://the-kings-avatar.fandom.com/wiki/Glory
+- "Its standard equipment grades run from white through green, blue and purple to orange, while custom creations receive a separate silver designation.": https://the-kings-avatar.fandom.com/wiki/Glory
+- "Starting with its second anniversary, a new server opens each December 3, and class selection becomes available at level twenty.": https://the-kings-avatar.fandom.com/wiki/Glory
+- "Accounts require physical cards read by a dedicated login device, and the Heavenly Domain is a shared area reached through a special challenge.": https://the-kings-avatar.fandom.com/wiki/Glory
+- "For 10 points, name this keyboard-and-mouse MMORPG whose professional circuit features Ye Xiu and One Autumn Leaf.": https://the-kings-avatar.fandom.com/wiki/Glory
+
+Verified notes: Full game article opened in browser. Proximity audio, five standard equipment grades plus custom silver, anniversary servers, level-20 classes, account card login, Heavenly Domain entry, and central professional competition verified. No word 'player' appears in the question.
