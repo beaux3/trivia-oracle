@@ -1,6 +1,6 @@
 # Cultivation / Returner Slop — sources
 
-400 tossups on Korean manhwa, webtoons and web novels, Chinese web novels, their shared tropes and
+425 tossups on Korean manhwa, webtoons and web novels, Chinese web novels, their shared tropes and
 mechanics, and the reading ecosystem (platforms, translation and piracy sites, industry drama). Every
 sentence of every question is listed below with at least one source that was opened during research
 (September–October 2026).
@@ -20,6 +20,12 @@ on Comix and NovelUpdates, alongside the requesting group's reading preferences 
 - Comix follows: https://comix.to/browse?sort=follows_total%3Adesc&types=manhwa%2Cmanhua
 - NovelUpdates Popular (All): https://www.novelupdates.com/series-ranking/?rank=popular
 - NovelUpdates Popular (Month): https://www.novelupdates.com/series-ranking/?rank=popmonth
+
+Questions 401–425 add manhwa and Chinese webnovel tropes in October 2026. Research used
+publisher chapters and glossaries, official webtoon descriptions, NovelUpdates tag definitions,
+original author-published parody text, and full trope/wiki articles. Blocked articles were read
+directly in the browser; chapter previews supplied only facts visible in the preview.
+Every new sentence has an exact source bullet below.
 
 ## 1. Beru
 - "Guarding Jinwoo's traumatized sister Jinah, got bored, watched Korean period dramas, developed a historic manner of speech": https://solo-leveling.fandom.com/wiki/Beru
@@ -3723,3 +3729,211 @@ Verified notes: Full Ren Zu article opened in browser. Ordinary Abyss road, Rule
 - "For 10 points, name this keyboard-and-mouse MMORPG whose professional circuit features Ye Xiu and One Autumn Leaf.": https://the-kings-avatar.fandom.com/wiki/Glory
 
 Verified notes: Full game article opened in browser. Proximity audio, five standard equipment grades plus custom silver, anniversary servers, level-20 classes, account card login, Heavenly Domain entry, and central professional competition verified. No word 'player' appears in the question.
+
+## 401. Hiding Strength
+
+- "This habit can require a long performance of weakness rather than a single surprise reveal when somebody finally starts a fight.": https://www.novelupdates.com/stag/hiding-true-abilities/
+- "The returning martial expert in My Dad Is Too Strong promises to spend the rest of his life living ordinarily.": https://www.novelupdates.com/series/my-dad-is-too-strong/
+- "Kim Sungchul goes undercover to learn magic from the mages he hates, after discovering that physical strength cannot solve everything.": https://www.novelupdates.com/series/main-character-hides-his-strength/
+- "A reawakened hunter gives Ahn Sangmin a much less relaxing lesson in discretion, demonstrating Stealth and demanding silence about his actual strength.": https://solo-leveling.fandom.com/wiki/Ahn_Sangmin
+- "For 10 points, name this protagonist habit of concealing real combat capabilities while letting everyone assume they are much weaker.": https://www.novelupdates.com/stag/hiding-true-abilities/
+
+## 402. Worf Effect
+
+- "The first-ranked hunter Thomas Andre illustrates this trope when a reawakened hunter beats him nearly to death despite his Reinforcement skill.": https://solo-leveling.fandom.com/wiki/Thomas_Andre
+- "Repeating this treatment can make an allegedly formidable fighter seem unimpressive, whatever impressive statistics the author keeps assigning him.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TheWorfEffect
+- "That fighter's established reputation supplies a measuring stick for a newly introduced threat, saving time on a separate demonstration.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TheWorfEffect
+- "A newcomer may flatten the team's toughest member in one blow, leaving everyone else understandably less enthusiastic about volunteering next.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TheWorfEffect
+- "It takes its name from the frequently defeated Klingon security officer aboard the Enterprise in The Next Generation.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TheWorfEffect
+- "For 10 points, name this trope of establishing someone's menace by having them defeat a familiar powerhouse.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TheWorfEffect
+
+## 403. Training from Hell
+
+- "In one example of this regimen, Ryuhwan promises to make Tasha as strong as himself within a month, which sounds suspiciously convenient.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TrainingFromHell
+- "The Witch Hunter mentor then demonstrates his methods by firing repeatedly at Tasha inside a dimension that restores his body.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TrainingFromHell
+- "Repeated fights to the death there make ordinary gym soreness look like an extremely generous refund policy.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TrainingFromHell
+- "An antagonist imposing such methods on minions usually signals cruelty; a hero surviving them is more often rewarded with dramatic improvement.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TrainingFromHell
+- "Such ordeals may be self-imposed or inflicted by a harsh instructor, and would kill or incapacitate a normal participant.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TrainingFromHell
+- "For 10 points, name this trope of brutally dangerous preparation, whose name compares the training ground to the infernal afterlife.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TrainingFromHell
+
+## 404. Power Copying
+
+- "Bam puts this kind of ability to work by enduring other fighters' attacks, turning martial arts lessons into a very painful demonstration service.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PowerCopying
+- "He can also reproduce the tower's magical-energy techniques after experiencing them, even when they exceed his current level.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PowerCopying
+- "Another webtoon's John temporarily acquires other people's abilities and can use them more strongly or inventively than their original owners.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PowerCopying
+- "Common limits include needing the original user nearby, retaining the ability briefly, or inheriting its weaknesses along with its benefits.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PowerCopying
+- "Ordinary techniques, magic and superpowers can all be obtained this way without the years of practice everybody else had to do.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PowerCopying
+- "For 10 points, name this ability to duplicate someone else's capabilities after observing or experiencing them.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PowerCopying
+
+## 405. Always a Bigger Fish
+
+- "This interruption works most convincingly when the eventual rescuer has already been introduced, rather than arriving as an unexplained last-second convenience.": https://tvtropes.org/pmwiki/pmwiki.php/Main/AlwaysABiggerFish
+- "Even a previous villain can become briefly welcome when their arrival interrupts another frightening threat that has cornered the protagonists.": https://tvtropes.org/pmwiki/pmwiki.php/Main/AlwaysABiggerFish
+- "That relief does not necessarily mean anyone has become friendly; the newcomer may simply be hungry and interested in the current attacker.": https://tvtropes.org/pmwiki/pmwiki.php/Main/AlwaysABiggerFish
+- "The sensible response is to leave before the new predator finishes its meal and begins considering everyone else as dessert.": https://tvtropes.org/pmwiki/pmwiki.php/Main/AlwaysABiggerFish
+- "An apparent rescue can therefore replace one immediate danger with a much scarier creature instead of solving the situation permanently.": https://tvtropes.org/pmwiki/pmwiki.php/Main/AlwaysABiggerFish
+- "For 10 points, name this aquatic saying about one dangerous threat being interrupted by something even more formidable.": https://tvtropes.org/pmwiki/pmwiki.php/Main/AlwaysABiggerFish
+
+## 406. Overpowered Protagonist
+
+- "After three thousand years of practice in an awakening dimension, Gibong returns at maximum level as this kind of lead character.": https://www.webtoons.com/en/action/limit-breaker/list?title_no=4176
+- "Only ten years have passed on Earth, making his lengthy preparation particularly unfair to everyone who stayed on the normal calendar.": https://www.webtoons.com/en/action/limit-breaker/list?title_no=4176
+- "Hyeonu likewise spends twelve years imprisoned in a tower populated by regenerating monsters before finally getting his freedom.": https://www.webtoons.com/en/collection/epic-showdowns/1249
+- "By then, almost every other human or monster on Earth is weaker than him, which rather changes the difficulty of his revenge.": https://www.webtoons.com/en/collection/epic-showdowns/1249
+- "While looking for whoever imprisoned him, he can destroy monster hordes and accidentally save the world along the way.": https://www.webtoons.com/en/collection/epic-showdowns/1249
+- "For 10 points, name this excessively strong main-character archetype, often abbreviated using the initials O and P.": https://en.wikipedia.org/wiki/Glossary_of_video_game_terms
+
+## 407. Tutorial
+
+- "The first floor of this supposedly introductory experience shoots arrows at the participant's ankle, chest and head, with crossbows adding further encouragement.": https://the-tutorial-is-too-hard.fandom.com/wiki/Floors
+- "Its final chamber puts a lava pit between the learner and another set of projectile traps, because apparently the basics were insufficient.": https://the-tutorial-is-too-hard.fandom.com/wiki/Floors
+- "The second floor escalates to poisoned needles and rooms alternating extreme heat with freezing cold.": https://the-tutorial-is-too-hard.fandom.com/wiki/Floors
+- "It then requires three hours of revisiting painful or embarrassing memories, an unusually aggressive approach to checking whether the participant understood the lesson.": https://the-tutorial-is-too-hard.fandom.com/wiki/Floors
+- "The third floor suggests white tiles are safe, then puts its most dangerous trap on the last white square.": https://the-tutorial-is-too-hard.fandom.com/wiki/Floors
+- "For 10 points, name this opening stage meant to teach a game's mechanics, here converted into a lethal ordeal.": https://the-tutorial-is-too-hard.fandom.com/wiki/Floors ; https://en.wikipedia.org/wiki/Tutorial_(video_games)
+
+## 408. Recruitment
+
+- "Ahn Sangmin's attempt at this process begins with investigating unusual gate purchases and realizing that a hunter has undergone a second awakening.": https://solo-leveling.fandom.com/wiki/Ahn_Sangmin
+- "He offers double Yoojin Construction's deal before discovering that the competing offer involves a thirty-billion-won building.": https://solo-leveling.fandom.com/wiki/Ahn_Sangmin
+- "That hunter then tricks him into buying overpriced C-rank gates, but Ahn still hopes to succeed because he has the man's phone number.": https://solo-leveling.fandom.com/wiki/Ahn_Sangmin
+- "The American government has an even stranger benefits package: Norma Selner's ability to raise a hunter's natural potential by roughly twenty to thirty percent.": https://solo-leveling.fandom.com/wiki/Norma_Selner
+- "Hwang Dongsoo accepts that inducement, and Michael Connor later tries offering the same advantage to the reawakened hunter.": https://solo-leveling.fandom.com/wiki/Norma_Selner
+- "For 10 points, name this process of persuading skilled hunters to join your organization, sometimes resembling a bidding war for employees.": https://solo-leveling.fandom.com/wiki/Ahn_Sangmin
+
+## 409. arrogant young master
+- "This character type takes the starring role when Li Luo's wealthy family falls on hard times in Absolute Resonance.": https://www.wuxiaworld.com/announcements/absolute-resonance/absolute-resonance-begins
+- "Xu Lengye supplies another example by claiming Chen Xi's spirit herb and threatening to kill him without checking his strength.": https://www.wuxiaworld.com/novel/talisman-emperor/te-chapter-434
+- "In Unintended Immortality, a Grand Commander's notorious son is cursed by a Daoist, and his family wants officials to retaliate.": https://www.wuxiaworld.com/novel/unintended-immortality/ui-chapter-152
+- "The underlying honorific also addresses Su Chen when he manages his mother's antique business, even though he behaves politely.": https://www.wuxiaworld.com/novel/divine-throne-of-primordial-blood/dtpb-chapter-1-013
+- "The publisher identifies the familiar version as an entitled heir who offends the hero, then reverses the perspective for Li Luo.": https://www.wuxiaworld.com/announcements/absolute-resonance/absolute-resonance-begins
+- "For 10 points, name this pampered clan scion whose attitude practically sends the protagonist an invitation to beat him up.": https://www.wuxiaworld.com/announcements/absolute-resonance/absolute-resonance-begins
+
+## 410. courting death
+- "This threat is a silver-robed expert's response to being called a villain in Yuan's Ascension, immediately before his mountainlike palm strike.": https://www.wuxiaworld.com/novel/yuans-ascension/ya-chapter-1209
+- "A vampire count delivers the same warning when Qianye draws East Peak and beckons him to fight.": https://www.wuxiaworld.com/novel/monarch-of-evernight/moe-volume-6-chapter-60
+- "Li Tianming uses it against Yuwen Shengcheng, who behaves as if his clan owns the Grand-Orient Sect.": https://www.wuxiaworld.com/novel/beastmaster-of-the-ages/bota-chapter-221
+- "In that confrontation, Tianming answers an attack with deception, a twisted wrist, and a slap, so the warning is more than decorative dialogue.": https://www.wuxiaworld.com/novel/beastmaster-of-the-ages/bota-chapter-221
+- "Translated from zhaosi, this insult accuses the listener of actively seeking a fatal outcome by overstepping their bounds.": https://en.wiktionary.org/wiki/%E6%89%BE%E6%AD%BB
+- "For 10 points, give this familiar two-word warning that an angry cultivator directs at someone supposedly asking to be killed.": https://en.wiktionary.org/wiki/%E6%89%BE%E6%AD%BB ; https://www.wuxiaworld.com/novel/nine-star-hegemon/nshba-chapter-6475
+
+## 411. Mount Tai
+- "This mountain appears in an apology from Crouching Tiger after a man's tap dissolves his accumulated qi in Stranger Danger.": https://www.wuxiaworld.com/novel/stranger-danger/sd-chapter-1682
+- "In Emperor's Domination, healer Mu Yalan invokes it while apologizing for wrongly judging Li Qiye's treatment of Elder Yang.": https://www.wuxiaworld.com/novel/emperors-domination/emperor-chapter-2238
+- "Robbers similarly mention it when begging Lin Ming for mercy after discovering how dangerous he is.": https://www.wuxiaworld.com/novel/martial-world/mw-chapter-1073
+- "The shared expression describes having functioning eyes while still failing to recognize an important person.": https://en.wiktionary.org/wiki/%E6%9C%89%E7%9C%BC%E4%B8%8D%E8%AD%98%E6%B3%B0%E5%B1%B1
+- "It is essentially the genre's admission that the unimpressive stranger was somebody you really should have respected.": https://en.wiktionary.org/wiki/%E6%9C%89%E7%9C%BC%E4%B8%8D%E8%AD%98%E6%B3%B0%E5%B1%B1
+- "For 10 points, name this Chinese mountain that an embarrassed cultivator claims to have failed to recognize.": https://en.wiktionary.org/wiki/%E6%9C%89%E7%9C%BC%E4%B8%8D%E8%AD%98%E6%B3%B0%E5%B1%B1
+
+## 412. frog in a well
+- "This comparison occurs to Chen Feng when Miscellaneous Information reveals how tiny Black Origin City is within the Northern Plains.": https://www.wuxiaworld.com/novel/everlasting/ev-chapter-47
+- "Lee Gi-Bok admits it after Kang Jae-Hyeok blocks his attacks and speaks of an ambition beyond ordinary status.": https://www.wuxiaworld.com/novel/the-dukes-son-re/tdsr-chapter-14
+- "Damn Reincarnation's narrator uses the same image for his former arrogance after encountering a man with far greater talent.": https://www.wuxiaworld.com/novel/damn-reincarnation/dr-chapter-1
+- "The creature in this saying has such a restricted viewpoint that its immediate surroundings stand in for the whole world.": https://en.wiktionary.org/wiki/%E4%BA%95%E5%BA%95%E4%B9%8B%E8%9B%99
+- "An older image in Zhuangzi says this creature cannot discuss the ocean because it is confined to its narrow home.": https://en.wiktionary.org/wiki/%E4%BA%95%E5%BA%95%E4%B9%8B%E8%9B%99
+- "For 10 points, name this animal-and-location insult for somebody who thinks their little corner of the world is all there is.": https://en.wiktionary.org/wiki/%E4%BA%95%E5%BA%95%E4%B9%8B%E8%9B%99
+
+## 413. kowtow
+- "This action marks Li Huowang's appointment as a direct disciple when Dan Yangzi orders him to honor three deities.": https://www.wuxiaworld.com/novel/dao-of-the-bizarre-immortal/dbi-chapter-18
+- "Su Chen performs it while asking antique-store manager Tang Zhen to save him from his family's schemes.": https://www.wuxiaworld.com/novel/divine-throne-of-primordial-blood/dtpb-chapter-1-013
+- "In Unsheathed, Qi Jingchun forces Zhi Gui to do it three times for the world, living beings, and the Great Dao.": https://www.wuxiaworld.com/novel/unsheathed/un-chapter-15
+- "An old fisherman demands the same gesture before returning a cultivator's flying sword, which he has caught inside his sleeve.": https://www.wuxiaworld.com/novel/unsheathed/un-chapter-524-1
+- "It expresses reverence or submission through a much deeper motion than the ordinary polite inclination of the head.": https://www.wuxiaworld.com/page/general-glossary-of-terms
+- "For 10 points, name this gesture of kneeling and pressing your forehead to the ground, often demanded by offended experts.": https://www.wuxiaworld.com/page/general-glossary-of-terms
+
+## 414. jade beauty
+- "This archetype is spoofed by Xiao Hong, who refuses to become anybody's waifu despite attracting eager suitors in a cultivation parody.": https://www.royalroad.com/fiction/118639/reincarnated-as-a-jade-beauty
+- "Another parody's Xiao Yun inspects Yu Meiren's fingers because her perfect appearance reminds him of an AI-generated image.": https://www.royalroad.com/fiction/151571/the-heavenly-way-xianxiaclan-building/chapter/3098973/chapter-22
+- "Her entrance prompts Lin Feng to suggest a public duel, turning admiration into a demonstration of martial prowess.": https://www.royalroad.com/fiction/151571/the-heavenly-way-xianxiaclan-building/chapter/3098973/chapter-22
+- "Against the Gods describes Xia Qingyue's snow-white complexion and calls her the foremost beauty of Floating Cloud City.": https://www.wuxiaworld.com/novel/against-the-gods/atg-chapter-6/?mobile-app=true&theme=wiki
+- "Chinese descriptive imagery compares such flawless, pale skin with a prized stone rather than giving the heroine an ordinary complexion.": https://www.wuxiaworld.com/page/chinese-idiom-glossary
+- "For 10 points, name this two-word cultivation label for an impossibly attractive woman whose appearance is likened to that gemstone.": https://www.royalroad.com/fiction/151571/the-heavenly-way-xianxiaclan-building/chapter/3098973/chapter-22 ; https://www.wuxiaworld.com/page/chinese-idiom-glossary
+Alias note: the plural "Jade Beauties" is verified in the original author's synopsis at https://www.royalroad.com/fiction/55418/damagema-a-rolling-stone-litrpg-complete .
+
+## 415. spitting blood
+- "This reaction interrupts Sun Wenshan's complaints after Qin Changkong rebukes him, with the narration explicitly blaming his extreme anger.": https://lite.wuxiaworld.com/novel/unrivaled-martial-emperor/ume-chapter-41
+- "Zhu Ying has a similar response before fainting after defeat and the crowd's jeers in Splitting the Heavens.": https://www.wuxiaworld.com/novel/splitting-the-heavens/sth-chapter-5
+- "In Immortal of the Nine Realms, a Daoist displays it when his Soul Subduing Bell fails against Fang Chen, who has not moved a finger.": https://www.wuxiaworld.com/novel/immortal-of-the-nine-realms/inr-chapter-26
+- "The publisher glossary allows severe emotional disturbance to cause it, alongside more conventional internal injuries.": https://www.wuxiaworld.com/page/chinese-idiom-glossary
+- "In other words, these stories sometimes make receiving an insult look as physically damaging as receiving a punch.": https://www.wuxiaworld.com/page/chinese-idiom-glossary ; https://lite.wuxiaworld.com/novel/unrivaled-martial-emperor/ume-chapter-41 ; https://www.wuxiaworld.com/novel/splitting-the-heavens/sth-chapter-5
+- "For 10 points, name this melodramatic reaction in which an upset cultivator suddenly ejects a crimson mouthful.": https://www.wuxiaworld.com/page/chinese-idiom-glossary
+
+## 416. old man in a ring
+- "This trope supplies a boy with a bedside visitor when his glowing accessory projects Doehring Cowart from the vanished Pouant Empire.": https://www.wuxiaworld.com/novel/coiling-dragon/cd-book-1-chapter-18
+- "The visitor looks like an amiable gentleman with a long white beard and moon-white robes, despite his extraordinary magical rank.": https://www.wuxiaworld.com/novel/coiling-dragon/cd-book-1-chapter-18
+- "Xiao Yan's version dismisses the famous Pill King Gu He as trash without bothering to disclose his own rank.": https://www.wuxiaworld.com/novel/battle-through-the-heavens/btth-chapter-9
+- "He promises a technique stronger than Tian-level methods, then infuriates his new student by calling it low Huang-level.": https://www.wuxiaworld.com/novel/battle-through-the-heavens/btth-chapter-9
+- "In Battle Through the Heavens, the boy even throws the heirloom off a cliff before its transparent occupant returns.": https://www.wuxiaworld.com/novel/battle-through-the-heavens/btth-chapter-8
+- "For 10 points, name this cultivation cliché featuring an ancient male spirit who provides instruction while inhabiting a finger accessory.": https://www.wuxiaworld.com/novel/battle-through-the-heavens/btth-chapter-8 ; https://www.wuxiaworld.com/novel/battle-through-the-heavens/btth-chapter-9
+
+## 417. golden finger
+- "This advantage takes the form of Return to Truth for Li Fan, converting his lived experiences into a simulation and resetting his life.": https://www.wuxiaworld.com/novel/immortality-simulator/is-chapter-1
+- "Lin Zheyu's version records practiced martial techniques on a panel but decides ordinary running and squatting are too trivial.": https://www.wuxiaworld.com/novel/immortality-begins-with-internal-breathing/ibib-chapter-135
+- "Chu Liang's version instead resembles a white pagoda that gives him pills and enchanted items for defeating demons.": https://www.wuxiaworld.com/novel/young-noble-be-monster-slaying/yns-chapter-2
+- "That pagoda supplies a brick capable of exposing disguised monsters, which makes its rewards rather more useful than ordinary pocket change.": https://www.wuxiaworld.com/novel/young-noble-be-monster-slaying/yns-chapter-2
+- "A publisher's translation note defines the expression as an unexpected, cheat-like benefit that helps its owner progress.": https://www.wuxiaworld.com/novel/young-noble-be-monster-slaying/yns-chapter-2
+- "For 10 points, name this two-word Chinese webnovel term for the protagonist's exclusive advantage, named like a gilded digit.": https://www.wuxiaworld.com/novel/young-noble-be-monster-slaying/yns-chapter-2
+
+## 418. closed-door cultivation
+- "This practice keeps Yama Rising's officials waiting outside Qin's villa long after his promised four-month absence approaches half a year.": https://www.wuxiaworld.com/novel/yama-rising/yr-chapter-456
+- "Wang Lin similarly loses track of the passing decades while trying to comprehend a celestial spell.": https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-627/
+- "A young disciple announces it in a note to his mentor, claiming he needs a remote location and will return after four months.": https://www.wuxiaworld.com/novel/rmji/rmji-chapter-41
+- "The publisher glossary describes its isolation as a way to improve techniques or break through a bottleneck.": https://www.wuxiaworld.com/page/general-glossary-of-terms
+- "It also warns that interruption can cause backlash, giving impatient visitors a better reason to leave than mere bad manners.": https://www.wuxiaworld.com/page/general-glossary-of-terms
+- "For 10 points, name this cultivation practice in which an expert withdraws into seclusion for uninterrupted advancement.": https://www.wuxiaworld.com/page/general-glossary-of-terms
+
+## 419. misunderstanding
+- "This recurring comic mechanism makes Claude fear Lin Jie's reassuring joke that he does not eat people.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-100
+- "The same bookseller treats Wilde as a lonely linguistics scholar, while another customer recognizes a notorious black magician.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-4
+- "After Melissa studies herself bedridden, Lin Jie recommends balancing work and rest as if he merely sold difficult reference books.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-100
+- "In I'm Actually a Cultivation Bigshot, Li Nianfan's supposedly ordinary art and music transform his dog and tree.": https://en.webnovel.com/book/18427260505628805
+- "A visitor he considers bad at chess is actually an immortal chess saint, extending the gap between appearances and reality.": https://en.webnovel.com/book/18427260505628805
+- "For 10 points, name this comedic mechanism in which characters keep interpreting the same situation in different, mistaken ways.": https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-4 ; https://hostednovel.com/novel/im-really-not-the-demon-gods-lackey/chapter-100
+
+## 420. kill the chicken to warn the monkey
+- "This tactic supplies the title of the Battle Through the Heavens chapter in which Xiao Yan attacks the lance-wielding Xue Beng.": https://www.wuxiaworld.com/novel/battle-through-the-heavens/btth-chapter-408?mobile-app=true&theme=wiki
+- "Some Imperial God Emperor teachers advocate it by demanding Ye Qingyu's expulsion so that other students will not copy him.": https://www.wuxiaworld.com/novel/imperial-god-emperor/ige-chapter-42
+- "In Heaven's Devourer, an immortal invokes the same principle while approving the punishment of Wu Yu after a crane falls sick.": https://www.wuxiaworld.com/novel/heavens-devourer/hd-chapter-4
+- "The saying describes disciplining one unlucky target so that the watching crowd learns to behave.": https://en.wiktionary.org/wiki/%E6%AE%BA%E9%9B%9E%E5%84%86%E7%8C%B4
+- "Its imagery turns an act of slaughter into a warning intended for an entirely different animal, with obedience as the lesson.": https://en.wiktionary.org/wiki/%E6%AE%BA%E9%9B%9E%E5%84%86%E7%8C%B4
+- "For 10 points, name this Chinese idiom about killing a barnyard bird to frighten a primate, giving both animals.": https://en.wiktionary.org/wiki/%E6%AE%BA%E9%9B%9E%E5%84%86%E7%8C%B4
+
+## 421. Plot Armor
+- "This protection can weaken in stories where resets or alternate timelines make a character's demise reversible.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PlotArmor
+- "Unlike genuine invulnerability, it need not come from any established ability within the fictional world.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PlotArmor
+- "Enemy squads may land every shot against disposable victims, then suddenly develop terrible aim when the lead arrives.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PlotArmor
+- "A conveniently revealed ability can also provide it at the exact moment that the story needs an escape.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PlotArmor
+- "The protected character survives because future chapters still require their presence, making supposedly lethal danger feel suspiciously manageable.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PlotArmor
+- "For 10 points, name this narrative protection that keeps an important character alive when ordinary survival would seem implausible.": https://tvtropes.org/pmwiki/pmwiki.php/Main/PlotArmor ; https://www.dictionary.com/browse/plot-armor
+
+## 422. Tournament Arc
+- "This storyline creates an excuse for usual allies to battle one another under the rules of an organized contest.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TournamentArc
+- "Its concentration of competitors can introduce a large batch of new characters without arranging a separate adventure for each.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TournamentArc
+- "Seeding often takes a holiday so that the hero faces increasingly difficult opponents in successive rounds.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TournamentArc
+- "A rival or villain frequently waits in the final match, while an organizer may have suspicious motives beyond awarding a prize.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TournamentArc
+- "The same structure can organize something as peaceful as competitive baking, although martial-arts stories naturally prefer punches.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TournamentArc
+- "For 10 points, name this type of story arc built around a competition, often using a bracket of elimination matches.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TournamentArc
+
+## 423. Broken Engagement
+- "This plot setup brings Nalan Yanran and the elder Ge Ye to the home of the boy she was promised to.": https://battle-through-the-heavens.fandom.com/wiki/Nalan_Yanran
+- "Her sect's backing emboldens the visit, and pills from an alchemist are offered as compensation for canceling the family's plans.": https://battle-through-the-heavens.fandom.com/wiki/Nalan_Yanran
+- "His offended response turns the dispute into a challenge to meet again for a duel three years later.": https://battle-through-the-heavens.fandom.com/wiki/Nalan_Yanran
+- "The original promise came from their grandfathers, illustrating a recurring setup in which family elders arranged the future marriage.": https://battle-through-the-heavens.fandom.com/wiki/Nalan_Yanran
+- "A novel catalog's tag for this situation requires one of the intended spouses to be the protagonist, rather than merely a supporting character's abandoned wedding plans.": https://www.novelupdates.com/stag/broken-engagement/
+- "For 10 points, name this familiar cultivation-story setup in which a promised marriage is called off before the couple can wed.": https://www.novelupdates.com/stag/broken-engagement/
+
+## 424. Defeat Means Friendship
+- "This trope can keep a well-developed opponent in the cast without requiring another rematch against the same hero.": https://tvtropes.org/pmwiki/pmwiki.php/Main/DefeatMeansFriendship
+- "The convert need not adopt the winner's entire ideology, so joining the group can still leave room for arguments.": https://tvtropes.org/pmwiki/pmwiki.php/Main/DefeatMeansFriendship
+- "Mercy after the confrontation may encourage the change of heart, with forgiveness turning a beaten enemy into a companion.": https://tvtropes.org/pmwiki/pmwiki.php/Main/DefeatMeansFriendship
+- "Some games even demand a duel before an already sympathetic prospective teammate will agree to join.": https://tvtropes.org/pmwiki/pmwiki.php/Main/DefeatMeansFriendship
+- "It goes beyond merely earning an adversary's respect: the former rival actually switches sides, making combat a surprisingly effective networking strategy.": https://tvtropes.org/pmwiki/pmwiki.php/Main/DefeatMeansFriendship
+- "For 10 points, name this trope in which winning a fight gains the victor a new friend or ally.": https://tvtropes.org/pmwiki/pmwiki.php/Main/DefeatMeansFriendship
+
+## 425. Talking Is a Free Action
+- "This convention becomes especially obvious when a densely lettered comic panel is adapted into a medium with a measurable running time.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TalkingIsAFreeAction
+- "Its name draws on tabletop roleplaying terminology that lets speech occur without using up the speaker's other actions.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TalkingIsAFreeAction
+- "A character can deliver an elaborate explanation while falling, jumping, or carrying out a supposedly split-second finishing strike.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TalkingIsAFreeAction
+- "During battle, opponents may politely accommodate banter or a lecture about an ability instead of using the obvious opportunity to attack.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TalkingIsAFreeAction
+- "Timed adaptations can make the surrounding movement practically stop while a speech finishes, as though every villain booked a slot between sword strikes.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TalkingIsAFreeAction
+- "For 10 points, name this convention that lets characters deliver far more dialogue than the ongoing physical action should allow.": https://tvtropes.org/pmwiki/pmwiki.php/Main/TalkingIsAFreeAction
